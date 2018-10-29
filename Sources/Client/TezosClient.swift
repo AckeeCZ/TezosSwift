@@ -1,4 +1,6 @@
 import Foundation
+import Alamofire
+import Result
 
 /**
  * TezosClient is the gateway into the Tezos Network.
@@ -378,6 +380,26 @@ public class TezosClient {
 	/**
    * Send an RPC as a GET or POST request.
    */
+
+    // TODO: Handle errors!
+    public enum TezosError: Error {
+        case decryptionFailed
+    }
+
+    public func sendRPC<T>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, decodeType: T.Type, completion: @escaping (ResponseResult<T, TezosError>) -> Void) {
+        Alamofire.request(endpoint).responseJSON { response in
+            guard let json = response.result.value else {
+                completion(.failure(.decryptionFailed))
+                return
+            }
+
+            guard let singleResponse = json as? String else { return }
+            if let responseInt = Int(singleResponse) as? T {
+                completion(.success(responseInt))
+            }
+        }
+    }
+
 	public func send<T>(rpc: TezosRPC<T>) {
 		guard let remoteNodeEndpoint = URL(string: rpc.endpoint, relativeTo: self.remoteNodeURL) else {
 			let error = TezosClientError(kind: .unknown, underlyingError: nil)

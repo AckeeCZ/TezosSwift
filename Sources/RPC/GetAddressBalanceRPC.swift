@@ -11,6 +11,7 @@ public class GetAddressBalanceRPC: TezosRPC<TezosBalance> {
    */
 	public init(address: String, completion: @escaping (TezosBalance?, Error?) -> Void) {
 		let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/balance"
+        print(endpoint)
 		super.init(endpoint: endpoint,
 			responseAdapterClass: TezosBalanceResponseAdapter.self,
 			completion: completion)

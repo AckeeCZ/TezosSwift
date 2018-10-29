@@ -64,7 +64,9 @@ public class TezosRPC<T> {
 			completion(nil, tezosClientError)
 			return
 		}
-
+        if let data = data {
+            print(String(data: data, encoding: .utf8))
+        }
 		guard let data = data,
 			let result = self.responseAdapterClass.parse(input: data) else {
 				let tezosClientError = TezosClientError(kind: .unexpectedResponse, underlyingError: nil)

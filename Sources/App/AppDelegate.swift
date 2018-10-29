@@ -1,4 +1,7 @@
 import UIKit
+import Result
+
+public typealias ResponseResult = Result
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -10,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// TODO: Refactor these to be proper unit tests.
 		testWalletGeneration()
 		//    testChainRPCs()
-		//    testAddressRPCs()
+            testAddressRPCs()
 		//    testCryptoUtils()
 
 		return true
@@ -158,6 +161,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	private func testAddressRPCs() {
 		let tezosClient = TezosClient()
 
+        tezosClient.sendRPC(endpoint: "https://rpc.tezrpc.me/chains/main/blocks/head/context/contracts/KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA/balance", method: .get, decodeType: Int.self, completion: { result in
+            print(result.value)
+        })
+
 		// Originated account for Tezos.Community.
 		// See: KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA
 		let address = "KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA"
@@ -165,7 +172,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			print("Got Balance (Addr):  " + result!.humanReadableRepresentation)
 		}
 		tezosClient.getDelegate(address: address) { (delegate: String?, error: Error?) in
-			print("Got delegate (Addr): " + delegate!)
+//            print("Got delegate (Addr): " + delegate!)
 		}
 		tezosClient.getAddressCounter(address: address) { (counter: Int?, error: Error?) in
 			print("Got counter: \(counter!)")
