@@ -96,16 +96,21 @@ public class TezosClient {
 		self.send(rpc: rpc)
 	}
 
-	/** Retrieve the balance of a given wallet. */
-	public func getBalance(wallet: Wallet, completion: @escaping (TezosBalance?, Error?) -> Void) {
-		self.getBalance(address: wallet.address, completion: completion)
-	}
+    /** Retrieve the balance of a given address. */
+    public func balance(address: String, completion: @escaping (ResponseResult<Int, TezosError>) -> Void) {
+        let rpcCompletion: (ResponseResult<Int, TezosError>) -> Void = { result in
+            completion(result)
+        }
+        sendRPC(endpoint: "chains/main/blocks/head/context/contracts/" + address + "/balance", method: .get, completion: rpcCompletion)
+    }
 
+    /*
 	/** Retrieve the balance of a given address. */
 	public func getBalance(address: String, completion: @escaping (TezosBalance?, Error?) -> Void) {
 		let rpc = GetAddressBalanceRPC(address: address, completion: completion)
 		self.send(rpc: rpc)
 	}
+ */
 
 	/** Retrieve the delegate of a given wallet. */
 	public func getDelegate(wallet: Wallet, completion: @escaping (String?, Error?) -> Void) {
@@ -124,11 +129,22 @@ public class TezosClient {
 		self.send(rpc: rpc)
 	}
 
+    /*
 	/** Retrieve the address counter for the given address. */
 	public func getAddressCounter(address: String, completion: @escaping (Int?, Error?) -> Void) {
 		let rpc = GetAddressCounterRPC(address: address, completion: completion)
 		self.send(rpc: rpc)
 	}
+ */
+
+    /** Retrieve the address counter for the given address. */
+    public func addressCounter(address: String, completion: @escaping (ResponseResult<Int, TezosError>) -> Void) {
+        let rpcCompletion: (ResponseResult<Int, TezosError>) -> Void = { result in
+            completion(result)
+        }
+        sendRPC(endpoint: "/chains/main/blocks/head/context/contracts/" + address + "/counter", method: .get, completion: rpcCompletion)
+    }
+
 
 	/** Retrieve the address manager key for the given address. */
 	public func getAddressManagerKey(address: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
@@ -381,21 +397,22 @@ public class TezosClient {
    * Send an RPC as a GET or POST request.
    */
 
-    // TODO: Handle errors!
-    public enum TezosError: Error {
-        case decryptionFailed
-    }
-
-    public func sendRPC<T>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, decodeType: T.Type, completion: @escaping (ResponseResult<T, TezosError>) -> Void) {
-        Alamofire.request(endpoint).responseJSON { response in
+    public func sendRPC<T>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, completion: @escaping (ResponseResult<T, TezosError>) -> Void) {
+        // TODO: Handle error
+        guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else { return }
+        Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters).responseJSON { response in
             guard let json = response.result.value else {
                 completion(.failure(.decryptionFailed))
                 return
             }
 
+            // TODO: Decodable
+
             guard let singleResponse = json as? String else { return }
             if let responseInt = Int(singleResponse) as? T {
                 completion(.success(responseInt))
+            } else if singleResponse as? T {
+                completion(.success(singleResponse))
             }
         }
     }
@@ -524,4 +541,9 @@ public class TezosClient {
 		}
 		return nil
 	}
+}
+
+// TODO: Handle errors!
+public enum TezosError: Error {
+    case decryptionFailed
 }

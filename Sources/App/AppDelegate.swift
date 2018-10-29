@@ -161,13 +161,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	private func testAddressRPCs() {
 		let tezosClient = TezosClient()
 
-        tezosClient.sendRPC(endpoint: "https://rpc.tezrpc.me/chains/main/blocks/head/context/contracts/KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA/balance", method: .get, decodeType: Int.self, completion: { result in
-            print(result.value)
-        })
-
 		// Originated account for Tezos.Community.
 		// See: KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA
 		let address = "KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA"
+
+        tezosClient.balance(address: address, completion: { result in
+            print("Balance:")
+            print(result.value)
+        })
+
 		tezosClient.getBalance(address: address) { (result: TezosBalance?, error: Error?) in
 			print("Got Balance (Addr):  " + result!.humanReadableRepresentation)
 		}
