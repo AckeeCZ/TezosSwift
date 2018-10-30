@@ -97,9 +97,15 @@ public class TezosClient {
 	}
 
     /** Retrieve the balance of a given address. */
-    public func balance(address: String, completion: @escaping (ResponseResult<Int, TezosError>) -> Void) {
-        let rpcCompletion: (ResponseResult<Int, TezosError>) -> Void = { result in
-            completion(result)
+    public func balance(address: String, completion: @escaping (ResponseResult<TezosBalance, TezosError>) -> Void) {
+        let rpcCompletion: (ResponseResult<Double, TezosError>) -> Void = { result in
+            if let balance = result.value {
+                completion(.success(TezosBalance(balance: balance)))
+            } else if let error = result.error {
+                completion(.failure(error))
+            } else {
+                completion(.failure(.decryptionFailed))
+            }
         }
         sendRPC(endpoint: "chains/main/blocks/head/context/contracts/" + address + "/balance", method: .get, completion: rpcCompletion)
     }
@@ -401,18 +407,17 @@ public class TezosClient {
         // TODO: Handle error
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else { return }
         Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters).responseJSON { response in
-            guard let json = response.result.value else {
-                completion(.failure(.decryptionFailed))
-                return
-            }
-
+//            guard let json = response.result.value else {
+//                completion(.failure(.decryptionFailed))
+//                return
+//            }
             // TODO: Decodable
 
-            guard let singleResponse = json as? String else { return }
-            if let responseInt = Int(singleResponse) as? T {
-                completion(.success(responseInt))
-            } else if singleResponse as? T {
-                completion(.success(singleResponse))
+            guard let singleResponse = response.value as? String else { return }
+            if let responseNumber = singleResponse.numberValue as? T {
+                completion(.success(responseNumber))
+            } else if let responseString = singleResponse as? T {
+                completion(.success(responseString))
             }
         }
     }
@@ -546,4 +551,13 @@ public class TezosClient {
 // TODO: Handle errors!
 public enum TezosError: Error {
     case decryptionFailed
+}
+
+//Taken from: https://stackoverflow.com/questions/24115141/converting-string-to-int-with-swift/46716943#46716943
+private extension String {
+    var numberValue:NSNumber? {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.number(from: self)
+    }
 }

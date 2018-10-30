@@ -167,18 +167,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         tezosClient.balance(address: address, completion: { result in
             print("Balance:")
-            print(result.value)
+            print(result.value?.humanReadableRepresentation)
         })
 
-		tezosClient.getBalance(address: address) { (result: TezosBalance?, error: Error?) in
-			print("Got Balance (Addr):  " + result!.humanReadableRepresentation)
-		}
+//        tezosClient.getBalance(address: address) { (result: TezosBalance?, error: Error?) in
+//            print("Got Balance (Addr):  " + result!.humanReadableRepresentation)
+//        }
 		tezosClient.getDelegate(address: address) { (delegate: String?, error: Error?) in
 //            print("Got delegate (Addr): " + delegate!)
 		}
-		tezosClient.getAddressCounter(address: address) { (counter: Int?, error: Error?) in
-			print("Got counter: \(counter!)")
-		}
+//        tezosClient.getAddressCounter(address: address) { (counter: Int?, error: Error?) in
+//            print("Got counter: \(counter!)")
+//        }
 		tezosClient.getAddressManagerKey(address: address) { (managerKey: [String: Any]?, error: Error?) in
 			print("Got address manager key: \(managerKey!)")
 		}
