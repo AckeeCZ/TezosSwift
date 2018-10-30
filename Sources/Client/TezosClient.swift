@@ -1,6 +1,5 @@
 import Foundation
 import Alamofire
-import Result
 
 /**
  * TezosClient is the gateway into the Tezos Network.
@@ -83,7 +82,7 @@ public class TezosClient {
   /**
     * Initialize a new TezosClient.
     *
-    * @param removeNodeURL The path to the remote node.
+    * @param remoteNodeURL The path to the remote node.
     */
   public init(remoteNodeURL: URL, urlSession: URLSession) {
 		self.remoteNodeURL = remoteNodeURL
@@ -97,14 +96,14 @@ public class TezosClient {
 	}
 
     /** Retrieve the balance of a given address. */
-    public func balance(address: String, completion: @escaping (ResponseResult<TezosBalance, TezosError>) -> Void) {
+    public func balance(address: String, completion: @escaping (Result<TezosBalance>) -> Void) {
         let rpcCompletion: (ResponseResult<Double, TezosError>) -> Void = { result in
             if let balance = result.value {
                 completion(.success(TezosBalance(balance: balance)))
             } else if let error = result.error {
                 completion(.failure(error))
             } else {
-                completion(.failure(.decryptionFailed))
+                completion(.failure(TezosError.decryptionFailed))
             }
         }
         sendRPC(endpoint: "chains/main/blocks/head/context/contracts/" + address + "/balance", method: .get, completion: rpcCompletion)
@@ -403,22 +402,27 @@ public class TezosClient {
    * Send an RPC as a GET or POST request.
    */
 
-    public func sendRPC<T>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, completion: @escaping (ResponseResult<T, TezosError>) -> Void) {
+    public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, completion: @escaping (ResponseResult<T, TezosError>) -> Void) {
         // TODO: Handle error
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else { return }
         Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters).responseJSON { response in
-//            guard let json = response.result.value else {
-//                completion(.failure(.decryptionFailed))
-//                return
-//            }
-            // TODO: Decodable
+
+            guard let data = response.data else { return }
+            if let decodedType = try? JSONDecoder().decode(T.self, from: data) {
+                completion(.success(decodedType))
+                return
+            }
 
             guard let singleResponse = response.value as? String else { return }
             if let responseNumber = singleResponse.numberValue as? T {
                 completion(.success(responseNumber))
+                return
             } else if let responseString = singleResponse as? T {
                 completion(.success(responseString))
+                return
             }
+
+            return completion(.failure(.decryptionFailed))
         }
     }
 
