@@ -96,27 +96,33 @@ public class TezosClient {
 	}
 
     /** Retrieve the balance of a given address. */
-    public func balance(address: String, completion: @escaping (Result<TezosBalance>) -> Void) {
+    public func balance(of address: String, completion: @escaping (ResponseResult<TezosBalance, TezosError>) -> Void) {
         let rpcCompletion: (ResponseResult<Double, TezosError>) -> Void = { result in
             if let balance = result.value {
                 completion(.success(TezosBalance(balance: balance)))
             } else if let error = result.error {
                 completion(.failure(error))
             } else {
-                completion(.failure(TezosError.decryptionFailed))
+                completion(.failure(.decryptionFailed))
             }
         }
         sendRPC(endpoint: "chains/main/blocks/head/context/contracts/" + address + "/balance", method: .get, completion: rpcCompletion)
     }
 
-    /*
 	/** Retrieve the balance of a given address. */
-	public func getBalance(address: String, completion: @escaping (TezosBalance?, Error?) -> Void) {
-		let rpc = GetAddressBalanceRPC(address: address, completion: completion)
-		self.send(rpc: rpc)
-	}
- */
+//    public func getBalance(address: String, completion: @escaping (TezosBalance?, Error?) -> Void) {
+//        let rpc = GetAddressBalanceRPC(address: address, completion: completion)
+//        self.send(rpc: rpc)
+//    }
 
+
+    /** Retrieve the delegate of a given address. */
+    public func delegate(of address: String, completion: @escaping (ResponseResult<String, TezosError>) -> Void){
+        let rpcCompletion: (ResponseResult<String, TezosError>) -> Void = { result in
+            completion(result)
+        }
+        sendRPC(endpoint: "/chains/main/blocks/head/context/contracts/" + address + "/delegate", method: .get, completion: rpcCompletion)
+    }
 	/** Retrieve the delegate of a given wallet. */
 	public func getDelegate(wallet: Wallet, completion: @escaping (String?, Error?) -> Void) {
 		self.getDelegate(address: wallet.address, completion: completion)

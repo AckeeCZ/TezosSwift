@@ -5,6 +5,7 @@ PODS:
   - CryptoSwift (0.7.2)
   - MnemonicKit (1.0.1):
     - CryptoSwift (= 0.7.2)
+  - Result (4.0.0)
   - SipHash (1.2.2)
   - Sodium (0.7.0)
   - TezosKit (0.0.1):
@@ -15,6 +16,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - MnemonicKit (from `https://github.com/keefertaylor/MnemonicKit`)
+  - Result
   - TezosKit (from `https://github.com/keefertaylor/TezosKit.git`)
 
 SPEC REPOS:
@@ -22,6 +24,7 @@ SPEC REPOS:
     - Alamofire
     - BigInt
     - CryptoSwift
+    - Result
     - SipHash
     - Sodium
 
@@ -44,10 +47,11 @@ SPEC CHECKSUMS:
   BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   CryptoSwift: cd2158be2bf639aabc63ec804707c7137c90157c
   MnemonicKit: ed9bd0a6638aea4a99f70aab9a70cd44b9f1e8ab
+  Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   Sodium: c5510cc6f5e1b27858e5f260b5cac80d4a3f9379
   TezosKit: 0cbc35d2860c896527db722160c4a91dc68967e9
 
-PODFILE CHECKSUM: 71caf1d73e1691c9e238a2d982ada63693f74278
+PODFILE CHECKSUM: f4475c99b002bb1bb0dcc9d5b4e9f36f384a7392
 
 COCOAPODS: 1.5.3

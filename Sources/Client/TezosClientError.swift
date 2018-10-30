@@ -1,4 +1,7 @@
 import Foundation
+import Result
+
+public typealias ResponseResult = Result
 
 /**
  * A struct representing an error that occured in the Tezos Client.
