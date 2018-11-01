@@ -8,16 +8,14 @@ PODS:
   - Result (4.0.0)
   - SipHash (1.2.2)
   - Sodium (0.7.0)
-  - TezosKit (0.0.1):
-    - BigInt (~> 3.1)
-    - MnemonicKit
-    - Sodium (~> 0.7.0)
 
 DEPENDENCIES:
   - Alamofire
+  - BigInt
   - MnemonicKit (from `https://github.com/keefertaylor/MnemonicKit`)
   - Result
-  - TezosKit (from `https://github.com/keefertaylor/TezosKit.git`)
+  - SipHash
+  - Sodium
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -31,16 +29,11 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   MnemonicKit:
     :git: https://github.com/keefertaylor/MnemonicKit
-  TezosKit:
-    :git: https://github.com/keefertaylor/TezosKit.git
 
 CHECKOUT OPTIONS:
   MnemonicKit:
     :commit: 126e314d4fcced983264577c62785870013dbfb8
     :git: https://github.com/keefertaylor/MnemonicKit
-  TezosKit:
-    :commit: 52640e416a1c5206fef63b5b35ca550a86cb0d04
-    :git: https://github.com/keefertaylor/TezosKit.git
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
@@ -50,8 +43,7 @@ SPEC CHECKSUMS:
   Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   Sodium: c5510cc6f5e1b27858e5f260b5cac80d4a3f9379
-  TezosKit: 0cbc35d2860c896527db722160c4a91dc68967e9
 
-PODFILE CHECKSUM: f4475c99b002bb1bb0dcc9d5b4e9f36f384a7392
+PODFILE CHECKSUM: 03bbe0aa6401059434cfeaa9ebc865d1eefdfe23
 
 COCOAPODS: 1.5.3

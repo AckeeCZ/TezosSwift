@@ -1,12 +1,14 @@
 use_modular_headers!
 use_frameworks!
-target 'TezosKit' do
+target 'TezosSwift' do
 	pod "MnemonicKit", :git => 'https://github.com/keefertaylor/MnemonicKit' 
-	pod "TezosKit", :git => 'https://github.com/keefertaylor/TezosKit.git'
 	pod "Alamofire"
 	pod "Result"
+	pod "Sodium"
+	pod "SipHash"
+	pod "BigInt"
 
-	target "TezosKitTests" do
+	target "TezosSwiftTests" do
     	inherit! :search_paths
 	end
 end
