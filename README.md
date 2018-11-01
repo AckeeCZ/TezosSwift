@@ -1,19 +1,15 @@
-# TezosKit &nbsp;&nbsp;&nbsp; [![Build Status](https://travis-ci.org/keefertaylor/TezosKit.svg?branch=master)](https://travis-ci.org/keefertaylor/TezosKit) &nbsp;&nbsp;&nbsp;  [![codecov](https://codecov.io/gh/keefertaylor/TezosKit/branch/master/graph/badge.svg)](https://codecov.io/gh/keefertaylor/TezosKit)
+# TezosSwift
 
-TezosKit is a Swift library that is compatible with the [Tezos Blockchain](https://tezos.com). TezosKit implements communication with the blockchain via the JSON API.
+Forked from: https://github.com/keefertaylor/TezosKit
 
-Donations help me find time to work on TezosKit. If you find the library useful, please consider donating to support ongoing develoment.
+Development right now happening in branch development
 
-|Currency| Address |
-|---------|---|
-| __Tezos__ | tz1SNXT8yZCwTss2YcoFi3qbXvTZiCojx833 |
-| __Bitcoin__ | 1CdPoF9cvw3YEiuRCHxdsGpvb5tSUYBBo |
-| __Bitcoin Cash__ | qqpr9are9gzs5r0q7hy3gdehj3w074pyqsrhpdmxg6 |
+TezosSwift is a Swift library that is compatible with the [Tezos Blockchain](https://tezos.com). TezosSwift implements communication with the blockchain via the JSON API.
 
 
 ## Functionality
 
-TezosKit provides first class support for the following RPCs:
+TezosSwift provides first class support for the following RPCs:
 * Getting account balances
 * Getting data about the chain head
 * Getting account delegates 
@@ -30,15 +26,15 @@ TesosKit takes care of complex block chain interactions for you:
 * Addresses are revealed automatically, if needed
 * Sending multiple operations by passing them in an array
 
-TezosKit is heavily inspired by functionality provided by other Tezos SDKs, such as [eztz](https://github.com/TezTech/eztz) or [TezosJ](https://github.com/LMilfont/TezosJ-plainjava).
+TezosSwift is heavily inspired by functionality provided by other Tezos SDKs, such as [eztz](https://github.com/TezTech/eztz) or [TezosJ](https://github.com/LMilfont/TezosJ-plainjava).
 
 ## Installation
 
 ### CocoaPods
-TezosKit supports installation via CocoaPods. You can depened on TezosKit by adding the following to your Podfile:
+TezosSwift supports installation via CocoaPods. You can depened on TezosSwift by adding the following to your Podfile:
 
 ```
-pod "TezosKit", :git => 'https://github.com/keefertaylor/TezosKit.git'
+pod "TezosSwift", :git => 'https://github.com/keefertaylor/TezosSwift.git'
 ```
 
 ### LibSodium Errors
