@@ -36,7 +36,7 @@ import Alamofire
  *      func forgeSignPreapplyAndInjectOperation(operation: Operation,
  *                                               source: String,
  *                                               keys: Keys,
- *                                               completion: @escaping (String?, Error?) -> Void)
+ *                                               completion: @escaping RPCCompletion<String>)
  *
  * Clients can also send multiple signed operations at once by constructing an array of operations.
  * Operations are applied in the order they are given in the array. Clients should pass the array
@@ -44,7 +44,7 @@ import Alamofire
  *      func forgeSignPreapplyAndInjectOperations(operations: [Operation],
  *                                                source: String,
  *                                                keys: Keys,
- *                                                completion: @escaping (String?, Error?) -> Void)
+ *                                                completion: @escaping RPCCompletion<String>)
  *
  * Some signed operations require an address be revealed in order to complete the operation. For
  * operations supported in TezosKit, the reveal operation will be automatically applied when needed.
@@ -186,7 +186,7 @@ public class TezosClient {
 		to recipientAddress: String,
 		from source: String,
 		keys: Keys,
-		completion: @escaping (String?, Error?) -> Void) {
+		completion: @escaping RPCCompletion<String>) {
 		let transactionOperation =
 			TransactionOperation(amount: amount, source: source, destination: recipientAddress)
 		self.forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
@@ -213,7 +213,7 @@ public class TezosClient {
 	public func delegate(from source: String,
 		to delegate: String,
 		keys: Keys,
-		completion: @escaping (String?, Error?) -> Void) {
+		completion: @escaping RPCCompletion<String>) {
 		let delegationOperation = DelegationOperation(source: source, to: delegate)
 		self.forgeSignPreapplyAndInjectOperation(operation: delegationOperation,
 			source: source,
@@ -230,7 +230,7 @@ public class TezosClient {
    * @param completion A completion block which will be called with a string representing the
    *        transaction ID hash if the operation was successful.
    */
-	public func registerDelegate(delegate: String, keys: Keys, completion: @escaping (String?, Error?) -> Void) {
+	public func registerDelegate(delegate: String, keys: Keys, completion: @escaping RPCCompletion<String>) {
 		let registerDelegateOperation = RegisterDelegateOperation(delegate: delegate)
 		self.forgeSignPreapplyAndInjectOperation(operation: registerDelegateOperation,
 			source: delegate,
@@ -249,7 +249,7 @@ public class TezosClient {
 	public func forgeSignPreapplyAndInjectOperation(operation: Operation,
 		source: String,
 		keys: Keys,
-		completion: @escaping (String?, Error?) -> Void) {
+		completion: @escaping RPCCompletion<String>) {
 		self.forgeSignPreapplyAndInjectOperations(operations: [operation],
 			source: source,
 			keys: keys,
@@ -269,10 +269,9 @@ public class TezosClient {
 	public func forgeSignPreapplyAndInjectOperations(operations: [Operation],
 		source: String,
 		keys: Keys,
-		completion: @escaping (String?, Error?) -> Void) {
+		completion: @escaping RPCCompletion<String>) {
 		guard let operationMetadata = getMetadataForOperation(address: source) else {
-			let error = TezosClientError(kind: .unknown, underlyingError: nil)
-			completion(nil, error)
+			completion(.failure(.decryptionFailed))
 			return
 		}
 
@@ -309,8 +308,7 @@ public class TezosClient {
 		operationPayload["branch"] = operationMetadata.headHash
 
 		guard let jsonPayload = JSONUtils.jsonString(for: operationPayload) else {
-			let error = TezosClientError(kind: .unexpectedRequestFormat, underlyingError: nil)
-			completion(nil, error)
+			completion(.failure(.unexpectedRequestFormat))
 			return
 		}
 
@@ -318,7 +316,7 @@ public class TezosClient {
 			headHash: operationMetadata.headHash,
 			payload: jsonPayload) { (result, error) in
 			guard let result = result else {
-				completion(nil, error)
+				completion(.failure(.decryptionFailed))
 				return
 			}
 			self.signPreapplyAndInjectOperation(operationPayload: operationPayload,
@@ -346,12 +344,11 @@ public class TezosClient {
 		forgeResult: String,
 		source: String,
 		keys: Keys,
-		completion: @escaping (String?, Error?) -> Void) {
+		completion: @escaping RPCCompletion<String>) {
 		guard let operationSigningResult = Crypto.signForgedOperation(operation: forgeResult,
 			secretKey: keys.secretKey),
 			let jsonSignedBytes = JSONUtils.jsonString(for: operationSigningResult.sbytes) else {
-				let error = TezosClientError(kind: .unknown, underlyingError: nil)
-				completion(nil, error)
+				completion(.failure(.unknown))
 				return
 		}
 
@@ -361,8 +358,7 @@ public class TezosClient {
 
 		let operationPayloadArray = [mutableOperationPayload]
 		guard let signedJsonPayload = JSONUtils.jsonString(for: operationPayloadArray) else {
-			let error = TezosClientError(kind: .unexpectedRequestFormat, underlyingError: nil)
-			completion(nil, error)
+			completion(.failure(.unexpectedRequestFormat))
 			return
 		}
 
@@ -384,18 +380,18 @@ public class TezosClient {
 	private func preapplyAndInjectRPC(payload: String,
 		signedBytesForInjection: String,
 		operationMetadata: OperationMetadata,
-		completion: @escaping (String?, Error?) -> Void) {
+		completion: @escaping RPCCompletion<String>) {
 		let preapplyOperationRPC = PreapplyOperationRPC(chainID: operationMetadata.chainID,
 			headHash: operationMetadata.headHash,
 			payload: payload,
 			completion: { (result, error) in
 				guard let _ = result else {
-					completion(nil, error)
+					completion(.failure(.decryptionFailed))
 					return
 				}
 
 				self.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
-			})
+			})ě
 		self.send(rpc: preapplyOperationRPC)
 	}
 
@@ -405,21 +401,20 @@ public class TezosClient {
    * @param payload A JSON compatible string representing the singed operation bytes.
    * @param completion A completion block that will be called with the results of the operation.
    */
-	private func sendInjectionRPC(payload: String, completion: @escaping (String?, Error?) -> Void) {
-		let injectRPC = InjectionRPC(payload: payload, completion: { (txHash, txError) in
-			completion(txHash, txError)
-		})
-
-		self.send(rpc: injectRPC)
+    private func sendInjectionRPC(payload: String, completion: @escaping RPCCompletion<String>) {
+        let endpoint = "/injection/operation"
+        sendRPC(endpoint: endpoint, method: .post, encoding: payload, completion: { result in
+            completion(result)
+        })
 	}
 
 	/**
    * Send an RPC as a GET or POST request.
    */
-    public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, completion: @escaping RPCCompletion<T>) {
+    public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, encoding: String = "", completion: @escaping RPCCompletion<T>) {
         // TODO: Handle error
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else { completion(.failure(.decryptionFailed)); return }
-        Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters).responseJSON { response in
+        Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters, encoding: encoding).responseJSON { response in
             guard let data = response.data else { completion(.failure(.decryptionFailed)); return }
 
             if let decodedType = try? JSONDecoder().decode(T.self, from: data) {
@@ -557,6 +552,8 @@ public class TezosClient {
 // TODO: Handle errors!
 public enum TezosError: Error {
     case decryptionFailed
+    case unexpectedRequestFormat
+    case unknown
 }
 
 //Taken from: https://stackoverflow.com/questions/24115141/converting-string-to-int-with-swift/46716943#46716943
@@ -566,4 +563,15 @@ private extension String {
         formatter.numberStyle = .decimal
         return formatter.number(from: self)
     }
+}
+
+// Taken from: https://stackoverflow.com/questions/27855319/post-request-with-a-simple-string-in-body-with-alamofire
+extension String: ParameterEncoding {
+
+    public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
+        var request = try urlRequest.asURLRequest()
+        request.httpBody = data(using: .utf8, allowLossyConversion: false)
+        return request
+    }
+
 }
