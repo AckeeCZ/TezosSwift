@@ -52,6 +52,9 @@ import Alamofire
  * operation correctly as long as the |requiresReveal| bit on the custom Operation object is set
  * correctly.
  */
+
+public typealias RPCCompletion<T: Decodable> = (ResponseResult<T, TezosError>) -> Void
+
 public class TezosClient {
 
 	/** The URL session that will be used to manage URL requests. */
@@ -80,11 +83,33 @@ public class TezosClient {
 		self.urlSession = urlSession
 	}
 
-	/** Retrieve data about the chain head. */
-	public func getHead(completion: @escaping ([String: Any]?, Error?) -> Void) {
-		let rpc = GetChainHeadRPC(completion: completion)
-		self.send(rpc: rpc)
-	}
+    public struct ChainHead: Codable {
+        let chainID: String
+        let headHash: String
+        let protocolHash: String
+    }
+
+    /** Retrieve data about the chain head. */
+    public func chainHead(completion: @escaping RPCCompletion<ChainHead>) {
+        let rpcCompletion: (RPCCompletion<ChainHead>) = { result in
+            completion(result)
+        }
+        let endpoint = "/chains/main/blocks/head"
+        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+    }
+
+    public struct ManagerKey: Codable {
+        let manager: String
+        let key: String?
+    }
+
+    public func managerAddressKey(of address: String, completion: @escaping RPCCompletion<ManagerKey>) {
+        let rpcCompletion: (RPCCompletion<ManagerKey>) = { result in
+            completion(result)
+        }
+        let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/manager_key"
+        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+    }
 
     /** Retrieve the balance of a given address. */
     public func balance(of address: String, completion: @escaping (ResponseResult<TezosBalance, TezosError>) -> Void) {
@@ -139,35 +164,13 @@ public class TezosClient {
         sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 
-	/** Retrieve the hash of the block at the head of the chain. */
-	public func getHeadHash(completion: @escaping (String?, Error?) -> Void) {
-		let rpc = GetChainHeadHashRPC(completion: completion)
-		self.send(rpc: rpc)
-	}
-
-
-    /*
-	/** Retrieve the address counter for the given address. */
-	public func getAddressCounter(address: String, completion: @escaping (Int?, Error?) -> Void) {
-		let rpc = GetAddressCounterRPC(address: address, completion: completion)
-		self.send(rpc: rpc)
-	}
- */
-
     /** Retrieve the address counter for the given address. */
     public func addressCounter(address: String, completion: @escaping (ResponseResult<Int, TezosError>) -> Void) {
-        let rpcCompletion: (ResponseResult<Int, TezosError>) -> Void = { result in
+        let rpcCompletion: RPCCompletion<Int> = { result in
             completion(result)
         }
         sendRPC(endpoint: "/chains/main/blocks/head/context/contracts/" + address + "/counter", method: .get, completion: rpcCompletion)
     }
-
-
-	/** Retrieve the address manager key for the given address. */
-	public func getAddressManagerKey(address: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
-		let rpc = GetAddressManagerKeyRPC(address: address, completion: completion)
-		self.send(rpc: rpc)
-	}
 
 	/**
    * Transact Tezos between accounts.
@@ -413,15 +416,12 @@ public class TezosClient {
 	/**
    * Send an RPC as a GET or POST request.
    */
-    public typealias RPCCompletion<T: Decodable> = (ResponseResult<T, TezosError>) -> Void
     public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, completion: @escaping RPCCompletion<T>) {
         // TODO: Handle error
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else { completion(.failure(.decryptionFailed)); return }
         Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters).responseJSON { response in
-            // TODO: Account / delegate / something does not exist
-            print(remoteNodeEndpoint.absoluteString)
             guard let data = response.data else { completion(.failure(.decryptionFailed)); return }
-            print(String(data: data, encoding: .utf8))
+
             if let decodedType = try? JSONDecoder().decode(T.self, from: data) {
                 completion(.success(decodedType))
                 return
@@ -503,51 +503,39 @@ public class TezosClient {
 	private func getMetadataForOperation(address: String) -> OperationMetadata? {
 		let fetchersGroup = DispatchGroup()
 
+        fetchersGroup.enter()
+
+        // Send RPCs and wait for results
+
 		// Fetch data about the chain being operated on.
 		var chainID: String? = nil
 		var headHash: String? = nil
 		var protocolHash: String? = nil
-		let chainHeadRequestRPC = GetChainHeadRPC() { (json, error) in
-			if let json = json,
-				let fetchedChainID = json["chain_id"] as? String,
-				let fetchedHeadHash = json["hash"] as? String,
-				let fetchedProtocolHash = json["protocol"] as? String {
-				chainID = fetchedChainID
-				headHash = fetchedHeadHash
-				protocolHash = fetchedProtocolHash
-			}
-			fetchersGroup.leave()
-		}
 
-		// Fetch data about the address being operated on.
-		var operationCounter: Int? = nil
-		let getAddressCounterRPC =
-			GetAddressCounterRPC(address: address) { (fetchedOperationCounter, error) in
-				if let fetchedOperationCounter = fetchedOperationCounter {
-					operationCounter = fetchedOperationCounter
-				}
-				fetchersGroup.leave()
-		}
+        chainHead(completion: { result in
+            // TODO: Handle errors (below as well)
+            chainID = result.value?.chainID
+            headHash = result.value?.headHash
+            protocolHash = result.value?.protocolHash
+            fetchersGroup.leave()
+        })
 
+        fetchersGroup.enter()
+        // Fetch data about the address being operated on.
+        var operationCounter: Int? = nil
+        addressCounter(address: address, completion: { result in
+            operationCounter = result.value
+            fetchersGroup.leave()
+        })
+
+
+        fetchersGroup.enter()
 		// Fetch data about the key.
 		var addressKey: String? = nil
-		let getAddressManagerKeyRPC = GetAddressManagerKeyRPC(address: address) { (fetchedManagerAndKey, error) in
-			if let fetchedManagerAndKey = fetchedManagerAndKey,
-				let fetchedKey = fetchedManagerAndKey["key"] as? String {
-				addressKey = fetchedKey
-			}
-			fetchersGroup.leave()
-		}
-
-		// Send RPCs and wait for results
-		fetchersGroup.enter()
-		self.send(rpc: chainHeadRequestRPC)
-
-		fetchersGroup.enter()
-		self.send(rpc: getAddressCounterRPC)
-
-		fetchersGroup.enter()
-		self.send(rpc: getAddressManagerKeyRPC)
+        managerAddressKey(of: address, completion: { result in
+            addressKey = result.value?.key
+            fetchersGroup.leave()
+        })
 
 		fetchersGroup.wait()
 

@@ -8,8 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		// Run some basic tests.
 		// TODO: Refactor these to be proper unit tests.
-		testWalletGeneration()
-		//    testChainRPCs()
+            testWalletGeneration()
             testAddressRPCs()
 		//    testCryptoUtils()
 
@@ -137,24 +136,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		print("")
 	}
 
-	private func testChainRPCs() {
-		let publicNodeURL = URL(string: "https://rpc.tezrpc.me")!
-		let tezosClient = TezosClient(remoteNodeURL: publicNodeURL)
-
-		tezosClient.getHead() { (result: [String: Any]?, error: Error?) in
-			guard let result = result,
-				let metadata: [String: Any] = result["metadata"] as? [String: Any] else {
-					return
-			}
-			print("Got Head Chain ID is: " + String(describing: result["chain_id"]!))
-			print("Got Head. Baker is: " + String(describing: metadata["baker"]!))
-		}
-
-		tezosClient.getHeadHash() { (hash: String?, error: Error?) in
-			print("Got hash at head to be: " + hash!)
-		}
-	}
-
 	private func testAddressRPCs() {
 		let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL)
 
@@ -176,14 +157,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Status:")
             print(result.value)
         })
-
-//        tezosClient.getAddressCounter(address: address) { (counter: Int?, error: Error?) in
-//            print("Got counter: \(counter!)")
-//        }
-//        tezosClient.getAddressManagerKey(address: address) { (managerKey: [String: Any]?, error: Error?) in
-//            print("Got address manager key: \(managerKey!)")
-//        }
 	}
 }
-
-
