@@ -156,28 +156,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	private func testAddressRPCs() {
-		let tezosClient = TezosClient()
+		let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL)
 
 		// Originated account for Tezos.Community.
 		// See: KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA
-		let address = "KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA"
+		let address = "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9"
 
         tezosClient.balance(of: address, completion: { result in
             print("Balance:")
             print(result.value?.humanReadableRepresentation)
         })
 
-        tezosClient.delegate(of: address, completion: { result in
-            print("Delegate:")
-            print(result.value)
-        })
+//        tezosClient.delegate(of: address, completion: { result in
+//            print("Delegate:")
+//            print(result.value)
+//        })
 
 //        tezosClient.getAddressCounter(address: address) { (counter: Int?, error: Error?) in
 //            print("Got counter: \(counter!)")
 //        }
-		tezosClient.getAddressManagerKey(address: address) { (managerKey: [String: Any]?, error: Error?) in
-			print("Got address manager key: \(managerKey!)")
-		}
+//        tezosClient.getAddressManagerKey(address: address) { (managerKey: [String: Any]?, error: Error?) in
+//            print("Got address manager key: \(managerKey!)")
+//        }
 	}
 }
 

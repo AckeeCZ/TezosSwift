@@ -53,8 +53,6 @@ import Alamofire
  * correctly.
  */
 public class TezosClient {
-	/** The default node URL to use. */
-	public static let defaultNodeURL = URL(string: "https://rpc.tezrpc.me")!
 
 	/** The URL session that will be used to manage URL requests. */
 	private let urlSession: URLSession
@@ -63,28 +61,21 @@ public class TezosClient {
 	private let remoteNodeURL: URL
 
 	/**
-   * Initialize a new TezosClient using the default Node URL.
-   */
-	public convenience init() {
-		self.init(remoteNodeURL: type(of: self).defaultNodeURL)
-	}
-
-	/**
    * Initialize a new TezosClient.
    *
    * @param removeNodeURL The path to the remote node.
    */
 	public convenience init(remoteNodeURL: URL) {
-    let urlSession = URLSession.shared
-    self.init(remoteNodeURL: remoteNodeURL, urlSession: urlSession)
-  }
+        let urlSession = URLSession.shared
+        self.init(remoteNodeURL: remoteNodeURL, urlSession: urlSession)
+    }
 
   /**
     * Initialize a new TezosClient.
     *
     * @param remoteNodeURL The path to the remote node.
     */
-  public init(remoteNodeURL: URL, urlSession: URLSession) {
+    public init(remoteNodeURL: URL, urlSession: URLSession) {
 		self.remoteNodeURL = remoteNodeURL
 		self.urlSession = urlSession
 	}
@@ -106,7 +97,8 @@ public class TezosClient {
                 completion(.failure(.decryptionFailed))
             }
         }
-        sendRPC(endpoint: "chains/main/blocks/head/context/contracts/" + address + "/balance", method: .get, completion: rpcCompletion)
+        let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/balance"
+        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 
 	/** Retrieve the balance of a given address. */
@@ -116,12 +108,24 @@ public class TezosClient {
 //    }
 
 
-    /** Retrieve the delegate of a given address. */
-    public func delegate(of address: String, completion: @escaping (ResponseResult<String, TezosError>) -> Void){
-        let rpcCompletion: (ResponseResult<String, TezosError>) -> Void = { result in
+    // TODO: Rewrite
+    // testContract(at: address).storage( completion )
+    // testContract(at: address).send(amount, params: [])
+    public func storage(of address: String, completion: @escaping RPCResult<String>) {
+        let rpcCompletion: (RPCResult<String>) = { result in
             completion(result)
         }
-        sendRPC(endpoint: "/chains/main/blocks/head/context/contracts/" + address + "/delegate", method: .get, completion: rpcCompletion)
+        let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/delegate"
+        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+    }
+
+    /** Retrieve the delegate of a given address. */
+    public func delegate(of address: String, completion: @escaping RPCResult<String>) {
+        let rpcCompletion: (RPCResult<String>) = { result in
+            completion(result)
+        }
+        let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/delegate"
+        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 	/** Retrieve the delegate of a given wallet. */
 	public func getDelegate(wallet: Wallet, completion: @escaping (String?, Error?) -> Void) {
@@ -139,6 +143,7 @@ public class TezosClient {
 		let rpc = GetChainHeadHashRPC(completion: completion)
 		self.send(rpc: rpc)
 	}
+
 
     /*
 	/** Retrieve the address counter for the given address. */
@@ -407,13 +412,13 @@ public class TezosClient {
 	/**
    * Send an RPC as a GET or POST request.
    */
-
-    public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, completion: @escaping (ResponseResult<T, TezosError>) -> Void) {
+    public typealias RPCResult<T: Decodable> = (ResponseResult<T, TezosError>) -> Void
+    public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, completion: @escaping RPCResult<T>) {
         // TODO: Handle error
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else { return }
         Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters).responseJSON { response in
-
-            guard let data = response.data else { return }
+            // TODO: Account / delegate / something does not exist
+            guard let data = response.data else { completion(.failure(.decryptionFailed)); return }
             if let decodedType = try? JSONDecoder().decode(T.self, from: data) {
                 completion(.success(decodedType))
                 return
@@ -428,7 +433,7 @@ public class TezosClient {
                 return
             }
 
-            return completion(.failure(.decryptionFailed))
+            completion(.failure(.decryptionFailed))
         }
     }
 

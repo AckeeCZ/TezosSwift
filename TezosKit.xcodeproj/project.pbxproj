@@ -76,6 +76,7 @@
 		7ABC85AE21839F6F006DE8FD /* GetChainHeadHashRPCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC85AD21839F6F006DE8FD /* GetChainHeadHashRPCTest.swift */; };
 		7ABC85B021839F7D006DE8FD /* GetChainHeadRPCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC85AF21839F7D006DE8FD /* GetChainHeadRPCTest.swift */; };
 		E8CEEC8185D40796901B11A4 /* Pods_TezosKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711B3872659EEE9B847690A5 /* Pods_TezosKitTests.framework */; };
+		F8633AA62188884100B6566B /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633AA52188884100B6566B /* Secret.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -166,6 +167,7 @@
 		7ABC85AF21839F7D006DE8FD /* GetChainHeadRPCTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetChainHeadRPCTest.swift; sourceTree = "<group>"; };
 		AD462AF223A5CD5683C948D9 /* Pods_TezosKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18ABC256DB067253D1C0A45 /* Pods-TezosKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosKitTests/Pods-TezosKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		F8633AA52188884100B6566B /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,6 +331,7 @@
 				7A1E2ED3217673FD0073C080 /* Wallet.swift */,
 				7A53BF1A217CF35700BA15D1 /* OperationMetadata.swift */,
 				7AA957D3217B8C1000865D55 /* TezosBalance.swift */,
+				F8633AA52188884100B6566B /* Secret.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -593,6 +596,7 @@
 				7AA95812217CB3A400865D55 /* ForgeOperationRPC.swift in Sources */,
 				7AA9582F217CB6F700865D55 /* MnemonicUtil.swift in Sources */,
 				7AA95841217CC56F00865D55 /* IntegerResponseAdapter.swift in Sources */,
+				F8633AA62188884100B6566B /* Secret.swift in Sources */,
 				7AA95811217CB3A400865D55 /* GetAddressBalanceRPC.swift in Sources */,
 				7AA95825217CB53700865D55 /* TezosBalanceResponseAdapter.swift in Sources */,
 				7AA95816217CB3A400865D55 /* GetAddressDelegateRPC.swift in Sources */,
