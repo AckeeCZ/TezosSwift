@@ -101,18 +101,11 @@ public class TezosClient {
         sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 
-	/** Retrieve the balance of a given address. */
-//    public func getBalance(address: String, completion: @escaping (TezosBalance?, Error?) -> Void) {
-//        let rpc = GetAddressBalanceRPC(address: address, completion: completion)
-//        self.send(rpc: rpc)
-//    }
-
-
     // TODO: Rewrite
     // testContract(at: address).storage( completion )
     // testContract(at: address).send(amount, params: [])
-    public func storage(of address: String, completion: @escaping RPCResult<String>) {
-        let rpcCompletion: (RPCResult<String>) = { result in
+    public func storage(of address: String, completion: @escaping RPCCompletion<String>) {
+        let rpcCompletion: (RPCCompletion<String>) = { result in
             completion(result)
         }
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/delegate"
@@ -120,23 +113,31 @@ public class TezosClient {
     }
 
     /** Retrieve the delegate of a given address. */
-    public func delegate(of address: String, completion: @escaping RPCResult<String>) {
-        let rpcCompletion: (RPCResult<String>) = { result in
+    public func delegate(of address: String, completion: @escaping RPCCompletion<String>) {
+        let rpcCompletion: (RPCCompletion<String>) = { result in
             completion(result)
         }
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/delegate"
         sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
-	/** Retrieve the delegate of a given wallet. */
-	public func getDelegate(wallet: Wallet, completion: @escaping (String?, Error?) -> Void) {
-		self.getDelegate(address: wallet.address, completion: completion)
-	}
 
-	/** Retrieve the delegate of a given address. */
-	public func getDelegate(address: String, completion: @escaping (String?, Error?) -> Void) {
-		let rpc = GetDelegateRPC(address: address, completion: completion)
-		self.send(rpc: rpc)
-	}
+    /** Retrieve the address counter for the given address. */
+    public func counter(of address: String, completion: @escaping RPCCompletion<Int>) {
+        let rpcCompletion: (RPCCompletion<Int>) = { result in
+            completion(result)
+        }
+        let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/delegate"
+        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+    }
+
+    /** Retrieve the address counter for the given address. */
+    public func status(of address: String, completion: @escaping RPCCompletion<ContractStatus>) {
+        let rpcCompletion: (RPCCompletion<ContractStatus>) = { result in
+            completion(result)
+        }
+        let endpoint = "/chains/main/blocks/head/context/contracts/" + address
+        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+    }
 
 	/** Retrieve the hash of the block at the head of the chain. */
 	public func getHeadHash(completion: @escaping (String?, Error?) -> Void) {
@@ -412,19 +413,21 @@ public class TezosClient {
 	/**
    * Send an RPC as a GET or POST request.
    */
-    public typealias RPCResult<T: Decodable> = (ResponseResult<T, TezosError>) -> Void
-    public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, completion: @escaping RPCResult<T>) {
+    public typealias RPCCompletion<T: Decodable> = (ResponseResult<T, TezosError>) -> Void
+    public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, completion: @escaping RPCCompletion<T>) {
         // TODO: Handle error
-        guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else { return }
+        guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else { completion(.failure(.decryptionFailed)); return }
         Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters).responseJSON { response in
             // TODO: Account / delegate / something does not exist
+            print(remoteNodeEndpoint.absoluteString)
             guard let data = response.data else { completion(.failure(.decryptionFailed)); return }
+            print(String(data: data, encoding: .utf8))
             if let decodedType = try? JSONDecoder().decode(T.self, from: data) {
                 completion(.success(decodedType))
                 return
             }
 
-            guard let singleResponse = response.value as? String else { return }
+            guard let singleResponse = response.value as? String else { completion(.failure(.decryptionFailed)); return }
             if let responseNumber = singleResponse.numberValue as? T {
                 completion(.success(responseNumber))
                 return

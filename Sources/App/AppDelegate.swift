@@ -167,10 +167,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(result.value?.humanReadableRepresentation)
         })
 
-//        tezosClient.delegate(of: address, completion: { result in
-//            print("Delegate:")
-//            print(result.value)
-//        })
+        tezosClient.delegate(of: address, completion: { result in
+            print("Delegate:")
+            print(result.value)
+        })
+
+        tezosClient.status(of: address, completion: { result in
+            print("Status:")
+            print(result.value)
+        })
 
 //        tezosClient.getAddressCounter(address: address) { (counter: Int?, error: Error?) in
 //            print("Got counter: \(counter!)")
