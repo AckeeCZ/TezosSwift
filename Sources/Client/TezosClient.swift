@@ -377,18 +377,17 @@ public class TezosClient {
 		signedBytesForInjection: String,
 		operationMetadata: OperationMetadata,
 		completion: @escaping RPCCompletion<String>) {
-		let preapplyOperationRPC = PreapplyOperationRPC(chainId: operationMetadata.chainId,
-			headHash: operationMetadata.headHash,
-			payload: payload,
-			completion: { (result, error) in
-				guard let _ = result else {
-					completion(.failure(.decryptionFailed))
-					return
-				}
+        let rpcCompletion: RPCCompletion<String> = { [weak self] result in
+            switch result {
+            case .success(_):
+                self?.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        let endpoint = "chains/" + operationMetadata.chainId + "/blocks/" + operationMetadata.headHash + "/helpers/preapply/operations"
+        sendRPC(endpoint: endpoint, method: .post, payload: payload, completion: rpcCompletion)
 
-				self.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
-			})
-		self.send(rpc: preapplyOperationRPC)
 	}
 
 	/**
@@ -399,7 +398,7 @@ public class TezosClient {
    */
     private func sendInjectionRPC(payload: String, completion: @escaping RPCCompletion<String>) {
         let endpoint = "/injection/operation"
-        sendRPC(endpoint: endpoint, method: .post, encoding: payload, completion: { result in
+        sendRPC(endpoint: endpoint, method: .post, payload: payload, completion: { result in
             completion(result)
         })
 	}
@@ -407,11 +406,11 @@ public class TezosClient {
 	/**
    * Send an RPC as a GET or POST request.
    */
-    public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, encoding: String = "", completion: @escaping RPCCompletion<T>) {
+    public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, payload: String = "", completion: @escaping RPCCompletion<T>) {
         // TODO: Handle error
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else { completion(.failure(.decryptionFailed)); return }
         // encoding
-        Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters, encoding: encoding).responseJSON { response in
+        Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters, encoding: payload).responseJSON { response in
 
             print(remoteNodeEndpoint)
             print(response.value)

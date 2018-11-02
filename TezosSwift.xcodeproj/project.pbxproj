@@ -22,7 +22,6 @@
 		7AA957D4217B8C1000865D55 /* TezosBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA957D3217B8C1000865D55 /* TezosBalance.swift */; };
 		7AA95812217CB3A400865D55 /* ForgeOperationRPC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA9580A217CB3A300865D55 /* ForgeOperationRPC.swift */; };
 		7AA95814217CB3A400865D55 /* TezosRPC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA9580C217CB3A300865D55 /* TezosRPC.swift */; };
-		7AA9581B217CB3EF00865D55 /* PreapplyOperationRPC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA95819217CB3EF00865D55 /* PreapplyOperationRPC.swift */; };
 		7AA95824217CB53700865D55 /* ResponseAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA9581E217CB53600865D55 /* ResponseAdapter.swift */; };
 		7AA95825217CB53700865D55 /* TezosBalanceResponseAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA9581F217CB53600865D55 /* TezosBalanceResponseAdapter.swift */; };
 		7AA95826217CB53700865D55 /* JSONArrayResponseAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA95820217CB53600865D55 /* JSONArrayResponseAdapter.swift */; };
@@ -94,7 +93,6 @@
 		7AA957D3217B8C1000865D55 /* TezosBalance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosBalance.swift; sourceTree = "<group>"; };
 		7AA9580A217CB3A300865D55 /* ForgeOperationRPC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgeOperationRPC.swift; sourceTree = "<group>"; };
 		7AA9580C217CB3A300865D55 /* TezosRPC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosRPC.swift; sourceTree = "<group>"; };
-		7AA95819217CB3EF00865D55 /* PreapplyOperationRPC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreapplyOperationRPC.swift; sourceTree = "<group>"; };
 		7AA9581E217CB53600865D55 /* ResponseAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAdapter.swift; sourceTree = "<group>"; };
 		7AA9581F217CB53600865D55 /* TezosBalanceResponseAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosBalanceResponseAdapter.swift; sourceTree = "<group>"; };
 		7AA95820217CB53600865D55 /* JSONArrayResponseAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONArrayResponseAdapter.swift; sourceTree = "<group>"; };
@@ -210,7 +208,6 @@
 			children = (
 				7AA9581D217CB43A00865D55 /* ResponseAdapters */,
 				7ABC8548217E8070006DE8FD /* TypeCheckCodeRPC.swift */,
-				7AA95819217CB3EF00865D55 /* PreapplyOperationRPC.swift */,
 				7AA9580A217CB3A300865D55 /* ForgeOperationRPC.swift */,
 				7AA9580C217CB3A300865D55 /* TezosRPC.swift */,
 			);
@@ -534,7 +531,6 @@
 				7AA95829217CB53700865D55 /* JSONDictionaryResponseAdapter.swift in Sources */,
 				7AA8F36C216015A300C05895 /* TezosClient.swift in Sources */,
 				7AA957D4217B8C1000865D55 /* TezosBalance.swift in Sources */,
-				7AA9581B217CB3EF00865D55 /* PreapplyOperationRPC.swift in Sources */,
 				7AA8F36E2160211800C05895 /* TezosClientError.swift in Sources */,
 				7AA95812217CB3A400865D55 /* ForgeOperationRPC.swift in Sources */,
 				7AA9582F217CB6F700865D55 /* MnemonicUtil.swift in Sources */,
