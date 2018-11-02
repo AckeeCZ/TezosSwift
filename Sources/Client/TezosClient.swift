@@ -265,7 +265,7 @@ public class TezosClient {
 		source: String,
 		keys: Keys,
         completion: @escaping RPCCompletion<String> ) {
-        getMetadataForOperation(address: source, completion: { result in
+        getMetadataForOperation(address: source, completion: { [weak self] result in
 
             guard let operationMetadata = result.value else { completion(.failure(.decryptionFailed)); return }
 
@@ -307,21 +307,16 @@ public class TezosClient {
                 return
             }
 
-            let forgeRPC = ForgeOperationRPC(chainId: operationMetadata.chainId,
-                                             headHash: operationMetadata.headHash,
-                                             payload: jsonPayload) { (result, error) in
-                                                guard let result = result else {
-                                                    completion(.failure(.decryptionFailed))
-                                                    return
-                                                }
-                                                self.signPreapplyAndInjectOperation(operationPayload: operationPayload,
-                                                                                    operationMetadata: operationMetadata,
-                                                                                    forgeResult: result,
-                                                                                    source: source,
-                                                                                    keys: keys,
-                                                                                    completion: completion)
+            let rpcCompletion: RPCCompletion<String> = { [weak self] result in
+                switch result {
+                case .success(let forgeResult):
+                    self?.signPreapplyAndInjectOperation(operationPayload: operationPayload, operationMetadata: operationMetadata, forgeResult: forgeResult, source: source, keys: keys, completion: completion)
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
-            self.send(rpc: forgeRPC)
+            let endpoint = "/chains/" + operationMetadata.chainId + "/blocks/" + operationMetadata.headHash + "/helpers/forge/operations"
+            self?.sendRPC(endpoint: endpoint, method: .post, payload: jsonPayload, completion: rpcCompletion)
         })
 	}
 
@@ -410,9 +405,8 @@ public class TezosClient {
         // TODO: Handle error
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else { completion(.failure(.decryptionFailed)); return }
         // encoding
+        print(remoteNodeEndpoint)
         Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters, encoding: payload).responseJSON { response in
-
-            print(remoteNodeEndpoint)
             print(response.value)
 
             guard let data = response.data else { completion(.failure(.decryptionFailed)); return }
