@@ -9,7 +9,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Run some basic tests.
 		// TODO: Refactor these to be proper unit tests.
             testWalletGeneration()
-            testAddressRPCs()
+//            testAddressRPCs()
 		//    testCryptoUtils()
 
 		return true
@@ -81,11 +81,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	private func testWalletGeneration() {
+
 		// Params for a wallet. This wallet is never originated and should *NOT* be used as the secret
 		// key will live in github.
-		let expectedPublicKey = "edpku9ZF6UUAEo1AL3NWy1oxHLL6AfQcGYwA5hFKrEKVHMT3Xx889A"
-		let expectedSecretKey =
-			"edskS4pbuA7rwMjsZGmHU18aMP96VmjegxBzwMZs3DrcXHcMV7VyfQLkD5pqEE84wAMHzi8oVZF6wbgxv3FKzg7cLqzURjaXUp"
+//        let expectedPublicKey = "edpku9ZF6UUAEo1AL3NWy1oxHLL6AfQcGYwA5hFKrEKVHMT3Xx889A"
+//        let expectedSecretKey =
+//            "edskS4pbuA7rwMjsZGmHU18aMP96VmjegxBzwMZs3DrcXHcMV7VyfQLkD5pqEE84wAMHzi8oVZF6wbgxv3FKzg7cLqzURjaXUp"
 		let expectedPublicKeyHash = "tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw"
 		let expectedMnemonic =
 			"soccer click number muscle police corn couch bitter gorilla camp camera shove expire praise pill"
@@ -96,44 +97,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			return
 		}
 
-		print("Testing generating wallet with mnemonic")
-		print("")
-
-		print("Expected Public Key: " + expectedPublicKey)
-		print("Actual Public Key  : " + wallet.keys.publicKey)
-		print("")
-
-		print("Expected Private Key: " + expectedSecretKey)
-		print("Actual Private Key  : " + wallet.keys.secretKey)
-		print("")
-
-		print("Expected Hash Key: " + expectedPublicKeyHash)
-		print("Actual Hash Key  : " + wallet.address)
-		print("")
-
-		print("Expected mnemonic: " + expectedMnemonic)
-		print("Actual mnemonic  : " + wallet.mnemonic!)
-		print("")
-
-		print("Testing generating wallet from secretKey")
-		print("")
+//        print("Testing generating wallet with mnemonic")
+//        print("")
+//
+//        print("Expected Public Key: " + expectedPublicKey)
+//        print("Actual Public Key  : " + wallet.keys.publicKey)
+//        print("")
+//
+//        print("Expected Private Key: " + expectedSecretKey)
+//        print("Actual Private Key  : " + wallet.keys.secretKey)
+//        print("")
+//
+//        print("Expected Hash Key: " + expectedPublicKeyHash)
+//        print("Actual Hash Key  : " + wallet.address)
+//        print("")
+//
+//        print("Expected mnemonic: " + expectedMnemonic)
+//        print("Actual mnemonic  : " + wallet.mnemonic!)
+//        print("")
+//
+//        print("Testing generating wallet from secretKey")
+//        print("")
 
 		guard let restoredWallet = Wallet(secretKey: wallet.keys.secretKey) else {
 			print("Error restoring wallet :(")
 			return
 		}
 
-		print("Expected Public Key: " + expectedPublicKey)
-		print("Actual Public Key  : " + restoredWallet.keys.publicKey)
-		print("")
-
-		print("Expected Private Key: " + expectedSecretKey)
-		print("Actual Private Key  : " + restoredWallet.keys.secretKey)
-		print("")
+//        print("Expected Public Key: " + expectedPublicKey)
+//        print("Actual Public Key  : " + restoredWallet.keys.publicKey)
+//        print("")
+//
+//        print("Expected Private Key: " + expectedSecretKey)
+//        print("Actual Private Key  : " + restoredWallet.keys.secretKey)
+//        print("")
 
 		print("Expected Hash Key: " + expectedPublicKeyHash)
 		print("Actual Hash Key  : " + restoredWallet.address)
 		print("")
+
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL)
+        tezosClient.send(amount: TezosBalance(balance: 1), to: "tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5", from: restoredWallet.address, keys: restoredWallet.keys, completion: { result in
+            print("Send tezos successful:")
+            print(result.value)
+            print(result.error)
+        })
 	}
 
 	private func testAddressRPCs() {
@@ -146,6 +154,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tezosClient.balance(of: address, completion: { result in
             print("Balance:")
             print(result.value?.humanReadableRepresentation)
+        })
+
+        tezosClient.chainHead(completion: { result in
+            print("Chain")
+            print(result.value)
         })
 
         tezosClient.delegate(of: address, completion: { result in

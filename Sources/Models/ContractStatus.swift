@@ -14,21 +14,21 @@ enum ContractStatusKeys: String, CodingKey {
 }
 
 public struct ContractStatus {
-    let balance: Int
+    let balance: TezosBalance
     let spendable: Bool
 }
 
 extension ContractStatus: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
-        let balance = try container.decodeRPC(Int.self, forKey: .balance)
+        let balance = try container.decode(TezosBalance.self, forKey: .balance)
         let spendable = try container.decode(Bool.self, forKey: .spendable)
         self.init(balance: balance, spendable: spendable)
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: ContractStatusKeys.self)
-        try container.encode(balance, forKey: .balance)
+//        try container.encode(TezosBalance.self, forKey: .balance)
         try container.encode(spendable ? 0 : 1, forKey: .balance)
     }
 }
@@ -40,4 +40,19 @@ extension KeyedDecodingContainer {
         guard let decodedInt = Int(intString) else { throw DecodingError.dataCorrupted(context) }
         return decodedInt
     }
+
+    func decode(_ type: TezosBalance.Type, forKey key: K) throws -> TezosBalance {
+        let balanceString = try decode(String.self, forKey: key)
+        let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
+        guard let balance = TezosBalance(balance: balanceString) else { throw DecodingError.dataCorrupted(context) }
+        return balance
+    }
 }
+
+
+public struct ChainHead: Codable {
+    let chainId: String
+    let hash: String
+    let `protocol`: String
+}
+

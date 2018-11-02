@@ -6,7 +6,7 @@ import Foundation
  */
 public struct OperationMetadata {
 	/** The chain which is being operated on. */
-	public let chainID: String
+	public let chainId: String
 
 	/** The hash of the head of the chain being operated on. */
 	public let headHash: String

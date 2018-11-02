@@ -53,6 +53,7 @@ import Alamofire
  * correctly.
  */
 
+public typealias ResultCompletion<T> = (ResponseResult<T, TezosError>) -> Void
 public typealias RPCCompletion<T: Decodable> = (ResponseResult<T, TezosError>) -> Void
 
 public class TezosClient {
@@ -82,12 +83,6 @@ public class TezosClient {
 		self.remoteNodeURL = remoteNodeURL
 		self.urlSession = urlSession
 	}
-
-    public struct ChainHead: Codable {
-        let chainID: String
-        let headHash: String
-        let protocolHash: String
-    }
 
     /** Retrieve data about the chain head. */
     public func chainHead(completion: @escaping RPCCompletion<ChainHead>) {
@@ -249,7 +244,7 @@ public class TezosClient {
 	public func forgeSignPreapplyAndInjectOperation(operation: Operation,
 		source: String,
 		keys: Keys,
-		completion: @escaping RPCCompletion<String>) {
+        completion: @escaping RPCCompletion<String>) {
 		self.forgeSignPreapplyAndInjectOperations(operations: [operation],
 			source: source,
 			keys: keys,
@@ -269,64 +264,65 @@ public class TezosClient {
 	public func forgeSignPreapplyAndInjectOperations(operations: [Operation],
 		source: String,
 		keys: Keys,
-		completion: @escaping RPCCompletion<String>) {
-		guard let operationMetadata = getMetadataForOperation(address: source) else {
-			completion(.failure(.decryptionFailed))
-			return
-		}
+        completion: @escaping RPCCompletion<String> ) {
+        getMetadataForOperation(address: source, completion: { result in
 
-		// Create a mutable copy of operations in case we need to add a reveal operation.
-		var mutableOperations = operations
+            guard let operationMetadata = result.value else { completion(.failure(.decryptionFailed)); return }
 
-		// Determine if the address performing the operations has been revealed. If it has not been,
-		// check if any of the operations to perform requires the address to be revealed. If so,
-		// prepend a reveal operation to the operations to perform.
-		if operationMetadata.key == nil {
-			for operation in operations {
-				if operation.requiresReveal {
-					let revealOperation = RevealOperation(from: source, publicKey: keys.publicKey)
-					mutableOperations.insert(revealOperation, at: 0)
-					break
-				}
-			}
-		}
+            // Create a mutable copy of operations in case we need to add a reveal operation.
+            var mutableOperations = operations
 
-		// Process all operations to have increasing counters and place them in the contents array.
-		var contents: [[String: Any]] = []
-		var counter = operationMetadata.addressCounter
-		for operation in mutableOperations {
-			counter = counter + 1
+            // Determine if the address performing the operations has been revealed. If it has not been,
+            // check if any of the operations to perform requires the address to be revealed. If so,
+            // prepend a reveal operation to the operations to perform.
+            if operationMetadata.key == nil {
 
-			var mutableOperation = operation.dictionaryRepresentation
-			mutableOperation["counter"] = String(counter)
+                for operation in operations {
+                    if operation.requiresReveal {
+                        let revealOperation = RevealOperation(from: source, publicKey: keys.publicKey)
+                        mutableOperations.insert(revealOperation, at: 0)
+                        break
+                    }
+                }
+            }
 
-			contents.append(mutableOperation)
-		}
+            // Process all operations to have increasing counters and place them in the contents array.
+            var contents: [[String: Any]] = []
+            var counter = operationMetadata.addressCounter
+            for operation in mutableOperations {
+                counter = counter + 1
 
-		var operationPayload: [String: Any] = [:]
-		operationPayload["contents"] = contents
-		operationPayload["branch"] = operationMetadata.headHash
+                var mutableOperation = operation.dictionaryRepresentation
+                mutableOperation["counter"] = String(counter)
 
-		guard let jsonPayload = JSONUtils.jsonString(for: operationPayload) else {
-			completion(.failure(.unexpectedRequestFormat))
-			return
-		}
+                contents.append(mutableOperation)
+            }
 
-		let forgeRPC = ForgeOperationRPC(chainID: operationMetadata.chainID,
-			headHash: operationMetadata.headHash,
-			payload: jsonPayload) { (result, error) in
-			guard let result = result else {
-				completion(.failure(.decryptionFailed))
-				return
-			}
-			self.signPreapplyAndInjectOperation(operationPayload: operationPayload,
-				operationMetadata: operationMetadata,
-				forgeResult: result,
-				source: source,
-				keys: keys,
-				completion: completion)
-		}
-		self.send(rpc: forgeRPC)
+            var operationPayload: [String: Any] = [:]
+            operationPayload["contents"] = contents
+            operationPayload["branch"] = operationMetadata.headHash
+
+            guard let jsonPayload = JSONUtils.jsonString(for: operationPayload) else {
+                completion(.failure(.unexpectedRequestFormat))
+                return
+            }
+
+            let forgeRPC = ForgeOperationRPC(chainId: operationMetadata.chainId,
+                                             headHash: operationMetadata.headHash,
+                                             payload: jsonPayload) { (result, error) in
+                                                guard let result = result else {
+                                                    completion(.failure(.decryptionFailed))
+                                                    return
+                                                }
+                                                self.signPreapplyAndInjectOperation(operationPayload: operationPayload,
+                                                                                    operationMetadata: operationMetadata,
+                                                                                    forgeResult: result,
+                                                                                    source: source,
+                                                                                    keys: keys,
+                                                                                    completion: completion)
+            }
+            self.send(rpc: forgeRPC)
+        })
 	}
 
 	/**
@@ -381,7 +377,7 @@ public class TezosClient {
 		signedBytesForInjection: String,
 		operationMetadata: OperationMetadata,
 		completion: @escaping RPCCompletion<String>) {
-		let preapplyOperationRPC = PreapplyOperationRPC(chainID: operationMetadata.chainID,
+		let preapplyOperationRPC = PreapplyOperationRPC(chainId: operationMetadata.chainId,
 			headHash: operationMetadata.headHash,
 			payload: payload,
 			completion: { (result, error) in
@@ -391,7 +387,7 @@ public class TezosClient {
 				}
 
 				self.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
-			})ě
+			})
 		self.send(rpc: preapplyOperationRPC)
 	}
 
@@ -414,10 +410,17 @@ public class TezosClient {
     public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, encoding: String = "", completion: @escaping RPCCompletion<T>) {
         // TODO: Handle error
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else { completion(.failure(.decryptionFailed)); return }
+        // encoding
         Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters, encoding: encoding).responseJSON { response in
+
+            print(remoteNodeEndpoint)
+            print(response.value)
+
             guard let data = response.data else { completion(.failure(.decryptionFailed)); return }
 
-            if let decodedType = try? JSONDecoder().decode(T.self, from: data) {
+            let jsonDecoder = JSONDecoder()
+            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+            if let decodedType = try? jsonDecoder.decode(T.self, from: data) {
                 completion(.success(decodedType))
                 return
             }
@@ -495,7 +498,8 @@ public class TezosClient {
    * This method parallelizes fetches to get chain and address data and returns all required data
    * together as an OperationData object.
    */
-	private func getMetadataForOperation(address: String) -> OperationMetadata? {
+    // completion?
+    private func getMetadataForOperation(address: String, completion: @escaping (ResponseResult<OperationMetadata, TezosError>) -> Void) {
 		let fetchersGroup = DispatchGroup()
 
         fetchersGroup.enter()
@@ -503,15 +507,15 @@ public class TezosClient {
         // Send RPCs and wait for results
 
 		// Fetch data about the chain being operated on.
-		var chainID: String? = nil
+		var chainId: String? = nil
 		var headHash: String? = nil
 		var protocolHash: String? = nil
 
         chainHead(completion: { result in
             // TODO: Handle errors (below as well)
-            chainID = result.value?.chainID
-            headHash = result.value?.headHash
-            protocolHash = result.value?.protocolHash
+            chainId = result.value?.chainId
+            headHash = result.value?.hash
+            protocolHash = result.value?.protocol
             fetchersGroup.leave()
         })
 
@@ -532,20 +536,22 @@ public class TezosClient {
             fetchersGroup.leave()
         })
 
-		fetchersGroup.wait()
-
-		// Return fetched data as an OperationData if all data was successfully retrieved.
-		if let operationCounter = operationCounter,
-			let headHash = headHash,
-			let chainID = chainID,
-			let protocolHash = protocolHash {
-			return OperationMetadata(chainID: chainID,
-				headHash: headHash,
-				protocolHash: protocolHash,
-				addressCounter: operationCounter,
-				key: addressKey)
-		}
-		return nil
+        fetchersGroup.notify(queue: DispatchQueue.main, execute: {
+            // Return fetched data as an OperationData if all data was successfully retrieved.
+            if let operationCounter = operationCounter,
+                let headHash = headHash,
+                let chainId = chainId,
+                let protocolHash = protocolHash {
+                let operationMetadata = OperationMetadata(chainId: chainId,
+                                                          headHash: headHash,
+                                                          protocolHash: protocolHash,
+                                                          addressCounter: operationCounter,
+                                                          key: addressKey)
+                completion(.success(operationMetadata))
+            } else {
+                completion(.failure(.decryptionFailed))
+            }
+        })
 	}
 }
 
@@ -567,7 +573,6 @@ private extension String {
 
 // Taken from: https://stackoverflow.com/questions/27855319/post-request-with-a-simple-string-in-body-with-alamofire
 extension String: ParameterEncoding {
-
     public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         var request = try urlRequest.asURLRequest()
         request.httpBody = data(using: .utf8, allowLossyConversion: false)
