@@ -58,5 +58,4 @@ public extension Data {
         let bytes = answer.serialize()
         self = byteString.prefix(while: { i in i == alphabet[0] }) + bytes
     }
-
 }

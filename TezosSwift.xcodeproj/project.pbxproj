@@ -154,7 +154,6 @@
 		7AA8F34D2160158000C05895 = {
 			isa = PBXGroup;
 			children = (
-				7AA95845217CC9F500865D55 /* Tests */,
 				7AA8F3582160158000C05895 /* Sources */,
 				7ABC856221824D58006DE8FD /* TezosSwiftTests */,
 				7AA8F3572160158000C05895 /* Products */,
@@ -253,13 +252,6 @@
 				F8B6AE7021909ABC00356B05 /* ChainHead.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		7AA95845217CC9F500865D55 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Tests;
 			sourceTree = "<group>";
 		};
 		7ABC856221824D58006DE8FD /* TezosSwiftTests */ = {
