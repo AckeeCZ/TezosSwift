@@ -56,6 +56,11 @@ import Result
 public typealias ResultCompletion<T> = (Result<T, TezosError>) -> Void
 public typealias RPCCompletion<T: Decodable> = (Result<T, TezosError>) -> Void
 
+public enum HTTPMethod: String {
+    case post = "POST"
+    case get = "GET"
+}
+
 public class TezosClient {
 
 	/** The URL session that will be used to manage URL requests. */
@@ -261,6 +266,7 @@ public class TezosClient {
    * @param keys The keys to use to sign the operation for the address.
    * @param completion A completion block that will be called with the results of the operation.
    */
+
 	public func forgeSignPreapplyAndInjectOperations(operations: [Operation],
 		source: String,
 		keys: Keys,
@@ -286,27 +292,18 @@ public class TezosClient {
             }
 
             // Process all operations to have increasing counters and place them in the contents array.
-            var contents: [[String: Any]] = []
-            var counter = operationMetadata.addressCounter
-            for operation in mutableOperations {
-                counter = counter + 1
-
-                var mutableOperation = operation.dictionaryRepresentation
-                mutableOperation["counter"] = String(counter)
-
-                contents.append(mutableOperation)
+            let contents: [Operation] = mutableOperations.enumerated().map {
+                $1.counter = operationMetadata.addressCounter + $0 + 1
+                return $1
             }
 
-            contents[0]["parameters"] = ["int": "10"]
+//            contents[0]["parameters"] = ["int": "10"]
+//
+//            var operationPayload: [String: Any] = [:]
+//            operationPayload["contents"] = contents
+//            operationPayload["branch"] = operationMetadata.headHash
 
-            var operationPayload: [String: Any] = [:]
-            operationPayload["contents"] = contents
-            operationPayload["branch"] = operationMetadata.headHash
-
-            guard let jsonPayload = JSONUtils.jsonString(for: operationPayload) else {
-                completion(.failure(.unexpectedRequestFormat))
-                return
-            }
+            let operationPayload = OperationPayload(contents: contents, branch: operationMetadata.headHash)
 
             let rpcCompletion: RPCCompletion<String> = { [weak self] result in
                 switch result {
@@ -318,7 +315,7 @@ public class TezosClient {
             }
 
             let endpoint = "/chains/" + operationMetadata.chainId + "/blocks/" + operationMetadata.headHash + "/helpers/forge/operations"
-            self?.sendRPC(endpoint: endpoint, method: .post, payload: jsonPayload, completion: rpcCompletion)
+            self?.sendRPC(endpoint: endpoint, method: .post, payload: operationPayload, completion: rpcCompletion)
         })
 	}
 
@@ -332,7 +329,7 @@ public class TezosClient {
    * @param keys The keys to use to sign the operation for the address.
    * @param completion A completion block that will be called with the results of the operation.
    */
-	private func signPreapplyAndInjectOperation(operationPayload: [String: Any],
+	private func signPreapplyAndInjectOperation(operationPayload: OperationPayload,
 		operationMetadata: OperationMetadata,
 		forgeResult: String,
 		source: String,
@@ -345,17 +342,15 @@ public class TezosClient {
 				return
 		}
 
-		var mutableOperationPayload = operationPayload
-		mutableOperationPayload["signature"] = operationSigningResult.edsig
-		mutableOperationPayload ["protocol"] = operationMetadata.protocolHash
+        let signedOperationPayload = SignedOperationPayload(contents: operationPayload.contents, branch: operationPayload.branch, protocol: operationMetadata.protocolHash, signature: operationSigningResult.edsig)
 
-		let operationPayloadArray = [mutableOperationPayload]
-		guard let signedJsonPayload = JSONUtils.jsonString(for: operationPayloadArray) else {
-			completion(.failure(.unexpectedRequestFormat))
-			return
-		}
+//        let operationPayloadArray = [mutableOperationPayload]
+//        guard let signedJsonPayload = JSONUtils.jsonString(for: operationPayloadArray) else {
+//            completion(.failure(.unexpectedRequestFormat))
+//            return
+//        }
 
-		self.preapplyAndInjectRPC(payload: signedJsonPayload,
+		self.preapplyAndInjectRPC(payload: [signedOperationPayload],
 			signedBytesForInjection: jsonSignedBytes,
 			operationMetadata: operationMetadata,
 			completion: completion)
@@ -370,7 +365,7 @@ public class TezosClient {
    * @param operationMetadata Metadata related to the operation.
    * @param completion A completion block that will be called with the results of the operation.
    */
-	private func preapplyAndInjectRPC(payload: String,
+	private func preapplyAndInjectRPC(payload: Encodable,
 		signedBytesForInjection: String,
 		operationMetadata: OperationMetadata,
 		completion: @escaping RPCCompletion<String>) {
@@ -403,7 +398,7 @@ public class TezosClient {
 	/**
    * Send an RPC as a GET or POST request.
    */
-    public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any] = [:], method: HTTPMethod, payload: String = "", completion: @escaping RPCCompletion<T>) {
+    public func sendRPC<T: Decodable>(endpoint: String, method: HTTPMethod = .get, payload: Encodable? = nil, completion: @escaping RPCCompletion<T>) {
 
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else {
             let error = TezosClientError(kind: .unknown, underlyingError: nil)
@@ -413,12 +408,17 @@ public class TezosClient {
 
         var urlRequest = URLRequest(url: remoteNodeEndpoint)
 
-        if method == .post, let payloadData = payload.data(using: .utf8) {
+        if method == .post {
+            print(remoteNodeEndpoint)
+//            print(String(data: payload!.toJSONData()!, encoding: .utf8))
+            guard let jsonData = payload?.toJSONData() ?? (payload as? String)?.data(using: .utf8) else {
+                completion(.failure(.decryptionFailed))
+                return
+            }
             urlRequest.httpMethod = "POST"
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
             urlRequest.cachePolicy = .reloadIgnoringCacheData
-            let params = try? JSONSerialization.data(withJSONObject: parameters, options: [])
-            urlRequest.httpBody = payloadData
+            urlRequest.httpBody = jsonData
         }
 
         let request = urlSession.dataTask(with: urlRequest) { (data, response, error) in
@@ -443,7 +443,6 @@ public class TezosClient {
                     let dataString = String(data: data, encoding: .utf8) {
                     errorMessage = dataString
                 }
-
 
                 // Drop data and send our error to let subsequent handlers know something went wrong and to
                 // give up.
@@ -556,3 +555,41 @@ private extension String {
         return formatter.number(from: self)
     }
 }
+
+// Taken from: https://stackoverflow.com/questions/51058292/why-can-not-use-protocol-encodable-as-a-type-in-the-func#51058460
+extension Encodable {
+    func toJSONData() -> Data? {
+        return try? JSONEncoder().encode(self)
+    }
+}
+
+struct SignedOperationPayload: Encodable {
+    let contents: [Operation]
+    let branch: String
+    let `protocol`: String
+    let signature: String
+}
+
+struct OperationPayload: Encodable {
+    let contents: [Operation]
+    let branch: String
+}
+
+//extension SignedOperationPayload: Encodable {
+//    private enum SignedOperationPayloadKeys: String, CodingKey {
+//        case contents = "contents"
+//        case branch = "branch"
+//        case `protocol` = "protocol"
+//        case signature = "signature"
+//    }
+//
+//    func encode(to encoder: Encoder) throws {
+//        var container = encoder.container(keyedBy: SignedOperationPayloadKeys.self)
+//        try container.encode(contents, forKey: .contents)
+//        try container.encode(branch, forKey: .branc)
+//        try container.encode(gasLimit, forKey: .gasLimit)
+//        try container.encode(fee, forKey: .fee)
+//    }
+//}
+
+

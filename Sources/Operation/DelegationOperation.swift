@@ -1,16 +1,10 @@
 import Foundation
 
 /** An operation to set a delegate for an address. */
-public class DelegationOperation: AbstractOperation {
+public class DelegationOperation: Operation {
 	/** The address that will be set as the delegate. */
 	public let delegate: String
-
-	public override var dictionaryRepresentation: [String: String] {
-		var operation = super.dictionaryRepresentation
-		operation["delegate"] = delegate
-		return operation
-	}
-
+    
 	/**
    * @param source The address that will delegate funds.
    * @param delegate The address to delegate to.
@@ -19,4 +13,15 @@ public class DelegationOperation: AbstractOperation {
 		self.delegate = delegate
 		super.init(source: source, kind: .delegation)
 	}
+
+    // MARK: Encodable
+    private enum DelegationOperationKeys: String, CodingKey {
+        case delegate = "delegate"
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: DelegationOperationKeys.self)
+        try container.encode(delegate, forKey: .delegate)
+    }
 }

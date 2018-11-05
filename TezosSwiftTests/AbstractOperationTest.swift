@@ -1,13 +1,13 @@
 import XCTest
 import TezosKit
 
-class AbstractOperationTest: XCTestCase {
+class OperationTest: XCTestCase {
 	public func testRequiresReveal() {
-		let abstractOperationRequiringReveal = AbstractOperation(source: "tz1abc", kind: .delegation)
-		XCTAssertTrue(abstractOperationRequiringReveal.requiresReveal)
+		let OperationRequiringReveal = Operation(source: "tz1abc", kind: .delegation)
+		XCTAssertTrue(OperationRequiringReveal.requiresReveal)
 
-		let abstractOperationNotRequiringReveal = AbstractOperation(source: "tz1abc", kind: .reveal)
-		XCTAssertFalse(abstractOperationNotRequiringReveal.requiresReveal)
+		let OperationNotRequiringReveal = Operation(source: "tz1abc", kind: .reveal)
+		XCTAssertFalse(OperationNotRequiringReveal.requiresReveal)
 	}
 
 	public func testDictionaryRepresentation() {
@@ -17,8 +17,8 @@ class AbstractOperationTest: XCTestCase {
 		let gasLimit = TezosBalance(balance: 2)
 		let storageLimit = TezosBalance(balance: 3)
 
-		let abstractOperation = AbstractOperation(source: source, kind: kind, fee: fee, gasLimit: gasLimit, storageLimit: storageLimit)
-		let dictionary = abstractOperation.dictionaryRepresentation
+		let Operation = Operation(source: source, kind: kind, fee: fee, gasLimit: gasLimit, storageLimit: storageLimit)
+		let dictionary = Operation.dictionaryRepresentation
 
 		XCTAssertNotNil(dictionary["source"])
 		XCTAssertEqual(dictionary["source"], source)

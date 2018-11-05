@@ -1,17 +1,9 @@
 import Foundation
 
 /** An operation to transact XTZ between addresses. */
-public class TransactionOperation: AbstractOperation {
+public class TransactionOperation: Operation {
 	private let amount: TezosBalance
 	private let destination: String
-
-	public override var dictionaryRepresentation: [String: String] {
-		var operation = super.dictionaryRepresentation
-		operation["amount"] = amount.rpcRepresentation
-		operation["destination"] = destination
-
-		return operation
-	}
 
 	/**
    * @param amount The amount of XTZ to transact.
@@ -33,4 +25,17 @@ public class TransactionOperation: AbstractOperation {
 
 		super.init(source: source, kind: .transaction)
 	}
+
+    // MARK: Encodable
+    private enum TransactionOperationKeys: String, CodingKey {
+        case amount = "amount"
+        case destination = "destination"
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: TransactionOperationKeys.self)
+        try container.encode(amount, forKey: .amount)
+        try container.encode(destination, forKey: .destination)
+    }
 }
