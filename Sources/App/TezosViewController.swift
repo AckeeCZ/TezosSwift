@@ -21,7 +21,7 @@ class TezosViewController: UIViewController {
         // TODO: Refactor these to be proper unit tests.
         testWalletGeneration()
 //        testWalletGenerationPassPhrase()
-        //            testAddressRPCs()
+        testAddressRPCs()
         //    testCryptoUtils()
     }
 

@@ -539,34 +539,3 @@ extension Encodable {
         return try? JSONEncoder().encode(self)
     }
 }
-
-struct SignedOperationPayload: Encodable {
-    let contents: [Operation]
-    let branch: String
-    let `protocol`: String
-    let signature: String
-}
-
-struct OperationPayload: Encodable {
-    let contents: [Operation]
-    let branch: String
-}
-
-//extension SignedOperationPayload: Encodable {
-//    private enum SignedOperationPayloadKeys: String, CodingKey {
-//        case contents = "contents"
-//        case branch = "branch"
-//        case `protocol` = "protocol"
-//        case signature = "signature"
-//    }
-//
-//    func encode(to encoder: Encoder) throws {
-//        var container = encoder.container(keyedBy: SignedOperationPayloadKeys.self)
-//        try container.encode(contents, forKey: .contents)
-//        try container.encode(branch, forKey: .branc)
-//        try container.encode(gasLimit, forKey: .gasLimit)
-//        try container.encode(fee, forKey: .fee)
-//    }
-//}
-
-
