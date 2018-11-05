@@ -6,7 +6,6 @@ import Foundation
  * implementation.
  */
 
-
 public class Operation: Encodable {
 	/** A Tezos balance representing 0. */
 	public static let zeroTezosBalance = TezosBalance(balance: "0")!
@@ -19,7 +18,6 @@ public class Operation: Encodable {
 	public let fee: TezosBalance
 	public let gasLimit: TezosBalance
 	public let storageLimit: TezosBalance
-    public var parameters: []
 	public var requiresReveal: Bool {
 		switch self.kind {
 		case .delegation, .transaction, .origination:

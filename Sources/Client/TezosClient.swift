@@ -119,7 +119,7 @@ public class TezosClient {
             } else if let error = result.error {
                 completion(.failure(error))
             } else {
-                completion(.failure(.decryptionFailed))
+                completion(.failure(.unknown(message: "Balance failed.")))
             }
         }
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/balance"
@@ -272,50 +272,44 @@ public class TezosClient {
 		keys: Keys,
         completion: @escaping RPCCompletion<String> ) {
         metadataForOperation(address: source, completion: { [weak self] result in
+            switch result {
+            case .success(let operationMetadata):
+                let operationsWithReveal: [Operation]
+                // Determine if the address performing the operations has been revealed. If it has not been,
+                // check if any of the operations to perform requires the address to be revealed. If so,
+                // prepend a reveal operation to the operations to perform.
+                let revealOperations = operations.filter { $0.requiresReveal }
+                if operationMetadata.key == nil, !revealOperations.isEmpty {
+                    let revealOperation = RevealOperation(from: source, publicKey: keys.publicKey)
+                    operationsWithReveal = [revealOperation] + operations
+                } else {
+                    operationsWithReveal = operations
+                }
 
-            guard let operationMetadata = result.value else { completion(.failure(.decryptionFailed)); return }
+                // Process all operations to have increasing counters and place them in the contents array.
+                let contents: [Operation] = operationsWithReveal.enumerated().map {
+                    $1.counter = operationMetadata.addressCounter + $0 + 1
+                    return $1
+                }
 
-            // Create a mutable copy of operations in case we need to add a reveal operation.
-            var mutableOperations = operations
+                //            contents[0]["parameters"] = ["int": "10"]
 
-            // Determine if the address performing the operations has been revealed. If it has not been,
-            // check if any of the operations to perform requires the address to be revealed. If so,
-            // prepend a reveal operation to the operations to perform.
-            if operationMetadata.key == nil {
-                for operation in operations {
-                    if operation.requiresReveal {
-                        let revealOperation = RevealOperation(from: source, publicKey: keys.publicKey)
-                        mutableOperations.insert(revealOperation, at: 0)
-                        break
+                let operationPayload = OperationPayload(contents: contents, branch: operationMetadata.headHash)
+
+                let rpcCompletion: RPCCompletion<String> = { [weak self] result in
+                    switch result {
+                    case .success(let forgeResult):
+                        self?.signPreapplyAndInjectOperation(operationPayload: operationPayload, operationMetadata: operationMetadata, forgeResult: forgeResult, source: source, keys: keys, completion: completion)
+                    case .failure(let error):
+                        completion(.failure(error))
                     }
                 }
+
+                let endpoint = "/chains/" + operationMetadata.chainId + "/blocks/" + operationMetadata.headHash + "/helpers/forge/operations"
+                self?.sendRPC(endpoint: endpoint, method: .post, payload: operationPayload, completion: rpcCompletion)
+            case .failure(let error):
+                completion(.failure(error))
             }
-
-            // Process all operations to have increasing counters and place them in the contents array.
-            let contents: [Operation] = mutableOperations.enumerated().map {
-                $1.counter = operationMetadata.addressCounter + $0 + 1
-                return $1
-            }
-
-//            contents[0]["parameters"] = ["int": "10"]
-//
-//            var operationPayload: [String: Any] = [:]
-//            operationPayload["contents"] = contents
-//            operationPayload["branch"] = operationMetadata.headHash
-
-            let operationPayload = OperationPayload(contents: contents, branch: operationMetadata.headHash)
-
-            let rpcCompletion: RPCCompletion<String> = { [weak self] result in
-                switch result {
-                case .success(let forgeResult):
-                    self?.signPreapplyAndInjectOperation(operationPayload: operationPayload, operationMetadata: operationMetadata, forgeResult: forgeResult, source: source, keys: keys, completion: completion)
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            }
-
-            let endpoint = "/chains/" + operationMetadata.chainId + "/blocks/" + operationMetadata.headHash + "/helpers/forge/operations"
-            self?.sendRPC(endpoint: endpoint, method: .post, payload: operationPayload, completion: rpcCompletion)
         })
 	}
 
@@ -338,17 +332,11 @@ public class TezosClient {
 		guard let operationSigningResult = Crypto.signForgedOperation(operation: forgeResult,
 			secretKey: keys.secretKey),
 			let jsonSignedBytes = JSONUtils.jsonString(for: operationSigningResult.sbytes) else {
-				completion(.failure(.unknown))
+				completion(.failure(.jsonSigningFailed))
 				return
-		}
+            }
 
         let signedOperationPayload = SignedOperationPayload(contents: operationPayload.contents, branch: operationPayload.branch, protocol: operationMetadata.protocolHash, signature: operationSigningResult.edsig)
-
-//        let operationPayloadArray = [mutableOperationPayload]
-//        guard let signedJsonPayload = JSONUtils.jsonString(for: operationPayloadArray) else {
-//            completion(.failure(.unexpectedRequestFormat))
-//            return
-//        }
 
 		self.preapplyAndInjectRPC(payload: [signedOperationPayload],
 			signedBytesForInjection: jsonSignedBytes,
@@ -401,18 +389,15 @@ public class TezosClient {
     public func sendRPC<T: Decodable>(endpoint: String, method: HTTPMethod = .get, payload: Encodable? = nil, completion: @escaping RPCCompletion<T>) {
 
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else {
-            let error = TezosClientError(kind: .unknown, underlyingError: nil)
-            completion(.failure(.decryptionFailed))
+            completion(.failure(.invalidNode))
             return
         }
 
         var urlRequest = URLRequest(url: remoteNodeEndpoint)
 
         if method == .post {
-            print(remoteNodeEndpoint)
-//            print(String(data: payload!.toJSONData()!, encoding: .utf8))
             guard let jsonData = payload?.toJSONData() ?? (payload as? String)?.data(using: .utf8) else {
-                completion(.failure(.decryptionFailed))
+                completion(.failure(.unexpectedRequestFormat(message: "POST RPC")))
                 return
             }
             urlRequest.httpMethod = "POST"
@@ -422,36 +407,35 @@ public class TezosClient {
         }
 
         let request = urlSession.dataTask(with: urlRequest) { (data, response, error) in
+            // Decode the server's response to a string in order to bundle it with the error if it is in
+            // a readable format.
+            var errorMessage = ""
+            if let data = data,
+                let dataString = String(data: data, encoding: .utf8) {
+                errorMessage = dataString
+            }
+
             // Check if the response contained a 200 HTTP OK response. If not, then propagate an error.
             if let httpResponse = response as? HTTPURLResponse,
                 httpResponse.statusCode != 200 {
                 // Default to unknown error and try to give a more specific error code if it can be narrowed
                 // down based on HTTP response code.
-                var errorKind: TezosClientError.ErrorKind = .unknown
+                var error: TezosError = .responseError(code: httpResponse.statusCode, message: errorMessage, data: data)
                 // Status code 40X: Bad request was sent to server.
                 if httpResponse.statusCode >= 400 && httpResponse.statusCode < 500 {
-                    errorKind = .unexpectedRequestFormat
+                    error = .unexpectedRequestFormat(message: errorMessage)
                     // Status code 50X: Bad request was sent to server.
                 } else if httpResponse.statusCode >= 500 {
-                    errorKind = .unexpectedResponse
-                }
-
-                // Decode the server's response to a string in order to bundle it with the error if it is in
-                // a readable format.
-                var errorMessage = ""
-                if let data = data,
-                    let dataString = String(data: data, encoding: .utf8) {
-                    errorMessage = dataString
+                    error = .unexpectedResponse(message: errorMessage)
                 }
 
                 // Drop data and send our error to let subsequent handlers know something went wrong and to
                 // give up.
-                let error = TezosClientError(kind: errorKind, underlyingError: errorMessage)
-                completion(.failure(.decryptionFailed))
+                completion(.failure(error))
                 return
             }
             guard let data = data else {
-                completion(.failure(.decryptionFailed))
+                completion(.failure(.noResponseData))
                 return
             }
 
@@ -463,7 +447,7 @@ public class TezosClient {
             }
 
             guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else {
-                completion(.failure(.decryptionFailed))
+                completion(.failure(.unexpectedResponseType))
                 return
             }
 
@@ -472,7 +456,7 @@ public class TezosClient {
             } else if let responseString = singleResponse as? T {
                 completion(.success(responseString))
             } else {
-                completion(.failure(.decryptionFailed))
+                completion(.failure(.unexpectedResponseType))
             }
         }
         request.resume()
@@ -534,17 +518,10 @@ public class TezosClient {
                                                           key: addressKey)
                 completion(.success(operationMetadata))
             } else {
-                completion(.failure(.decryptionFailed))
+                completion(.failure(.unknown(message: "Getting metadata failed")))
             }
         })
 	}
-}
-
-// TODO: Handle errors!
-public enum TezosError: Error {
-    case decryptionFailed
-    case unexpectedRequestFormat
-    case unknown
 }
 
 //Taken from: https://stackoverflow.com/questions/24115141/converting-string-to-int-with-swift/46716943#46716943

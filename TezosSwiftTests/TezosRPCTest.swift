@@ -32,7 +32,7 @@ class TezosRPCTest: XCTestCase {
 			completionBlockCalledExpectation.fulfill()
 		}
 
-		let error = TezosClientError(kind: .unknown, underlyingError: "")
+		let error = TezosError(kind: .unknown, underlyingError: "")
 		rpc.handleResponse(data: "validString".data(using: .utf8)!, error: error)
 		wait(for: [completionBlockCalledExpectation], timeout: 1)
 	}
@@ -45,7 +45,7 @@ class TezosRPCTest: XCTestCase {
 			completionBlockCalledExpectation.fulfill()
 		}
 
-		let error = TezosClientError(kind: .unknown, underlyingError: "")
+		let error = TezosError(kind: .unknown, underlyingError: "")
 		rpc.handleResponse(data: nil, error: error)
 
 		wait(for: [completionBlockCalledExpectation], timeout: 1)
