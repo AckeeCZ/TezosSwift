@@ -10,12 +10,17 @@ import UIKit
 
 class TezosViewController: UIViewController {
 
+    let tezosClient = TezosClient(remoteNodeURL: URL(string: "https://rpc.tezrpc.me")!)
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = .white
 
         // Run some basic tests.
         // TODO: Refactor these to be proper unit tests.
         testWalletGeneration()
+        testWalletGenerationPassPhrase()
         //            testAddressRPCs()
         //    testCryptoUtils()
     }
@@ -83,6 +88,14 @@ class TezosViewController: UIViewController {
         print("Expected mnemonic: " + expectedMnemonic)
         print("Actual mnemonic  : " + wallet.mnemonic!)
         print("")
+
+        // tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5
+        tezosClient.send(amount: TezosBalance(balance: 1), to: "KT1Agon3ARPS7U74UedWpR96j1CCbPCsSTsL", from: wallet.address, keys: wallet.keys, completion: { result in
+            print("Send tezos successful:")
+            print(result.value)
+            print(result.error)
+        })
+
     }
 
     private func testWalletGeneration() {
@@ -93,8 +106,7 @@ class TezosViewController: UIViewController {
         //        let expectedSecretKey =
         //            "edskS4pbuA7rwMjsZGmHU18aMP96VmjegxBzwMZs3DrcXHcMV7VyfQLkD5pqEE84wAMHzi8oVZF6wbgxv3FKzg7cLqzURjaXUp"
         let expectedPublicKeyHash = "tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw"
-        let expectedMnemonic =
-        "soccer click number muscle police corn couch bitter gorilla camp camera shove expire praise pill"
+        let expectedMnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire praise pill"
 
         // Create a wallet.
         guard let wallet = Wallet(mnemonic: expectedMnemonic) else {
@@ -140,13 +152,6 @@ class TezosViewController: UIViewController {
         print("Expected Hash Key: " + expectedPublicKeyHash)
         print("Actual Hash Key  : " + restoredWallet.address)
         print("")
-
-        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL)
-        tezosClient.send(amount: TezosBalance(balance: 1), to: "tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5", from: restoredWallet.address, keys: restoredWallet.keys, completion: { result in
-            print("Send tezos successful:")
-            print(result.value)
-            print(result.error)
-        })
     }
 
     private func testAddressRPCs() {

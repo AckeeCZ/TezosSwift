@@ -381,6 +381,8 @@ public class TezosClient {
             }
         }
         let endpoint = "chains/" + operationMetadata.chainId + "/blocks/" + operationMetadata.headHash + "/helpers/preapply/operations"
+        print("Preapply")
+        print(payload)
         sendRPC(endpoint: endpoint, method: .post, payload: payload, completion: rpcCompletion)
 
 	}
@@ -402,14 +404,56 @@ public class TezosClient {
    * Send an RPC as a GET or POST request.
    */
     public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, payload: String = "", completion: @escaping RPCCompletion<T>) {
-        // TODO: Handle error
-        guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else { completion(.failure(.decryptionFailed)); return }
-        // encoding
-        print(remoteNodeEndpoint)
-        Alamofire.request(remoteNodeEndpoint, method: method, parameters: parameters, encoding: payload).responseJSON { response in
-            print(response.value)
 
-            guard let data = response.data else { completion(.failure(.decryptionFailed)); return }
+        guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else {
+            let error = TezosClientError(kind: .unknown, underlyingError: nil)
+            completion(.failure(.decryptionFailed))
+            return
+        }
+
+        var urlRequest = URLRequest(url: remoteNodeEndpoint)
+
+        if method == .post, let payloadData = payload.data(using: .utf8) {
+            urlRequest.httpMethod = "POST"
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            urlRequest.cachePolicy = .reloadIgnoringCacheData
+            urlRequest.httpBody = payloadData
+        }
+
+        let request = self.urlSession.dataTask(with: urlRequest as URLRequest) { (data, response, error) in
+            // Check if the response contained a 200 HTTP OK response. If not, then propagate an error.
+            if let httpResponse = response as? HTTPURLResponse,
+                httpResponse.statusCode != 200 {
+                // Default to unknown error and try to give a more specific error code if it can be narrowed
+                // down based on HTTP response code.
+                var errorKind: TezosClientError.ErrorKind = .unknown
+                // Status code 40X: Bad request was sent to server.
+                if httpResponse.statusCode >= 400 && httpResponse.statusCode < 500 {
+                    errorKind = .unexpectedRequestFormat
+                    // Status code 50X: Bad request was sent to server.
+                } else if httpResponse.statusCode >= 500 {
+                    errorKind = .unexpectedResponse
+                }
+
+                // Decode the server's response to a string in order to bundle it with the error if it is in
+                // a readable format.
+                var errorMessage = ""
+                if let data = data,
+                    let dataString = String(data: data, encoding: .utf8) {
+                    errorMessage = dataString
+                }
+
+
+                // Drop data and send our error to let subsequent handlers know something went wrong and to
+                // give up.
+                let error = TezosClientError(kind: errorKind, underlyingError: errorMessage)
+                completion(.failure(.decryptionFailed))
+                return
+            }
+            guard let data = data else {
+                completion(.failure(.decryptionFailed))
+                return
+            }
 
             let jsonDecoder = JSONDecoder()
             jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -418,17 +462,20 @@ public class TezosClient {
                 return
             }
 
-            guard let singleResponse = response.value as? String else { completion(.failure(.decryptionFailed)); return }
-            if let responseNumber = singleResponse.numberValue as? T {
-                completion(.success(responseNumber))
-                return
-            } else if let responseString = singleResponse as? T {
-                completion(.success(responseString))
+            guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else {
+                completion(.failure(.decryptionFailed))
                 return
             }
-
-            completion(.failure(.decryptionFailed))
+            
+            if let responseNumber = singleResponse.numberValue as? T {
+                completion(.success(responseNumber))
+            } else if let responseString = singleResponse as? T {
+                completion(.success(responseString))
+            } else {
+                completion(.failure(.decryptionFailed))
+            }
         }
+        request.resume()
     }
 
 	public func send<T>(rpc: TezosRPC<T>) {
