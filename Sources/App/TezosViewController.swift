@@ -10,7 +10,7 @@ import UIKit
 
 class TezosViewController: UIViewController {
 
-    let tezosClient = TezosClient(remoteNodeURL: URL(string: "https://rpc.tezrpc.me")!)
+    let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +20,7 @@ class TezosViewController: UIViewController {
         // Run some basic tests.
         // TODO: Refactor these to be proper unit tests.
         testWalletGeneration()
-        testWalletGenerationPassPhrase()
+//        testWalletGenerationPassPhrase()
         //            testAddressRPCs()
         //    testCryptoUtils()
     }
@@ -90,10 +90,11 @@ class TezosViewController: UIViewController {
         print("")
 
         // tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5
-        tezosClient.send(amount: TezosBalance(balance: 1), to: "KT1Agon3ARPS7U74UedWpR96j1CCbPCsSTsL", from: wallet.address, keys: wallet.keys, completion: { result in
+        tezosClient.send(amount: TezosBalance(balance: 1), to: "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9", from: wallet.address, keys: wallet.keys, completion: { result in
             print("Send tezos successful:")
             print(result.value)
             print(result.error)
+            print(wallet.address)
         })
 
     }
@@ -152,6 +153,13 @@ class TezosViewController: UIViewController {
         print("Expected Hash Key: " + expectedPublicKeyHash)
         print("Actual Hash Key  : " + restoredWallet.address)
         print("")
+
+        tezosClient.send(amount: TezosBalance(balance: 1), to: "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9", from: wallet.address, keys: wallet.keys, completion: { result in
+            print("Send tezos successful:")
+            print(result.value)
+            print(result.error)
+            print(wallet.address)
+        })
     }
 
     private func testAddressRPCs() {

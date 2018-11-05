@@ -1,5 +1,5 @@
 import Foundation
-import Alamofire
+import Result 
 
 /**
  * TezosClient is the gateway into the Tezos Network.
@@ -53,8 +53,8 @@ import Alamofire
  * correctly.
  */
 
-public typealias ResultCompletion<T> = (ResponseResult<T, TezosError>) -> Void
-public typealias RPCCompletion<T: Decodable> = (ResponseResult<T, TezosError>) -> Void
+public typealias ResultCompletion<T> = (Result<T, TezosError>) -> Void
+public typealias RPCCompletion<T: Decodable> = (Result<T, TezosError>) -> Void
 
 public class TezosClient {
 
@@ -107,8 +107,8 @@ public class TezosClient {
     }
 
     /** Retrieve the balance of a given address. */
-    public func balance(of address: String, completion: @escaping (ResponseResult<TezosBalance, TezosError>) -> Void) {
-        let rpcCompletion: (ResponseResult<Double, TezosError>) -> Void = { result in
+    public func balance(of address: String, completion: @escaping (Result<TezosBalance, TezosError>) -> Void) {
+        let rpcCompletion: (Result<Double, TezosError>) -> Void = { result in
             if let balance = result.value {
                 completion(.success(TezosBalance(balance: balance)))
             } else if let error = result.error {
@@ -160,7 +160,7 @@ public class TezosClient {
     }
 
     /** Retrieve the address counter for the given address. */
-    public func addressCounter(address: String, completion: @escaping (ResponseResult<Int, TezosError>) -> Void) {
+    public func addressCounter(address: String, completion: @escaping (Result<Int, TezosError>) -> Void) {
         let rpcCompletion: RPCCompletion<Int> = { result in
             completion(result)
         }
@@ -184,7 +184,7 @@ public class TezosClient {
 		completion: @escaping RPCCompletion<String>) {
 		let transactionOperation =
 			TransactionOperation(amount: amount, source: source, destination: recipientAddress)
-		self.forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
+		forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
 			source: source,
 			keys: keys,
 			completion: completion)
@@ -245,7 +245,7 @@ public class TezosClient {
 		source: String,
 		keys: Keys,
         completion: @escaping RPCCompletion<String>) {
-		self.forgeSignPreapplyAndInjectOperations(operations: [operation],
+		forgeSignPreapplyAndInjectOperations(operations: [operation],
 			source: source,
 			keys: keys,
 			completion: completion)
@@ -265,7 +265,7 @@ public class TezosClient {
 		source: String,
 		keys: Keys,
         completion: @escaping RPCCompletion<String> ) {
-        getMetadataForOperation(address: source, completion: { [weak self] result in
+        metadataForOperation(address: source, completion: { [weak self] result in
 
             guard let operationMetadata = result.value else { completion(.failure(.decryptionFailed)); return }
 
@@ -276,7 +276,6 @@ public class TezosClient {
             // check if any of the operations to perform requires the address to be revealed. If so,
             // prepend a reveal operation to the operations to perform.
             if operationMetadata.key == nil {
-
                 for operation in operations {
                     if operation.requiresReveal {
                         let revealOperation = RevealOperation(from: source, publicKey: keys.publicKey)
@@ -298,6 +297,8 @@ public class TezosClient {
                 contents.append(mutableOperation)
             }
 
+            contents[0]["parameters"] = ["int": "10"]
+
             var operationPayload: [String: Any] = [:]
             operationPayload["contents"] = contents
             operationPayload["branch"] = operationMetadata.headHash
@@ -315,6 +316,7 @@ public class TezosClient {
                     completion(.failure(error))
                 }
             }
+
             let endpoint = "/chains/" + operationMetadata.chainId + "/blocks/" + operationMetadata.headHash + "/helpers/forge/operations"
             self?.sendRPC(endpoint: endpoint, method: .post, payload: jsonPayload, completion: rpcCompletion)
         })
@@ -381,8 +383,6 @@ public class TezosClient {
             }
         }
         let endpoint = "chains/" + operationMetadata.chainId + "/blocks/" + operationMetadata.headHash + "/helpers/preapply/operations"
-        print("Preapply")
-        print(payload)
         sendRPC(endpoint: endpoint, method: .post, payload: payload, completion: rpcCompletion)
 
 	}
@@ -403,7 +403,7 @@ public class TezosClient {
 	/**
    * Send an RPC as a GET or POST request.
    */
-    public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any]? = [:], method: HTTPMethod, payload: String = "", completion: @escaping RPCCompletion<T>) {
+    public func sendRPC<T: Decodable>(endpoint: String, parameters: [String: Any] = [:], method: HTTPMethod, payload: String = "", completion: @escaping RPCCompletion<T>) {
 
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else {
             let error = TezosClientError(kind: .unknown, underlyingError: nil)
@@ -417,10 +417,11 @@ public class TezosClient {
             urlRequest.httpMethod = "POST"
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
             urlRequest.cachePolicy = .reloadIgnoringCacheData
+            let params = try? JSONSerialization.data(withJSONObject: parameters, options: [])
             urlRequest.httpBody = payloadData
         }
 
-        let request = self.urlSession.dataTask(with: urlRequest as URLRequest) { (data, response, error) in
+        let request = urlSession.dataTask(with: urlRequest) { (data, response, error) in
             // Check if the response contained a 200 HTTP OK response. If not, then propagate an error.
             if let httpResponse = response as? HTTPURLResponse,
                 httpResponse.statusCode != 200 {
@@ -466,7 +467,7 @@ public class TezosClient {
                 completion(.failure(.decryptionFailed))
                 return
             }
-            
+
             if let responseNumber = singleResponse.numberValue as? T {
                 completion(.success(responseNumber))
             } else if let responseString = singleResponse as? T {
@@ -478,68 +479,13 @@ public class TezosClient {
         request.resume()
     }
 
-	public func send<T>(rpc: TezosRPC<T>) {
-		guard let remoteNodeEndpoint = URL(string: rpc.endpoint, relativeTo: self.remoteNodeURL) else {
-			let error = TezosClientError(kind: .unknown, underlyingError: nil)
-			rpc.handleResponse(data: nil, error: error)
-			return
-		}
-
-		var urlRequest = URLRequest(url: remoteNodeEndpoint)
-
-		if rpc.isPOSTRequest,
-			let payload = rpc.payload,
-			let payloadData = payload.data(using: .utf8) {
-			urlRequest.httpMethod = "POST"
-			urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-			urlRequest.cachePolicy = .reloadIgnoringCacheData
-			urlRequest.httpBody = payloadData
-		}
-
-		let request = self.urlSession.dataTask(with: urlRequest as URLRequest) { (data, response, error) in
-			// Check if the response contained a 200 HTTP OK response. If not, then propagate an error.
-			if let httpResponse = response as? HTTPURLResponse,
-				httpResponse.statusCode != 200 {
-				// Default to unknown error and try to give a more specific error code if it can be narrowed
-				// down based on HTTP response code.
-				var errorKind: TezosClientError.ErrorKind = .unknown
-				// Status code 40X: Bad request was sent to server.
-				if httpResponse.statusCode >= 400 && httpResponse.statusCode < 500 {
-					errorKind = .unexpectedRequestFormat
-					// Status code 50X: Bad request was sent to server.
-				} else if httpResponse.statusCode >= 500 {
-					errorKind = .unexpectedResponse
-				}
-
-				// Decode the server's response to a string in order to bundle it with the error if it is in
-				// a readable format.
-				var errorMessage = ""
-				if let data = data,
-					let dataString = String(data: data, encoding: .utf8) {
-					errorMessage = dataString
-				}
-
-
-				// Drop data and send our error to let subsequent handlers know something went wrong and to
-				// give up.
-				let error = TezosClientError(kind: errorKind, underlyingError: errorMessage)
-				rpc.handleResponse(data: nil, error: error)
-				return
-			}
-
-			rpc.handleResponse(data: data, error: error)
-		}
-		request.resume()
-	}
-
 	/**
    * Retrieve metadata needed to forge / pre-apply / sign / inject an operation.
    *
    * This method parallelizes fetches to get chain and address data and returns all required data
    * together as an OperationData object.
    */
-    // completion?
-    private func getMetadataForOperation(address: String, completion: @escaping (ResponseResult<OperationMetadata, TezosError>) -> Void) {
+    private func metadataForOperation(address: String, completion: @escaping (Result<OperationMetadata, TezosError>) -> Void) {
 		let fetchersGroup = DispatchGroup()
 
         fetchersGroup.enter()
@@ -609,14 +555,4 @@ private extension String {
         formatter.numberStyle = .decimal
         return formatter.number(from: self)
     }
-}
-
-// Taken from: https://stackoverflow.com/questions/27855319/post-request-with-a-simple-string-in-body-with-alamofire
-extension String: ParameterEncoding {
-    public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
-        var request = try urlRequest.asURLRequest()
-        request.httpBody = data(using: .utf8, allowLossyConversion: false)
-        return request
-    }
-
 }

@@ -3,7 +3,7 @@ import Foundation
 /**
  * A model class representing a balance of Tezos.
  */
-public struct TezosBalance {
+public struct TezosBalance: Codable {
 	/** The number of decimal places available in Tezos values. */
 	private let decimalDigitCount = 6
 
@@ -75,9 +75,24 @@ public struct TezosBalance {
 		let integerString = paddedBalance[paddedBalance.startIndex..<integerDigitEndIndex].count > 0 ? paddedBalance[paddedBalance.startIndex..<integerDigitEndIndex] : "0"
 		let decimalString = paddedBalance[integerDigitEndIndex..<paddedBalance.endIndex]
 
-		self.integerAmount = String(integerString)
-		self.decimalAmount = String(decimalString)
+		integerAmount = String(integerString)
+        decimalAmount = String(decimalString)
 	}
+}
+
+extension KeyedDecodingContainer {
+    func decode(_ type: TezosBalance.Type, forKey key: K) throws -> TezosBalance {
+        let balanceString = try decode(String.self, forKey: key)
+        let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
+        guard let balance = TezosBalance(balance: balanceString) else { throw DecodingError.dataCorrupted(context) }
+        return balance
+    }
+}
+
+extension KeyedEncodingContainer {
+    mutating func encode(_ value: TezosBalance, forKey key: KeyedEncodingContainer<K>.Key) throws {
+        try encode(value.rpcRepresentation, forKey: key)
+    }
 }
 
 extension TezosBalance: Equatable {

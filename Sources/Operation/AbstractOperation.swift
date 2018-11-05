@@ -49,3 +49,23 @@ public class AbstractOperation: Operation {
 		self.storageLimit = storageLimit
 	}
 }
+
+private enum OperationKeys: String, CodingKey {
+    case kind = "kind"
+    case storageLimit = "storage_limit"
+    case gasLimit = "gas_limit"
+    case fee = "fee"
+    case source = "source"
+}
+
+extension AbstractOperation: Encodable {
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: OperationKeys.self)
+        try container.encode(kind.rawValue, forKey: .kind)
+        try container.encode(storageLimit, forKey: .storageLimit)
+        try container.encode(gasLimit, forKey: .gasLimit)
+        try container.encode(fee, forKey: .fee)
+        try container.encode(source, forKey: .source)
+    }
+
+}
