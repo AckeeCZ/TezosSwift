@@ -141,6 +141,14 @@ public class TezosClient {
         sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 
+    public func pairStatus(of address: String, completion: @escaping RPCCompletion<PairContractStatus>) {
+        let rpcCompletion: (RPCCompletion<PairContractStatus>) = { result in
+            completion(result)
+        }
+        let endpoint = "/chains/main/blocks/head/context/contracts/" + address
+        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+    }
+
 //    public func storage(of address: String, completion: @escaping RPCCompletion<String>) {
 //        let rpcCompletion: (RPCCompletion<String>) = { result in
 //            completion(result)
@@ -176,6 +184,21 @@ public class TezosClient {
         sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 
+    // TODO: Rewrite into something like:
+    // testContract(at: ).call(params:).send(amount, keys)
+    public func send(amount: TezosBalance,
+                     to recipientAddress: String,
+                     from source: String,
+                     keys: Keys,
+                     completion: @escaping RPCCompletion<String>) {
+        let transactionOperation =
+            TransactionOperation(amount: amount, source: source, destination: recipientAddress)
+        forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
+                                            source: source,
+                                            keys: keys,
+                                            completion: completion)
+    }
+
 	/**
    * Transact Tezos between accounts.
    *
@@ -188,14 +211,13 @@ public class TezosClient {
    */
 	public func send(amount: TezosBalance,
 		to recipientAddress: String,
-		from source: String,
-		keys: Keys,
+        from wallet: Wallet,
 		completion: @escaping RPCCompletion<String>) {
 		let transactionOperation =
-			TransactionOperation(amount: amount, source: source, destination: recipientAddress)
+			TransactionOperation(amount: amount, source: wallet.address, destination: recipientAddress)
 		forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
-			source: source,
-			keys: keys,
+			source: wallet.address,
+			keys: wallet.keys,
 			completion: completion)
 	}
 

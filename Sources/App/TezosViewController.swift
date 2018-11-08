@@ -154,12 +154,13 @@ class TezosViewController: UIViewController {
         print("Actual Hash Key  : " + restoredWallet.address)
         print("")
 
-        tezosClient.send(amount: TezosBalance(balance: 1), to: "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9", from: wallet.address, keys: wallet.keys, completion: { result in
-            print("Send tezos successful:")
-            print(result.value)
-            print(result.error)
-            print(wallet.address)
-        })
+//        tezosClient.send(amount: TezosBalance(balance: 1), to: "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9", from: wallet, completion: { result in
+//            print("Send tezos successful:")
+//            print(result.value)
+//            print(result.error)
+//            print(wallet.address)
+//            print(wallet.keys.publicKey)
+//        })
     }
 
     private func testAddressRPCs() {
@@ -195,5 +196,12 @@ class TezosViewController: UIViewController {
             print(result.value)
             print(result.error)
         })
+
+        tezosClient.pairStatus(of: "KT1VMgRT1wcPLcBxeskaXvGYdWqxPPXLz6sp") { result in
+            print("Pair status")
+            print(result.value?.arg1)
+            print(result.value?.arg2)
+            print(result.error)
+        }
     }
 }
