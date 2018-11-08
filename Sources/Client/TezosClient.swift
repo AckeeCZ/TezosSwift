@@ -127,13 +127,34 @@ public class TezosClient {
     }
 
     // TODO: Rewrite
-    // testContract(at: address).storage( completion )
+    // testContract(at: address).status().storage
+    // func status() -> ContractStatus
     // testContract(at: address).send(amount, params: [])
-    public func storage(of address: String, completion: @escaping RPCCompletion<String>) {
-        let rpcCompletion: (RPCCompletion<String>) = { result in
+
+    // TODO: Delete
+
+    public func intStatus(of address: String, completion: @escaping RPCCompletion<IntContractStatus>) {
+        let rpcCompletion: (RPCCompletion<IntContractStatus>) = { result in
             completion(result)
         }
-        let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/delegate"
+        let endpoint = "/chains/main/blocks/head/context/contracts/" + address
+        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+    }
+
+//    public func storage(of address: String, completion: @escaping RPCCompletion<String>) {
+//        let rpcCompletion: (RPCCompletion<String>) = { result in
+//            completion(result)
+//        }
+//        let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/delegate"
+//        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+//    }
+
+    /** Retrieve the address counter for the given address. */
+    public func status(of address: String, completion: @escaping RPCCompletion<ContractStatus>) {
+        let rpcCompletion: (RPCCompletion<ContractStatus>) = { result in
+            completion(result)
+        }
+        let endpoint = "/chains/main/blocks/head/context/contracts/" + address
         sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 
@@ -151,25 +172,8 @@ public class TezosClient {
         let rpcCompletion: (RPCCompletion<Int>) = { result in
             completion(result)
         }
-        let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/delegate"
+        let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/counter"
         sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
-    }
-
-    /** Retrieve the address counter for the given address. */
-    public func status(of address: String, completion: @escaping RPCCompletion<ContractStatus>) {
-        let rpcCompletion: (RPCCompletion<ContractStatus>) = { result in
-            completion(result)
-        }
-        let endpoint = "/chains/main/blocks/head/context/contracts/" + address
-        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
-    }
-
-    /** Retrieve the address counter for the given address. */
-    public func addressCounter(address: String, completion: @escaping (Result<Int, TezosError>) -> Void) {
-        let rpcCompletion: RPCCompletion<Int> = { result in
-            completion(result)
-        }
-        sendRPC(endpoint: "/chains/main/blocks/head/context/contracts/" + address + "/counter", method: .get, completion: rpcCompletion)
     }
 
 	/**
@@ -456,6 +460,7 @@ public class TezosClient {
             } else if let responseString = singleResponse as? T {
                 completion(.success(responseString))
             } else {
+                print(singleResponse)
                 completion(.failure(.unexpectedResponseType))
             }
         }
@@ -491,7 +496,7 @@ public class TezosClient {
         fetchersGroup.enter()
         // Fetch data about the address being operated on.
         var operationCounter: Int? = nil
-        addressCounter(address: address, completion: { result in
+        counter(of: address, completion: { result in
             operationCounter = result.value
             fetchersGroup.leave()
         })

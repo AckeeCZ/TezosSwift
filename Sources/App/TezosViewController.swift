@@ -90,12 +90,12 @@ class TezosViewController: UIViewController {
         print("")
 
         // tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5
-        tezosClient.send(amount: TezosBalance(balance: 1), to: "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9", from: wallet.address, keys: wallet.keys, completion: { result in
-            print("Send tezos successful:")
-            print(result.value)
-            print(result.error)
-            print(wallet.address)
-        })
+//        tezosClient.send(amount: TezosBalance(balance: 1), to: "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9", from: wallet.address, keys: wallet.keys, completion: { result in
+//            print("Send tezos successful:")
+//            print(result.value)
+//            print(result.error)
+//            print(wallet.address)
+//        })
 
     }
 
@@ -187,6 +187,13 @@ class TezosViewController: UIViewController {
         tezosClient.status(of: address, completion: { result in
             print("Status:")
             print(result.value)
+            print(result.error)
+        })
+
+        tezosClient.intStatus(of: address, completion: { result in
+            print("Int status:")
+            print(result.value)
+            print(result.error)
         })
     }
 }
