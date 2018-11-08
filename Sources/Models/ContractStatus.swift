@@ -110,26 +110,29 @@ extension TezosPair: Decodable {
     }
 }
 
-public class PairContractStatus: ContractStatus {
-    let arg1: Bool?
-    let arg2: Bool?
+public struct PairContractStatusStorage: Decodable {
+    let arg1: Bool
+    let arg2: Bool
 
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: ContractStatusKeys.self)
-        let storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script).nestedContainer(keyedBy: StorageKeys.self, forKey: .storage)
-
-        // If the whole status not optional, throw, handle later
-        guard var argsContainer = try? storageContainer.nestedUnkeyedContainer(forKey: .args) else {
-            self.arg1 = nil
-            self.arg2 = nil
-            try super.init(from: decoder)
-            return
-        }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: StorageKeys.self)
+        var argsContainer = try container.nestedUnkeyedContainer(forKey: .args)
 
         let tezosPair = try argsContainer.decode(TezosPair<Bool, Bool>.self)
 
         self.arg1 = tezosPair.first
         self.arg2 = tezosPair.second
+    }
+
+}
+
+public class PairContractStatus: ContractStatus {
+    let storage: PairContractStatusStorage
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: ContractStatusKeys.self)
+        let storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
+        self.storage = try storageContainer.decode(PairContractStatusStorage.self, forKey: .storage)
 
         try super.init(from: decoder)
     }

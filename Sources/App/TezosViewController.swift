@@ -199,8 +199,8 @@ class TezosViewController: UIViewController {
 
         tezosClient.pairStatus(of: "KT1VMgRT1wcPLcBxeskaXvGYdWqxPPXLz6sp") { result in
             print("Pair status")
-            print(result.value?.arg1)
-            print(result.value?.arg2)
+            print(result.value?.storage.arg1)
+            print(result.value?.storage.arg2)
             print(result.error)
         }
     }
