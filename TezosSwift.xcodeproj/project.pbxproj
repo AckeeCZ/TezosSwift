@@ -40,6 +40,8 @@
 		7ABC859C2183973F006DE8FD /* TezosRPCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC859B2183973F006DE8FD /* TezosRPCTest.swift */; };
 		897F3231F6BD7481F2B683AB /* Pods_TezosSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682BFBDE2CBB52CBDD0763D9 /* Pods_TezosSwift.framework */; };
 		E8CEEC8185D40796901B11A4 /* Pods_TezosKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711B3872659EEE9B847690A5 /* Pods_TezosKitTests.framework */; };
+		F8633605219497AC00896B6A /* StatusDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633604219497AC00896B6A /* StatusDelegate.swift */; };
+		F8633607219497C200896B6A /* TezosPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633606219497C200896B6A /* TezosPair.swift */; };
 		F8633AA62188884100B6566B /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633AA52188884100B6566B /* Secret.swift */; };
 		F8633AF6218B260100B6566B /* ContractStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633AF5218B260100B6566B /* ContractStatus.swift */; };
 		F8B6AE6D21909A5400356B05 /* OperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B6AE6C21909A5400356B05 /* OperationPayload.swift */; };
@@ -105,6 +107,8 @@
 		7ABC859B2183973F006DE8FD /* TezosRPCTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTest.swift; sourceTree = "<group>"; };
 		AD462AF223A5CD5683C948D9 /* Pods_TezosKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18ABC256DB067253D1C0A45 /* Pods-TezosKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosKitTests/Pods-TezosKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		F8633604219497AC00896B6A /* StatusDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusDelegate.swift; sourceTree = "<group>"; };
+		F8633606219497C200896B6A /* TezosPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosPair.swift; sourceTree = "<group>"; };
 		F8633AA52188884100B6566B /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		F8633AF5218B260100B6566B /* ContractStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStatus.swift; sourceTree = "<group>"; };
 		F8B6AE6C21909A5400356B05 /* OperationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationPayload.swift; sourceTree = "<group>"; };
@@ -247,9 +251,11 @@
 				7AA957D3217B8C1000865D55 /* TezosBalance.swift */,
 				F8633AA52188884100B6566B /* Secret.swift */,
 				F8633AF5218B260100B6566B /* ContractStatus.swift */,
+				F8633606219497C200896B6A /* TezosPair.swift */,
 				F8B6AE6C21909A5400356B05 /* OperationPayload.swift */,
 				F8B6AE6E21909A6900356B05 /* SignedOperationPayload.swift */,
 				F8B6AE7021909ABC00356B05 /* ChainHead.swift */,
+				F8633604219497AC00896B6A /* StatusDelegate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -470,6 +476,7 @@
 				7A1E2ED4217673FE0073C080 /* Wallet.swift in Sources */,
 				7AA9582E217CB6F700865D55 /* JSONUtils.swift in Sources */,
 				7AA8F36C216015A300C05895 /* TezosClient.swift in Sources */,
+				F8633607219497C200896B6A /* TezosPair.swift in Sources */,
 				7AA957D4217B8C1000865D55 /* TezosBalance.swift in Sources */,
 				F8BECFBA218CB4C7006186FD /* TezosViewController.swift in Sources */,
 				F8B6AE6F21909A6900356B05 /* SignedOperationPayload.swift in Sources */,
@@ -482,6 +489,7 @@
 				7AA95837217CB80A00865D55 /* DelegationOperation.swift in Sources */,
 				7A53BF1B217CF35700BA15D1 /* OperationMetadata.swift in Sources */,
 				F8633AF6218B260100B6566B /* ContractStatus.swift in Sources */,
+				F8633605219497AC00896B6A /* StatusDelegate.swift in Sources */,
 				7AA95838217CB80A00865D55 /* OperationKind.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

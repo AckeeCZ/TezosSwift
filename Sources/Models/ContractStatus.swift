@@ -8,7 +8,7 @@
 
 import Foundation
 
-private enum ContractStatusKeys: String, CodingKey {
+public enum ContractStatusKeys: String, CodingKey {
     case balance = "balance"
     case spendable = "spendable"
     case manager = "manager"
@@ -18,35 +18,12 @@ private enum ContractStatusKeys: String, CodingKey {
     case storage = "storage"
 }
 
-private enum TezosTypeKeys: String, CodingKey {
+public enum TezosTypeKeys: String, CodingKey {
     case int = "int"
     case string = "string"
 }
 
-public struct StatusDelegate: Codable {
-    let setable: Bool
-    let value: String?
-}
-
-public class IntContractStatus: ContractStatus {
-    let storage: Int
-
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: ContractStatusKeys.self)
-        let storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script).nestedContainer(keyedBy: TezosTypeKeys.self, forKey: .storage)
-        self.storage = try storageContainer.decodeRPC(Int.self, forKey: .int)
-        try super.init(from: decoder)
-    }
-}
-
-struct TezosPair<T: Decodable, U: Decodable> {
-    typealias First = T
-    typealias Second = U
-    let first: First
-    let second: Second
-}
-
-private enum StorageKeys: String, CodingKey {
+public enum StorageKeys: String, CodingKey {
     case prim
     case args
 }
@@ -61,7 +38,6 @@ extension KeyedDecodingContainer {
             value = try decodeRPC(Bool.self, forKey: key)
         default:
             value = try decode(T.self, forKey: key)
-            print(value)
         }
         guard let unwrappedValue = value as? T else {
             throw TezosError.unsupportedTezosType
@@ -87,26 +63,45 @@ extension KeyedDecodingContainer {
     }
 }
 
-extension TezosPair: Decodable {
-    init(from decoder: Decoder) throws {
+public struct IntContractStatus: Decodable {
+    let balance: TezosBalance
+    let spendable: Bool
+    let manager: String
+    let delegate: StatusDelegate
+    let counter: Int
+    let storage: Int
 
-        var container = try decoder.container(keyedBy: StorageKeys.self).nestedUnkeyedContainer(forKey: .args)
-        let firstContainer = try container.nestedContainer(keyedBy: StorageKeys.self)
-        let secondContainer = try container.nestedContainer(keyedBy: StorageKeys.self)
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: ContractStatusKeys.self)
+        self.balance = try container.decode(TezosBalance.self, forKey: .balance)
+        self.spendable = try container.decode(Bool.self, forKey: .spendable)
+        self.manager = try container.decode(String.self, forKey: .manager)
+        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
+        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
 
-        let firstPrimaryType = try firstContainer.decode(String.self, forKey: .prim).self
-        if firstPrimaryType == "Pair" {
-            self.first = try firstContainer.decode(First.self, forKey: .args)
-        } else {
-            self.first = try firstContainer.decodeRPC(First.self, forKey: .prim).self
-        }
+        let storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script).nestedContainer(keyedBy: TezosTypeKeys.self, forKey: .storage)
+        self.storage = try storageContainer.decodeRPC(Int.self, forKey: .int)
+    }
+}
 
-        let secondPrimaryType = try secondContainer.decode(String.self, forKey: .prim).self
-        if secondPrimaryType == "Pair" {
-            self.second = try secondContainer.decode(Second.self, forKey: .args)
-        } else {
-            self.second = try secondContainer.decodeRPC(Second.self, forKey: .prim).self
-        }
+public struct PairContractStatus: Decodable {
+    let balance: TezosBalance
+    let spendable: Bool
+    let manager: String
+    let delegate: StatusDelegate
+    let counter: Int
+    let storage: PairContractStatusStorage
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: ContractStatusKeys.self)
+        self.balance = try container.decode(TezosBalance.self, forKey: .balance)
+        self.spendable = try container.decode(Bool.self, forKey: .spendable)
+        self.manager = try container.decode(String.self, forKey: .manager)
+        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
+        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
+
+        let storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
+        self.storage = try storageContainer.decode(PairContractStatusStorage.self, forKey: .storage)
     }
 }
 
@@ -123,29 +118,16 @@ public struct PairContractStatusStorage: Decodable {
         self.arg1 = tezosPair.first
         self.arg2 = tezosPair.second
     }
-
 }
 
-public class PairContractStatus: ContractStatus {
-    let storage: PairContractStatusStorage
-
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: ContractStatusKeys.self)
-        let storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
-        self.storage = try storageContainer.decode(PairContractStatusStorage.self, forKey: .storage)
-
-        try super.init(from: decoder)
-    }
-}
-
-public class ContractStatus: Decodable {
+public struct ContractStatus: Decodable {
     let balance: TezosBalance
     let spendable: Bool
     let manager: String
     let delegate: StatusDelegate
     let counter: Int
 
-    public required init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
         self.balance = try container.decode(TezosBalance.self, forKey: .balance)
         self.spendable = try container.decode(Bool.self, forKey: .spendable)

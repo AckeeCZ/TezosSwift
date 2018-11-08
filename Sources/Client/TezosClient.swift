@@ -482,7 +482,6 @@ public class TezosClient {
             } else if let responseString = singleResponse as? T {
                 completion(.success(responseString))
             } else {
-                print(singleResponse)
                 completion(.failure(.unexpectedResponseType))
             }
         }
