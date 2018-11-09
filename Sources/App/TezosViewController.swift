@@ -170,34 +170,41 @@ class TezosViewController: UIViewController {
         // See: KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA
         let address = "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9"
 
-        tezosClient.balance(of: address, completion: { result in
-            print("Balance:")
-            print(result.value?.humanReadableRepresentation)
-        })
-
-        tezosClient.chainHead(completion: { result in
-            print("Chain")
-            print(result.value)
-        })
-
-        tezosClient.delegate(of: address, completion: { result in
-            print("Delegate:")
-            print(result.value)
-        })
-
-        tezosClient.status(of: address, completion: { result in
-            print("Status:")
-            print(result.value)
-            print(result.error)
-        })
-
-        tezosClient.intStatus(of: address, completion: { result in
-            print("Int status:")
-            print(result.value)
-            print(result.error)
-        })
+//        tezosClient.balance(of: address, completion: { result in
+//            print("Balance:")
+//            print(result.value?.humanReadableRepresentation)
+//        })
+//
+//        tezosClient.chainHead(completion: { result in
+//            print("Chain")
+//            print(result.value)
+//        })
+//
+//        tezosClient.delegate(of: address, completion: { result in
+//            print("Delegate:")
+//            print(result.value)
+//        })
+//
+//        tezosClient.status(of: address, completion: { result in
+//            print("Status:")
+//            print(result.value)
+//            print(result.error)
+//        })
+//
+//        tezosClient.intStatus(of: address, completion: { result in
+//            print("Int status:")
+//            print(result.value?.storage)
+//            print(result.error)
+//        })
 
         tezosClient.pairStatus(of: "KT1VMgRT1wcPLcBxeskaXvGYdWqxPPXLz6sp") { result in
+            print("Pair status")
+            print(result.value?.storage.arg1)
+            print(result.value?.storage.arg2)
+            print(result.error)
+        }
+
+        tezosClient.complicatedPairStatus(of: "KT1R5mgZpK7eL7QJ7kmVUzFwX9Kc9FepcUpr") { result in
             print("Pair status")
             print(result.value?.storage.arg1)
             print(result.value?.storage.arg2)

@@ -149,6 +149,13 @@ public class TezosClient {
         sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 
+    public func complicatedPairStatus(of address: String, completion: @escaping RPCCompletion<PairSetBoolContractStatus>) {
+        let rpcCompletion: (RPCCompletion<PairSetBoolContractStatus>) = { result in
+            completion(result)
+        }
+        let endpoint = "/chains/main/blocks/head/context/contracts/" + address
+        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+    }
 //    public func storage(of address: String, completion: @escaping RPCCompletion<String>) {
 //        let rpcCompletion: (RPCCompletion<String>) = { result in
 //            completion(result)
