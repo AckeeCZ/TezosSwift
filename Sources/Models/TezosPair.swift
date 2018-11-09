@@ -16,7 +16,7 @@ struct TezosPair<T: Decodable, U: Decodable> {
 }
 
 extension UnkeyedDecodingContainer {
-    mutating func decodeElement<T: Decodable>() throws -> T {
+    mutating func decodeElement<T: Decodable>(previousContainer: KeyedDecodingContainer<StorageKeys>? = nil) throws -> (T, KeyedDecodingContainer<StorageKeys>?) {
         if var arrayContainer = try? nestedUnkeyedContainer() {
             // TODO: Generically access generic's element?
             var genericArray: [Any] = []
@@ -36,87 +36,41 @@ extension UnkeyedDecodingContainer {
             }
 
             guard let finalArray = genericArray as? T else { throw TezosError.unsupportedTezosType }
-            print(finalArray)
-            return finalArray
+            return (finalArray, nil)
         } else {
+            if let currentContainer = previousContainer {
+                return (try currentContainer.decodeRPC(T.self), currentContainer)
+            }
             let container = try nestedContainer(keyedBy: StorageKeys.self)
             let primaryType = try container.decode(String.self, forKey: .prim).self
-            if primaryType == "Pair" {
-                return try container.decode(T.self, forKey: .prim)
-            } else if primaryType == "Some" {
+            if primaryType == "Pair" || primaryType == "Some" {
                 // TODO: Check different ways of outputs for some (optional lists?)
                 var mutableSomeContainer = try container.nestedUnkeyedContainer(forKey: .args)
                 let someContainer = try mutableSomeContainer.nestedContainer(keyedBy: StorageKeys.self)
-                print(primaryType)
-                return try someContainer.decodeRPC(T.self)
+                return (try someContainer.decodeRPC(T.self), someContainer)
             } else {
-                return try container.decodeRPC(T.self)
+                return (try container.decodeRPC(T.self), nil)
             }
         }
     }
 }
 
 extension TezosPair: Decodable {
-
-
-
     init(from decoder: Decoder) throws {
         var mutableContainer = try decoder.unkeyedContainer()
-        //var arrayContainer = try mutableContainer.nestedUnkeyedContainer()
-        self.first = try mutableContainer.decodeElement()
-        //let container = try mutableContainer.nestedContainer(keyedBy: StorageKeys.self)
-
-        self.second = try mutableContainer.decodeElement()
-
-
-        //var container = try mutableContainer.nestedContainer(keyedBy: StorageKeys.self).nestedUnkeyedContainer(forKey: .args)
-
-
-//        while !mutableContainer.isAtEnd {
-//            var arrayContainer = try mutableContainer.nestedUnkeyedContainer()
-//            if let arrayType = First.Type as? Collection.Type {
-//
-//            }
-//            let array: Array<Any> = []
-//            while !arrayContainer.isAtEnd {
-//
-//            }
-//        }
-//        while !container.isAtEnd {
-//
-//        }
-
-        //decoder.container(keyedBy: StorageKeys.self).nestedUnkeyedContainer(forKey: .args)
-//        let firstContainer = try container.nestedContainer(keyedBy: StorageKeys.self)
-//        let secondContainer = try container.nestedContainer(keyedBy: StorageKeys.self)
-//
-//        let firstPrimaryType = try firstContainer.decode(String.self, forKey: .prim).self
-//        if firstPrimaryType == "Pair" {
-//            self.first = try firstContainer.decode(First.self, forKey: .args)
-//        } else {
-//            self.first = try firstContainer.decodeRPC(First.self, forKey: .prim).self
-//        }
-//
-//        let secondPrimaryType = try secondContainer.decode(String.self, forKey: .prim).self
-//        if secondPrimaryType == "Pair" {
-//            self.second = try secondContainer.decode(Second.self, forKey: .args)
-//        } else {
-//            self.second = try secondContainer.decodeRPC(Second.self, forKey: .prim).self
-//        }
+        // Hold container (can't decode it twice)
+        let storageContainer: KeyedDecodingContainer<StorageKeys>?
+        (first, storageContainer) = try mutableContainer.decodeElement()
+        (second, _) = try mutableContainer.decodeElement(previousContainer: storageContainer)
     }
 }
 
-
-
 extension KeyedDecodingContainer {
     func decodeRPC<T>(_ type: T.Type) throws -> T where T : Decodable {
-
-        guard let container = self as? KeyedDecodingContainer<StorageKeys> else {
-            throw TezosError.unsupportedTezosType
-        }
-        print(type)
-        print(type is Bool.Type)
+        let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
+        guard let container = self as? KeyedDecodingContainer<StorageKeys> else { throw DecodingError.dataCorrupted(context) }
         let value: Any
+        // Handle optionals as non-optionals -> they are handled beforehand with "prim": "None"
         switch type {
         case is Int.Type, is Int?.Type:
             value = try container.decodeRPC(Int.self, forKey: .int)
@@ -127,9 +81,7 @@ extension KeyedDecodingContainer {
         default:
             value = try container.decode(T.self, forKey: .prim)
         }
-        guard let unwrappedValue = value as? T else {
-            throw TezosError.unsupportedTezosType
-        }
+        guard let unwrappedValue = value as? T else { throw DecodingError.dataCorrupted(context) }
         return unwrappedValue
     }
 

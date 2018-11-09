@@ -205,7 +205,7 @@ class TezosViewController: UIViewController {
         }
 
         tezosClient.complicatedPairStatus(of: "KT1R5mgZpK7eL7QJ7kmVUzFwX9Kc9FepcUpr") { result in
-            print("Pair status")
+            print("Complicated pair status")
             print(result.value?.storage.arg1)
             print(result.value?.storage.arg2)
             print(result.error)

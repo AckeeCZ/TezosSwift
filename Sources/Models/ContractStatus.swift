@@ -25,7 +25,7 @@ public enum TezosTypeKeys: String, CodingKey {
 
 public enum StorageKeys: String, CodingKey {
     case int
-    case string 
+    case string
     case prim
     case args
 }
@@ -78,9 +78,9 @@ public struct PairContractStatusStorage: Decodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StorageKeys.self)
-        var argsContainer = try container.nestedUnkeyedContainer(forKey: .args)
+        //var argsContainer = try container.nestedUnkeyedContainer(forKey: .args)
 
-        let tezosPair = try argsContainer.decode(TezosPair<Bool, Bool>.self)
+        let tezosPair = try container.decode(TezosPair<Bool, Bool>.self, forKey: .args)
 
         self.arg1 = tezosPair.first
         self.arg2 = tezosPair.second
