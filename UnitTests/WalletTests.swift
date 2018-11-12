@@ -1,5 +1,5 @@
 import XCTest
-import TezosKit
+@testable import TezosSwift
 
 class WalletTests: XCTestCase {
 	private let mnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire praise pill"

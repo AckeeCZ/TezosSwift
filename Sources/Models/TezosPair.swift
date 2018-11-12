@@ -21,15 +21,16 @@ extension UnkeyedDecodingContainer {
         return DecodingError.dataCorrupted(context)
     }
 
-    mutating func decodeElement<T: Decodable>(previousContainer: KeyedDecodingContainer<StorageKeys>? = nil) throws -> (T, KeyedDecodingContainer<StorageKeys>?) {
+    mutating func decodeElement<T: Decodable>(previousContainer: UnkeyedDecodingContainer? = nil) throws -> (T, UnkeyedDecodingContainer?) {
         if var arrayContainer = try? nestedUnkeyedContainer() {
             // Can I generically access generic's element type?
             let genericArray: [Any] = try arrayContainer.decodeRPC([Any].self)
             guard let finalArray = genericArray as? T else { throw TezosError.unsupportedTezosType }
             return (finalArray, nil)
         } else {
-            if let currentContainer = previousContainer {
-                return (try currentContainer.decodeRPC(T.self), currentContainer)
+            if var currentContainer = previousContainer {
+                let container = try currentContainer.nestedContainer(keyedBy: StorageKeys.self)
+                return (try container.decodeRPC(T.self), currentContainer)
             }
             let container = try nestedContainer(keyedBy: StorageKeys.self)
             let primaryType = try container.decode(String.self, forKey: .prim).self
@@ -37,7 +38,7 @@ extension UnkeyedDecodingContainer {
                 // TODO: Check different ways of outputs for some (optional lists?)
                 var mutableSomeContainer = try container.nestedUnkeyedContainer(forKey: .args)
                 let someContainer = try mutableSomeContainer.nestedContainer(keyedBy: StorageKeys.self)
-                return (try someContainer.decodeRPC(T.self), someContainer)
+                return (try someContainer.decodeRPC(T.self), mutableSomeContainer)
             } else {
                 return (try container.decodeRPC(T.self), nil)
             }
@@ -70,7 +71,7 @@ extension TezosPair: Decodable {
     init(from decoder: Decoder) throws {
         var mutableContainer = try decoder.unkeyedContainer()
         // Hold container (can't decode it twice)
-        let storageContainer: KeyedDecodingContainer<StorageKeys>?
+        let storageContainer: UnkeyedDecodingContainer?
         (first, storageContainer) = try mutableContainer.decodeElement()
         (second, _) = try mutableContainer.decodeElement(previousContainer: storageContainer)
     }

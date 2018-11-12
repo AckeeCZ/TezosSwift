@@ -7,7 +7,11 @@ target 'TezosSwift' do
 	pod "SipHash"
 	pod "BigInt"
 
-	target "TezosSwiftTests" do
+	target "UnitTests" do
+    	inherit! :search_paths
+	end
+
+	target "IntegrationTests" do
     	inherit! :search_paths
 	end
 end

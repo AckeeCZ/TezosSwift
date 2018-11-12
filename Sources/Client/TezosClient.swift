@@ -132,7 +132,7 @@ public class TezosClient {
         send(amount: amount, to: address, from: wallet, input: param1, completion: completion)
     }
 
-    public func intStatus(of address: String, completion: @escaping RPCCompletion<StringListContractStatus>) {
+    public func intStatus(of address: String, completion: @escaping RPCCompletion<IntContractStatus>) {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address
         sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
@@ -413,7 +413,6 @@ public class TezosClient {
                 urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 urlRequest.cachePolicy = .reloadIgnoringCacheData
                 urlRequest.httpBody = jsonData
-                print(String(data: jsonData, encoding: .utf8))
             }
             catch let error {
                 completion(.failure(.encryptionFailed(error: error)))

@@ -1,5 +1,5 @@
 import XCTest
-import TezosKit
+@testable import TezosSwift
 
 class MnemonicUtilsTest: XCTestCase {
 	// Mnemonic and Passphrase for tests.
