@@ -1,5 +1,5 @@
 import XCTest
-import TezosKit
+@testable import TezosSwift
 
 class TezosBalanceTest: XCTestCase {
 	public func testHumanReadableRepresentation() {
@@ -9,8 +9,8 @@ class TezosBalanceTest: XCTestCase {
 		}
 		let balanceFromNumber = TezosBalance(balance: 3.50)
 
-		XCTAssertEqual(balanceFromNumber.humanReadableRepresentation, "3.500000 ꜩ")
-		XCTAssertEqual(balanceFromString.humanReadableRepresentation, "3.500000 ꜩ")
+		XCTAssertEqual(balanceFromNumber.humanReadableRepresentation, "3.500000")
+		XCTAssertEqual(balanceFromString.humanReadableRepresentation, "3.500000")
 	}
 
 	public func testRPCRepresentation() {
@@ -34,7 +34,7 @@ class TezosBalanceTest: XCTestCase {
 			XCTFail()
 			return
 		}
-		XCTAssertEqual(balance.humanReadableRepresentation, "0.000035 ꜩ")
+		XCTAssertEqual(balance.humanReadableRepresentation, "0.000035")
 	}
 
 	public func testEquality() {

@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7ABC856021824D58006DE8FD"
-               BuildableName = "TezosSwiftTests.xctest"
-               BlueprintName = "TezosSwiftTests"
+               BuildableName = "UnitTests.xctest"
+               BlueprintName = "UnitTests"
                ReferencedContainer = "container:TezosSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,8 +34,18 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7ABC856021824D58006DE8FD"
-               BuildableName = "TezosSwiftTests.xctest"
-               BlueprintName = "TezosSwiftTests"
+               BuildableName = "UnitTests.xctest"
+               BlueprintName = "UnitTests"
+               ReferencedContainer = "container:TezosSwift.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F84C55842199A06500068596"
+               BuildableName = "IntegrationTests.xctest"
+               BlueprintName = "IntegrationTests"
                ReferencedContainer = "container:TezosSwift.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -44,8 +54,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7ABC856021824D58006DE8FD"
-            BuildableName = "TezosSwiftTests.xctest"
-            BlueprintName = "TezosSwiftTests"
+            BuildableName = "UnitTests.xctest"
+            BlueprintName = "UnitTests"
             ReferencedContainer = "container:TezosSwift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -66,8 +76,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7ABC856021824D58006DE8FD"
-            BuildableName = "TezosSwiftTests.xctest"
-            BlueprintName = "TezosSwiftTests"
+            BuildableName = "UnitTests.xctest"
+            BlueprintName = "UnitTests"
             ReferencedContainer = "container:TezosSwift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -80,15 +90,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7ABC856021824D58006DE8FD"
-            BuildableName = "TezosSwiftTests.xctest"
-            BlueprintName = "TezosSwiftTests"
-            ReferencedContainer = "container:TezosSwift.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

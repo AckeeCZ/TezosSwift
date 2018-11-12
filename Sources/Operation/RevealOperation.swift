@@ -6,12 +6,7 @@ import Foundation
  * Note that TezosKit will automatically inject this operation when required for supported
  * operations.
  */
-public class RevealOperation: AbstractOperation {
-	public override var dictionaryRepresentation: [String: String] {
-		var operation = super.dictionaryRepresentation
-		operation["public_key"] = self.publicKey
-		return operation
-	}
+public class RevealOperation: Operation {
 
 	/** The public key for the address being revealed. */
 	public let publicKey: String
@@ -35,9 +30,19 @@ public class RevealOperation: AbstractOperation {
 		self.publicKey = publicKey
 		super.init(source: address,
 			kind: .reveal,
-			fee: AbstractOperation.zeroTezosBalance,
-			gasLimit: AbstractOperation.zeroTezosBalance,
-			storageLimit: AbstractOperation.zeroTezosBalance)
+			fee: Operation.zeroTezosBalance,
+			gasLimit: Operation.zeroTezosBalance,
+			storageLimit: Operation.zeroTezosBalance)
 	}
-}
 
+    // MARK: Encodable
+    private enum RevealOperationKeys: String, CodingKey {
+        case publicKey = "public_key"
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: RevealOperationKeys.self)
+        try container.encode(publicKey, forKey: .publicKey)
+    }
+}

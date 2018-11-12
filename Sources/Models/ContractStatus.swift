@@ -8,38 +8,155 @@
 
 import Foundation
 
-enum ContractStatusKeys: String, CodingKey {
+public enum ContractStatusKeys: String, CodingKey {
     case balance = "balance"
     case spendable = "spendable"
+    case manager = "manager"
+    case delegate = "delegate"
+    case counter = "counter"
+    case script = "script"
+    case storage = "storage"
 }
 
-public struct ContractStatus {
+public enum TezosTypeKeys: String, CodingKey {
+    case int = "int"
+    case string = "string"
+}
+
+public enum StorageKeys: String, CodingKey {
+    case int
+    case string
+    case prim
+    case args
+}
+
+public struct IntContractStatus: Decodable {
     let balance: TezosBalance
     let spendable: Bool
-}
+    let manager: String
+    let delegate: StatusDelegate
+    let counter: Int
+    let storage: Int
 
-extension ContractStatus: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
-        let balance = try container.decode(TezosBalance.self, forKey: .balance)
-        let spendable = try container.decode(Bool.self, forKey: .spendable)
-        self.init(balance: balance, spendable: spendable)
+        self.balance = try container.decode(TezosBalance.self, forKey: .balance)
+        self.spendable = try container.decode(Bool.self, forKey: .spendable)
+        self.manager = try container.decode(String.self, forKey: .manager)
+        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
+        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
+
+        let storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script).nestedContainer(keyedBy: TezosTypeKeys.self, forKey: .storage)
+        self.storage = try storageContainer.decodeRPC(Int.self, forKey: .int)
     }
 }
 
-extension KeyedDecodingContainer {
-    func decodeRPC(_ type: Int.Type, forKey key: K) throws -> Int {
-        let intString = try decode(String.self, forKey: key)
-        let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
-        guard let decodedInt = Int(intString) else { throw DecodingError.dataCorrupted(context) }
-        return decodedInt
+public struct StringListContractStatus: Decodable {
+    let balance: TezosBalance
+    let spendable: Bool
+    let manager: String
+    let delegate: StatusDelegate
+    let counter: Int
+    let storage: [String]
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: ContractStatusKeys.self)
+        self.balance = try container.decode(TezosBalance.self, forKey: .balance)
+        self.spendable = try container.decode(Bool.self, forKey: .spendable)
+        self.manager = try container.decode(String.self, forKey: .manager)
+        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
+        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
+
+        var storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script).nestedUnkeyedContainer(forKey: .storage)
+        self.storage = try storageContainer.decodeRPC([String].self)
     }
 }
 
+public struct PairContractStatus: Decodable {
+    let balance: TezosBalance
+    let spendable: Bool
+    let manager: String
+    let delegate: StatusDelegate
+    let counter: Int
+    let storage: PairContractStatusStorage
 
-public struct ChainHead: Codable {
-    let chainId: String
-    let hash: String
-    let `protocol`: String
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: ContractStatusKeys.self)
+        self.balance = try container.decode(TezosBalance.self, forKey: .balance)
+        self.spendable = try container.decode(Bool.self, forKey: .spendable)
+        self.manager = try container.decode(String.self, forKey: .manager)
+        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
+        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
+
+        let storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
+        self.storage = try storageContainer.decode(PairContractStatusStorage.self, forKey: .storage)
+    }
 }
 
+public struct PairContractStatusStorage: Decodable {
+    let arg1: Bool
+    let arg2: Bool
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: StorageKeys.self)
+        //var argsContainer = try container.nestedUnkeyedContainer(forKey: .args)
+
+        let tezosPair = try container.decode(TezosPair<Bool, Bool>.self, forKey: .args)
+
+        self.arg1 = tezosPair.first
+        self.arg2 = tezosPair.second
+    }
+}
+
+public struct PairSetBoolContractStatus: Decodable {
+    let balance: TezosBalance
+    let spendable: Bool
+    let manager: String
+    let delegate: StatusDelegate
+    let counter: Int
+    let storage: PairSetBoolContractStatusStorage
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: ContractStatusKeys.self)
+        self.balance = try container.decode(TezosBalance.self, forKey: .balance)
+        self.spendable = try container.decode(Bool.self, forKey: .spendable)
+        self.manager = try container.decode(String.self, forKey: .manager)
+        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
+        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
+
+        let storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
+        self.storage = try storageContainer.decode(PairSetBoolContractStatusStorage.self, forKey: .storage)
+    }
+}
+
+public struct PairSetBoolContractStatusStorage: Decodable {
+    let arg1: [String]
+    let arg2: Bool?
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: StorageKeys.self)
+        //var argsContainer = try container.nestedUnkeyedContainer(forKey: .args)
+
+        let tezosPair = try container.decode(TezosPair<[String], Bool?>.self, forKey: .args)
+
+        self.arg1 = tezosPair.first
+        self.arg2 = tezosPair.second
+    }
+}
+
+public struct ContractStatus: Decodable {
+    let balance: TezosBalance
+    let spendable: Bool
+    let manager: String
+    let delegate: StatusDelegate
+    let counter: Int
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: ContractStatusKeys.self)
+        self.balance = try container.decode(TezosBalance.self, forKey: .balance)
+        self.spendable = try container.decode(Bool.self, forKey: .spendable)
+        self.manager = try container.decode(String.self, forKey: .manager)
+        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
+        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
+    }
+}
