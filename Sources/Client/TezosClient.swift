@@ -1,5 +1,6 @@
 import Foundation
-import Result 
+import Result
+import os
 
 /**
  * TezosClient is the gateway into the Tezos Network.
@@ -69,6 +70,8 @@ public class TezosClient {
 	/** A URL pointing to a remote node that will handle requests made by this client. */
 	private let remoteNodeURL: URL
 
+    private let subsystem = "ackee.tezosSwift.TezosClient"
+
 	/**
    * Initialize a new TezosClient.
    *
@@ -130,6 +133,11 @@ public class TezosClient {
 
     public func call(address: String, param1: Int, from wallet: Wallet, amount: TezosBalance, completion: @escaping RPCCompletion<String>) {
         send(amount: amount, to: address, from: wallet, input: param1, completion: completion)
+    }
+
+    public func call(address: String, param1: Bool, param2: Bool, from wallet: Wallet, amount: TezosBalance, completion: @escaping RPCCompletion<String>) {
+        let input: TezosPair<Bool, Bool> = TezosPair(first: param1, second: param2)
+        send(amount: amount, to: address, from: wallet, input: input, completion: completion)
     }
 
     public func intStatus(of address: String, completion: @escaping RPCCompletion<IntContractStatus>) {
@@ -413,6 +421,9 @@ public class TezosClient {
                 urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 urlRequest.cachePolicy = .reloadIgnoringCacheData
                 urlRequest.httpBody = jsonData
+                let postLog = OSLog(subsystem: subsystem, category: "Post Payload")
+                os_log("Endnode: %@", log: postLog, type: .debug, endpoint)
+                os_log("JSON data payload: %@", log: postLog, type: .debug, String(data: jsonData, encoding: .utf8) ?? "")
             }
             catch let error {
                 completion(.failure(.encryptionFailed(error: error)))

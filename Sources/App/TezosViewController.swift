@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TezosViewController: UIViewController {ě
+class TezosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 

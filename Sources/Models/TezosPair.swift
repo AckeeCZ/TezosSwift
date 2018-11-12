@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TezosPair<T: Decodable, U: Decodable> {
+struct TezosPair<T: Codable, U: Codable> {
     typealias First = T
     typealias Second = U
     let first: First
@@ -77,37 +77,49 @@ extension TezosPair: Decodable {
     }
 }
 
-extension KeyedEncodingContainer {
-    // MARK: Encoding
+extension TezosPair: Encodable {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: StorageKeys.self)
+        try container.encode("Pair", forKey: .prim)
+        var argsContainer = container.nestedUnkeyedContainer(forKey: .args)
+        try argsContainer.encodeRPC(first)
+        try argsContainer.encodeRPC(second)
+    }
 
+//    private func encodeElement<T: Encodable>(_ element: T, container: inout UnkeyedEncodingContainer) throws {
+//        var mutableNestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
+//        try mutableNestedContainer.encodeRPC(element, container: &container)
+//    }
+}
+
+extension UnkeyedEncodingContainer {
     func encodingError(_ value: Any) -> EncodingError {
         let context = EncodingError.Context(codingPath: codingPath, debugDescription: "Encoding failed")
         return EncodingError.invalidValue(value, context)
     }
 
-    // TODO: Rewrite error
+    // TODO: Encode if present when params optionals!
     mutating func encodeRPC<T: Encodable>(_ value: T) throws {
         // TODO: Handle nil values
-        guard var container = self as? KeyedEncodingContainer<StorageKeys> else { throw encodingError(value) }
         switch value.self {
         case is Int:
+            var container = nestedContainer(keyedBy: StorageKeys.self)
             guard let unwrappedValue = value as? Int else { throw encodingError(value) }
             try container.encode("\(unwrappedValue)", forKey: .int)
-            //        case is String:
-            //            value = try container.decode(String.self, forKey: .string)
-            //        case is Bool:
-        //            value = try container.decodeRPC(Bool.self, forKey: .prim)
+        case is Bool:
+            var container = nestedContainer(keyedBy: StorageKeys.self)
+            guard let unwrappedValue = value as? Bool else { throw encodingError(value) }
+            try container.encode("\(unwrappedValue)".capitalized, forKey: .prim)
         default:
-            try container.encode(value, forKey: .prim)
+            try encode(value)
         }
-
-        guard let containerWithKeys = container as? KeyedEncodingContainer<K> else { throw encodingError(container) }
-        self = containerWithKeys
     }
 
-    mutating func encodeRPC(_ value: Int, forKey key: KeyedEncodingContainer<K>.Key) throws {
-
-    }
+//    mutating func encodeRPC(_ value: Bool, forKey key: KeyedEncodingContainer<K>.Key) throws {
+//        if value {
+//            self.encode("True", forKey: .prim)
+//        }
+//    }
 }
 
 extension KeyedDecodingContainer {
@@ -123,6 +135,7 @@ extension KeyedDecodingContainer {
         guard let container = self as? KeyedDecodingContainer<StorageKeys> else { throw decryptionError() }
         let value: Any
         // Handle optionals as non-optionals -> they are handled beforehand with "prim": "None"
+        // TODO: Actually do this
         switch type {
         case is Int.Type, is Int?.Type:
             value = try container.decodeRPC(Int.self, forKey: .int)

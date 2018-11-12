@@ -50,4 +50,20 @@ class ContractCallTests: XCTestCase {
 
         waitForExpectations(timeout: 3, handler: nil)
     }
+
+    func testSendingPairParam() {
+        let testCompletionExpectation = expectation(description: "Sending Tezos with pair param")
+
+        tezosClient.call(address: "KT1Rfr8ywXgj4QmGpvoWuJD4XvFMrFhK7D9m", param1: true, param2: false, from: wallet, amount: TezosBalance(balance: 1), completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                testCompletionExpectation.fulfill()
+            case .success(_):
+                testCompletionExpectation.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3, handler: nil)
+    }
 }

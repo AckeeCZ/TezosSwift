@@ -57,7 +57,7 @@ public class ContractOperation<T: Encodable>: TransactionOperation {
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var parametersContainer = encoder.container(keyedBy: TransactionOperationKeys.self)
-        var container = parametersContainer.nestedContainer(keyedBy: StorageKeys.self, forKey: .parameters)
+        var container = parametersContainer.nestedUnkeyedContainer(forKey: .parameters)
         try container.encodeRPC(input)
     }
 }
