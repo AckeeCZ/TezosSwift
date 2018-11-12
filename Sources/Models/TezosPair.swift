@@ -76,14 +76,50 @@ extension TezosPair: Decodable {
     }
 }
 
+extension KeyedEncodingContainer {
+    // MARK: Encoding
+
+    func encodingError(_ value: Any) -> EncodingError {
+        let context = EncodingError.Context(codingPath: codingPath, debugDescription: "Encoding failed")
+        return EncodingError.invalidValue(value, context)
+    }
+
+    // TODO: Rewrite error
+    mutating func encodeRPC<T: Encodable>(_ value: T) throws {
+        // TODO: Handle nil values
+        guard var container = self as? KeyedEncodingContainer<StorageKeys> else { throw encodingError(value) }
+        switch value.self {
+        case is Int:
+            guard let unwrappedValue = value as? Int else { throw encodingError(value) }
+            try container.encode("\(unwrappedValue)", forKey: .int)
+            //        case is String:
+            //            value = try container.decode(String.self, forKey: .string)
+            //        case is Bool:
+        //            value = try container.decodeRPC(Bool.self, forKey: .prim)
+        default:
+            try container.encode(value, forKey: .prim)
+        }
+
+        guard let containerWithKeys = container as? KeyedEncodingContainer<K> else { throw encodingError(container) }
+        self = containerWithKeys
+    }
+
+    mutating func encodeRPC(_ value: Int, forKey key: KeyedEncodingContainer<K>.Key) throws {
+
+    }
+}
+
 extension KeyedDecodingContainer {
-    func corruptedError() -> DecodingError {
+
+    // MARK: Decoding
+
+    func decryptionError() -> DecodingError {
         let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
         return DecodingError.dataCorrupted(context)
     }
 
     func decodeRPC<T>(_ type: T.Type) throws -> T where T : Decodable {
-        guard let container = self as? KeyedDecodingContainer<StorageKeys> else { throw corruptedError() }
+        guard let container = self as? KeyedDecodingContainer<StorageKeys> else { throw decryptionError() }
         let value: Any
         // Handle optionals as non-optionals -> they are handled beforehand with "prim": "None"
         switch type {
@@ -96,20 +132,20 @@ extension KeyedDecodingContainer {
         default:
             value = try container.decode(T.self, forKey: .prim)
         }
-        guard let unwrappedValue = value as? T else { throw corruptedError() }
+        guard let unwrappedValue = value as? T else { throw decryptionError() }
         return unwrappedValue
     }
 
     func decodeRPC<T: Decodable>(_ type: [T].Type, forKey key: K) throws -> T {
         var arrayContainer = try nestedUnkeyedContainer(forKey: key)
         let genericArray: [Any] = try arrayContainer.decodeRPC([Any].self)
-        guard let finalArray = genericArray as? T else { throw corruptedError() }
+        guard let finalArray = genericArray as? T else { throw decryptionError() }
         return finalArray
     }
 
     func decodeRPC(_ type: Int.Type, forKey key: K) throws -> Int {
         let intString = try decode(String.self, forKey: key)
-        guard let decodedInt = Int(intString) else { throw corruptedError() }
+        guard let decodedInt = Int(intString) else { throw decryptionError() }
         return decodedInt
     }
 
@@ -118,7 +154,7 @@ extension KeyedDecodingContainer {
         switch boolString {
         case "True": return true
         case "False": return false
-        default: throw corruptedError()
+        default: throw decryptionError()
         }
     }
 }

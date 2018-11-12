@@ -161,6 +161,12 @@ class TezosViewController: UIViewController {
 //            print(wallet.address)
 //            print(wallet.keys.publicKey)
 //        })
+
+        tezosClient.call(address: "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9", param1: 10, from: wallet, amount: TezosBalance(balance: 1), completion: { result in
+            print("CALL:")
+            print(result.value)
+            print(result.error)
+        })
     }
 
     private func testAddressRPCs() {
@@ -191,24 +197,24 @@ class TezosViewController: UIViewController {
 //            print(result.error)
 //        })
 //
-        tezosClient.intStatus(of: "KT1E9795k5yXPV7P7nhoHXtwvaaDo7dNcHC3", completion: { result in
-            print("Int status:")
-            print(result.value?.storage)
-            print(result.error)
-        })
-
-        tezosClient.pairStatus(of: "KT1VMgRT1wcPLcBxeskaXvGYdWqxPPXLz6sp") { result in
-            print("Pair status")
-            print(result.value?.storage.arg1)
-            print(result.value?.storage.arg2)
-            print(result.error)
-        }
-
-        tezosClient.complicatedPairStatus(of: "KT1R5mgZpK7eL7QJ7kmVUzFwX9Kc9FepcUpr") { result in
-            print("Complicated pair status")
-            print(result.value?.storage.arg1)
-            print(result.value?.storage.arg2)
-            print(result.error)
-        }
+//        tezosClient.intStatus(of: "KT1E9795k5yXPV7P7nhoHXtwvaaDo7dNcHC3", completion: { result in
+//            print("Int status:")
+//            print(result.value?.storage)
+//            print(result.error)
+//        })
+//
+//        tezosClient.pairStatus(of: "KT1VMgRT1wcPLcBxeskaXvGYdWqxPPXLz6sp") { result in
+//            print("Pair status")
+//            print(result.value?.storage.arg1)
+//            print(result.value?.storage.arg2)
+//            print(result.error)
+//        }
+//
+//        tezosClient.complicatedPairStatus(of: "KT1R5mgZpK7eL7QJ7kmVUzFwX9Kc9FepcUpr") { result in
+//            print("Complicated pair status")
+//            print(result.value?.storage.arg1)
+//            print(result.value?.storage.arg2)
+//            print(result.error)
+//        }
     }
 }

@@ -14,4 +14,5 @@ public enum TezosError: Error {
     case jsonSigningFailed
     case invalidNode
     case unsupportedTezosType
+    case encryptionFailed(error: Error)
 }

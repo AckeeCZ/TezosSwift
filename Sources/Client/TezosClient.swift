@@ -91,11 +91,8 @@ public class TezosClient {
 
     /** Retrieve data about the chain head. */
     public func chainHead(completion: @escaping RPCCompletion<ChainHead>) {
-        let rpcCompletion: (RPCCompletion<ChainHead>) = { result in
-            completion(result)
-        }
         let endpoint = "/chains/main/blocks/head"
-        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+        sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     public struct ManagerKey: Codable {
@@ -104,11 +101,8 @@ public class TezosClient {
     }
 
     public func managerAddressKey(of address: String, completion: @escaping RPCCompletion<ManagerKey>) {
-        let rpcCompletion: (RPCCompletion<ManagerKey>) = { result in
-            completion(result)
-        }
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/manager_key"
-        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+        sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     /** Retrieve the balance of a given address. */
@@ -126,84 +120,49 @@ public class TezosClient {
         sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 
-    // TODO: Rewrite
+    // TODO: Rewrite!!!!!!!
     // testContract(at: address).status().storage
     // func status() -> ContractStatus
     // testContract(at: address).send(amount, params: [])
+    // testContract(at: ).call(params:).send(amount, keys)
 
     // TODO: Delete
 
+    public func call(address: String, param1: Int, from wallet: Wallet, amount: TezosBalance, completion: @escaping RPCCompletion<String>) {
+        send(amount: amount, to: address, from: wallet, input: param1, completion: completion)
+    }
+
     public func intStatus(of address: String, completion: @escaping RPCCompletion<StringListContractStatus>) {
-        let rpcCompletion: (RPCCompletion<StringListContractStatus>) = { result in
-            completion(result)
-        }
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address
-        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+        sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     public func pairStatus(of address: String, completion: @escaping RPCCompletion<PairContractStatus>) {
-        let rpcCompletion: (RPCCompletion<PairContractStatus>) = { result in
-            completion(result)
-        }
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address
-        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+        sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     public func complicatedPairStatus(of address: String, completion: @escaping RPCCompletion<PairSetBoolContractStatus>) {
-        let rpcCompletion: (RPCCompletion<PairSetBoolContractStatus>) = { result in
-            completion(result)
-        }
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address
-        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+        sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
-//    public func storage(of address: String, completion: @escaping RPCCompletion<String>) {
-//        let rpcCompletion: (RPCCompletion<String>) = { result in
-//            completion(result)
-//        }
-//        let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/delegate"
-//        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
-//    }
 
     /** Retrieve the address counter for the given address. */
     public func status(of address: String, completion: @escaping RPCCompletion<ContractStatus>) {
-        let rpcCompletion: (RPCCompletion<ContractStatus>) = { result in
-            completion(result)
-        }
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address
-        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+        sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     /** Retrieve the delegate of a given address. */
     public func delegate(of address: String, completion: @escaping RPCCompletion<String>) {
-        let rpcCompletion: (RPCCompletion<String>) = { result in
-            completion(result)
-        }
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/delegate"
-        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+        sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     /** Retrieve the address counter for the given address. */
     public func counter(of address: String, completion: @escaping RPCCompletion<Int>) {
-        let rpcCompletion: (RPCCompletion<Int>) = { result in
-            completion(result)
-        }
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/counter"
-        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
-    }
-
-    // TODO: Rewrite into something like:
-    // testContract(at: ).call(params:).send(amount, keys)
-    public func send(amount: TezosBalance,
-                     to recipientAddress: String,
-                     from source: String,
-                     keys: Keys,
-                     completion: @escaping RPCCompletion<String>) {
-        let transactionOperation =
-            TransactionOperation(amount: amount, source: source, destination: recipientAddress)
-        forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
-                                            source: source,
-                                            keys: keys,
-                                            completion: completion)
+        sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
 	/**
@@ -216,12 +175,26 @@ public class TezosClient {
    * @param completion A completion block which will be called with a string representing the
    *        transaction ID hash if the operation was successful.
    */
-	public func send(amount: TezosBalance,
+    public func send(amount: TezosBalance,
+                                   to recipientAddress: String,
+                                   from wallet: Wallet,
+                                   completion: @escaping RPCCompletion<String>) {
+        let transactionOperation =
+            TransactionOperation(amount: amount, source: wallet.address, destination: recipientAddress)
+        forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
+                                            source: wallet.address,
+                                            keys: wallet.keys,
+                                            completion: completion)
+    }
+
+
+    public func send<T: Encodable>(amount: TezosBalance,
 		to recipientAddress: String,
         from wallet: Wallet,
+        input: T,
 		completion: @escaping RPCCompletion<String>) {
 		let transactionOperation =
-			TransactionOperation(amount: amount, source: wallet.address, destination: recipientAddress)
+            ContractOperation(amount: amount, source: wallet.address, destination: recipientAddress, input: input)
 		forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
 			source: wallet.address,
 			keys: wallet.keys,
@@ -420,7 +393,6 @@ public class TezosClient {
    * Send an RPC as a GET or POST request.
    */
     public func sendRPC<T: Decodable>(endpoint: String, method: HTTPMethod = .get, payload: Encodable? = nil, completion: @escaping RPCCompletion<T>) {
-
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else {
             completion(.failure(.invalidNode))
             return
@@ -429,14 +401,24 @@ public class TezosClient {
         var urlRequest = URLRequest(url: remoteNodeEndpoint)
 
         if method == .post {
-            guard let jsonData = payload?.toJSONData() ?? (payload as? String)?.data(using: .utf8) else {
-                completion(.failure(.unexpectedRequestFormat(message: "POST RPC")))
+            do {
+                guard let payload = payload else { return }
+                let jsonData: Data
+                if let stringPayload = payload as? String, let stringData = stringPayload.data(using: .utf8) {
+                    jsonData = stringData
+                } else {
+                    jsonData = try payload.toJSONData()
+                }
+                urlRequest.httpMethod = "POST"
+                urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                urlRequest.cachePolicy = .reloadIgnoringCacheData
+                urlRequest.httpBody = jsonData
+                print(String(data: jsonData, encoding: .utf8))
+            }
+            catch let error {
+                completion(.failure(.encryptionFailed(error: error)))
                 return
             }
-            urlRequest.httpMethod = "POST"
-            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            urlRequest.cachePolicy = .reloadIgnoringCacheData
-            urlRequest.httpBody = jsonData
         }
 
         let request = urlSession.dataTask(with: urlRequest) { (data, response, error) in
@@ -568,7 +550,7 @@ private extension String {
 
 // Taken from: https://stackoverflow.com/questions/51058292/why-can-not-use-protocol-encodable-as-a-type-in-the-func#51058460
 extension Encodable {
-    func toJSONData() -> Data? {
-        return try? JSONEncoder().encode(self)
+    func toJSONData() throws -> Data {
+        return try JSONEncoder().encode(self)
     }
 }

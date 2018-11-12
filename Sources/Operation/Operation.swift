@@ -47,6 +47,7 @@ public class Operation: Encodable {
         case gasLimit = "gas_limit"
         case fee = "fee"
         case source = "source"
+        case parameters = "parameters"
     }
 
     public func encode(to encoder: Encoder) throws {
