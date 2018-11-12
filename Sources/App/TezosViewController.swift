@@ -191,11 +191,11 @@ class TezosViewController: UIViewController {
 //            print(result.error)
 //        })
 //
-//        tezosClient.intStatus(of: address, completion: { result in
-//            print("Int status:")
-//            print(result.value?.storage)
-//            print(result.error)
-//        })
+        tezosClient.intStatus(of: "KT1E9795k5yXPV7P7nhoHXtwvaaDo7dNcHC3", completion: { result in
+            print("Int status:")
+            print(result.value?.storage)
+            print(result.error)
+        })
 
         tezosClient.pairStatus(of: "KT1VMgRT1wcPLcBxeskaXvGYdWqxPPXLz6sp") { result in
             print("Pair status")

@@ -51,6 +51,27 @@ public struct IntContractStatus: Decodable {
     }
 }
 
+public struct StringListContractStatus: Decodable {
+    let balance: TezosBalance
+    let spendable: Bool
+    let manager: String
+    let delegate: StatusDelegate
+    let counter: Int
+    let storage: [String]
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: ContractStatusKeys.self)
+        self.balance = try container.decode(TezosBalance.self, forKey: .balance)
+        self.spendable = try container.decode(Bool.self, forKey: .spendable)
+        self.manager = try container.decode(String.self, forKey: .manager)
+        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
+        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
+
+        var storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script).nestedUnkeyedContainer(forKey: .storage)
+        self.storage = try storageContainer.decodeRPC([String].self)
+    }
+}
+
 public struct PairContractStatus: Decodable {
     let balance: TezosBalance
     let spendable: Bool

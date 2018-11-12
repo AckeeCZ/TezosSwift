@@ -16,25 +16,15 @@ struct TezosPair<T: Decodable, U: Decodable> {
 }
 
 extension UnkeyedDecodingContainer {
+    func corruptedError() -> DecodingError {
+        let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
+        return DecodingError.dataCorrupted(context)
+    }
+
     mutating func decodeElement<T: Decodable>(previousContainer: KeyedDecodingContainer<StorageKeys>? = nil) throws -> (T, KeyedDecodingContainer<StorageKeys>?) {
         if var arrayContainer = try? nestedUnkeyedContainer() {
-            // TODO: Generically access generic's element?
-            var genericArray: [Any] = []
-
-            while !arrayContainer.isAtEnd {
-                let container = try arrayContainer.nestedContainer(keyedBy: StorageKeys.self)
-                // TODO: Maybe refactor it to decodeRPC ? (what about prims, though)
-                let value: Any
-                if container.contains(.int) {
-                    value = try container.decodeRPC(Int.self)
-                } else if container.contains(.string) {
-                    value = try container.decodeRPC(String.self)
-                } else {
-                    value = try container.decodeRPC(Bool.self)
-                }
-                genericArray.append(value)
-            }
-
+            // Can I generically access generic's element type?
+            let genericArray: [Any] = try arrayContainer.decodeRPC([Any].self)
             guard let finalArray = genericArray as? T else { throw TezosError.unsupportedTezosType }
             return (finalArray, nil)
         } else {
@@ -53,6 +43,27 @@ extension UnkeyedDecodingContainer {
             }
         }
     }
+
+    // TODO: Use array decoding from decodeElement() function
+    mutating func decodeRPC<T>(_ type: [T].Type) throws -> [T] {
+        var genericArray: [Any] = []
+
+        while !isAtEnd {
+            let container = try nestedContainer(keyedBy: StorageKeys.self)
+            // TODO: Maybe refactor it to decodeRPC ? (what about prims, though)
+            let value: Any
+            if container.contains(.int) {
+                value = try container.decodeRPC(Int.self)
+            } else if container.contains(.string) {
+                value = try container.decodeRPC(String.self)
+            } else {
+                value = try container.decodeRPC(Bool.self)
+            }
+            genericArray.append(value)
+        }
+        guard let finalArray = genericArray as? [T] else { throw corruptedError() }
+        return finalArray
+    }
 }
 
 extension TezosPair: Decodable {
@@ -66,9 +77,13 @@ extension TezosPair: Decodable {
 }
 
 extension KeyedDecodingContainer {
-    func decodeRPC<T>(_ type: T.Type) throws -> T where T : Decodable {
+    func corruptedError() -> DecodingError {
         let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
-        guard let container = self as? KeyedDecodingContainer<StorageKeys> else { throw DecodingError.dataCorrupted(context) }
+        return DecodingError.dataCorrupted(context)
+    }
+
+    func decodeRPC<T>(_ type: T.Type) throws -> T where T : Decodable {
+        guard let container = self as? KeyedDecodingContainer<StorageKeys> else { throw corruptedError() }
         let value: Any
         // Handle optionals as non-optionals -> they are handled beforehand with "prim": "None"
         switch type {
@@ -81,24 +96,29 @@ extension KeyedDecodingContainer {
         default:
             value = try container.decode(T.self, forKey: .prim)
         }
-        guard let unwrappedValue = value as? T else { throw DecodingError.dataCorrupted(context) }
+        guard let unwrappedValue = value as? T else { throw corruptedError() }
         return unwrappedValue
+    }
+
+    func decodeRPC<T: Decodable>(_ type: [T].Type, forKey key: K) throws -> T {
+        var arrayContainer = try nestedUnkeyedContainer(forKey: key)
+        let genericArray: [Any] = try arrayContainer.decodeRPC([Any].self)
+        guard let finalArray = genericArray as? T else { throw corruptedError() }
+        return finalArray
     }
 
     func decodeRPC(_ type: Int.Type, forKey key: K) throws -> Int {
         let intString = try decode(String.self, forKey: key)
-        let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
-        guard let decodedInt = Int(intString) else { throw DecodingError.dataCorrupted(context) }
+        guard let decodedInt = Int(intString) else { throw corruptedError() }
         return decodedInt
     }
 
     func decodeRPC(_ type: Bool.Type, forKey key: K) throws -> Bool {
         let boolString = try decode(String.self, forKey: key)
-        let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
         switch boolString {
         case "True": return true
         case "False": return false
-        default: throw DecodingError.dataCorrupted(context)
+        default: throw corruptedError()
         }
     }
 }

@@ -133,8 +133,8 @@ public class TezosClient {
 
     // TODO: Delete
 
-    public func intStatus(of address: String, completion: @escaping RPCCompletion<IntContractStatus>) {
-        let rpcCompletion: (RPCCompletion<IntContractStatus>) = { result in
+    public func intStatus(of address: String, completion: @escaping RPCCompletion<StringListContractStatus>) {
+        let rpcCompletion: (RPCCompletion<StringListContractStatus>) = { result in
             completion(result)
         }
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address
