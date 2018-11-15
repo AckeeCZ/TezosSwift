@@ -89,11 +89,17 @@ extension TezosPair: Encodable {
 
 protocol RPCEncodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws
 }
 
 extension Collection where Element: Encodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedUnkeyedContainer(forKey: key)
+        try forEach { try nestedContainer.encodeRPC($0) }
+    }
+
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+        var nestedContainer = container.nestedUnkeyedContainer()
         try forEach { try nestedContainer.encodeRPC($0) }
     }
 }
@@ -103,11 +109,21 @@ extension Int: RPCEncodable {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
         try nestedContainer.encode("\(self)", forKey: .int)
     }
+
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
+        try nestedContainer.encode("\(self)", forKey: .int)
+    }
 }
 
 extension String: RPCEncodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
+        try nestedContainer.encode(self, forKey: .string)
+    }
+
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
         try nestedContainer.encode(self, forKey: .string)
     }
 }
@@ -117,11 +133,21 @@ extension Bool: RPCEncodable {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
         try nestedContainer.encode("\(self)".capitalized, forKey: .prim)
     }
+
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
+        try nestedContainer.encode("\(self)".capitalized, forKey: .prim)
+    }
 }
 
 extension Data: RPCEncodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
+        try nestedContainer.encode(self, forKey: .bytes)
+    }
+
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
         try nestedContainer.encode(self, forKey: .bytes)
     }
 }
@@ -142,71 +168,13 @@ extension UnkeyedEncodingContainer {
         return EncodingError.invalidValue(value, context)
     }
 
-    mutating func encodeRPC(_ value: String) throws {
-        var container = nestedContainer(keyedBy: StorageKeys.self)
-        try container.encode(value, forKey: .string)
-    }
-
-    mutating func encodeRPC(_ value: Int) throws {
-        var container = nestedContainer(keyedBy: StorageKeys.self)
-        try container.encode("\(value)", forKey: .int)
-    }
-
-    mutating func encodeRPC(_ value: Bool) throws {
-        var container = nestedContainer(keyedBy: StorageKeys.self)
-        try container.encode("\(value)".capitalized, forKey: .prim)
-    }
-
-    mutating func encodeRPC(_ value: Data) throws {
-        var container = nestedContainer(keyedBy: StorageKeys.self)
-        try container.encode(value, forKey: .bytes)
-    }
-
     // TODO: Encode if present when params optionals!
     mutating func encodeRPC<T: Encodable>(_ value: T) throws {
-        if let unwrappedValue = value as? Int {
-            try encodeRPC(unwrappedValue)
-        } else if let unwrappedValue = value as? Bool {
-            try encodeRPC(unwrappedValue)
-        } else if let unwrappedValue = value as? String {
-            try encodeRPC(unwrappedValue)
-        } else if let unwrappedValue = value as? Data {
-            try encodeRPC(unwrappedValue)
-            // TODO: How to AnySequence<Encodable>?
-        } else if let unwrappedValue = value as? AnySequence<Int> {
-            var nestedContainer = nestedUnkeyedContainer()
-            try unwrappedValue.forEach { try nestedContainer.encodeRPC($0) }
-        } else if let unwrappedValue = value as? Set<Int> {
-            var nestedContainer = nestedUnkeyedContainer()
-            try unwrappedValue.forEach { try nestedContainer.encodeRPC($0) }
-        } else if let unwrappedValue = value as? AnySequence<Bool> {
-            try unwrappedValue.forEach { try self.encodeRPC($0) }
-        } else if let unwrappedValue = value as? AnySequence<String> {
-            try unwrappedValue.forEach { try self.encodeRPC($0) }
-        } else if let unwrappedValue = value as? AnySequence<Data> {
-            try unwrappedValue.forEach { try self.encodeRPC($0) }
+        if let unwrappedValue = value as? RPCEncodable {
+            try unwrappedValue.encodeRPC(in: &self)
         } else {
             try encode(value)
         }
-        // TODO: Handle nil values
-//        switch value {
-//        case is AnySequence<Encodable>:
-//            guard let unwrappedValue = value as? AnySequence<Encodable> else { throw encodingError(value) }
-//            try encodeRPC(unwrappedValue)
-//        case is Int:
-//            guard let unwrappedValue = value as? Int else { throw encodingError(value) }
-//            try encodeRPC(unwrappedValue)
-//        case is Bool:
-//            var container = nestedContainer(keyedBy: StorageKeys.self)
-//            guard let unwrappedValue = value as? Bool else { throw encodingError(value) }
-//            try container.encode("\(unwrappedValue)".capitalized, forKey: .prim)
-//        case is Data:
-//            var container = nestedContainer(keyedBy: StorageKeys.self)
-//            guard let unwrappedValue = value as? Data else { throw encodingError(value) }
-//            try container.encode(unwrappedValue, forKey: .bytes)
-//        default:
-//            try encode(value)
-//        }
     }
 }
 
