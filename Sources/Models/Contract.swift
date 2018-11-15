@@ -45,6 +45,11 @@ struct TestContractBox {
 
         return ContractMethodInvocation(send: send)
     }
+
+    public func status(completion: @escaping RPCCompletion<IntContractStatus>) {
+        let endpoint = "/chains/main/blocks/head/context/contracts/" + at
+        tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
+    }
 }
 
 extension TezosClient {

@@ -17,7 +17,7 @@ class ContractStorageTests: XCTestCase {
 
     func testIntStatus() {
         let testStatusExpectation = expectation(description: "Int status")
-        tezosClient.intStatus(of: "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9", completion: { result in
+        tezosClient.testContract(at: "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9").status(completion: { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")

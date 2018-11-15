@@ -130,7 +130,6 @@ public class TezosClient {
     // testContract(at: ).call(params:).send(amount, keys)
 
     // TODO: Delete
-
     public func call(address: String, param1: Int, from wallet: Wallet, amount: TezosBalance, completion: @escaping RPCCompletion<String>) {
         send(amount: amount, to: address, from: wallet, input: param1, completion: completion)
     }
