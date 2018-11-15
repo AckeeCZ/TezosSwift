@@ -28,6 +28,7 @@ public enum StorageKeys: String, CodingKey {
     case string
     case prim
     case args
+    case bytes
 }
 
 public struct IntContractStatus: Decodable {

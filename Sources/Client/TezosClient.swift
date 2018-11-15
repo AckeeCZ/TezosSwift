@@ -140,6 +140,17 @@ public class TezosClient {
         send(amount: amount, to: address, from: wallet, input: input, completion: completion)
     }
 
+    // TODO: Suport UInt (nat)
+    //(pair (pair (pair string (list int)) (set nat)) bytes),
+    public func call(address: String, param1: String, param2: [Int], param3: Set<Int>, param4: Data, from wallet: Wallet, amount: TezosBalance, completion: @escaping RPCCompletion<String>) {
+        let input: TezosPair<TezosPair<TezosPair<String, [Int]>, Set<Int>>, Data> = TezosPair(first: TezosPair(first: TezosPair(first: param1, second: param2), second: param3), second: param4)
+        send(amount: amount, to: address, from: wallet, input: input, completion: completion)
+    }
+
+    public func call(address: String, param1: Data, from wallet: Wallet, amount: TezosBalance, completion: @escaping RPCCompletion<String>) {
+        send(amount: amount, to: address, from: wallet, input: param1, completion: completion)
+    }
+
     public func intStatus(of address: String, completion: @escaping RPCCompletion<IntContractStatus>) {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address
         sendRPC(endpoint: endpoint, method: .get, completion: completion)

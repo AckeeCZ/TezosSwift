@@ -19,6 +19,8 @@ class ContractCallTests: XCTestCase {
         wallet = Wallet(mnemonic: mnemonic)!
     }
 
+    // TODO: Change calling of these calls, so the counter does not conflict
+    // These calls have to be executed individually for now
     func testSendingTezos() {
         let testCompletionExpectation = expectation(description: "Sending Tezos")
 
@@ -55,6 +57,37 @@ class ContractCallTests: XCTestCase {
         let testCompletionExpectation = expectation(description: "Sending Tezos with pair param")
 
         tezosClient.call(address: "KT1Rfr8ywXgj4QmGpvoWuJD4XvFMrFhK7D9m", param1: true, param2: false, from: wallet, amount: TezosBalance(balance: 1), completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                testCompletionExpectation.fulfill()
+            case .success(_):
+                testCompletionExpectation.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3, handler: nil)
+    }
+
+    func testSendingBytes() {
+        let testCompletionExpectation = expectation(description: "Sending Tezos with bytes")
+        tezosClient.call(address: "KT1Hbpgho8jUJp6AY2dh1pq61u7b2in1f9DA", param1: "hello".data(using: .utf8)!, from: wallet, amount: TezosBalance(balance: 1), completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                testCompletionExpectation.fulfill()
+            case .success(_):
+                testCompletionExpectation.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3, handler: nil)
+    }
+
+    func testPackUnpack() {
+        let testCompletionExpectation = expectation(description: "Sending Tezos to PackUnpack contract")
+
+        tezosClient.call(address: "KT1F2aWqKZ8FSmFsTnkUW2wHgNtsRp4nnCEC", param1: "hello", param2: [1, 2], param3: [3, 4], param4: "hello".data(using: String.Encoding.ascii)!, from: wallet, amount: TezosBalance(balance: 1), completion: { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
