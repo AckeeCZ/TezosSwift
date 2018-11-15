@@ -90,9 +90,22 @@ extension TezosPair: Encodable {
 protocol RPCEncodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws
     func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws
+//    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws
 }
 
-extension Collection where Element: Encodable {
+extension Array: RPCEncodable where Element: Encodable {
+    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+        var nestedContainer = container.nestedUnkeyedContainer(forKey: key)
+        try forEach { try nestedContainer.encodeRPC($0) }
+    }
+
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+        var nestedContainer = container.nestedUnkeyedContainer()
+        try forEach { try nestedContainer.encodeRPC($0) }
+    }
+}
+
+extension Set: RPCEncodable where Element: Encodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedUnkeyedContainer(forKey: key)
         try forEach { try nestedContainer.encodeRPC($0) }

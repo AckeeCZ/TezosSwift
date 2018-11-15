@@ -42,6 +42,7 @@
 		F8633607219497C200896B6A /* TezosPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633606219497C200896B6A /* TezosPair.swift */; };
 		F8633AA62188884100B6566B /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633AA52188884100B6566B /* Secret.swift */; };
 		F8633AF6218B260100B6566B /* ContractStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633AF5218B260100B6566B /* ContractStatus.swift */; };
+		F8B23A0B219DDAA9009657F2 /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B23A0A219DDAA9009657F2 /* Contract.swift */; };
 		F8B6AE6D21909A5400356B05 /* OperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B6AE6C21909A5400356B05 /* OperationPayload.swift */; };
 		F8B6AE6F21909A6900356B05 /* SignedOperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B6AE6E21909A6900356B05 /* SignedOperationPayload.swift */; };
 		F8B6AE7121909ABC00356B05 /* ChainHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B6AE7021909ABC00356B05 /* ChainHead.swift */; };
@@ -122,6 +123,7 @@
 		F8633606219497C200896B6A /* TezosPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosPair.swift; sourceTree = "<group>"; };
 		F8633AA52188884100B6566B /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		F8633AF5218B260100B6566B /* ContractStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStatus.swift; sourceTree = "<group>"; };
+		F8B23A0A219DDAA9009657F2 /* Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contract.swift; sourceTree = "<group>"; };
 		F8B6AE6C21909A5400356B05 /* OperationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationPayload.swift; sourceTree = "<group>"; };
 		F8B6AE6E21909A6900356B05 /* SignedOperationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedOperationPayload.swift; sourceTree = "<group>"; };
 		F8B6AE7021909ABC00356B05 /* ChainHead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainHead.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				F8B6AE6E21909A6900356B05 /* SignedOperationPayload.swift */,
 				F8B6AE7021909ABC00356B05 /* ChainHead.swift */,
 				F8633604219497AC00896B6A /* StatusDelegate.swift */,
+				F8B23A0A219DDAA9009657F2 /* Contract.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				7AA8F36E2160211800C05895 /* TezosError.swift in Sources */,
 				7AA9582F217CB6F700865D55 /* MnemonicUtil.swift in Sources */,
 				F8633AA62188884100B6566B /* Secret.swift in Sources */,
+				F8B23A0B219DDAA9009657F2 /* Contract.swift in Sources */,
 				7AA95836217CB80A00865D55 /* TransactionOperation.swift in Sources */,
 				7ABC8547217E73E1006DE8FD /* RegisterDelegateOperation.swift in Sources */,
 				7AA8F35A2160158000C05895 /* AppDelegate.swift in Sources */,
