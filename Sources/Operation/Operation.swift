@@ -8,16 +8,16 @@ import Foundation
 
 public class Operation: Encodable {
 	/** A Tezos balance representing 0. */
-	public static let zeroTezosBalance = TezosBalance(balance: "0")!
+	public static let zeroTez = Tez(0)
 
 	/** A Tezos balance that is the default used for gas and storage limits. */
-	public static let defaultLimitTezosBalance = TezosBalance(balance: "10000")!
+	public static let defaultLimitTez = Tez(0.001)
 
 	public let source: String
 	public let kind: OperationKind
-	public let fee: TezosBalance
-	public let gasLimit: TezosBalance
-	public let storageLimit: TezosBalance
+	public let fee: Tez
+	public let gasLimit: Tez
+	public let storageLimit: Tez
 	public var requiresReveal: Bool {
 		switch self.kind {
 		case .delegation, .transaction, .origination:
@@ -30,9 +30,9 @@ public class Operation: Encodable {
 
 	public init(source: String,
 		kind: OperationKind,
-		fee: TezosBalance = Operation.zeroTezosBalance,
-		gasLimit: TezosBalance = Operation.defaultLimitTezosBalance,
-		storageLimit: TezosBalance = Operation.defaultLimitTezosBalance) {
+		fee: Tez = Operation.zeroTez,
+		gasLimit: Tez = Operation.defaultLimitTez,
+		storageLimit: Tez = Operation.defaultLimitTez) {
 		self.source = source
 		self.kind = kind
 		self.fee = fee

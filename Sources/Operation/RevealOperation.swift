@@ -30,9 +30,9 @@ public class RevealOperation: Operation {
 		self.publicKey = publicKey
 		super.init(source: address,
 			kind: .reveal,
-			fee: Operation.zeroTezosBalance,
-			gasLimit: Operation.zeroTezosBalance,
-			storageLimit: Operation.zeroTezosBalance)
+			fee: Operation.zeroTez,
+			gasLimit: Operation.zeroTez,
+			storageLimit: Operation.zeroTez)
 	}
 
     // MARK: Encodable

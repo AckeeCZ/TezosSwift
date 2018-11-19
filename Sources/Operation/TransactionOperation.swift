@@ -2,7 +2,7 @@ import Foundation
 
 /** An operation to transact XTZ between addresses. */
 public class TransactionOperation: Operation {
-	private let amount: TezosBalance
+	private let amount: Tez
 	private let destination: String
 
 	/**
@@ -10,7 +10,7 @@ public class TransactionOperation: Operation {
    * @param source The wallet that is sending the XTZ.
    * @param to The address that is receiving the XTZ.
    */
-    public convenience init(amount: TezosBalance, source: Wallet, destination: String) {
+    public convenience init(amount: Tez, source: Wallet, destination: String) {
         self.init(amount: amount, source: source.address, destination: destination)
 	}
 
@@ -19,7 +19,7 @@ public class TransactionOperation: Operation {
    * @param from The address that is sending the XTZ.
    * @param to The address that is receiving the XTZ.
    */
-    public init(amount: TezosBalance, source: String, destination: String) {
+    public init(amount: Tez, source: String, destination: String) {
 		self.amount = amount
 		self.destination = destination
 
@@ -44,11 +44,11 @@ public class TransactionOperation: Operation {
 public class ContractOperation<T: Encodable>: TransactionOperation {
     private let input: T?
 
-    convenience init(amount: TezosBalance, source: Wallet, destination: String, input: T? = nil) {
+    convenience init(amount: Tez, source: Wallet, destination: String, input: T? = nil) {
         self.init(amount: amount, source: source.address, destination: destination, input: input)
     }
 
-    init(amount: TezosBalance, source: String, destination: String, input: T? = nil) {
+    init(amount: Tez, source: String, destination: String, input: T? = nil) {
         self.input = input
 
         super.init(amount: amount, source: source, destination: destination)

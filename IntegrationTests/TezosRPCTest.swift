@@ -57,7 +57,7 @@ class TezosRPCTest: XCTestCase {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
             case .success(let value):
-                XCTAssertEqual(value.balance, TezosBalance(balance: 1.23))
+                XCTAssertEqual(value.balance, Tez(1.23))
                 XCTAssertEqual(value.manager, self.defaultPassiveAddress)
                 XCTAssert(value.spendable)
                 testStatusExpectation.fulfill()
