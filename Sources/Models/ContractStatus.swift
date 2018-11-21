@@ -31,6 +31,11 @@ public enum StorageKeys: String, CodingKey {
     case bytes
 }
 
+public enum TezosOptional: String, Codable {
+    case some = "Some"
+    case none = "None"
+}
+
 public struct StringListContractStatus: Decodable {
     let balance: Tez
     let spendable: Bool

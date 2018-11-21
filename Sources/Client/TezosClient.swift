@@ -182,18 +182,6 @@ public class TezosClient {
         sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
-    public func send(amount: Mutez,
-                     to recipientAddress: String,
-                     from wallet: Wallet,
-                     completion: @escaping RPCCompletion<String>) {
-        let transactionOperation =
-            TransactionOperation(amount: Tez(0), source: wallet.address, destination: recipientAddress)
-        forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
-                                            source: wallet.address,
-                                            keys: wallet.keys,
-                                            completion: completion)
-    }
-
 	/**
    * Transact Tezos between accounts.
    *
@@ -214,9 +202,6 @@ public class TezosClient {
                                             source: wallet.address,
                                             keys: wallet.keys,
                                             completion: completion)
-        send(amount: 30, to: "", from: wallet, completion: { result in
-            return
-        })
     }
 
 

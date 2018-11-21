@@ -38,6 +38,7 @@
 		897F3231F6BD7481F2B683AB /* Pods_TezosSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682BFBDE2CBB52CBDD0763D9 /* Pods_TezosSwift.framework */; };
 		A1AF532A28DBBD6A8810AB19 /* SharedContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28092C0137909434AC3DA7F5 /* SharedContract.swift */; };
 		A547233DB6E9CC5797760985 /* TestContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43D05CBD194194055080DB9 /* TestContract.swift */; };
+		BCC57FACC86B3DD9F9BF0047 /* OptionalStringContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA883BD489FE827FE6D653DD /* OptionalStringContract.swift */; };
 		F84C55932199A28D00068596 /* TezosRPCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC859B2183973F006DE8FD /* TezosRPCTest.swift */; };
 		F84C55972199ADCC00068596 /* ContractStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84C55962199ADCC00068596 /* ContractStorageTests.swift */; };
 		F84C55992199AE3000068596 /* ContractCallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84C55982199AE3000068596 /* ContractCallTests.swift */; };
@@ -135,6 +136,7 @@
 		F8B6AE7021909ABC00356B05 /* ChainHead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainHead.swift; sourceTree = "<group>"; };
 		F8B6AE7221909E3400356B05 /* Base58String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base58String.swift; sourceTree = "<group>"; };
 		F8BECFB9218CB4C7006186FD /* TezosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosViewController.swift; sourceTree = "<group>"; };
+		FA883BD489FE827FE6D653DD /* OptionalStringContract.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OptionalStringContract.swift; path = GeneratedContracts/OptionalStringContract.swift; sourceTree = "<group>"; };
 		FE999CF7F39A6159A65DD182 /* Pods-TezosSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwift/Pods-TezosSwift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -313,6 +315,7 @@
 				D43D05CBD194194055080DB9 /* TestContract.swift */,
 				28092C0137909434AC3DA7F5 /* SharedContract.swift */,
 				C0FCAE062CEEF072AC6807CB /* IntContract.swift */,
+				FA883BD489FE827FE6D653DD /* OptionalStringContract.swift */,
 			);
 			name = GeneratedContracts;
 			sourceTree = "<group>";
@@ -600,6 +603,7 @@
 				A547233DB6E9CC5797760985 /* TestContract.swift in Sources */,
 				A1AF532A28DBBD6A8810AB19 /* SharedContract.swift in Sources */,
 				7CBD2E8F1583B91851B443DA /* IntContract.swift in Sources */,
+				BCC57FACC86B3DD9F9BF0047 /* OptionalStringContract.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

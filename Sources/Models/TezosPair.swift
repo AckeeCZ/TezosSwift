@@ -90,7 +90,6 @@ extension TezosPair: Encodable {
 protocol RPCEncodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws
     func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws
-//    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws
 }
 
 extension Array: RPCEncodable where Element: Encodable {
@@ -198,6 +197,15 @@ extension KeyedDecodingContainer {
     func decryptionError() -> DecodingError {
         let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
         return DecodingError.dataCorrupted(context)
+    }
+
+    func decodeRPC<T>(_ type: T?.Type) throws -> T? where T : Decodable {
+        guard let container = self as? KeyedDecodingContainer<StorageKeys> else { throw decryptionError() }
+        let tezosOptional = try container.decode(TezosOptional.self, forKey: .prim)
+        guard tezosOptional == .some else { return nil }
+        var optionalContainer = try container.nestedUnkeyedContainer(forKey: .args)
+        let nestedContainer = try optionalContainer.nestedContainer(keyedBy: StorageKeys.self)
+        return try nestedContainer.decodeRPC(T.self)
     }
 
     func decodeRPC<T>(_ type: T.Type) throws -> T where T : Decodable {

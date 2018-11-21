@@ -30,6 +30,36 @@ class ContractStorageTests: XCTestCase {
         waitForExpectations(timeout: 3)
     }
 
+    func testOptionalNonNilStringStatus() {
+        let testStatusExpectation = expectation(description: "Optional non-nil string status")
+        tezosClient.optionalStringContract(at: "KT1Rh4iEMxBLJbDbz7iAB6FGLJ3mSCx3qFrW").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertEqual(value.storage, "hello")
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 3)
+    }
+
+    func testOptionalNilStringStatus() {
+        let testStatusExpectation = expectation(description: "Optional nil string status")
+        tezosClient.optionalStringContract(at: "KT1F3NKYP1NcpHGKW23ch8NvB436r1LXvUJN").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertNil(value.storage)
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 3)
+    }
+
     func testPairStatus() {
         let testStatusExpectation = expectation(description: "Pair status")
         tezosClient.pairStatus(of: "KT1VMgRT1wcPLcBxeskaXvGYdWqxPPXLz6sp", completion: { result in

@@ -36,7 +36,6 @@ class ContractCallTests: XCTestCase {
         waitForExpectations(timeout: 3, handler: nil)
     }
 
-
     func testSendingIntParam() {
         let testCompletionExpectation = expectation(description: "Sending Tezos with int param")
         tezosClient.testContract(at: "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9").call(param1: 10).send(from: wallet, amount: Tez(1), completion: { result in
