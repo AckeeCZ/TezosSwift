@@ -1,7 +1,7 @@
 // Generated using TezosGen 
 // swiftlint:disable file_length
 
-struct OptiionalPairBoolContractBox {
+struct StringSetContractBox {
     fileprivate let tezosClient: TezosClient 
     fileprivate let at: String
 
@@ -9,8 +9,8 @@ struct OptiionalPairBoolContractBox {
        self.tezosClient = tezosClient 
        self.at = at 
     }
-    func call(param1: Bool?, param2: Bool?) -> ContractMethodInvocation {
-		let input: TezosPair<Bool?, Bool?> = TezosPair(first: param1, second: param2) 
+    func call(param1: Set<String>) -> ContractMethodInvocation {
+		let input: Set<String> = param1 
         let send: (_ from: Wallet, _ amount: Tez, _ completion: @escaping RPCCompletion<String>) -> Void = { from, amount, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
         }
@@ -18,19 +18,19 @@ struct OptiionalPairBoolContractBox {
         return ContractMethodInvocation(send: send)
     }
 
-	func status(completion: @escaping RPCCompletion<OptiionalPairBoolContractStatus>) {
+	func status(completion: @escaping RPCCompletion<StringSetContractStatus>) {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + at
         tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 }
 
-struct OptiionalPairBoolContractStatus: Decodable {
+struct StringSetContractStatus: Decodable {
     let balance: Tez
     let spendable: Bool
     let manager: String
     let delegate: StatusDelegate
     let counter: Int
-    let storage: TezosPair<Bool?, Bool?> 
+    let storage: Set<String> 
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
@@ -40,13 +40,13 @@ struct OptiionalPairBoolContractStatus: Decodable {
         self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
         self.counter = try container.decodeRPC(Int.self, forKey: .counter)
 
-        let storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script).nestedContainer(keyedBy: StorageKeys.self, forKey: .storage)
-        self.storage = try storageContainer.decodeRPC(TezosPair<Bool?, Bool?>.self)
+        let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
+        self.storage = try scriptContainer.decodeRPC(Set<String>.self, forKey: .storage)
     }
 }
 
 extension TezosClient {
-    func optiionalPairBoolContract(at: String) -> OptiionalPairBoolContractBox {
-        return OptiionalPairBoolContractBox(tezosClient: self, at: at)
+    func stringSetContract(at: String) -> StringSetContractBox {
+        return StringSetContractBox(tezosClient: self, at: at)
     }
 }

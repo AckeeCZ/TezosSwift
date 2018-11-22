@@ -227,11 +227,25 @@ extension KeyedDecodingContainer {
         return unwrappedValue
     }
 
-    func decodeRPC<T: Decodable>(_ type: [T].Type, forKey key: K) throws -> T {
+    func decodeRPC<T: Decodable & Collection>(_ type: T.Type, forKey key: K) throws -> T {
         var arrayContainer = try nestedUnkeyedContainer(forKey: key)
-        let genericArray: [Any] = try arrayContainer.decodeRPC([Any].self)
+        let genericArray = try arrayContainer.decodeRPC([T.Element].self)
         guard let finalArray = genericArray as? T else { throw decryptionError() }
         return finalArray
+    }
+
+    func decodeRPC<T: Decodable & Collection>(_ type: T.Type, forKey key: K) throws -> T where T.Element: Hashable {
+        var arrayContainer = try nestedUnkeyedContainer(forKey: key)
+        let genericArray = try arrayContainer.decodeRPC([T.Element].self)
+        if let finalArray = genericArray as? T {
+            return finalArray
+        }
+        
+        if let set = Set<T.Element>(genericArray) as? T {
+            return set
+        }
+
+        throw decryptionError()
     }
 
     func decodeRPC(_ type: Int.Type, forKey key: K) throws -> Int {

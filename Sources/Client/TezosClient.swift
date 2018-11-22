@@ -70,7 +70,7 @@ public class TezosClient {
 	/** A URL pointing to a remote node that will handle requests made by this client. */
 	private let remoteNodeURL: URL
 
-    private let subsystem = "ackee.tezosSwift.TezosClient"
+    private let subsystem = "ackee.TezosSwift.TezosClient"
 
 	/**
    * Initialize a new TezosClient.
@@ -417,6 +417,8 @@ public class TezosClient {
 
         var urlRequest = URLRequest(url: remoteNodeEndpoint)
 
+        let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
+
         if method == .post {
             do {
                 guard let payload = payload else { return }
@@ -430,9 +432,8 @@ public class TezosClient {
                 urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 urlRequest.cachePolicy = .reloadIgnoringCacheData
                 urlRequest.httpBody = jsonData
-                let postLog = OSLog(subsystem: subsystem, category: "Post Payload")
-                os_log("Endnode: %@", log: postLog, type: .debug, endpoint)
-                os_log("JSON data payload: %@", log: postLog, type: .debug, String(data: jsonData, encoding: .utf8) ?? "")
+                os_log("Endnode: %@", log: dataLog, type: .debug, endpoint)
+                os_log("JSON data payload: %@", log: dataLog, type: .debug, String(data: jsonData, encoding: .utf8) ?? "")
             }
             catch let error {
                 completion(.failure(.encryptionFailed(error: error)))
@@ -441,6 +442,8 @@ public class TezosClient {
         }
 
         let request = urlSession.dataTask(with: urlRequest) { (data, response, error) in
+            os_log("Endnode: %@", log: dataLog, type: .debug, endpoint)
+            os_log("JSON response: %@", log: dataLog, type: .debug, String(data: data ?? Data(), encoding: .utf8) ?? "")
             // Decode the server's response to a string in order to bundle it with the error if it is in
             // a readable format.
             var errorMessage = ""

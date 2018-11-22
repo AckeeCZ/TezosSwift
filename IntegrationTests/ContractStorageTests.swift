@@ -62,13 +62,28 @@ class ContractStorageTests: XCTestCase {
 
     func testOptionalPairBoolStatus() {
         let testStatusExpectation = expectation(description: "Optional pair bool status")
-        tezosClient.optiionalPairBoolContract(at: "KT1VMgRT1wcPLcBxeskaXvGYdWqxPPXLz6sp").status { result in
+        tezosClient.optionalPairBoolContract(at: "KT1VMgRT1wcPLcBxeskaXvGYdWqxPPXLz6sp").status { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
             case .success(let value):
-                XCTAssertEqual(value.storage.first, true)
-                XCTAssertEqual(value.storage.second, false)
+                XCTAssertEqual(value.storage.arg1, true)
+                XCTAssertEqual(value.storage.arg2, false)
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 3)
+    }
+
+    func testStringSetStatus() {
+        let testStatusExpectation = expectation(description: "String set status")
+        tezosClient.stringSetContract(at: "KT1E9795k5yXPV7P7nhoHXtwvaaDo7dNcHC3").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertEqual(value.storage, ["a", "b", "c"])
                 testStatusExpectation.fulfill()
             }
         }
@@ -109,3 +124,4 @@ class ContractStorageTests: XCTestCase {
     }
 
 }
+
