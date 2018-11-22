@@ -128,6 +128,18 @@ extension Int: RPCEncodable {
     }
 }
 
+extension UInt: RPCEncodable {
+    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
+        try nestedContainer.encode("\(self)", forKey: .int)
+    }
+
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
+        try nestedContainer.encode("\(self)", forKey: .int)
+    }
+}
+
 extension String: RPCEncodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
@@ -220,6 +232,8 @@ extension KeyedDecodingContainer {
             value = try container.decode(String.self, forKey: .string)
         case is Bool.Type, is Bool?.Type:
             value = try container.decodeRPC(Bool.self, forKey: .prim)
+        case is UInt.Type:
+            value = UInt(try container.decodeRPC(Int.self, forKey: .int))
         default:
             value = try container.decode(T.self, forKey: .prim)
         }

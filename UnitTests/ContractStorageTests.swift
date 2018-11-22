@@ -12,8 +12,6 @@ import XCTest
 
 class ContractStorageTests: XCTestCase {
 
-    // TODO: Rewrite to unit tests
-
     func testIntStatus() {
         let networkSessionMock = NetworkSessionMock()
         networkSessionMock.data = """
@@ -34,21 +32,120 @@ class ContractStorageTests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-//    func testOptionalNonNilStringStatus() {
-//        let urlSessionMock = URLSessionMock()
-//        urlSessionMock.data = """
-//        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"123000020","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"int"}]},{"prim":"storage","args":[{"prim":"int"}]},{"prim":"code","args":[[{"prim":"CAR"},{"prim":"PUSH","args":[{"prim":"int"},{"int":"1"}]},{"prim":"ADD"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"int":"11"}},"counter":"0"})
+    func testOptionalNonNilStringStatus() {
+        let networkSessionMock = NetworkSessionMock()
+        networkSessionMock.data = """
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"100000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"string"}]},{"prim":"storage","args":[{"prim":"option","args":[{"prim":"string"}]}]},{"prim":"code","args":[[{"prim":"CAR"},{"prim":"SOME"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"prim":"Some","args":[{"string":"hello"}]}},"counter":"0"}
+        """.data(using: .utf8)!
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+        let testStatusExpectation = expectation(description: "Optional non-nil string status")
+        tezosClient.optionalStringContract(at: "contract").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertEqual(value.storage, "hello")
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 1)
+    }
+
+    func testOptionalNilStringStatus() {
+        let networkSessionMock = NetworkSessionMock()
+        networkSessionMock.data = """
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"100000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"string"}]},{"prim":"storage","args":[{"prim":"option","args":[{"prim":"string"}]}]},{"prim":"code","args":[[{"prim":"CAR"},{"prim":"SOME"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"prim":"None"}},"counter":"0"}
+        """.data(using: .utf8)!
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+        let testStatusExpectation = expectation(description: "Optional nil string status")
+        tezosClient.optionalStringContract(at: "contract").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertNil(value.storage)
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 1)
+    }
+
+    func testOptionalPairBoolStatus() {
+        let networkSessionMock = NetworkSessionMock()
+        networkSessionMock.data = """
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"100000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"pair","args":[{"prim":"bool"},{"prim":"bool"}]}]},{"prim":"storage","args":[{"prim":"option","args":[{"prim":"pair","args":[{"prim":"bool"},{"prim":"bool"}]}]}]},{"prim":"code","args":[[{"prim":"CAR"},{"prim":"SOME"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"prim":"Some","args":[{"prim":"Pair","args":[{"prim":"True"},{"prim":"False"}]}]}},"counter":"0"}
+        """.data(using: .utf8)!
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+        let testStatusExpectation = expectation(description: "Optional pair bool status")
+        tezosClient.optionalPairBoolContract(at: "contract").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertEqual(value.storage.arg1, true)
+                XCTAssertEqual(value.storage.arg2, false)
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 1)
+    }
+
+    func testStringSetStatus() {
+        let networkSessionMock = NetworkSessionMock()
+        networkSessionMock.data = """
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"100000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"set","args":[{"prim":"string"}]}]},{"prim":"storage","args":[{"prim":"set","args":[{"prim":"string"}]}]},{"prim":"code","args":[[{"prim":"CAR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":[{"string":"a"},{"string":"b"},{"string":"c"}]},"counter":"0"}
+        """.data(using: .utf8)!
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+        let testStatusExpectation = expectation(description: "String set status")
+        tezosClient.stringSetContract(at: "contract").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertEqual(value.storage, ["a", "b", "c"])
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 1)
+    }
+    
+//    func testPairStatus() {
+//        let networkSessionMock = NetworkSessionMock()
+//        networkSessionMock.data = """
+//        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"100000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"pair","args":[{"prim":"bool"},{"prim":"bool"}]}]},{"prim":"storage","args":[{"prim":"option","args":[{"prim":"pair","args":[{"prim":"bool"},{"prim":"bool"}]}]}]},{"prim":"code","args":[[{"prim":"CAR"},{"prim":"SOME"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"prim":"Some","args":[{"prim":"Pair","args":[{"prim":"True"},{"prim":"False"}]}]}},"counter":"0"}
 //        """.data(using: .utf8)!
-//        let testStatusExpectation = expectation(description: "Optional non-nil string status")
-//        tezosClient.optionalStringContract(at: "KT1Rh4iEMxBLJbDbz7iAB6FGLJ3mSCx3qFrW").status { result in
+//        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+//        let testStatusExpectation = expectation(description: "Pair status")
+//        tezosClient(at: "contract").status { result in
 //            switch result {
 //            case .failure(let error):
 //                XCTFail("Failed with error: \(error)")
 //            case .success(let value):
-//                XCTAssertEqual(value.storage, "hello")
+//                XCTAssert(value.storage.arg1)
+//                XCTAssertFalse(value.storage.arg2)
 //                testStatusExpectation.fulfill()
 //            }
 //        }
+//
+//        waitForExpectations(timeout: 1)
+//    }
+
+//    func testComplicatedPairStatus() {
+//        let testStatusExpectation = expectation(description: "Complicated status")
+//        tezosClient.complicatedPairStatus(of: "KT1R5mgZpK7eL7QJ7kmVUzFwX9Kc9FepcUpr", completion: { result in
+//            switch result {
+//            case .failure(let error):
+//                XCTFail("Failed with error: \(error)")
+//            case .success(let value):
+//                XCTAssertEqual(value.storage.arg1, ["Hello", "World"])
+//                XCTAssertFalse(value.storage.arg2 ?? true)
+//                testStatusExpectation.fulfill()
+//            }
+//        })
 //
 //        waitForExpectations(timeout: 3)
 //    }

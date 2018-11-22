@@ -51,6 +51,38 @@ class ContractCallTests: XCTestCase {
         waitForExpectations(timeout: 3, handler: nil)
     }
 
+    func testPackUnpack() {
+        let testCompletionExpectation = expectation(description: "Sending Tezos to PackUnpack contract")
+
+        tezosClient.packUnpackContract(at: "KT1F2aWqKZ8FSmFsTnkUW2wHgNtsRp4nnCEC").call(param1: "hello", param2: [1, 2], param3: [3, 4], param4: "".data(using: .utf8)!).send(from: wallet, amount: Tez(1), completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                testCompletionExpectation.fulfill()
+            case .success(_):
+                testCompletionExpectation.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3, handler: nil)
+    }
+
+//    func testPackUnpack() {
+//        let testCompletionExpectation = expectation(description: "Sending Tezos to PackUnpack contract")
+//
+//        tezosClient.call(address: "KT1F2aWqKZ8FSmFsTnkUW2wHgNtsRp4nnCEC", param1: "hello", param2: [1, 2], param3: [3, 4], param4: "".data(using: .utf8)!, from: wallet, amount: Tez(1), completion: { result in
+//            switch result {
+//            case .failure(let error):
+//                XCTFail("Failed with error: \(error)")
+//                testCompletionExpectation.fulfill()
+//            case .success(_):
+//                testCompletionExpectation.fulfill()
+//            }
+//        })
+//
+//        waitForExpectations(timeout: 3, handler: nil)
+//    }
+
 //    func testSendingPairParam() {
 //        let testCompletionExpectation = expectation(description: "Sending Tezos with pair param")
 //
@@ -70,22 +102,6 @@ class ContractCallTests: XCTestCase {
     func testSendingBytes() {
         let testCompletionExpectation = expectation(description: "Sending Tezos with bytes")
         tezosClient.call(address: "KT1Hbpgho8jUJp6AY2dh1pq61u7b2in1f9DA", param1: "".data(using: .utf8)!, from: wallet, amount: Tez(1), completion: { result in
-            switch result {
-            case .failure(let error):
-                XCTFail("Failed with error: \(error)")
-                testCompletionExpectation.fulfill()
-            case .success(_):
-                testCompletionExpectation.fulfill()
-            }
-        })
-
-        waitForExpectations(timeout: 3, handler: nil)
-    }
-
-    func testPackUnpack() {
-        let testCompletionExpectation = expectation(description: "Sending Tezos to PackUnpack contract")
-
-        tezosClient.call(address: "KT1F2aWqKZ8FSmFsTnkUW2wHgNtsRp4nnCEC", param1: "hello", param2: [1, 2], param3: [3, 4], param4: "".data(using: .utf8)!, from: wallet, amount: Tez(1), completion: { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")

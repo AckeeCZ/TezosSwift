@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		147900928C45D56532B7D0D5 /* Pods_UnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64724E5F8C6F391FCBBFC79E /* Pods_UnitTests.framework */; };
+		74D703DBDC737C2F0A302D6F /* PackUnpackContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C8D266066571CE26E05FA7 /* PackUnpackContract.swift */; };
 		7A1E2ED0217671B20073C080 /* KeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1E2ECF217671B20073C080 /* KeyPair.swift */; };
 		7A1E2ED4217673FE0073C080 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1E2ED3217673FD0073C080 /* Wallet.swift */; };
 		7A53BF1B217CF35700BA15D1 /* OperationMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A53BF1A217CF35700BA15D1 /* OperationMetadata.swift */; };
@@ -127,6 +128,7 @@
 		D0C5CDFA7606B4DB71F78D3F /* Pods_IntegrationTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IntegrationTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43D05CBD194194055080DB9 /* TestContract.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TestContract.swift; path = GeneratedContracts/TestContract.swift; sourceTree = "<group>"; };
 		E18ABC256DB067253D1C0A45 /* Pods-TezosKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosKitTests/Pods-TezosKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		E5C8D266066571CE26E05FA7 /* PackUnpackContract.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PackUnpackContract.swift; path = GeneratedContracts/PackUnpackContract.swift; sourceTree = "<group>"; };
 		F84C55852199A06500068596 /* IntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F84C55892199A06500068596 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F84C55962199ADCC00068596 /* ContractStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStorageTests.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				FA883BD489FE827FE6D653DD /* OptionalStringContract.swift */,
 				69E8D754F56C65DAEE74D368 /* OptionalPairBoolContract.swift */,
 				C9302A5725C3688E776CC305 /* StringSetContract.swift */,
+				E5C8D266066571CE26E05FA7 /* PackUnpackContract.swift */,
 			);
 			name = GeneratedContracts;
 			sourceTree = "<group>";
@@ -615,6 +618,7 @@
 				BCC57FACC86B3DD9F9BF0047 /* OptionalStringContract.swift in Sources */,
 				CE7A5CAF42CFFD5CE7D922A5 /* OptionalPairBoolContract.swift in Sources */,
 				AAEA07E03D3AFB5D514766F2 /* StringSetContract.swift in Sources */,
+				74D703DBDC737C2F0A302D6F /* PackUnpackContract.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
