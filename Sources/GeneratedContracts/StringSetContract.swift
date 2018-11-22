@@ -1,9 +1,10 @@
 // Generated using TezosGen 
 // swiftlint:disable file_length
 
-struct StringSetContractBox {
+struct StringSetContractBox: ContractBoxing {
     fileprivate let tezosClient: TezosClient 
     fileprivate let at: String
+    typealias Status = StringSetContractStatus
 
     init(tezosClient: TezosClient, at: String) {
        self.tezosClient = tezosClient 
@@ -49,4 +50,9 @@ extension TezosClient {
     func stringSetContract(at: String) -> StringSetContractBox {
         return StringSetContractBox(tezosClient: self, at: at)
     }
+}
+
+protocol ContractBoxing {
+    associatedtype Status: Decodable
+    func status(completion: @escaping RPCCompletion<Status>)
 }

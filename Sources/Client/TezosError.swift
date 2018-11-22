@@ -15,4 +15,5 @@ public enum TezosError: Error {
     case invalidNode
     case unsupportedTezosType
     case encryptionFailed(error: Error)
+    case decryptionFailed
 }

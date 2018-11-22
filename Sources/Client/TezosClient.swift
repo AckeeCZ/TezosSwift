@@ -65,7 +65,7 @@ public enum HTTPMethod: String {
 public class TezosClient {
 
 	/** The URL session that will be used to manage URL requests. */
-	private let urlSession: URLSession
+	private let urlSession: NetworkSession
 
 	/** A URL pointing to a remote node that will handle requests made by this client. */
 	private let remoteNodeURL: URL
@@ -77,20 +77,16 @@ public class TezosClient {
    *
    * @param removeNodeURL The path to the remote node.
    */
-	public convenience init(remoteNodeURL: URL) {
-        let urlSession = URLSession.shared
-        self.init(remoteNodeURL: remoteNodeURL, urlSession: urlSession)
+    public init(remoteNodeURL: URL) {
+        self.remoteNodeURL = remoteNodeURL
+        self.urlSession = URLSession.shared
     }
 
-  /**
-    * Initialize a new TezosClient.
-    *
-    * @param remoteNodeURL The path to the remote node.
-    */
-    public init(remoteNodeURL: URL, urlSession: URLSession) {
-		self.remoteNodeURL = remoteNodeURL
-		self.urlSession = urlSession
-	}
+    // Internal init for unit testing
+    init(remoteNodeURL: URL, urlSession: NetworkSession = URLSession.shared) {
+        self.remoteNodeURL = remoteNodeURL
+        self.urlSession = urlSession
+    }
 
     /** Retrieve data about the chain head. */
     public func chainHead(completion: @escaping RPCCompletion<ChainHead>) {
@@ -441,8 +437,14 @@ public class TezosClient {
             }
         }
 
-        let request = urlSession.dataTask(with: urlRequest) { (data, response, error) in
-            os_log("Endnode: %@", log: dataLog, type: .debug, endpoint)
+        sendRequest(urlRequest, remoteNodeEndpoint: remoteNodeEndpoint, completion: completion)
+    }
+
+    private func sendRequest<T: Decodable>(_ urlRequest: URLRequest, remoteNodeEndpoint: URL, completion: @escaping RPCCompletion<T>) {
+        let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
+
+        urlSession.loadData(with: urlRequest) { [weak self] data, response, error in
+            os_log("Endnode: %@", log: dataLog, type: .debug, remoteNodeEndpoint.absoluteString)
             os_log("JSON response: %@", log: dataLog, type: .debug, String(data: data ?? Data(), encoding: .utf8) ?? "")
             // Decode the server's response to a string in order to bundle it with the error if it is in
             // a readable format.
@@ -471,32 +473,40 @@ public class TezosClient {
                 completion(.failure(error))
                 return
             }
-            guard let data = data else {
-                completion(.failure(.noResponseData))
-                return
-            }
-
-            let jsonDecoder = JSONDecoder()
-            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-            if let decodedType = try? jsonDecoder.decode(T.self, from: data) {
-                completion(.success(decodedType))
-                return
-            }
-
-            guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else {
-                completion(.failure(.unexpectedResponseType))
-                return
-            }
-
-            if let responseNumber = singleResponse.numberValue as? T {
-                completion(.success(responseNumber))
-            } else if let responseString = singleResponse as? T {
-                completion(.success(responseString))
-            } else {
-                completion(.failure(.unexpectedResponseType))
+            do {
+                guard let self = self else { throw TezosError.decryptionFailed }
+                let decodedObject: T = try self.decodeData(data)
+                completion(.success(decodedObject))
+            } catch let tezosError as TezosError {
+                completion(.failure(tezosError))
+            } catch let error {
+                completion(.failure(.unknown(message: error.localizedDescription)))
             }
         }
-        request.resume()
+    }
+
+    private func decodeData<T: Decodable>(_ data: Data?) throws -> T {
+        guard let data = data else {
+            throw TezosError.noResponseData
+        }
+
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        if let decodedType = try? jsonDecoder.decode(T.self, from: data) {
+            return decodedType
+        }
+
+        guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else {
+            throw TezosError.unexpectedResponseType
+        }
+
+        if let responseNumber = singleResponse.numberValue as? T {
+            return responseNumber
+        } else if let responseString = singleResponse as? T {
+            return responseString
+        } else {
+            throw TezosError.unexpectedResponseType
+        }
     }
 
 	/**
@@ -574,5 +584,24 @@ private extension String {
 extension Encodable {
     func toJSONData() throws -> Data {
         return try JSONEncoder().encode(self)
+    }
+}
+
+
+// Taken from: https://www.swiftbysundell.com/posts/mocking-in-swift
+
+protocol NetworkSession {
+    func loadData(with urlRequest: URLRequest,
+                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
+}
+
+extension URLSession: NetworkSession {
+    func loadData(with urlRequest: URLRequest,
+                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)  {
+        let task = dataTask(with: urlRequest) { (data, response, error) in
+            completionHandler(data, response, error)
+        }
+
+        task.resume()
     }
 }

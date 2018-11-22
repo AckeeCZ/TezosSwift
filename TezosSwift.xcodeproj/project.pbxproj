@@ -44,6 +44,7 @@
 		F84C55932199A28D00068596 /* TezosRPCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC859B2183973F006DE8FD /* TezosRPCTest.swift */; };
 		F84C55972199ADCC00068596 /* ContractStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84C55962199ADCC00068596 /* ContractStorageTests.swift */; };
 		F84C55992199AE3000068596 /* ContractCallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84C55982199AE3000068596 /* ContractCallTests.swift */; };
+		F85F88C421A6D8DD00786AEC /* ContractStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F85F88C321A6D8DD00786AEC /* ContractStorageTests.swift */; };
 		F8633605219497AC00896B6A /* StatusDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633604219497AC00896B6A /* StatusDelegate.swift */; };
 		F8633607219497C200896B6A /* TezosPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633606219497C200896B6A /* TezosPair.swift */; };
 		F8633AA62188884100B6566B /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633AA52188884100B6566B /* Secret.swift */; };
@@ -130,6 +131,7 @@
 		F84C55892199A06500068596 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F84C55962199ADCC00068596 /* ContractStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStorageTests.swift; sourceTree = "<group>"; };
 		F84C55982199AE3000068596 /* ContractCallTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCallTests.swift; sourceTree = "<group>"; };
+		F85F88C321A6D8DD00786AEC /* ContractStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStorageTests.swift; sourceTree = "<group>"; };
 		F8633604219497AC00896B6A /* StatusDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusDelegate.swift; sourceTree = "<group>"; };
 		F8633606219497C200896B6A /* TezosPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosPair.swift; sourceTree = "<group>"; };
 		F8633AA52188884100B6566B /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				7ABC857D21826C71006DE8FD /* WalletTests.swift */,
 				7ABC856D2182655E006DE8FD /* MnemonicUtilsTest.swift */,
 				7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */,
+				F85F88C321A6D8DD00786AEC /* ContractStorageTests.swift */,
 				7ABC856521824D58006DE8FD /* Info.plist */,
 			);
 			path = UnitTests;
@@ -622,6 +625,7 @@
 				7ABC85802182A072006DE8FD /* TezosBalanceTest.swift in Sources */,
 				7ABC85842182AE86006DE8FD /* AbstractOperationTest.swift in Sources */,
 				7ABC857E21826C71006DE8FD /* WalletTests.swift in Sources */,
+				F85F88C421A6D8DD00786AEC /* ContractStorageTests.swift in Sources */,
 				7ABC856E2182655E006DE8FD /* MnemonicUtilsTest.swift in Sources */,
 				7ABC85822182A595006DE8FD /* CryptoTests.swift in Sources */,
 			);
