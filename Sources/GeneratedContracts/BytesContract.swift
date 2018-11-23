@@ -1,7 +1,9 @@
 // Generated using TezosGen 
 // swiftlint:disable file_length
 
-struct TestContractBox {
+import Foundation
+
+struct BytesContractBox {
     fileprivate let tezosClient: TezosClient 
     fileprivate let at: String
 
@@ -9,8 +11,9 @@ struct TestContractBox {
        self.tezosClient = tezosClient 
        self.at = at 
     }
-    func call(param1: Int) -> ContractMethodInvocation {
-		let input: Int = param1 
+
+    func call(param1: Data) -> ContractMethodInvocation {
+		let input: Data = param1 
         let send: (_ from: Wallet, _ amount: Tez, _ completion: @escaping RPCCompletion<String>) -> Void = { from, amount, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
         }
@@ -18,19 +21,19 @@ struct TestContractBox {
         return ContractMethodInvocation(send: send)
     }
 
-	func status(completion: @escaping RPCCompletion<TestContractStatus>) {
+	func status(completion: @escaping RPCCompletion<BytesContractStatus>) {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + at
         tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 }
 
-struct TestContractStatus: Decodable {
+struct BytesContractStatus: Decodable {
     let balance: Tez
     let spendable: Bool
     let manager: String
     let delegate: StatusDelegate
     let counter: Int
-    let storage: Int 
+    let storage: Data 
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
@@ -40,13 +43,13 @@ struct TestContractStatus: Decodable {
         self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
         self.counter = try container.decodeRPC(Int.self, forKey: .counter)
 
-		let storageContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script).nestedContainer(keyedBy: TezosTypeKeys.self, forKey: .storage)
-        self.storage = try storageContainer.decodeRPC(Int.self, forKey: .int)
+        let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
+        self.storage = try scriptContainer.nestedContainer(keyedBy: StorageKeys.self, forKey: .storage).decodeRPC(Data.self)
     }
 }
 
 extension TezosClient {
-    func testContract(at: String) -> TestContractBox {
-        return TestContractBox(tezosClient: self, at: at)
+    func bytesContract(at: String) -> BytesContractBox {
+        return BytesContractBox(tezosClient: self, at: at)
     }
 }

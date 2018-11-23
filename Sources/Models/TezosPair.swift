@@ -8,66 +8,14 @@
 
 import Foundation
 
-struct TezosPair<T: Codable, U: Codable> {
+struct TezosPair<T: RPCEncodable & RPCDecodable, U: RPCEncodable & RPCDecodable> {
     typealias First = T
     typealias Second = U
     let first: First
     let second: Second
 }
 
-extension UnkeyedDecodingContainer {
-    func corruptedError() -> DecodingError {
-        let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
-        return DecodingError.dataCorrupted(context)
-    }
-
-    mutating func decodeElement<T: Decodable>(previousContainer: UnkeyedDecodingContainer? = nil) throws -> (T, UnkeyedDecodingContainer?) {
-        if var arrayContainer = try? nestedUnkeyedContainer() {
-            // Can I generically access generic's element type?
-            let genericArray: [Any] = try arrayContainer.decodeRPC([Any].self)
-            guard let finalArray = genericArray as? T else { throw TezosError.unsupportedTezosType }
-            return (finalArray, nil)
-        } else {
-            if var currentContainer = previousContainer {
-                let container = try currentContainer.nestedContainer(keyedBy: StorageKeys.self)
-                return (try container.decodeRPC(T.self), currentContainer)
-            }
-            let container = try nestedContainer(keyedBy: StorageKeys.self)
-            let primaryType = try container.decode(String.self, forKey: .prim).self
-            if primaryType == "Pair" || primaryType == "Some" {
-                // TODO: Check different ways of outputs for some (optional lists?)
-                var mutableSomeContainer = try container.nestedUnkeyedContainer(forKey: .args)
-                let someContainer = try mutableSomeContainer.nestedContainer(keyedBy: StorageKeys.self)
-                return (try someContainer.decodeRPC(T.self), mutableSomeContainer)
-            } else {
-                return (try container.decodeRPC(T.self), nil)
-            }
-        }
-    }
-
-    // TODO: Use array decoding from decodeElement() function
-    mutating func decodeRPC<T>(_ type: [T].Type) throws -> [T] {
-        var genericArray: [Any] = []
-
-        while !isAtEnd {
-            let container = try nestedContainer(keyedBy: StorageKeys.self)
-            // TODO: Maybe refactor it to decodeRPC ? (what about prims, though)
-            let value: Any
-            if container.contains(.int) {
-                value = try container.decodeRPC(Int.self)
-            } else if container.contains(.string) {
-                value = try container.decodeRPC(String.self)
-            } else {
-                value = try container.decodeRPC(Bool.self)
-            }
-            genericArray.append(value)
-        }
-        guard let finalArray = genericArray as? [T] else { throw corruptedError() }
-        return finalArray
-    }
-}
-
-extension TezosPair: Decodable {
+extension TezosPair: RPCDecodable {
     init(from decoder: Decoder) throws {
         var mutableContainer = try decoder.unkeyedContainer()
         // Hold container (can't decode it twice)
@@ -77,7 +25,7 @@ extension TezosPair: Decodable {
     }
 }
 
-extension TezosPair: Encodable {
+extension TezosPair: RPCEncodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: StorageKeys.self)
         try container.encode("Pair", forKey: .prim)
@@ -85,9 +33,17 @@ extension TezosPair: Encodable {
         try argsContainer.encodeRPC(first)
         try argsContainer.encodeRPC(second)
     }
+
+    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+
+    }
+
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+
+    }
 }
 
-protocol RPCEncodable {
+protocol RPCEncodable: Encodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws
     func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws
 }
@@ -176,6 +132,16 @@ extension Data: RPCEncodable {
     }
 }
 
+extension Optional: RPCEncodable where Wrapped: RPCEncodable {
+    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+
+    }
+
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+
+    }
+}
+
 extension KeyedEncodingContainer {
     mutating func encodeRPC<T: Encodable>(_ value: T, forKey key: KeyedEncodingContainer<K>.Key) throws {
         if let unwrappedValue = value as? RPCEncodable {
@@ -202,78 +168,181 @@ extension UnkeyedEncodingContainer {
     }
 }
 
-extension KeyedDecodingContainer {
+protocol RPCDecodable: Decodable {}
+extension Int: RPCDecodable {}
+extension UInt: RPCDecodable {}
+extension Bool: RPCDecodable {}
+extension String: RPCDecodable {}
+extension Data: RPCDecodable {}
+extension Set : RPCDecodable where Element : RPCDecodable {}
+extension Array : RPCDecodable where Element : RPCDecodable {}
+extension Optional: RPCDecodable where Wrapped: RPCDecodable {}
 
+extension UnkeyedDecodingContainer {
+    func corruptedError() -> DecodingError {
+        let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
+        return DecodingError.dataCorrupted(context)
+    }
+
+    mutating func decodeRPC<T: RPCDecodable>(_ type: Set<T>.Type) throws -> Set<T> {
+        var set: Set<T> = []
+        while !isAtEnd {
+            let container = try nestedContainer(keyedBy: StorageKeys.self)
+            let element  = try container.decodeRPC(T.self)
+            set.insert(element)
+        }
+        return set
+    }
+
+    mutating func decodeRPC<T: RPCDecodable>(_ type: [T].Type) throws -> [T] {
+        var array: [T] = []
+        while !isAtEnd {
+            let container = try nestedContainer(keyedBy: StorageKeys.self)
+            let element  = try container.decodeRPC(T.self)
+            array.append(element)
+        }
+        return array
+    }
+}
+
+extension KeyedDecodingContainerProtocol {
     // MARK: Decoding
-
     func decryptionError() -> DecodingError {
         let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
         return DecodingError.dataCorrupted(context)
     }
 
-    func decodeRPC<T>(_ type: T?.Type) throws -> T? where T : Decodable {
-        guard let container = self as? KeyedDecodingContainer<StorageKeys> else { throw decryptionError() }
-        let tezosOptional = try container.decode(TezosOptional.self, forKey: .prim)
-        guard tezosOptional == .some else { return nil }
-        var optionalContainer = try container.nestedUnkeyedContainer(forKey: .args)
-        let nestedContainer = try optionalContainer.nestedContainer(keyedBy: StorageKeys.self)
-        return try nestedContainer.decodeRPC(T.self)
-    }
-
-    func decodeRPC<T>(_ type: T.Type) throws -> T where T : Decodable {
-        guard let container = self as? KeyedDecodingContainer<StorageKeys> else { throw decryptionError() }
-        let value: Any
-        // Handle optionals as non-optionals -> they are handled beforehand with "prim": "None"
-        // TODO: Actually do this
-        switch type {
-        case is Int.Type, is Int?.Type:
-            value = try container.decodeRPC(Int.self, forKey: .int)
-        case is String.Type, is String?.Type:
-            value = try container.decode(String.self, forKey: .string)
-        case is Bool.Type, is Bool?.Type:
-            value = try container.decodeRPC(Bool.self, forKey: .prim)
-        case is UInt.Type:
-            value = UInt(try container.decodeRPC(Int.self, forKey: .int))
-        default:
-            value = try container.decode(T.self, forKey: .prim)
-        }
-        guard let unwrappedValue = value as? T else { throw decryptionError() }
-        return unwrappedValue
-    }
-
-    func decodeRPC<T: Decodable & Collection>(_ type: T.Type, forKey key: K) throws -> T {
-        var arrayContainer = try nestedUnkeyedContainer(forKey: key)
-        let genericArray = try arrayContainer.decodeRPC([T.Element].self)
-        guard let finalArray = genericArray as? T else { throw decryptionError() }
-        return finalArray
-    }
-
-    func decodeRPC<T: Decodable & Collection>(_ type: T.Type, forKey key: K) throws -> T where T.Element: Hashable {
-        var arrayContainer = try nestedUnkeyedContainer(forKey: key)
-        let genericArray = try arrayContainer.decodeRPC([T.Element].self)
-        if let finalArray = genericArray as? T {
-            return finalArray
-        }
-        
-        if let set = Set<T.Element>(genericArray) as? T {
-            return set
-        }
-
-        throw decryptionError()
-    }
-
-    func decodeRPC(_ type: Int.Type, forKey key: K) throws -> Int {
+    func decodeRPC(_ type: Int.Type, forKey key: Key) throws -> Int {
         let intString = try decode(String.self, forKey: key)
         guard let decodedInt = Int(intString) else { throw decryptionError() }
         return decodedInt
     }
 
-    func decodeRPC(_ type: Bool.Type, forKey key: K) throws -> Bool {
+    func decodeRPC(_ type: Bool.Type, forKey key: Key) throws -> Bool {
         let boolString = try decode(String.self, forKey: key)
         switch boolString {
         case "True": return true
         case "False": return false
         default: throw decryptionError()
+        }
+    }
+
+    func decodeRPC<T: RPCDecodable>(_ type: Set<T>.Type, forKey key: Key) throws -> Set<T> {
+        var arrayContainer = try nestedUnkeyedContainer(forKey: key)
+        return try arrayContainer.decodeRPC(type)
+    }
+
+    func decodeRPC<T: RPCDecodable>(_ type: [T].Type, forKey key: Key) throws -> [T] {
+        var arrayContainer = try nestedUnkeyedContainer(forKey: key)
+        return try arrayContainer.decodeRPC(type)
+    }
+
+    func decodeRPC<T: RPCDecodable>(_ type: T.Type, forKey key: Key) throws -> T {
+        return try decode(T.self, forKey: key)
+    }
+
+    func decodeRPC<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
+        return try decode(T.self, forKey: key)
+    }
+}
+
+extension KeyedDecodingContainerProtocol where Key == StorageKeys {
+
+    func decodeRPC<T>(_ type: T?.Type) throws -> T? where T : RPCDecodable {
+        let tezosOptional = try decode(TezosOptional.self, forKey: .prim)
+        guard tezosOptional == .some else { return nil }
+        var optionalContainer = try nestedUnkeyedContainer(forKey: .args)
+        let nestedContainer = try optionalContainer.nestedContainer(keyedBy: StorageKeys.self)
+        return try nestedContainer.decodeRPC(T.self)
+    }
+
+    func decodeRPC(_ type: Int.Type) throws -> Int {
+        return try decodeRPC(Int.self, forKey: .int)
+    }
+
+    func decodeRPC(_ type: Bool.Type) throws -> Bool {
+        return try decodeRPC(Bool.self, forKey: .prim)
+    }
+
+    func decodeRPC(_ type: String.Type) throws -> String {
+        return try decode(String.self, forKey: .string)
+    }
+
+    func decodeRPC<T: Decodable>(_ type: T.Type) throws -> T {
+        return try decode(type, forKey: .prim)
+    }
+
+
+    func decodeRPC<T: RPCDecodable>(_ type: T.Type) throws -> T {
+        // TODO: Would be nice to do this generically, thus supporting right away all RPCDecodable types
+        let value: Any
+        switch type {
+        case is Int.Type:
+            value = try decodeRPC(Int.self)
+        case is String.Type:
+            value = try decodeRPC(String.self)
+        case is Bool.Type:
+            value = try decodeRPC(Bool.self)
+        case is Int?.Type:
+            value = try decodeRPC(Int?.self) as Any
+        case is String?.Type:
+            value = try decodeRPC(String?.self) as Any
+        case is Bool?.Type:
+            value = try decodeRPC(Bool.self) as Any
+        default:
+            value = try decode(type, forKey: .prim)
+        }
+        guard let unwrappedValue = value as? T else { throw decryptionError() }
+        return unwrappedValue
+    }
+}
+
+extension UnkeyedDecodingContainer {
+    mutating func decodeElement<T: RPCDecodable & Collection>(previousContainer: UnkeyedDecodingContainer? = nil) throws -> (T, UnkeyedDecodingContainer?) where T.Element: RPCDecodable & Hashable {
+        var arrayContainer = try nestedUnkeyedContainer()
+        var array: [T.Element] = []
+        while !arrayContainer.isAtEnd {
+            let container = try arrayContainer.nestedContainer(keyedBy: StorageKeys.self)
+            let element = try container.decodeRPC(T.Element.self)
+            array.append(element)
+        }
+
+        if let finalArray = array as? T {
+            return (finalArray, nil)
+        }
+
+        guard let set = Set<T.Element>(array) as? T else { throw TezosError.unsupportedTezosType }
+
+        return (set, nil)
+    }
+
+    mutating func decodeElement<T: RPCDecodable & Collection>(previousContainer: UnkeyedDecodingContainer? = nil) throws -> (T, UnkeyedDecodingContainer?) where T.Element: RPCDecodable {
+        var arrayContainer = try nestedUnkeyedContainer()
+        var array: [T.Element] = []
+        while !arrayContainer.isAtEnd {
+            let container = try arrayContainer.nestedContainer(keyedBy: StorageKeys.self)
+            let element = try container.decodeRPC(T.Element.self)
+            array.append(element)
+        }
+
+        guard let finalArray = array as? T else { throw TezosError.unsupportedTezosType }
+        return (finalArray, nil)
+    }
+
+    mutating func decodeElement<T: RPCDecodable>(previousContainer: UnkeyedDecodingContainer? = nil) throws -> (T, UnkeyedDecodingContainer?) {
+        if var currentContainer = previousContainer {
+            let container = try currentContainer.nestedContainer(keyedBy: StorageKeys.self)
+            return (try container.decodeRPC(T.self), currentContainer)
+        }
+        let container = try nestedContainer(keyedBy: StorageKeys.self)
+        let primaryType = try container.decode(String.self, forKey: .prim).self
+        if primaryType == "Pair" || primaryType == "Some" {
+            // TODO: Check different ways of outputs for some (optional lists?)
+            var mutableSomeContainer = try container.nestedUnkeyedContainer(forKey: .args)
+            let someContainer = try mutableSomeContainer.nestedContainer(keyedBy: StorageKeys.self)
+            return (try someContainer.decodeRPC(T.self), mutableSomeContainer)
+        } else {
+            return (try container.decodeRPC(T.self), nil)
         }
     }
 }

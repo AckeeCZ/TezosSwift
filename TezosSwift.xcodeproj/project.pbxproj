@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		147900928C45D56532B7D0D5 /* Pods_UnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64724E5F8C6F391FCBBFC79E /* Pods_UnitTests.framework */; };
+		3A6D9EC5002D98E2401EC840 /* BytesContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD9690A804D3E64AC90D312 /* BytesContract.swift */; };
 		74D703DBDC737C2F0A302D6F /* PackUnpackContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C8D266066571CE26E05FA7 /* PackUnpackContract.swift */; };
 		7A1E2ED0217671B20073C080 /* KeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1E2ECF217671B20073C080 /* KeyPair.swift */; };
 		7A1E2ED4217673FE0073C080 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1E2ED3217673FD0073C080 /* Wallet.swift */; };
@@ -77,6 +78,7 @@
 
 /* Begin PBXFileReference section */
 		017EDEEC626A3CB7D1466B41 /* Pods-TezosKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosKit/Pods-TezosKit.release.xcconfig"; sourceTree = "<group>"; };
+		0CD9690A804D3E64AC90D312 /* BytesContract.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BytesContract.swift; path = GeneratedContracts/BytesContract.swift; sourceTree = "<group>"; };
 		153F0D3070E775478122EB02 /* Pods-TezosSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwiftTests/Pods-TezosSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2162ABCC8C6E6012A454C50A /* Pods-IntegrationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntegrationTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-IntegrationTests/Pods-IntegrationTests.release.xcconfig"; sourceTree = "<group>"; };
 		28092C0137909434AC3DA7F5 /* SharedContract.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SharedContract.swift; path = GeneratedContracts/SharedContract.swift; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 				69E8D754F56C65DAEE74D368 /* OptionalPairBoolContract.swift */,
 				C9302A5725C3688E776CC305 /* StringSetContract.swift */,
 				E5C8D266066571CE26E05FA7 /* PackUnpackContract.swift */,
+				0CD9690A804D3E64AC90D312 /* BytesContract.swift */,
 			);
 			name = GeneratedContracts;
 			sourceTree = "<group>";
@@ -619,6 +622,7 @@
 				CE7A5CAF42CFFD5CE7D922A5 /* OptionalPairBoolContract.swift in Sources */,
 				AAEA07E03D3AFB5D514766F2 /* StringSetContract.swift in Sources */,
 				74D703DBDC737C2F0A302D6F /* PackUnpackContract.swift in Sources */,
+				3A6D9EC5002D98E2401EC840 /* BytesContract.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

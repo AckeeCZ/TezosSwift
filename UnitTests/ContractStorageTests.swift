@@ -112,6 +112,25 @@ class ContractStorageTests: XCTestCase {
 
         waitForExpectations(timeout: 1)
     }
+
+    func testBytesStatus() {
+        let networkSessionMock = NetworkSessionMock()
+        networkSessionMock.data = """
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"101000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"bytes"}]},{"prim":"storage","args":[{"prim":"bytes"}]},{"prim":"code","args":[[{"prim":"CAR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"bytes":""}},"counter":"0"}
+        """.data(using: .utf8)!
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+        let testStatusExpectation = expectation(description: "String set status")
+        tezosClient.bytesContract(at: "contract").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(_):
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 1)
+    }
     
 //    func testPairStatus() {
 //        let networkSessionMock = NetworkSessionMock()
