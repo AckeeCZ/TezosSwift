@@ -91,6 +91,22 @@ class ContractStorageTests: XCTestCase {
         waitForExpectations(timeout: 3)
     }
 
+    func testOrSwapStatus() {
+        let testStatusExpectation = expectation(description: "Or swap status")
+        tezosClient.orSwapContract(at: "KT1WMUFDxTB2QkyYZnVKm6KZpyvWpKn7nLdP").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertEqual(value.storage.arg1, "X")
+                XCTAssertNil(value.storage.arg2)
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 3)
+    }
+
     func testPairStatus() {
         let testStatusExpectation = expectation(description: "Pair status")
         tezosClient.pairStatus(of: "KT1VMgRT1wcPLcBxeskaXvGYdWqxPPXLz6sp", completion: { result in
