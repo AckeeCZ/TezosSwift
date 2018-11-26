@@ -42,13 +42,13 @@ public class TransactionOperation: Operation {
 }
 
 public class ContractOperation<T: Encodable>: TransactionOperation {
-    private let input: T?
+    private let input: T
 
-    convenience init(amount: Tez, source: Wallet, destination: String, input: T? = nil) {
+    convenience init(amount: Tez, source: Wallet, destination: String, input: T) {
         self.init(amount: amount, source: source.address, destination: destination, input: input)
     }
 
-    init(amount: Tez, source: String, destination: String, input: T? = nil) {
+    init(amount: Tez, source: String, destination: String, input: T) {
         self.input = input
 
         super.init(amount: amount, source: source, destination: destination)

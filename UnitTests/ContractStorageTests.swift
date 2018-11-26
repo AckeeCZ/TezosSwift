@@ -131,27 +131,6 @@ class ContractStorageTests: XCTestCase {
 
         waitForExpectations(timeout: 1)
     }
-    
-//    func testPairStatus() {
-//        let networkSessionMock = NetworkSessionMock()
-//        networkSessionMock.data = """
-//        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"100000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"pair","args":[{"prim":"bool"},{"prim":"bool"}]}]},{"prim":"storage","args":[{"prim":"option","args":[{"prim":"pair","args":[{"prim":"bool"},{"prim":"bool"}]}]}]},{"prim":"code","args":[[{"prim":"CAR"},{"prim":"SOME"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"prim":"Some","args":[{"prim":"Pair","args":[{"prim":"True"},{"prim":"False"}]}]}},"counter":"0"}
-//        """.data(using: .utf8)!
-//        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
-//        let testStatusExpectation = expectation(description: "Pair status")
-//        tezosClient.(at: "contract").status { result in
-//            switch result {
-//            case .failure(let error):
-//                XCTFail("Failed with error: \(error)")
-//            case .success(let value):
-//                XCTAssert(value.storage.arg1)
-//                XCTAssertFalse(value.storage.arg2)
-//                testStatusExpectation.fulfill()
-//            }
-//        }
-//
-//        waitForExpectations(timeout: 1)
-//    }
 
 //    func testComplicatedPairStatus() {
 //        let testStatusExpectation = expectation(description: "Complicated status")

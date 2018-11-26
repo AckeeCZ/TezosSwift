@@ -51,6 +51,7 @@
 		F8633607219497C200896B6A /* TezosPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633606219497C200896B6A /* TezosPair.swift */; };
 		F8633AA62188884100B6566B /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633AA52188884100B6566B /* Secret.swift */; };
 		F8633AF6218B260100B6566B /* ContractStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633AF5218B260100B6566B /* ContractStatus.swift */; };
+		F864CC1021AC11990014B357 /* CallEncodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F864CC0F21AC11990014B357 /* CallEncodingTests.swift */; };
 		F8B23A0B219DDAA9009657F2 /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B23A0A219DDAA9009657F2 /* Contract.swift */; };
 		F8B6AE6D21909A5400356B05 /* OperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B6AE6C21909A5400356B05 /* OperationPayload.swift */; };
 		F8B6AE6F21909A6900356B05 /* SignedOperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B6AE6E21909A6900356B05 /* SignedOperationPayload.swift */; };
@@ -140,6 +141,7 @@
 		F8633606219497C200896B6A /* TezosPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosPair.swift; sourceTree = "<group>"; };
 		F8633AA52188884100B6566B /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		F8633AF5218B260100B6566B /* ContractStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStatus.swift; sourceTree = "<group>"; };
+		F864CC0F21AC11990014B357 /* CallEncodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallEncodingTests.swift; sourceTree = "<group>"; };
 		F8B23A0A219DDAA9009657F2 /* Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contract.swift; sourceTree = "<group>"; };
 		F8B6AE6C21909A5400356B05 /* OperationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationPayload.swift; sourceTree = "<group>"; };
 		F8B6AE6E21909A6900356B05 /* SignedOperationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedOperationPayload.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				7ABC856D2182655E006DE8FD /* MnemonicUtilsTest.swift */,
 				7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */,
 				F85F88C321A6D8DD00786AEC /* ContractStorageTests.swift */,
+				F864CC0F21AC11990014B357 /* CallEncodingTests.swift */,
 				7ABC856521824D58006DE8FD /* Info.plist */,
 			);
 			path = UnitTests;
@@ -635,6 +638,7 @@
 				7ABC857E21826C71006DE8FD /* WalletTests.swift in Sources */,
 				F85F88C421A6D8DD00786AEC /* ContractStorageTests.swift in Sources */,
 				7ABC856E2182655E006DE8FD /* MnemonicUtilsTest.swift in Sources */,
+				F864CC1021AC11990014B357 /* CallEncodingTests.swift in Sources */,
 				7ABC85822182A595006DE8FD /* CryptoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

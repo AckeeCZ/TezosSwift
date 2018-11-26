@@ -8,7 +8,9 @@
 
 import Foundation
 
-struct TezosPair<T: RPCEncodable & RPCDecodable, U: RPCEncodable & RPCDecodable> {
+protocol RPCCodable: RPCEncodable, RPCDecodable {}
+
+struct TezosPair<T: RPCCodable, U: RPCCodable> {
     typealias First = T
     typealias Second = U
     let first: First
@@ -46,17 +48,17 @@ extension TezosPair: RPCEncodable {
     }
 
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
-
+        try container.encode(self, forKey: key)
     }
 
     func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
-
+        try container.encode(self)
     }
 }
 
 protocol RPCEncodable: Encodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws
-    func encodeRPC(in container: inout KeyedEncodingContainer<StorageKeys>) throws
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws
 }
 
 extension Array: RPCEncodable where Element: Encodable {
@@ -145,7 +147,15 @@ extension Data: RPCEncodable {
 
 extension Optional: RPCEncodable where Wrapped: RPCEncodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
-
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
+        switch self {
+        case .none:
+            try nestedContainer.encode("None", forKey: .prim)
+        case .some(let value):
+            try nestedContainer.encode("Some", forKey: .prim)
+            var argsContainer = nestedContainer.nestedUnkeyedContainer(forKey: .args)
+            try argsContainer.encodeRPC(value)
+        }
     }
 
     func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
