@@ -580,12 +580,27 @@ private extension String {
     }
 }
 
+struct TezosEncodable<T: Encodable>: Encodable {
+    let value: T
+
+    func encode(to encoder: Encoder) throws {
+        var container = try encoder.container(keyedBy: StorageKeys.self)
+        try container.encodeRPC(value)
+    }
+}
+
 // Taken from: https://stackoverflow.com/questions/51058292/why-can-not-use-protocol-encodable-as-a-type-in-the-func#51058460
 extension Encodable {
     func toJSONData() throws -> Data {
+        let tezosEncodable = TezosEncodable(value: self)
         return try JSONEncoder().encode(self)
     }
 }
+
+//2018-11-26 10:04:05.933229+0100 TezosSwift[8986:6190693] [Data Flow] JSON data payload: [{"signature":"edsigtn8CmTQbZKM13bpb7c2NabNS5eLhRTviDU7sCjNk8mNd86vB34GyoGvo81fJSRwEXBNz4WjRj4yoAjvMYmetodAu9zXhv7","protocol":"PsYLVpVvgbLhAhoqAkMFUo6gudkJ9weNXhUYCiLDzcUpFpkk8Wt","branch":"BMSUrtED7pdfSeLyuJPmaNMnBt7Hyx1uNd66rvCG2cXdqg2WU4e","contents":[{"amount":"1000000","source":"tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw","destination":"KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9","storage_limit":"0001000","gas_limit":"0001000","fee":"0000000","kind":"transaction","counter":"32178"}]}]
+//2018-11-26 10:10:37.518826+0100 TezosSwift[9733:6237908] [Data Flow] JSON data payload: {"branch":"BMLUZNaY8FdgLz6CtDjNK9GX2fXEsYuC8nResTbkSQFKjxew5Yz","contents":[{"amount":"1000000","source":"tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw","destination":"KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9","storage_limit":"0001000","gas_limit":"0001000","fee":"0000000","kind":"transaction","counter":"32179"}]}
+//2018-11-26 10:04:54.180882+0100 TezosSwift[9202:6196662] [Data Flow] JSON data payload: [{"branch":"BLoFSHdrmMuCYLfnYC8972r3qLXyJ7C28qpY9zwPPozgGNkRy3q","contents":[{"amount":"1000000","source":"tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw","destination":"KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9","storage_limit":"0001000","gas_limit":"0001000","fee":"0000000","kind":"transaction","counter":"32179"}]}]
+
 
 
 // Taken from: https://www.swiftbysundell.com/posts/mocking-in-swift

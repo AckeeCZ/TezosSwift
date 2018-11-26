@@ -139,7 +139,7 @@ class ContractStorageTests: XCTestCase {
 //        """.data(using: .utf8)!
 //        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
 //        let testStatusExpectation = expectation(description: "Pair status")
-//        tezosClient(at: "contract").status { result in
+//        tezosClient.(at: "contract").status { result in
 //            switch result {
 //            case .failure(let error):
 //                XCTFail("Failed with error: \(error)")

@@ -56,7 +56,7 @@ extension TezosPair: RPCEncodable {
 
 protocol RPCEncodable: Encodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws
-    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws
+    func encodeRPC(in container: inout KeyedEncodingContainer<StorageKeys>) throws
 }
 
 extension Array: RPCEncodable where Element: Encodable {
@@ -238,6 +238,12 @@ extension KeyedDecodingContainerProtocol {
         }
     }
 
+    func decodeRPC(_ type: Data.Type, forKey key: Key) throws -> Data {
+        let dataString = try decode(String.self, forKey: key)
+        guard let decodedData = dataString.data(using: .utf8) else { throw decryptionError() }
+        return decodedData
+    }
+
     func decodeRPC<T: RPCDecodable>(_ type: Set<T>.Type, forKey key: Key) throws -> Set<T> {
         var arrayContainer = try nestedUnkeyedContainer(forKey: key)
         return try arrayContainer.decodeRPC(type)
@@ -279,6 +285,10 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
         return try decode(String.self, forKey: .string)
     }
 
+    func decodeRPC(_ type: Data.Type) throws -> Data {
+        return try decodeRPC(Data.self, forKey: .bytes)
+    }
+
     func decodeRPC<T: Decodable>(_ type: T.Type) throws -> T {
         return try decode(type, forKey: .prim)
     }
@@ -287,18 +297,14 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
         // TODO: Would be nice to do this generically, thus supporting right away all RPCDecodable types
         let value: Any
         switch type {
-        case is Int.Type:
+        case is Int.Type, is Int?.Type:
             value = try decodeRPC(Int.self)
-        case is String.Type:
+        case is String.Type, is String?.Type:
             value = try decodeRPC(String.self)
-        case is Bool.Type:
+        case is Bool.Type, is Bool?.Type:
             value = try decodeRPC(Bool.self)
-        case is Int?.Type:
-            value = try decodeRPC(Int?.self) as Any
-        case is String?.Type:
-            value = try decodeRPC(String?.self) as Any
-        case is Bool?.Type:
-            value = try decodeRPC(Bool.self) as Any
+        case is Data.Type, is Data?.Type:
+            value = try decodeRPC(Data.self)
         default:
             value = try decode(type, forKey: .prim)
         }
