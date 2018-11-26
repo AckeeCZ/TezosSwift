@@ -13,6 +13,17 @@ struct TezosPair<T: RPCEncodable & RPCDecodable, U: RPCEncodable & RPCDecodable>
     typealias Second = U
     let first: First
     let second: Second
+
+    init?(first: First?, second: Second?) {
+        guard let first = first, let second = second else { return nil }
+        self.first = first
+        self.second = second
+    }
+
+    init(first: First, second: Second) {
+        self.first = first
+        self.second = second
+    }
 }
 
 extension TezosPair: RPCDecodable {
@@ -271,7 +282,6 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
     func decodeRPC<T: Decodable>(_ type: T.Type) throws -> T {
         return try decode(type, forKey: .prim)
     }
-
 
     func decodeRPC<T: RPCDecodable>(_ type: T.Type) throws -> T {
         // TODO: Would be nice to do this generically, thus supporting right away all RPCDecodable types

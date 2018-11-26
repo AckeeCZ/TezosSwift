@@ -1,6 +1,8 @@
 // Generated using TezosGen 
 // swiftlint:disable file_length
 
+import Foundation
+
 struct OptionalPairBoolContractBox {
     fileprivate let tezosClient: TezosClient 
     fileprivate let at: String
@@ -9,6 +11,7 @@ struct OptionalPairBoolContractBox {
        self.tezosClient = tezosClient 
        self.at = at 
     }
+
     func call(param1: Bool, param2: Bool) -> ContractMethodInvocation {
 		let input: TezosPair<Bool, Bool> = TezosPair(first: param1, second: param2) 
         let send: (_ from: Wallet, _ amount: Tez, _ completion: @escaping RPCCompletion<String>) -> Void = { from, amount, completion in
@@ -51,10 +54,10 @@ struct OptionalPairBoolContractStatusStorage: Decodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StorageKeys.self)
-        let tezosElement = try container.decode(TezosPair<Bool?, Bool?>.self, forKey: .args)
+        let tezosElement = try container.decode(TezosPair<Bool, Bool>?.self, forKey: .args)
 
-		self.arg1 = tezosElement.first
-		self.arg2 = tezosElement.second
+		self.arg1 = tezosElement?.first
+		self.arg2 = tezosElement?.second
     }
 }
 
