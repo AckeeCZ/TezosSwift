@@ -14,6 +14,8 @@ extension UInt: RPCDecodable {}
 extension Bool: RPCDecodable {}
 extension String: RPCDecodable {}
 extension Data: RPCDecodable {}
+extension Tez: RPCDecodable {}
+extension Mutez: RPCDecodable {}
 extension Set : RPCDecodable where Element : RPCDecodable {}
 extension Array : RPCDecodable where Element : RPCDecodable {}
 extension Optional: RPCDecodable where Wrapped: RPCDecodable {}
@@ -82,14 +84,6 @@ extension KeyedDecodingContainerProtocol {
         var arrayContainer = try nestedUnkeyedContainer(forKey: key)
         return try arrayContainer.decodeRPC(type)
     }
-
-    func decodeRPC<T: RPCDecodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        return try decode(T.self, forKey: key)
-    }
-
-    func decodeRPC<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        return try decode(T.self, forKey: key)
-    }
 }
 
 extension KeyedDecodingContainerProtocol where Key == StorageKeys {
@@ -118,8 +112,8 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
         return try decodeRPC(Data.self, forKey: .bytes)
     }
 
-    func decodeRPC<T: Decodable>(_ type: T.Type) throws -> T {
-        return try decode(type, forKey: .prim)
+    func decodeRPC(_ type: Mutez.Type) throws -> Mutez {
+        return try decode(Mutez.self, forKey: .int)
     }
 
     func decodeRPC<T: RPCDecodable>(_ type: T.Type) throws -> T {
@@ -133,6 +127,8 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
         case is Bool.Type, is Bool?.Type:
             value = try decodeRPC(Bool.self)
         case is Data.Type, is Data?.Type:
+            value = try decodeRPC(Data.self)
+        case is Mutez.Type, is Mutez?.Type:
             value = try decodeRPC(Data.self)
         default:
             value = try decode(type, forKey: .prim)

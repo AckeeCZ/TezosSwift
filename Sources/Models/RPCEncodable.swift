@@ -73,6 +73,30 @@ extension String: RPCEncodable {
     }
 }
 
+extension Tez: RPCEncodable {
+    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
+        try nestedContainer.encode(self, forKey: .int)
+    }
+
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
+        try nestedContainer.encode(self, forKey: .int)
+    }
+}
+
+extension Mutez: RPCEncodable {
+    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
+        try nestedContainer.encode(self, forKey: .int)
+    }
+
+    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
+        try nestedContainer.encode(self, forKey: .int)
+    }
+}
+
 extension Bool: RPCEncodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)

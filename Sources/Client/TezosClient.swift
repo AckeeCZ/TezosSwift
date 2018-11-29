@@ -126,22 +126,22 @@ public class TezosClient {
     // testContract(at: ).call(params:).send(amount, keys)
 
     // TODO: Delete
-    public func call(address: String, param1: Int, from wallet: Wallet, amount: Tez, completion: @escaping RPCCompletion<String>) {
+    public func call(address: String, param1: Int, from wallet: Wallet, amount: TezToken, completion: @escaping RPCCompletion<String>) {
         send(amount: amount, to: address, from: wallet, input: param1, completion: completion)
     }
 
-    public func call(address: String, param1: Bool, param2: Bool, from wallet: Wallet, amount: Tez, completion: @escaping RPCCompletion<String>) {
+    public func call(address: String, param1: Bool, param2: Bool, from wallet: Wallet, amount: TezToken, completion: @escaping RPCCompletion<String>) {
         let input: TezosPair<Bool, Bool> = TezosPair(first: param1, second: param2)
         send(amount: amount, to: address, from: wallet, input: input, completion: completion)
     }
 
     // TODO: Suport UInt (nat)
-    public func call(address: String, param1: String, param2: [Int], param3: Set<Int>, param4: Data, from wallet: Wallet, amount: Tez, completion: @escaping RPCCompletion<String>) {
+    public func call(address: String, param1: String, param2: [Int], param3: Set<Int>, param4: Data, from wallet: Wallet, amount: TezToken, completion: @escaping RPCCompletion<String>) {
         let input: TezosPair<TezosPair<TezosPair<String, [Int]>, Set<Int>>, Data> = TezosPair(first: TezosPair(first: TezosPair(first: param1, second: param2), second: param3), second: param4)
         send(amount: amount, to: address, from: wallet, input: input, completion: completion)
     }
 
-    public func call(address: String, param1: Data, from wallet: Wallet, amount: Tez, completion: @escaping RPCCompletion<String>) {
+    public func call(address: String, param1: Data, from wallet: Wallet, amount: TezToken, completion: @escaping RPCCompletion<String>) {
         send(amount: amount, to: address, from: wallet, input: param1, completion: completion)
     }
 
@@ -188,7 +188,7 @@ public class TezosClient {
    * @param completion A completion block which will be called with a string representing the
    *        transaction ID hash if the operation was successful.
    */
-    public func send(amount: Tez,
+    public func send(amount: TezToken,
                                    to recipientAddress: String,
                                    from wallet: Wallet,
                                    completion: @escaping RPCCompletion<String>) {
@@ -201,7 +201,7 @@ public class TezosClient {
     }
 
 
-    public func send<T: Encodable>(amount: Tez,
+    public func send<T: Encodable>(amount: TezToken,
 		to recipientAddress: String,
         from wallet: Wallet,
         input: T,

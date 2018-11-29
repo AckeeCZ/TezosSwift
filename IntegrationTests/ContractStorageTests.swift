@@ -107,37 +107,34 @@ class ContractStorageTests: XCTestCase {
         waitForExpectations(timeout: 3)
     }
 
-    func testPairStatus() {
-        let testStatusExpectation = expectation(description: "Pair status")
-        tezosClient.pairStatus(of: "KT1VMgRT1wcPLcBxeskaXvGYdWqxPPXLz6sp", completion: { result in
+    func testKeyHashStatus() {
+        let testStatusExpectation = expectation(description: "Key hash status")
+        tezosClient.keyHashContract(at: "KT1BdTKRWed7V1bT4jgtwkG4k7MgUTAC1Jaj").status { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
             case .success(let value):
-                XCTAssert(value.storage.arg1)
-                XCTAssertFalse(value.storage.arg2)
+                XCTAssertEqual(value.storage, "tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw")
                 testStatusExpectation.fulfill()
             }
-        })
+        }
 
         waitForExpectations(timeout: 3)
     }
 
-    func testComplicatedPairStatus() {
-        let testStatusExpectation = expectation(description: "Complicated status")
-        tezosClient.complicatedPairStatus(of: "KT1R5mgZpK7eL7QJ7kmVUzFwX9Kc9FepcUpr", completion: { result in
+    func testParameterPairStatus() {
+        let testStatusExpectation = expectation(description: "Parameter pair status")
+        tezosClient.parameterPairContract(at: "KT1Rfr8ywXgj4QmGpvoWuJD4XvFMrFhK7D9m").status { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
             case .success(let value):
-                XCTAssertEqual(value.storage.arg1, ["Hello", "World"])
-                XCTAssertFalse(value.storage.arg2 ?? true)
+                XCTAssertEqual(value.storage, false)
                 testStatusExpectation.fulfill()
             }
-        })
+        }
 
         waitForExpectations(timeout: 3)
     }
-
 }
 

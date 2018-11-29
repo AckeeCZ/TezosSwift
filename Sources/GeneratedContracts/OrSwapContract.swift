@@ -13,7 +13,7 @@ struct OrSwapContractBox {
     }
 
     func call(param1: Bool?, param2: String?) -> ContractMethodInvocation {
-        let send: (_ from: Wallet, _ amount: Tez, _ completion: @escaping RPCCompletion<String>) -> Void
+        let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
         guard let tezosOr1 = TezosOr(left: param1, right: param2) else { 
             send = { from, amount, completion in
                 completion(.failure(.orError))

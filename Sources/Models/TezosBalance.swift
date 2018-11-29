@@ -1,23 +1,53 @@
 import Foundation
 
+public protocol TezToken {
+    /**
+     * A representation of the given balance for use in RPC requests.
+     */
+    var rpcRepresentation: String { get }
+}
+
+public struct Mutez: TezToken {
+
+    let integerAmount: String
+    let decimalAmount: String
+
+    /**
+     * A human readable representation of the given balance.
+     */
+    public var humanReadableRepresentation: String {
+        return integerAmount + "." + decimalAmount
+    }
+
+    /**
+     * A representation of the given balance for use in RPC requests.
+     */
+    public var rpcRepresentation: String {
+        return integerAmount + decimalAmount
+    }
+
+    public init(_ amount: Double) {
+        let mutez = Tez(amount * 0.000001)
+        self.integerAmount = mutez.integerAmount
+        self.decimalAmount = mutez.decimalAmount
+    }
+
+    fileprivate init(integerAmount: String, decimalAmount: String) {
+        self.integerAmount = integerAmount
+        self.decimalAmount = decimalAmount
+    }
+}
+
 /**
  * A model class representing a balance of Tezos.
  */
-public struct Tez {
+public struct Tez: TezToken {
+
     /** The number of decimal places available in Tezos values. */
     fileprivate static let decimalDigitCount = 6
 
-    /**
-     * A string representing the integer amount of the balance.
-     * For instance, a balance of 123.456 would be represented in this field as "123".
-     */
-    fileprivate let integerAmount: String
-
-    /**
-     * A string representing the decimal amount of the balance.
-     * For instance, a balance of 123.456 would be represented in this field as "456".
-     */
-    fileprivate let decimalAmount: String
+    let integerAmount: String
+    let decimalAmount: String
 
     /**
      * A human readable representation of the given balance.
@@ -74,12 +104,17 @@ extension Tez: Equatable {
     }
 }
 
+extension Mutez: Equatable {
+    public static func == (lhs: Mutez, rhs: Mutez) -> Bool {
+        return lhs.rpcRepresentation == rhs.rpcRepresentation
+    }
+}
 
-extension KeyedDecodingContainer {
-    func decode(_ type: Tez.Type, forKey key: K) throws -> Tez {
-        let balanceString = try decode(String.self, forKey: key)
+
+extension KeyedDecodingContainerProtocol {
+    fileprivate func getAmounts(from balanceString: String) throws -> (String, String) {
         // Make sure the given string only contains digits.
-        guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: balanceString)) else { throw decryptionError() }
+        guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: balanceString)) else { throw TezosError.decryptionFailed }
 
         // Pad small numbers with up to six zeros so that the below slicing works correctly
         var paddedBalance = balanceString
@@ -94,12 +129,29 @@ extension KeyedDecodingContainer {
         let integerString = paddedBalance[paddedBalance.startIndex..<integerDigitEndIndex].count > 0 ? paddedBalance[paddedBalance.startIndex..<integerDigitEndIndex] : "0"
         let decimalString = paddedBalance[integerDigitEndIndex..<paddedBalance.endIndex]
 
-        return Tez(integerAmount: String(integerString), decimalAmount: String(decimalString))
+        return (String(integerString), String(decimalString))
+    }
+}
+
+extension Mutez: Codable {}
+extension Tez: Codable {}
+
+extension KeyedDecodingContainerProtocol {
+    func decode(_ type: Tez.Type, forKey key: Key) throws -> Tez {
+        let amount = try decodeRPC(Int.self, forKey: key)
+        return Tez(Double(amount))
     }
 }
 
 extension KeyedEncodingContainer {
-    mutating func encode(_ value: Tez, forKey key: KeyedEncodingContainer<K>.Key) throws {
+    mutating func encode(_ value: TezToken, forKey key: KeyedEncodingContainer<K>.Key) throws {
         try encode(value.rpcRepresentation, forKey: key)
+    }
+}
+
+extension KeyedDecodingContainerProtocol {
+    func decode(_ type: Mutez.Type, forKey key: Key) throws -> Mutez {
+        let amount = try decodeRPC(Int.self, forKey: key)
+        return Mutez(Double(amount))
     }
 }

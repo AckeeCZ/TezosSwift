@@ -11,7 +11,7 @@ struct IntContractBox {
     }
     func call(param1: Int) -> ContractMethodInvocation {
 		let input: Int = param1 
-        let send: (_ from: Wallet, _ amount: Tez, _ completion: @escaping RPCCompletion<String>) -> Void = { from, amount, completion in
+        let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void = { from, amount, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
         }
 

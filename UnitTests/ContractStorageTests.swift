@@ -35,7 +35,7 @@ class ContractStorageTests: XCTestCase {
     func testOptionalNonNilStringStatus() {
         let networkSessionMock = NetworkSessionMock()
         networkSessionMock.data = """
-        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"100000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"string"}]},{"prim":"storage","args":[{"prim":"option","args":[{"prim":"string"}]}]},{"prim":"code","args":[[{"prim":"CAR"},{"prim":"SOME"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"prim":"Some","args":[{"string":"hello"}]}},"counter":"0"}
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"123000020","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"string"}]},{"prim":"storage","args":[{"prim":"option","args":[{"prim":"string"}]}]},{"prim":"code","args":[[{"prim":"CAR"},{"prim":"SOME"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"prim":"Some","args":[{"string":"hello"}]}},"counter":"0"}
         """.data(using: .utf8)!
         let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
         let testStatusExpectation = expectation(description: "Optional non-nil string status")
@@ -153,21 +153,65 @@ class ContractStorageTests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-//    func testComplicatedPairStatus() {
-//        let testStatusExpectation = expectation(description: "Complicated status")
-//        tezosClient.complicatedPairStatus(of: "KT1R5mgZpK7eL7QJ7kmVUzFwX9Kc9FepcUpr", completion: { result in
-//            switch result {
-//            case .failure(let error):
-//                XCTFail("Failed with error: \(error)")
-//            case .success(let value):
-//                XCTAssertEqual(value.storage.arg1, ["Hello", "World"])
-//                XCTAssertFalse(value.storage.arg2 ?? true)
-//                testStatusExpectation.fulfill()
-//            }
-//        })
-//
-//        waitForExpectations(timeout: 3)
-//    }
+    func testKeyHashStatus() {
+        let networkSessionMock = NetworkSessionMock()
+        networkSessionMock.data = """
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"1000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"key_hash"}]},{"prim":"storage","args":[{"prim":"key_hash"}]},{"prim":"code","args":[[{"prim":"CDR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"string":"tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw"}},"counter":"0"}
+        """.data(using: .utf8)!
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+        let testStatusExpectation = expectation(description: "Or swap status")
+        tezosClient.keyHashContract(at: "contract").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertEqual(value.storage, "tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw")
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 1)
+    }
+
+    func testParameterPairStatus() {
+        let networkSessionMock = NetworkSessionMock()
+        networkSessionMock.data = """
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"1000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"pair","args":[{"prim":"bool","annots":["%first"]},{"prim":"bool","annots":["%second"]}],"annots":[":param"]}]},{"prim":"storage","args":[{"prim":"option","args":[{"prim":"bool"}]}]},{"prim":"code","args":[[{"prim":"CAR"},[[{"prim":"DUP"},{"prim":"CAR"},{"prim":"DIP","args":[[{"prim":"CDR"}]]}]],{"prim":"AND","annots":["@and"]},{"prim":"SOME","annots":["@res"]},{"prim":"NIL","args":[{"prim":"operation"}],"annots":["@noop"]},{"prim":"PAIR"},[[{"prim":"DUP"},{"prim":"CAR","annots":["@x"]},{"prim":"DIP","args":[[{"prim":"CDR","annots":["@y"]}]]}]],{"prim":"PAIR","annots":["%a","%b"]}]]}],"storage":{"prim":"Some","args":[{"prim":"False"}]}},"counter":"0"}
+        """.data(using: .utf8)!
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+        let testStatusExpectation = expectation(description: "Parameter pair status")
+        tezosClient.parameterPairContract(at: "contract").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertEqual(value.storage, false)
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 1)
+    }
+
+    func testMutezStatus() {
+        let networkSessionMock = NetworkSessionMock()
+        networkSessionMock.data = """
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"1000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"mutez"}]},{"prim":"storage","args":[{"prim":"mutez"}]},{"prim":"code","args":[[{"prim":"CDR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"int":"100"}},"counter":"0"}
+        """.data(using: .utf8)!
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+        let testStatusExpectation = expectation(description: "Parameter pair status")
+        tezosClient.mutezContract(at: "contract").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertEqual(value.storage, Mutez(100))
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 1)
+    }
 }
 
 

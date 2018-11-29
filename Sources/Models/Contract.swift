@@ -9,13 +9,13 @@
 //import Foundation
 //
 //struct ContractMethodInvocation {
-//    private let send: (_ from: Wallet, _ amount: Tez, _ completion: @escaping RPCCompletion<String>) -> Void
+//    private let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
 //
-//    init(send: @escaping (_ from: Wallet, _ amount: Tez, _ completion: @escaping RPCCompletion<String>) -> Void) {
+//    init(send: @escaping (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void) {
 //        self.send = send
 //    }
 //
-//    func send(from: Wallet, amount: Tez, completion: @escaping RPCCompletion<String>) {
+//    func send(from: Wallet, amount: TezToken, completion: @escaping RPCCompletion<String>) {
 //        self.send(from, amount, completion)
 //    }
 //}
@@ -32,7 +32,7 @@
 //
 //    func call(param1: Bool, param2: Bool) -> ContractMethodInvocation {
 //        let input: TezosPair<Bool, Bool> = TezosPair(first: param1, second: param2)
-//        let send: (_ from: Wallet, _ amount: Tez, _ completion: @escaping RPCCompletion<String>) -> Void = { from, amount, completion in
+//        let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void = { from, amount, completion in
 //            self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
 //        }
 //

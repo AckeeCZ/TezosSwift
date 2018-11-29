@@ -47,4 +47,29 @@ class CallEncodingTests: XCTestCase {
         """)
     }
 
+    func testOrSwapCall() {
+        guard let input = TezosOr<Bool, String>(left: nil, right: "X") else { XCTFail(); return }
+        let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: input)
+        guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
+        XCTAssertEqual(encodedDataString, """
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0000000","kind":"transaction","counter":"0","parameters":{"prim":"Right","args":[{"string":"X"}]}}
+        """)
+    }
+
+    func testKeyHashCall() {
+        let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: "tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw")
+        guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
+        XCTAssertEqual(encodedDataString, """
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0000000","kind":"transaction","counter":"0","parameters":{"string":"tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw"}}
+        """)
+    }
+
+    func testParameterPairCall() {
+        let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: TezosPair<Bool, Bool>(first: true, second: false))
+        guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
+        XCTAssertEqual(encodedDataString, """
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0000000","kind":"transaction","counter":"0","parameters":{"prim":"Pair","args":[{"prim":"True"},{"prim":"False"}]}}
+        """)
+    }
+
 }
