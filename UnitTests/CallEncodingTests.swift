@@ -80,4 +80,12 @@ class CallEncodingTests: XCTestCase {
         """)
     }
 
+    func testKeyCall() {
+        let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: "edpkuBknW28nW72KG6RoHtYW7p12T6GKc7nAbwYX5m8Wd9sDVC9yav")
+        guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
+        XCTAssertEqual(encodedDataString, """
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0000000","kind":"transaction","counter":"0","parameters":{"string":"edpkuBknW28nW72KG6RoHtYW7p12T6GKc7nAbwYX5m8Wd9sDVC9yav"}}
+        """)
+    }
+
 }

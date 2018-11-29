@@ -13,8 +13,9 @@ struct PackUnpackContractBox {
     }
 
     func call(param1: String, param2: [Int], param3: Set<UInt>, param4: Data) -> ContractMethodInvocation {
-        let input: TezosPair<TezosPair<TezosPair<String, [Int]>, Set<UInt>>, Data> = TezosPair(first: TezosPair(first: TezosPair(first: param1, second: param2), second: param3), second: param4)
-        let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void = { from, amount, completion in
+        let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
+		let input: TezosPair<TezosPair<TezosPair<String, [Int]>, Set<UInt>>, Data> = TezosPair(first: TezosPair(first: TezosPair(first: param1, second: param2), second: param3), second: param4) 
+        send = { from, amount, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
         }
 

@@ -1,1 +1,1 @@
-{ "storage": {"prim":"option","args":[{"prim":"bool"}]}, "parameter": {"prim":"pair","args":[{"prim":"bool","annots":["%first"]},{"prim":"bool","annots":["%second"]}],"annots":[":param"]} }
+{ "storage": {"prim":"option","annots":["%result"],"args":[{"prim":"bool"}]}, "parameter": {"prim":"pair","args":[{"prim":"bool","annots":["%first"]},{"prim":"bool","annots":["%second"]}],"annots":[":param"]} }

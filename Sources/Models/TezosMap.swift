@@ -27,6 +27,5 @@ extension TezosMap: Codable {
             try argsContainer.encodeRPC($0.first)
             try argsContainer.encodeRPC($0.second)
         }
-
     }
 }

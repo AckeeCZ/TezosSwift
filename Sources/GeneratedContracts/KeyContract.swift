@@ -3,7 +3,7 @@
 
 import Foundation
 
-struct ParameterPairContractBox {
+struct KeyContractBox {
     fileprivate let tezosClient: TezosClient 
     fileprivate let at: String
 
@@ -12,9 +12,9 @@ struct ParameterPairContractBox {
        self.at = at 
     }
 
-    func call(first: Bool, second: Bool) -> ContractMethodInvocation {
+    func call(param1: String) -> ContractMethodInvocation {
         let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
-		let input: TezosPair<Bool, Bool> = TezosPair(first: first, second: second) 
+		let input: String = param1 
         send = { from, amount, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
         }
@@ -22,19 +22,19 @@ struct ParameterPairContractBox {
         return ContractMethodInvocation(send: send)
     }
 
-	func status(completion: @escaping RPCCompletion<ParameterPairContractStatus>) {
+	func status(completion: @escaping RPCCompletion<KeyContractStatus>) {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + at
         tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 }
 
-struct ParameterPairContractStatus: Decodable {
+struct KeyContractStatus: Decodable {
     let balance: Tez
     let spendable: Bool
     let manager: String
     let delegate: StatusDelegate
     let counter: Int
-    let storage: Bool?
+    let storage: String
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
@@ -45,12 +45,12 @@ struct ParameterPairContractStatus: Decodable {
         self.counter = try container.decodeRPC(Int.self, forKey: .counter)
 
         let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
-        self.storage = try scriptContainer.nestedContainer(keyedBy: StorageKeys.self, forKey: .storage).decodeRPC(Bool?.self)
+        self.storage = try scriptContainer.nestedContainer(keyedBy: StorageKeys.self, forKey: .storage).decodeRPC(String.self)
     }
 }
 
 extension TezosClient {
-    func parameterPairContract(at: String) -> ParameterPairContractBox {
-        return ParameterPairContractBox(tezosClient: self, at: at)
+    func keyContract(at: String) -> KeyContractBox {
+        return KeyContractBox(tezosClient: self, at: at)
     }
 }
