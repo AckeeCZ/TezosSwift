@@ -3,7 +3,7 @@
 
 import Foundation
 
-struct MutezContractBox {
+struct MapContractBox {
     fileprivate let tezosClient: TezosClient 
     fileprivate let at: String
 
@@ -12,9 +12,9 @@ struct MutezContractBox {
        self.at = at 
     }
 
-    func call(param1: Mutez) -> ContractMethodInvocation {
+    func call(param1: [(Int, Int)]) -> ContractMethodInvocation {
         let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
-		let input: Mutez = param1 
+		let input: [TezosPair<Int, Int>] = param1.map { TezosPair(first: $0.0, second: $0.1) } 
         send = { from, amount, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
         }
@@ -22,19 +22,19 @@ struct MutezContractBox {
         return ContractMethodInvocation(send: send)
     }
 
-	func status(completion: @escaping RPCCompletion<MutezContractStatus>) {
+	func status(completion: @escaping RPCCompletion<MapContractStatus>) {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + at
         tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 }
 
-struct MutezContractStatus: Decodable {
-    let balance: TezToken
+struct MapContractStatus: Decodable {
+    let balance: Tez
     let spendable: Bool
     let manager: String
     let delegate: StatusDelegate
     let counter: Int
-    let storage: Mutez 
+    let storage: [(Int, Int)]
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
@@ -45,12 +45,12 @@ struct MutezContractStatus: Decodable {
         self.counter = try container.decodeRPC(Int.self, forKey: .counter)
 
         let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
-        self.storage = try scriptContainer.nestedContainer(keyedBy: StorageKeys.self, forKey: .storage).decodeRPC(Mutez.self)
+        self.storage = try scriptContainer.decode([TezosPair<Int, Int>].self, forKey: .storage).map { ($0.first, $0.second) }
     }
 }
 
 extension TezosClient {
-    func mutezContract(at: String) -> MutezContractBox {
-        return MutezContractBox(tezosClient: self, at: at)
+    func mapContract(at: String) -> MapContractBox {
+        return MapContractBox(tezosClient: self, at: at)
     }
 }

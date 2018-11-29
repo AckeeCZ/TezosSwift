@@ -492,20 +492,21 @@ public class TezosClient {
 
         let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        if let decodedType = try? jsonDecoder.decode(T.self, from: data) {
-            return decodedType
-        }
 
-        guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else {
-            throw TezosError.unexpectedResponseType
-        }
+        do {
+            return try jsonDecoder.decode(T.self, from: data)
+        } catch let error {
+            guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else {
+                throw TezosError.unexpectedResponseType(decodingError: error)
+            }
 
-        if let responseNumber = singleResponse.numberValue as? T {
-            return responseNumber
-        } else if let responseString = singleResponse as? T {
-            return responseString
-        } else {
-            throw TezosError.unexpectedResponseType
+            if let responseNumber = singleResponse.numberValue as? T {
+                return responseNumber
+            } else if let responseString = singleResponse as? T {
+                return responseString
+            } else {
+                throw TezosError.unexpectedResponseType(decodingError: error)
+            }
         }
     }
 

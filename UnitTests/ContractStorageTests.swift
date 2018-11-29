@@ -199,13 +199,36 @@ class ContractStorageTests: XCTestCase {
         {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"1000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"mutez"}]},{"prim":"storage","args":[{"prim":"mutez"}]},{"prim":"code","args":[[{"prim":"CDR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"int":"100"}},"counter":"0"}
         """.data(using: .utf8)!
         let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
-        let testStatusExpectation = expectation(description: "Parameter pair status")
+        let testStatusExpectation = expectation(description: "Mutez status")
         tezosClient.mutezContract(at: "contract").status { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
             case .success(let value):
                 XCTAssertEqual(value.storage, Mutez(100))
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 1)
+    }
+
+    func testMapStatus() {
+        let networkSessionMock = NetworkSessionMock()
+        networkSessionMock.data = """
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"1000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"storage","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"code","args":[[{"prim":"CDR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":[{"prim":"Elt","args":[{"int":"0"},{"int":"100"}]},{"prim":"Elt","args":[{"int":"2"},{"int":"100"}]}]},"counter":"0"}
+        """.data(using: .utf8)!
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+        let testStatusExpectation = expectation(description: "Map status")
+        tezosClient.mapContract(at: "contract").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertEqual(value.storage.first?.0, 0)
+                XCTAssertEqual(value.storage.first?.1, 100)
+                XCTAssertEqual(value.storage.last?.0, 2)
+                XCTAssertEqual(value.storage.last?.1, 100)
                 testStatusExpectation.fulfill()
             }
         }

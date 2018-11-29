@@ -10,7 +10,7 @@ public enum TezosError: Error {
     case responseError(code: Int, message: String, data: Any?)
     case unknown(message: String)
     case noResponseData
-    case unexpectedResponseType
+    case unexpectedResponseType(decodingError: Error)
     case jsonSigningFailed
     case invalidNode
     case unsupportedTezosType
