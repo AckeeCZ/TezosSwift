@@ -56,6 +56,7 @@
 		F8633AA62188884100B6566B /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633AA52188884100B6566B /* Secret.swift */; };
 		F8633AF6218B260100B6566B /* ContractStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8633AF5218B260100B6566B /* ContractStatus.swift */; };
 		F864CC1021AC11990014B357 /* CallEncodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F864CC0F21AC11990014B357 /* CallEncodingTests.swift */; };
+		F8689F0121B021CF00B4C96E /* TezosMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8689F0021B021CF00B4C96E /* TezosMap.swift */; };
 		F8B23A0B219DDAA9009657F2 /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B23A0A219DDAA9009657F2 /* Contract.swift */; };
 		F8B6AE6D21909A5400356B05 /* OperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B6AE6C21909A5400356B05 /* OperationPayload.swift */; };
 		F8B6AE6F21909A6900356B05 /* SignedOperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B6AE6E21909A6900356B05 /* SignedOperationPayload.swift */; };
@@ -156,6 +157,7 @@
 		F8633AA52188884100B6566B /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		F8633AF5218B260100B6566B /* ContractStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStatus.swift; sourceTree = "<group>"; };
 		F864CC0F21AC11990014B357 /* CallEncodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallEncodingTests.swift; sourceTree = "<group>"; };
+		F8689F0021B021CF00B4C96E /* TezosMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosMap.swift; sourceTree = "<group>"; };
 		F8B23A0A219DDAA9009657F2 /* Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contract.swift; sourceTree = "<group>"; };
 		F8B6AE6C21909A5400356B05 /* OperationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationPayload.swift; sourceTree = "<group>"; };
 		F8B6AE6E21909A6900356B05 /* SignedOperationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedOperationPayload.swift; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 				F8633AA52188884100B6566B /* Secret.swift */,
 				F8633AF5218B260100B6566B /* ContractStatus.swift */,
 				F8633606219497C200896B6A /* TezosPair.swift */,
+				F8689F0021B021CF00B4C96E /* TezosMap.swift */,
 				F8FFDCBD21AC538400546A3B /* TezosOr.swift */,
 				F8FFDCBF21AC53AE00546A3B /* RPCCodable.swift */,
 				F8FFDCC121AC53EC00546A3B /* RPCDecodable.swift */,
@@ -657,6 +660,7 @@
 				AAEA07E03D3AFB5D514766F2 /* StringSetContract.swift in Sources */,
 				74D703DBDC737C2F0A302D6F /* PackUnpackContract.swift in Sources */,
 				3A6D9EC5002D98E2401EC840 /* BytesContract.swift in Sources */,
+				F8689F0121B021CF00B4C96E /* TezosMap.swift in Sources */,
 				C3398FA1CF89EA3F00D99CB1 /* OrSwapContract.swift in Sources */,
 				FC6EE98DE4852D30AEB798F4 /* KeyHashContract.swift in Sources */,
 				5C460B49C0F34D2C0CA27201 /* ParameterPairContract.swift in Sources */,

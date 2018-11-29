@@ -176,6 +176,22 @@ class ContractCallTests: XCTestCase {
         waitForExpectations(timeout: 3, handler: nil)
     }
 
+    func testMap() {
+        let testCompletionExpectation = expectation(description: "Sending Map contract")
+
+        tezosClient.mapContract(at: "KT1D9EKXXwhvFDxHYGfuYzr3W4kkKK4nHgDn").call(param1: [(0, 100), (2, 100)]).send(from: wallet, amount: Tez(1), completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                testCompletionExpectation.fulfill()
+            case .success(_):
+                testCompletionExpectation.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3, handler: nil)
+    }
+
 //    func testPackUnpack() {
 //        let testCompletionExpectation = expectation(description: "Sending Tezos to PackUnpack contract")
 //

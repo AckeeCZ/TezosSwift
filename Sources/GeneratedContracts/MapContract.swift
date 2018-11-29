@@ -14,7 +14,7 @@ struct MapContractBox {
 
     func call(param1: [(Int, Int)]) -> ContractMethodInvocation {
         let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
-		let input: [TezosPair<Int, Int>] = param1.map { TezosPair(first: $0.0, second: $0.1) } 
+		let input: TezosMap<Int, Int> = TezosMap(pairs: param1.map { TezosPair(first: $0.0, second: $0.1) }) 
         send = { from, amount, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
         }
@@ -45,7 +45,7 @@ struct MapContractStatus: Decodable {
         self.counter = try container.decodeRPC(Int.self, forKey: .counter)
 
         let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
-        self.storage = try scriptContainer.decode([TezosPair<Int, Int>].self, forKey: .storage).map { ($0.first, $0.second) }
+        self.storage = try scriptContainer.decode(TezosMap<Int, Int>.self, forKey: .storage).pairs.map { ($0.first, $0.second) }
     }
 }
 

@@ -52,3 +52,4 @@ extension TezosPair: RPCCodable {
         try container.encode(self)
     }
 }
+
