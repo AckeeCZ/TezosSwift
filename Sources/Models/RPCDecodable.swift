@@ -89,7 +89,7 @@ extension KeyedDecodingContainerProtocol {
 extension KeyedDecodingContainerProtocol where Key == StorageKeys {
 
     func decodeRPC<T>(_ type: T?.Type) throws -> T? where T : RPCDecodable {
-        let tezosOptional = try decode(TezosOptional.self, forKey: .prim)
+        let tezosOptional = try decode(TezosPrimaryType.self, forKey: .prim)
         guard tezosOptional == .some else { return nil }
         var optionalContainer = try nestedUnkeyedContainer(forKey: .args)
         let nestedContainer = try optionalContainer.nestedContainer(keyedBy: StorageKeys.self)
@@ -176,8 +176,8 @@ extension UnkeyedDecodingContainer {
             return (try container.decodeRPC(T.self), currentContainer)
         }
         let container = try nestedContainer(keyedBy: StorageKeys.self)
-        let primaryType = try container.decodeIfPresent(String.self, forKey: .prim).self
-        if primaryType == "Pair" || primaryType == "Some" || primaryType == "Elt" {
+        let primaryType = try container.decodeIfPresent(TezosPrimaryType.self, forKey: .prim).self
+        if primaryType == TezosPrimaryType.pair || primaryType == TezosPrimaryType.some || primaryType == TezosPrimaryType.map {
             // TODO: Check different ways of outputs for some (optional lists?)
             var mutableSomeContainer = try container.nestedUnkeyedContainer(forKey: .args)
             let someContainer = try mutableSomeContainer.nestedContainer(keyedBy: StorageKeys.self)

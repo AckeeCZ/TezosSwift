@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct OperationPayload: Encodable {
+public struct OperationPayload: Encodable {
     let contents: [Operation]
     let branch: String
 }

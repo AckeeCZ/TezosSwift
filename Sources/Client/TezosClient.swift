@@ -119,47 +119,6 @@ public class TezosClient {
         sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 
-    // TODO: Rewrite!!!!!!!
-    // testContract(at: address).status().storage
-    // func status() -> ContractStatus
-    // testContract(at: address).send(amount, params: [])
-    // testContract(at: ).call(params:).send(amount, keys)
-
-    // TODO: Delete
-    public func call(address: String, param1: Int, from wallet: Wallet, amount: TezToken, completion: @escaping RPCCompletion<String>) {
-        send(amount: amount, to: address, from: wallet, input: param1, completion: completion)
-    }
-
-    public func call(address: String, param1: Bool, param2: Bool, from wallet: Wallet, amount: TezToken, completion: @escaping RPCCompletion<String>) {
-        let input: TezosPair<Bool, Bool> = TezosPair(first: param1, second: param2)
-        send(amount: amount, to: address, from: wallet, input: input, completion: completion)
-    }
-
-    // TODO: Suport UInt (nat)
-    public func call(address: String, param1: String, param2: [Int], param3: Set<Int>, param4: Data, from wallet: Wallet, amount: TezToken, completion: @escaping RPCCompletion<String>) {
-        let input: TezosPair<TezosPair<TezosPair<String, [Int]>, Set<Int>>, Data> = TezosPair(first: TezosPair(first: TezosPair(first: param1, second: param2), second: param3), second: param4)
-        send(amount: amount, to: address, from: wallet, input: input, completion: completion)
-    }
-
-    public func call(address: String, param1: Data, from wallet: Wallet, amount: TezToken, completion: @escaping RPCCompletion<String>) {
-        send(amount: amount, to: address, from: wallet, input: param1, completion: completion)
-    }
-
-//    public func intStatus(of address: String, completion: @escaping RPCCompletion<IntContractStatus>) {
-//        let endpoint = "/chains/main/blocks/head/context/contracts/" + address
-//        sendRPC(endpoint: endpoint, method: .get, completion: completion)
-//    }
-
-    public func pairStatus(of address: String, completion: @escaping RPCCompletion<PairContractStatus>) {
-        let endpoint = "/chains/main/blocks/head/context/contracts/" + address
-        sendRPC(endpoint: endpoint, method: .get, completion: completion)
-    }
-
-    public func complicatedPairStatus(of address: String, completion: @escaping RPCCompletion<PairSetBoolContractStatus>) {
-        let endpoint = "/chains/main/blocks/head/context/contracts/" + address
-        sendRPC(endpoint: endpoint, method: .get, completion: completion)
-    }
-
     /** Retrieve the address counter for the given address. */
     public func status(of address: String, completion: @escaping RPCCompletion<ContractStatus>) {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address
@@ -428,8 +387,8 @@ public class TezosClient {
                 urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 urlRequest.cachePolicy = .reloadIgnoringCacheData
                 urlRequest.httpBody = jsonData
-                os_log("Endnode: %@", log: dataLog, type: .debug, endpoint)
-                os_log("JSON data payload: %@", log: dataLog, type: .debug, String(data: jsonData, encoding: .utf8) ?? "")
+                os_log("Endnode: %@", log: dataLog, endpoint)
+                os_log("JSON data payload: %@", log: dataLog, String(data: jsonData, encoding: .utf8) ?? "")
             }
             catch let error {
                 completion(.failure(.encryptionFailed(error: error)))
@@ -444,8 +403,8 @@ public class TezosClient {
         let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
 
         urlSession.loadData(with: urlRequest) { [weak self] data, response, error in
-            os_log("Endnode: %@", log: dataLog, type: .debug, remoteNodeEndpoint.absoluteString)
-            os_log("JSON response: %@", log: dataLog, type: .debug, String(data: data ?? Data(), encoding: .utf8) ?? "")
+            os_log("Endnode: %@", log: dataLog, remoteNodeEndpoint.absoluteString)
+            os_log("JSON response: %@", log: dataLog, String(data: data ?? Data(), encoding: .utf8) ?? "")
             // Decode the server's response to a string in order to bundle it with the error if it is in
             // a readable format.
             var errorMessage = ""
@@ -496,9 +455,7 @@ public class TezosClient {
         do {
             return try jsonDecoder.decode(T.self, from: data)
         } catch let error {
-            guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else {
-                throw TezosError.unexpectedResponseType(decodingError: error)
-            }
+            guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else { throw TezosError.unexpectedResponseType(decodingError: error) }
 
             if let responseNumber = singleResponse.numberValue as? T {
                 return responseNumber
@@ -574,7 +531,7 @@ public class TezosClient {
 
 //Taken from: https://stackoverflow.com/questions/24115141/converting-string-to-int-with-swift/46716943#46716943
 private extension String {
-    var numberValue:NSNumber? {
+    var numberValue: NSNumber? {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         return formatter.number(from: self)
@@ -582,27 +539,8 @@ private extension String {
 }
 
 // Taken from: https://stackoverflow.com/questions/51058292/why-can-not-use-protocol-encodable-as-a-type-in-the-func#51058460
-extension Encodable {
+private extension Encodable {
     func toJSONData() throws -> Data {
         return try JSONEncoder().encode(self)
-    }
-}
-
-
-// Taken from: https://www.swiftbysundell.com/posts/mocking-in-swift
-
-protocol NetworkSession {
-    func loadData(with urlRequest: URLRequest,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
-}
-
-extension URLSession: NetworkSession {
-    func loadData(with urlRequest: URLRequest,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)  {
-        let task = dataTask(with: urlRequest) { (data, response, error) in
-            completionHandler(data, response, error)
-        }
-
-        task.resume()
     }
 }

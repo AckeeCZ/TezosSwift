@@ -3,26 +3,26 @@ import Foundation
 /**
  * A static utility class which provides functionality for encoding and decoding JSON.
  */
-public class JSONUtils {
+class JSONUtils {
 
 	/**
    * Returns a JSON encoded string representation of a given string.
    */
-	public static func jsonString(for string: String) -> String? {
+	static func jsonString(for string: String) -> String? {
 		return "\"" + string + "\""
 	}
 
 	/**
    * Returns a JSON encoded string representation of a given array.
    */
-	public static func jsonString(for array: [[String: Any]]) -> String? {
+	static func jsonString(for array: [[String: Any]]) -> String? {
 		return jsonString(forUntypedObject: array)
 	}
 
 	/**
    * Returns a JSON encoded string representation of a given dictionary.
    */
-	public static func jsonString(for dictionary: [String: Any]) -> String? {
+	static func jsonString(for dictionary: [String: Any]) -> String? {
 		return jsonString(forUntypedObject: dictionary)
 	}
 

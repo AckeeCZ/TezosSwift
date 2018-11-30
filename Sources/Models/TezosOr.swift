@@ -34,10 +34,10 @@ struct TezosOr<T: RPCCodable, U: RPCCodable> {
 extension TezosOr: RPCCodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StorageKeys.self)
-        let primaryType = try container.decode(String.self, forKey: .prim).self
+        let primaryType = try container.decode(TezosPrimaryType.self, forKey: .prim).self
         var mutableSomeContainer = try container.nestedUnkeyedContainer(forKey: .args)
         let someContainer = try mutableSomeContainer.nestedContainer(keyedBy: StorageKeys.self)
-        if primaryType == "Left" {
+        if primaryType == TezosPrimaryType.left {
             self.left = try someContainer.decodeRPC(Left.self)
             self.right = nil
         } else {
@@ -50,13 +50,13 @@ extension TezosOr: RPCCodable {
         var container = encoder.container(keyedBy: StorageKeys.self)
 
         if let left = self.left {
-            try container.encode("Left", forKey: .prim)
+            try container.encode(TezosPrimaryType.left, forKey: .prim)
             var argsContainer = container.nestedUnkeyedContainer(forKey: .args)
             try argsContainer.encodeRPC(left)
         }
 
         if let right = self.right {
-            try container.encode("Right", forKey: .prim)
+            try container.encode(TezosPrimaryType.right, forKey: .prim)
             var argsContainer = container.nestedUnkeyedContainer(forKey: .args)
             try argsContainer.encodeRPC(right)
         }

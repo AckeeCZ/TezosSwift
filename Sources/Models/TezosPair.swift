@@ -38,7 +38,7 @@ extension TezosPair: RPCCodable {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: StorageKeys.self)
-        try container.encode("Pair", forKey: .prim)
+        try container.encode(TezosPrimaryType.pair, forKey: .prim)
         var argsContainer = container.nestedUnkeyedContainer(forKey: .args)
         try argsContainer.encodeRPC(first)
         try argsContainer.encodeRPC(second)

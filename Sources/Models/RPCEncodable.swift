@@ -126,9 +126,9 @@ extension Optional: RPCEncodable where Wrapped: RPCEncodable {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
         switch self {
         case .none:
-            try nestedContainer.encode("None", forKey: .prim)
+            try nestedContainer.encode(TezosPrimaryType.none, forKey: .prim)
         case .some(let value):
-            try nestedContainer.encode("Some", forKey: .prim)
+            try nestedContainer.encode(TezosPrimaryType.some, forKey: .prim)
             var argsContainer = nestedContainer.nestedUnkeyedContainer(forKey: .args)
             try argsContainer.encodeRPC(value)
         }
@@ -155,7 +155,6 @@ extension UnkeyedEncodingContainer {
         return EncodingError.invalidValue(value, context)
     }
 
-    // TODO: Encode if present when params optionals!
     mutating func encodeRPC<T: Encodable>(_ value: T) throws {
         if let unwrappedValue = value as? RPCEncodable {
             try unwrappedValue.encodeRPC(in: &self)

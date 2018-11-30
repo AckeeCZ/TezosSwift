@@ -22,7 +22,7 @@ extension TezosMap: Codable {
         var mapArrayContainer = encoder.unkeyedContainer()
         try pairs.forEach {
             var mapContainer = mapArrayContainer.nestedContainer(keyedBy: StorageKeys.self)
-            try mapContainer.encode("Elt", forKey: .prim)
+            try mapContainer.encode(TezosPrimaryType.map, forKey: .prim)
             var argsContainer = mapContainer.nestedUnkeyedContainer(forKey: .args)
             try argsContainer.encodeRPC($0.first)
             try argsContainer.encodeRPC($0.second)
