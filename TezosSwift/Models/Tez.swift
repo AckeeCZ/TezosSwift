@@ -69,9 +69,9 @@ public struct Tez: TezToken, Codable {
 }
 
 extension KeyedDecodingContainerProtocol {
-    func decode(_ type: Tez.Type, forKey key: Key) throws -> Tez {
+    public func decode(_ type: Tez.Type, forKey key: Key) throws -> Tez {
         let amount = try decodeRPC(Int.self, forKey: key)
-        return Tez(Double(amount))
+        return Tez(Double(amount) * 0.000001)
     }
 }
 

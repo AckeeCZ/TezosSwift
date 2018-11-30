@@ -44,11 +44,11 @@ public class TransactionOperation: Operation {
 public class ContractOperation<T: Encodable>: TransactionOperation {
     private let input: T
 
-    convenience init(amount: TezToken, source: Wallet, destination: String, input: T) {
+    public convenience init(amount: TezToken, source: Wallet, destination: String, input: T) {
         self.init(amount: amount, source: source.address, destination: destination, input: input)
     }
 
-    init(amount: TezToken, source: String, destination: String, input: T) {
+    public init(amount: TezToken, source: String, destination: String, input: T) {
         self.input = input
 
         super.init(amount: amount, source: source, destination: destination)

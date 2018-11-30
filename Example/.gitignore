@@ -70,3 +70,5 @@ Environment/Environment.swift
 #generated files
 */Model/Generated/*
 !*/Model/Generated/.gitkeep
+
+Sources/Secret.swift

@@ -43,7 +43,7 @@ public struct Mutez: TezToken, Codable {
 }
 
 extension KeyedDecodingContainerProtocol {
-    func decode(_ type: Mutez.Type, forKey key: Key) throws -> Mutez {
+    public func decode(_ type: Mutez.Type, forKey key: Key) throws -> Mutez {
         let amount = try decodeRPC(Int.self, forKey: key)
         return Mutez(Double(amount))
     }

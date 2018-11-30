@@ -8,7 +8,8 @@
 
 import XCTest
 import Foundation
-@testable import TezosSwift
+import TezosSwift
+@testable import TezosSwift_Example
 
 class CallEncodingTests: XCTestCase {
 

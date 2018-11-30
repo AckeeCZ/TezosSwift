@@ -1,6 +1,6 @@
 import XCTest
-@testable import TezosSwift
-@testable import TezosSwift
+import TezosSwift
+@testable import TezosSwift_Example
 
 class TezosRPCTest: XCTestCase {
     let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL)

@@ -1,5 +1,6 @@
 import XCTest
-@testable import TezosSwift
+import TezosSwift
+@testable import TezosSwift_Example
 
 class CryptoTests: XCTestCase {
 	private let mnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire praise pill"

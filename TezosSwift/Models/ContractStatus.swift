@@ -36,11 +36,11 @@ public enum TezosPrimaryType: String, Codable {
 }
 
 public struct ContractStatus: Decodable {
-    let balance: Tez
-    let spendable: Bool
-    let manager: String
-    let delegate: StatusDelegate
-    let counter: Int
+    public let balance: Tez
+    public let spendable: Bool
+    public let manager: String
+    public let delegate: StatusDelegate
+    public let counter: Int
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)

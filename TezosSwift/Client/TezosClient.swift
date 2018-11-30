@@ -83,7 +83,7 @@ public class TezosClient {
     }
 
     // Internal init for unit testing
-    init(remoteNodeURL: URL, urlSession: NetworkSession = URLSession.shared) {
+    public init(remoteNodeURL: URL, urlSession: NetworkSession = URLSession.shared) {
         self.remoteNodeURL = remoteNodeURL
         self.urlSession = urlSession
     }

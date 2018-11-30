@@ -33,7 +33,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7ABC856021824D58006DE8FD"
+               BlueprintIdentifier = "F85F0CB221B139250074E391"
                BuildableName = "UnitTests.xctest"
                BlueprintName = "UnitTests"
                ReferencedContainer = "container:TezosSwift.xcodeproj">
@@ -43,16 +43,6 @@
                   Identifier = "TezosKitTests">
                </Test>
             </SkippedTests>
-         </TestableReference>
-         <TestableReference
-            skipped = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7ABC857221826C59006DE8FD"
-               BuildableName = "WalletTests.xctest"
-               BlueprintName = "WalletTests"
-               ReferencedContainer = "container:TezosSwift.xcodeproj">
-            </BuildableReference>
          </TestableReference>
          <TestableReference
             skipped = "YES">

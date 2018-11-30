@@ -1,13 +1,16 @@
-use_modular_headers!
+platform :ios, '10.0'
+
+inhibit_all_warnings!
 use_frameworks!
+
 target 'TezosSwift_Example' do
 	pod 'TezosSwift', :path => '../'
 
 	target "UnitTests" do
-    	inherit! :search_paths
+    	inherit! :complete
 	end
 
 	target "IntegrationTests" do
-    	inherit! :search_paths
+    	inherit! :complete
 	end
 end
