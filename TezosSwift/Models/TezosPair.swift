@@ -8,26 +8,26 @@
 
 import Foundation
 
-struct TezosPair<T: RPCCodable, U: RPCCodable> {
-    typealias First = T
-    typealias Second = U
-    let first: First
-    let second: Second
+public struct TezosPair<T: RPCCodable, U: RPCCodable> {
+    public typealias First = T
+    public typealias Second = U
+    public let first: First
+    public let second: Second
 
-    init?(first: First?, second: Second?) {
+    public init?(first: First?, second: Second?) {
         guard let first = first, let second = second else { return nil }
         self.first = first
         self.second = second
     }
 
-    init(first: First, second: Second) {
+    public init(first: First, second: Second) {
         self.first = first
         self.second = second
     }
 }
 
 extension TezosPair: RPCCodable {
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StorageKeys.self)
         var mutableContainer = try container.nestedUnkeyedContainer(forKey: .args)
         // Hold container (can't decode it twice)
@@ -36,7 +36,7 @@ extension TezosPair: RPCCodable {
         (second, _) = try mutableContainer.decodeElement(previousContainer: storageContainer)
     }
 
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: StorageKeys.self)
         try container.encode(TezosPrimaryType.pair, forKey: .prim)
         var argsContainer = container.nestedUnkeyedContainer(forKey: .args)
@@ -44,11 +44,11 @@ extension TezosPair: RPCCodable {
         try argsContainer.encodeRPC(second)
     }
 
-    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+    public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         try container.encode(self, forKey: key)
     }
 
-    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+    public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
         try container.encode(self)
     }
 }

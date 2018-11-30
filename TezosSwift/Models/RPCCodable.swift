@@ -8,4 +8,4 @@
 
 import Foundation
 
-typealias RPCCodable = RPCEncodable & RPCDecodable
+public typealias RPCCodable = RPCEncodable & RPCDecodable

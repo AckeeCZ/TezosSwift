@@ -8,121 +8,121 @@
 
 import Foundation
 
-protocol RPCEncodable: Encodable {
+public protocol RPCEncodable: Encodable {
     func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws
     func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws
 }
 
 extension Array: RPCEncodable where Element: Encodable {
-    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+    public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedUnkeyedContainer(forKey: key)
         try forEach { try nestedContainer.encodeRPC($0) }
     }
 
-    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+    public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
         var nestedContainer = container.nestedUnkeyedContainer()
         try forEach { try nestedContainer.encodeRPC($0) }
     }
 }
 
 extension Set: RPCEncodable where Element: Encodable {
-    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+    public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedUnkeyedContainer(forKey: key)
         try forEach { try nestedContainer.encodeRPC($0) }
     }
 
-    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+    public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
         var nestedContainer = container.nestedUnkeyedContainer()
         try forEach { try nestedContainer.encodeRPC($0) }
     }
 }
 
 extension Int: RPCEncodable {
-    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+    public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
         try nestedContainer.encode("\(self)", forKey: .int)
     }
 
-    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+    public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
         try nestedContainer.encode("\(self)", forKey: .int)
     }
 }
 
 extension UInt: RPCEncodable {
-    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+    public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
         try nestedContainer.encode("\(self)", forKey: .int)
     }
 
-    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+    public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
         try nestedContainer.encode("\(self)", forKey: .int)
     }
 }
 
 extension String: RPCEncodable {
-    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+    public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
         try nestedContainer.encode(self, forKey: .string)
     }
 
-    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+    public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
         try nestedContainer.encode(self, forKey: .string)
     }
 }
 
 extension Tez: RPCEncodable {
-    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+    public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
         try nestedContainer.encode(self, forKey: .int)
     }
 
-    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+    public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
         try nestedContainer.encode(self, forKey: .int)
     }
 }
 
 extension Mutez: RPCEncodable {
-    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+    public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
         try nestedContainer.encode(self, forKey: .int)
     }
 
-    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+    public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
         try nestedContainer.encode(self, forKey: .int)
     }
 }
 
 extension Bool: RPCEncodable {
-    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+    public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
         try nestedContainer.encode("\(self)".capitalized, forKey: .prim)
     }
 
-    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+    public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
         try nestedContainer.encode("\(self)".capitalized, forKey: .prim)
     }
 }
 
 extension Data: RPCEncodable {
-    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+    public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
         try nestedContainer.encode(self, forKey: .bytes)
     }
 
-    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+    public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
         try nestedContainer.encode(self, forKey: .bytes)
     }
 }
 
 extension Optional: RPCEncodable where Wrapped: RPCEncodable {
-    func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+    public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
         switch self {
         case .none:
@@ -134,7 +134,7 @@ extension Optional: RPCEncodable where Wrapped: RPCEncodable {
         }
     }
 
-    func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+    public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
 
     }
 }

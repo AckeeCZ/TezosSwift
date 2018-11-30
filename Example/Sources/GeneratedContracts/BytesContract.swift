@@ -1,6 +1,7 @@
 // Generated using TezosGen 
 // swiftlint:disable file_length
 
+import TezosSwift
 import Foundation
 
 struct BytesContractBox {

@@ -1,6 +1,8 @@
 // Generated using TezosGen 
 // swiftlint:disable file_length
 
+import TezosSwift
+
 struct TestContractBox {
     fileprivate let tezosClient: TezosClient 
     fileprivate let at: String

@@ -1,4 +1,6 @@
-// Generated using TezosGen 
+// Generated using TezosGen
+
+import TezosSwift
 
 struct ContractMethodInvocation {
     private let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void

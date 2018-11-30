@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7AA8F3552160158000C05895"
-               BuildableName = "TezosSwift.app"
-               BlueprintName = "TezosSwift"
+               BuildableName = "TezosSwift_Example.app"
+               BlueprintName = "TezosSwift_Example"
                ReferencedContainer = "container:TezosSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -69,8 +69,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7AA8F3552160158000C05895"
-            BuildableName = "TezosSwift.app"
-            BlueprintName = "TezosSwift"
+            BuildableName = "TezosSwift_Example.app"
+            BlueprintName = "TezosSwift_Example"
             ReferencedContainer = "container:TezosSwift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -92,8 +92,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7AA8F3552160158000C05895"
-            BuildableName = "TezosSwift.app"
-            BlueprintName = "TezosSwift"
+            BuildableName = "TezosSwift_Example.app"
+            BlueprintName = "TezosSwift_Example"
             ReferencedContainer = "container:TezosSwift.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -111,8 +111,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7AA8F3552160158000C05895"
-            BuildableName = "TezosSwift.app"
-            BlueprintName = "TezosSwift"
+            BuildableName = "TezosSwift_Example.app"
+            BlueprintName = "TezosSwift_Example"
             ReferencedContainer = "container:TezosSwift.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

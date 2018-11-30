@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol RPCDecodable: Decodable {}
+public protocol RPCDecodable: Decodable {}
 extension Int: RPCDecodable {}
 extension UInt: RPCDecodable {}
 extension Bool: RPCDecodable {}
@@ -26,7 +26,7 @@ extension UnkeyedDecodingContainer {
         return DecodingError.dataCorrupted(context)
     }
 
-    mutating func decodeRPC<T: RPCDecodable>(_ type: Set<T>.Type) throws -> Set<T> {
+    public mutating func decodeRPC<T: RPCDecodable>(_ type: Set<T>.Type) throws -> Set<T> {
         var set: Set<T> = []
         while !isAtEnd {
             let container = try nestedContainer(keyedBy: StorageKeys.self)
@@ -36,7 +36,7 @@ extension UnkeyedDecodingContainer {
         return set
     }
 
-    mutating func decodeRPC<T: RPCDecodable>(_ type: [T].Type) throws -> [T] {
+    public mutating func decodeRPC<T: RPCDecodable>(_ type: [T].Type) throws -> [T] {
         var array: [T] = []
         while !isAtEnd {
             let container = try nestedContainer(keyedBy: StorageKeys.self)
@@ -54,13 +54,13 @@ extension KeyedDecodingContainerProtocol {
         return DecodingError.dataCorrupted(context)
     }
 
-    func decodeRPC(_ type: Int.Type, forKey key: Key) throws -> Int {
+    public func decodeRPC(_ type: Int.Type, forKey key: Key) throws -> Int {
         let intString = try decode(String.self, forKey: key)
         guard let decodedInt = Int(intString) else { throw decryptionError() }
         return decodedInt
     }
 
-    func decodeRPC(_ type: Bool.Type, forKey key: Key) throws -> Bool {
+    public func decodeRPC(_ type: Bool.Type, forKey key: Key) throws -> Bool {
         let boolString = try decode(String.self, forKey: key)
         switch boolString {
         case "True": return true
@@ -69,18 +69,18 @@ extension KeyedDecodingContainerProtocol {
         }
     }
 
-    func decodeRPC(_ type: Data.Type, forKey key: Key) throws -> Data {
+    public func decodeRPC(_ type: Data.Type, forKey key: Key) throws -> Data {
         let dataString = try decode(String.self, forKey: key)
         guard let decodedData = dataString.data(using: .utf8) else { throw decryptionError() }
         return decodedData
     }
 
-    func decodeRPC<T: RPCDecodable>(_ type: Set<T>.Type, forKey key: Key) throws -> Set<T> {
+    public func decodeRPC<T: RPCDecodable>(_ type: Set<T>.Type, forKey key: Key) throws -> Set<T> {
         var arrayContainer = try nestedUnkeyedContainer(forKey: key)
         return try arrayContainer.decodeRPC(type)
     }
 
-    func decodeRPC<T: RPCDecodable>(_ type: [T].Type, forKey key: Key) throws -> [T] {
+    public func decodeRPC<T: RPCDecodable>(_ type: [T].Type, forKey key: Key) throws -> [T] {
         var arrayContainer = try nestedUnkeyedContainer(forKey: key)
         return try arrayContainer.decodeRPC(type)
     }
@@ -88,7 +88,7 @@ extension KeyedDecodingContainerProtocol {
 
 extension KeyedDecodingContainerProtocol where Key == StorageKeys {
 
-    func decodeRPC<T>(_ type: T?.Type) throws -> T? where T : RPCDecodable {
+    public func decodeRPC<T>(_ type: T?.Type) throws -> T? where T : RPCDecodable {
         let tezosOptional = try decode(TezosPrimaryType.self, forKey: .prim)
         guard tezosOptional == .some else { return nil }
         var optionalContainer = try nestedUnkeyedContainer(forKey: .args)
@@ -96,27 +96,27 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
         return try nestedContainer.decodeRPC(T.self)
     }
 
-    func decodeRPC(_ type: Int.Type) throws -> Int {
+    public func decodeRPC(_ type: Int.Type) throws -> Int {
         return try decodeRPC(Int.self, forKey: .int)
     }
 
-    func decodeRPC(_ type: Bool.Type) throws -> Bool {
+    public func decodeRPC(_ type: Bool.Type) throws -> Bool {
         return try decodeRPC(Bool.self, forKey: .prim)
     }
 
-    func decodeRPC(_ type: String.Type) throws -> String {
+    public func decodeRPC(_ type: String.Type) throws -> String {
         return try decode(String.self, forKey: .string)
     }
 
-    func decodeRPC(_ type: Data.Type) throws -> Data {
+    public func decodeRPC(_ type: Data.Type) throws -> Data {
         return try decodeRPC(Data.self, forKey: .bytes)
     }
 
-    func decodeRPC(_ type: Mutez.Type) throws -> Mutez {
+    public func decodeRPC(_ type: Mutez.Type) throws -> Mutez {
         return try decode(Mutez.self, forKey: .int)
     }
 
-    func decodeRPC<T: RPCDecodable>(_ type: T.Type) throws -> T {
+    public func decodeRPC<T: RPCDecodable>(_ type: T.Type) throws -> T {
         // TODO: Would be nice to do this generically, thus supporting right away all RPCDecodable types
         let value: Any
         switch type {

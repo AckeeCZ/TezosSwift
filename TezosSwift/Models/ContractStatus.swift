@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ContractStatusKeys: String, CodingKey {
+public enum ContractStatusKeys: String, CodingKey {
     case balance = "balance"
     case spendable = "spendable"
     case manager = "manager"
@@ -18,7 +18,7 @@ enum ContractStatusKeys: String, CodingKey {
     case storage = "storage"
 }
 
-enum StorageKeys: String, CodingKey {
+public enum StorageKeys: String, CodingKey {
     case int
     case string
     case prim
@@ -26,7 +26,7 @@ enum StorageKeys: String, CodingKey {
     case bytes
 }
 
-enum TezosPrimaryType: String, Codable {
+public enum TezosPrimaryType: String, Codable {
     case some = "Some"
     case none = "None"
     case pair = "Pair"

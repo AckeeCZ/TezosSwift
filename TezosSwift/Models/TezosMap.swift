@@ -8,17 +8,21 @@
 
 import Foundation
 
-struct TezosMap<T: RPCCodable, U: RPCCodable> {
-    let pairs: [TezosPair<T, U>]
+public struct TezosMap<T: RPCCodable, U: RPCCodable> {
+    public let pairs: [TezosPair<T, U>]
+
+    public init(pairs: [TezosPair<T, U>]) {
+        self.pairs = pairs
+    }
 }
 
 extension TezosMap: Codable {
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         self.pairs = try decoder.singleValueContainer().decode([TezosPair<T, U>].self)
     }
 
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var mapArrayContainer = encoder.unkeyedContainer()
         try pairs.forEach {
             var mapContainer = mapArrayContainer.nestedContainer(keyedBy: StorageKeys.self)

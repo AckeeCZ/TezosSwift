@@ -10,15 +10,15 @@ Pod::Spec.new do |s|
   s.license       = { :type => "MIT", :file => "LICENSE" }
   s.author        = { 'Ackee' => 'info@ackee.cz' }
   s.source        = { :git => "https://github.com/AckeeCZ/TezosSwift.git", :tag => "0.0.1" }
-  s.source_files  = "Sources/**/*.swift", "Base58String/*.swift"
-  s.exclude_files = "Sources/App/*.swift"
+  s.source_files  = "TezosSwift/**/*"
   s.swift_version = "4.2"
-  s.ios.deployment_target = "8.0"
+  s.ios.deployment_target = "10.0"
   s.osx.deployment_target = "10.10"
 
   s.dependency "BigInt", "~> 3.1"		
   s.dependency "MnemonicKit"
   s.dependency "Sodium", "~> 0.7.0"  
+  s.dependency "Result", "~> 4.0.0" 
   
   s.test_spec "Tests" do |test_spec|
     test_spec.source_files = "TezosSwiftTests/*.swift"
