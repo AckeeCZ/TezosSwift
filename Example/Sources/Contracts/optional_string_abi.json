@@ -1,0 +1,1 @@
+{ "storage": {"prim": "option", "args": [{"prim": "string"}]}, "parameter": {"prim": "option", "args": [{"prim": "string"}]} }

@@ -1,0 +1,3 @@
+{"parameter": {"prim":"pair","args":[{"prim":"pair","args":[{"prim":"pair","args":[{"prim":"string"},{"prim":"list","args":[{"prim":"int"}]}]},{"prim":"set","args":[{"prim":"nat"}]}]},{"prim":"bytes"}]},
+"storage": {"prim":"unit"}
+}

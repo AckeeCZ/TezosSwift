@@ -1,0 +1,1 @@
+{ "storage": {"prim":"or","args":[{"prim":"string"},{"prim":"bool"}]}, "parameter": {"prim":"or","args":[{"prim":"bool"},{"prim":"string"}]} }
