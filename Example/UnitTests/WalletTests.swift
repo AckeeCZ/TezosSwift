@@ -19,7 +19,7 @@ class WalletTests: XCTestCase {
 
 
 	// Wallet generation with no parameters should never fail.
-	public func testGenerateWallet() {
+    func testGenerateWallet() {
 		let wallet = Wallet()
 		XCTAssertNotNil(wallet)
 		XCTAssertNotNil(wallet?.mnemonic)
@@ -29,7 +29,7 @@ class WalletTests: XCTestCase {
 		XCTAssertNotNil(walletWithPassphrase?.mnemonic)
 	}
 
-	public func testGenerateWalletMnemonicNoPassphrase() {
+    func testGenerateWalletMnemonicNoPassphrase() {
 		guard let wallet = Wallet(mnemonic: mnemonic) else {
 			XCTFail()
 			return
@@ -42,7 +42,7 @@ class WalletTests: XCTestCase {
 		XCTAssertEqual(wallet.address, expectedPublicKeyHashNoPassphrase)
 	}
 
-	public func testGenerateWalletMnemonicEmptyPassphrase() {
+    func testGenerateWalletMnemonicEmptyPassphrase() {
 		guard let wallet = Wallet(mnemonic: mnemonic, passphrase: "") else {
 			XCTFail()
 			return
@@ -56,7 +56,7 @@ class WalletTests: XCTestCase {
 		XCTAssertEqual(wallet.address, expectedPublicKeyHashNoPassphrase)
 	}
 
-	public func testGenerateWalletMnemonicWithPassphrase() {
+    func testGenerateWalletMnemonicWithPassphrase() {
 		guard let wallet = Wallet(mnemonic: mnemonic, passphrase: passphrase) else {
 			XCTFail()
 			return
@@ -70,7 +70,7 @@ class WalletTests: XCTestCase {
 		XCTAssertEqual(wallet.address, expectedPublicKeyHashPassphrase)
 	}
 
-	public func testGenerateWalletFromSecretKey() {
+    func testGenerateWalletFromSecretKey() {
 		guard let wallet = Wallet(secretKey: expectedSecretKeyNoPassphrase) else {
 			XCTFail()
 			return
@@ -83,7 +83,7 @@ class WalletTests: XCTestCase {
 
 	}
 
-	public func testGenerateWalletFromInvalidSecretKey() {
+    func testGenerateWalletFromInvalidSecretKey() {
 		let wallet = Wallet(secretKey: "thisIsNotAValidKey")
 		XCTAssertNil(wallet)
 	}

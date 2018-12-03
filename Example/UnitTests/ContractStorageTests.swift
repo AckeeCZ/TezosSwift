@@ -243,7 +243,7 @@ class ContractStorageTests: XCTestCase {
         {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"100000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"key"}]},{"prim":"storage","args":[{"prim":"key"}]},{"prim":"code","args":[[{"prim":"CDR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"string":"edpkuBknW28nW72KG6RoHtYW7p12T6GKc7nAbwYX5m8Wd9sDVC9yav"}},"counter":"0"}
         """.data(using: .utf8)!
         let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
-        let testStatusExpectation = expectation(description: "Map status")
+        let testStatusExpectation = expectation(description: "Key status")
         tezosClient.keyContract(at: "contract").status { result in
             switch result {
             case .failure(let error):
@@ -256,6 +256,27 @@ class ContractStorageTests: XCTestCase {
 
         waitForExpectations(timeout: 1)
     }
+
+    func testNatSetStatus() {
+        let networkSessionMock = NetworkSessionMock()
+        networkSessionMock.data = """
+        {"manager":"tz1RYsQNsmCrrdaogDR99JMGtk6epgZUNja3","balance":"1000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"set","args":[{"prim":"nat"}]}]},{"prim":"storage","args":[{"prim":"set","args":[{"prim":"nat"}]}]},{"prim":"code","args":[[{"prim":"CDR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":[{"int":"1"},{"int":"2"},{"int":"3"},{"int":"4"},{"int":"5"},{"int":"6"}]},"counter":"0"}
+        """.data(using: .utf8)!
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+        let testStatusExpectation = expectation(description: "Nat set status")
+        tezosClient.natSetContract(at: "contract").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertEqual(value.storage, [1, 2, 3, 4, 5, 6])
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 1)
+    }
+
 }
 
 

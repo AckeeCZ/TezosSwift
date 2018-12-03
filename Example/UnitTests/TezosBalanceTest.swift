@@ -3,15 +3,19 @@ import TezosSwift
 @testable import TezosSwift_Example
 
 class TezTest: XCTestCase {
-	public func testHumanReadableRepresentation() {
+    func testHumanReadableRepresentation() {
 		let balanceFromNumber = Tez(3.50)
 
 		XCTAssertEqual(balanceFromNumber.humanReadableRepresentation, "3.500000")
 	}
 
-	public func testRPCRepresentation() {
+    func testRPCRepresentation() {
 		let balanceFromNumber = Tez(3.50)
 
 		XCTAssertEqual(balanceFromNumber.rpcRepresentation, "3500000")
 	}
+
+    // TODO: Test Tez and Mutez
+
+
 }

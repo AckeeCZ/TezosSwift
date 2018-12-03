@@ -30,7 +30,7 @@ public class Operation: Encodable {
 
 	public init(source: String,
 		kind: OperationKind,
-		fee: Tez = Operation.zeroTez,
+		fee: Tez = Operation.defaultLimitTez,
 		gasLimit: Tez = Operation.defaultLimitTez,
 		storageLimit: Tez = Operation.defaultLimitTez) {
 		self.source = source

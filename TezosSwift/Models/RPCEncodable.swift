@@ -52,12 +52,12 @@ extension Int: RPCEncodable {
 extension UInt: RPCEncodable {
     public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
-        try nestedContainer.encode("\(self)", forKey: .int)
+        try nestedContainer.encode("\(Int(self))", forKey: .int)
     }
 
     public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
-        try nestedContainer.encode("\(self)", forKey: .int)
+        try nestedContainer.encode("\(Int(self))", forKey: .int)
     }
 }
 

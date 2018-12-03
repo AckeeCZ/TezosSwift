@@ -208,4 +208,36 @@ class ContractCallTests: XCTestCase {
 
         waitForExpectations(timeout: 3, handler: nil)
     }
+
+    func testNat() {
+        let testCompletionExpectation = expectation(description: "Sending Nat contract")
+
+        tezosClient.natContract(at: "KT1HGVi64Bo2pLjsedTJ8AC3dh6Dpf68KMgw").call(param1: 100).send(from: wallet, amount: Tez(1), completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                testCompletionExpectation.fulfill()
+            case .success(_):
+                testCompletionExpectation.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3, handler: nil)
+    }
+
+    func testSetNat() {
+        let testCompletionExpectation = expectation(description: "Sending Nat Set contract")
+
+        tezosClient.natSetContract(at: "KT1UoXSsYJxdjdiD4XXSzTsyi77SygSSfvP1").call(param1: [1, 2, 3, 4, 5, 6]).send(from: wallet, amount: Tez(1), completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                testCompletionExpectation.fulfill()
+            case .success(_):
+                testCompletionExpectation.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3, handler: nil)
+    }
 }

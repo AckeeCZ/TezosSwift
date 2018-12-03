@@ -14,7 +14,7 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7ABC856021824D58006DE8FD"
+               BlueprintIdentifier = "F85F0CB221B139250074E391"
                BuildableName = "UnitTests.xctest"
                BlueprintName = "UnitTests"
                ReferencedContainer = "container:TezosSwift.xcodeproj">
@@ -33,7 +33,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7ABC856021824D58006DE8FD"
+               BlueprintIdentifier = "F85F0CB221B139250074E391"
                BuildableName = "UnitTests.xctest"
                BlueprintName = "UnitTests"
                ReferencedContainer = "container:TezosSwift.xcodeproj">
@@ -43,7 +43,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F84C55842199A06500068596"
+               BlueprintIdentifier = "F85F0CC921B151D20074E391"
                BuildableName = "IntegrationTests.xctest"
                BlueprintName = "IntegrationTests"
                ReferencedContainer = "container:TezosSwift.xcodeproj">
@@ -53,7 +53,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7ABC856021824D58006DE8FD"
+            BlueprintIdentifier = "F85F0CB221B139250074E391"
             BuildableName = "UnitTests.xctest"
             BlueprintName = "UnitTests"
             ReferencedContainer = "container:TezosSwift.xcodeproj">
@@ -75,7 +75,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7ABC856021824D58006DE8FD"
+            BlueprintIdentifier = "F85F0CB221B139250074E391"
             BuildableName = "UnitTests.xctest"
             BlueprintName = "UnitTests"
             ReferencedContainer = "container:TezosSwift.xcodeproj">

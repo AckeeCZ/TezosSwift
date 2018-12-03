@@ -12,19 +12,19 @@ class MnemonicUtilsTest: XCTestCase {
 	private let expectedSeedStringWithPassphrase = "cc90fecd0a596e2cd41798612682395faa2ebfe18945a88c6f01e4bfab17c3e3"
 
 	// Mnemonic generation should always succeed.
-	public func testGenerateMnemonic() {
+    func testGenerateMnemonic() {
 		let result = MnemonicUtil.generateMnemonic()
 		XCTAssertNotNil(result)
 	}
 
-	public func testSeedStringFromMnemonicNoPassphrase() {
+    func testSeedStringFromMnemonicNoPassphrase() {
 		guard let result = MnemonicUtil.seedString(from: mnemonic) else {
 			fatalError()
 		}
 		XCTAssertEqual(result, expectedSeedStringNoPassphrase)
 	}
 
-	public func testSeedStringFromMnemonicEmptyPassphrase() {
+    func testSeedStringFromMnemonicEmptyPassphrase() {
 		guard let result = MnemonicUtil.seedString(from: mnemonic, passphrase: "") else {
 			fatalError()
 		}
@@ -33,7 +33,7 @@ class MnemonicUtilsTest: XCTestCase {
 		XCTAssertEqual(result, expectedSeedStringNoPassphrase)
 	}
 
-	public func testSeedStringFromMnemonicWithPassphrase() {
+    func testSeedStringFromMnemonicWithPassphrase() {
 		guard let result = MnemonicUtil.seedString(from: mnemonic, passphrase: passphrase) else {
 			fatalError()
 		}

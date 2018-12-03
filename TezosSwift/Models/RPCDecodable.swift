@@ -100,6 +100,10 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
         return try decodeRPC(Int.self, forKey: .int)
     }
 
+    public func decodeRPC(_ type: UInt.Type) throws -> UInt {
+        return try UInt(decodeRPC(Int.self, forKey: .int))
+    }
+
     public func decodeRPC(_ type: Bool.Type) throws -> Bool {
         return try decodeRPC(Bool.self, forKey: .prim)
     }
@@ -122,6 +126,8 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
         switch type {
         case is Int.Type, is Int?.Type:
             value = try decodeRPC(Int.self)
+        case is UInt.Type, is UInt?.Type:
+            value = try decodeRPC(UInt.self)
         case is String.Type, is String?.Type:
             value = try decodeRPC(String.self)
         case is Bool.Type, is Bool?.Type:
@@ -129,7 +135,7 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
         case is Data.Type, is Data?.Type:
             value = try decodeRPC(Data.self)
         case is Mutez.Type, is Mutez?.Type:
-            value = try decodeRPC(Data.self)
+            value = try decodeRPC(Mutez.self)
         default:
             value = try decode(type, forKey: .prim)
         }

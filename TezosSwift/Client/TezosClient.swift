@@ -270,8 +270,6 @@ public class TezosClient {
                     return $1
                 }
 
-                //            contents[0]["parameters"] = ["int": "10"]
-
                 let operationPayload = OperationPayload(contents: contents, branch: operationMetadata.headHash)
 
                 let rpcCompletion: RPCCompletion<String> = { [weak self] result in

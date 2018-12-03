@@ -1,0 +1,15 @@
+{"parameter":  {
+    "args": [
+    {
+        "prim": "nat"
+    }
+],
+"prim": "set"}, 
+"storage": {
+    "args": [
+        {
+            "prim": "nat"
+        }
+    ],
+    "prim": "set"
+}}
