@@ -30,7 +30,7 @@ public class RevealOperation: Operation {
 		self.publicKey = publicKey
 		super.init(source: address,
 			kind: .reveal,
-			fee: Operation.defaultLimitTez,
+			fee: Operation.zeroTez,
 			gasLimit: Operation.zeroTez,
 			storageLimit: Operation.zeroTez)
 	}

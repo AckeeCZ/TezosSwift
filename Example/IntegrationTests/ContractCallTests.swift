@@ -29,6 +29,7 @@ class ContractCallTests: XCTestCase {
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
+                testCompletionExpectation.fulfill()
             case .success(_):
                 testCompletionExpectation.fulfill()
             }

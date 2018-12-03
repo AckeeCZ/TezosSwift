@@ -16,8 +16,8 @@ extension String: RPCDecodable {}
 extension Data: RPCDecodable {}
 extension Tez: RPCDecodable {}
 extension Mutez: RPCDecodable {}
-extension Set : RPCDecodable where Element : RPCDecodable {}
-extension Array : RPCDecodable where Element : RPCDecodable {}
+extension Set: RPCDecodable where Element : RPCDecodable {}
+extension Array: RPCDecodable where Element : RPCDecodable {}
 extension Optional: RPCDecodable where Wrapped: RPCDecodable {}
 
 extension UnkeyedDecodingContainer {
@@ -120,6 +120,16 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
         return try decode(Mutez.self, forKey: .int)
     }
 
+    public func decodeRPC(_ type: Date.Type) throws -> Date {
+        let timestampString = try decodeRPC(String.self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        guard let date = dateFormatter.date(from: timestampString) else { throw decryptionError() }
+        return date
+    }
+
     public func decodeRPC<T: RPCDecodable>(_ type: T.Type) throws -> T {
         // TODO: Would be nice to do this generically, thus supporting right away all RPCDecodable types
         let value: Any
@@ -136,6 +146,8 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
             value = try decodeRPC(Data.self)
         case is Mutez.Type, is Mutez?.Type:
             value = try decodeRPC(Mutez.self)
+        case is Date.Type, is Date?.Type:
+            value = try decodeRPC(Date.self)
         default:
             value = try decode(type, forKey: .prim)
         }
@@ -183,8 +195,7 @@ extension UnkeyedDecodingContainer {
         }
         let container = try nestedContainer(keyedBy: StorageKeys.self)
         let primaryType = try container.decodeIfPresent(TezosPrimaryType.self, forKey: .prim).self
-        if primaryType == TezosPrimaryType.pair || primaryType == TezosPrimaryType.some || primaryType == TezosPrimaryType.map {
-            // TODO: Check different ways of outputs for some (optional lists?)
+        if primaryType == .pair || primaryType == .some || primaryType == .map {
             var mutableSomeContainer = try container.nestedUnkeyedContainer(forKey: .args)
             let someContainer = try mutableSomeContainer.nestedContainer(keyedBy: StorageKeys.self)
             return (try someContainer.decodeRPC(T.self), mutableSomeContainer)

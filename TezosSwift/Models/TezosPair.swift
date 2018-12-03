@@ -8,9 +8,7 @@
 
 import Foundation
 
-public struct TezosPair<T: RPCCodable, U: RPCCodable> {
-    public typealias First = T
-    public typealias Second = U
+public struct TezosPair<First: RPCCodable, Second: RPCCodable> {
     public let first: First
     public let second: Second
 

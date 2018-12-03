@@ -1,0 +1,15 @@
+{"parameter":  {
+    "args": [
+    {
+        "prim": "int"
+    }
+],
+"prim": "list"}, 
+"storage": {
+    "args": [
+        {
+            "prim": "int"
+        }
+    ],
+    "prim": "list"
+}}
