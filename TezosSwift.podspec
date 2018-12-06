@@ -20,7 +20,4 @@ Pod::Spec.new do |s|
   s.dependency "Sodium", "~> 0.7.0"  
   s.dependency "Result", "~> 4.0.0" 
   
-  s.test_spec "Tests" do |test_spec|
-    test_spec.source_files = "TezosSwiftTests/*.swift"
-  end    
 end
