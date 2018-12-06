@@ -32,7 +32,7 @@ public class Operation: Encodable {
 		kind: OperationKind,
 		fee: Tez = Operation.defaultLimitTez,
 		gasLimit: Tez = Operation.defaultLimitTez,
-		storageLimit: Tez = Operation.defaultLimitTez) {
+		storageLimit: Tez = Operation.zeroTez) {
 		self.source = source
 		self.kind = kind
 		self.fee = fee
