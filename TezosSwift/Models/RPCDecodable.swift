@@ -158,7 +158,6 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
 
 extension UnkeyedDecodingContainer {
     mutating func decodeCollectionElement<T: RPCDecodable>(previousContainer: UnkeyedDecodingContainer? = nil) throws -> (T, UnkeyedDecodingContainer?) {
-        let value: [Any]
         let subjectDescription = Mirror(reflecting: T.self).description
         if subjectDescription.contains("String") {
             let collection: [String] = try decodeCollection()
@@ -224,7 +223,6 @@ extension UnkeyedDecodingContainer {
     }
 
     mutating func decodeElement<T: RPCDecodable>(previousContainer: UnkeyedDecodingContainer? = nil) throws -> (T, UnkeyedDecodingContainer?) {
-        let subjectType = Mirror(reflecting: T.self).subjectType
         if isCollection(T.self) {
             return try decodeCollectionElement(previousContainer: previousContainer)
         }
