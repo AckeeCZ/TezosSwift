@@ -17,7 +17,7 @@ class CallEncodingTests: XCTestCase {
         let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: 10)
         guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
         XCTAssertEqual(encodedDataString, """
-        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0010000","kind":"transaction","counter":"0","parameters":{"int":"10"}}
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":{"int":"10"}}
         """)
     }
 
@@ -26,7 +26,7 @@ class CallEncodingTests: XCTestCase {
         let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: input)
         guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
         XCTAssertEqual(encodedDataString, """
-        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0010000","kind":"transaction","counter":"0","parameters":{"prim":"None"}}
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":{"prim":"None"}}
         """)
     }
 
@@ -35,7 +35,7 @@ class CallEncodingTests: XCTestCase {
         let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: input)
         guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
         XCTAssertEqual(encodedDataString, """
-        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0010000","kind":"transaction","counter":"0","parameters":{"prim":"Pair","args":[{"prim":"True"},{"prim":"False"}]}}
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":{"prim":"Pair","args":[{"prim":"True"},{"prim":"False"}]}}
         """)
     }
 
@@ -44,7 +44,7 @@ class CallEncodingTests: XCTestCase {
         let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: input)
         guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
         XCTAssertEqual(encodedDataString, """
-        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0010000","kind":"transaction","counter":"0","parameters":{"bytes":""}}
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":{"bytes":""}}
         """)
     }
 
@@ -53,7 +53,7 @@ class CallEncodingTests: XCTestCase {
         let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: input)
         guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
         XCTAssertEqual(encodedDataString, """
-        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0010000","kind":"transaction","counter":"0","parameters":{"prim":"Right","args":[{"string":"X"}]}}
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":{"prim":"Right","args":[{"string":"X"}]}}
         """)
     }
 
@@ -61,7 +61,7 @@ class CallEncodingTests: XCTestCase {
         let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: "tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw")
         guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
         XCTAssertEqual(encodedDataString, """
-        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0010000","kind":"transaction","counter":"0","parameters":{"string":"tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw"}}
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":{"string":"tz1Y3qqTg9HdrzZGbEjiCPmwuZ7fWVxpPtRw"}}
         """)
     }
 
@@ -69,7 +69,7 @@ class CallEncodingTests: XCTestCase {
         let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: TezosPair<Bool, Bool>(first: true, second: false))
         guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
         XCTAssertEqual(encodedDataString, """
-        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0010000","kind":"transaction","counter":"0","parameters":{"prim":"Pair","args":[{"prim":"True"},{"prim":"False"}]}}
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":{"prim":"Pair","args":[{"prim":"True"},{"prim":"False"}]}}
         """)
     }
 
@@ -77,7 +77,7 @@ class CallEncodingTests: XCTestCase {
         let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: TezosMap(pairs: [TezosPair(first: 0, second: 100), TezosPair(first: 2, second: 100)]))
         guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
         XCTAssertEqual(encodedDataString, """
-        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0010000","kind":"transaction","counter":"0","parameters":[{"prim":"Elt","args":[{"int":"0"},{"int":"100"}]},{"prim":"Elt","args":[{"int":"2"},{"int":"100"}]}]}
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":[{"prim":"Elt","args":[{"int":"0"},{"int":"100"}]},{"prim":"Elt","args":[{"int":"2"},{"int":"100"}]}]}
         """)
     }
 
@@ -85,7 +85,41 @@ class CallEncodingTests: XCTestCase {
         let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: "edpkuBknW28nW72KG6RoHtYW7p12T6GKc7nAbwYX5m8Wd9sDVC9yav")
         guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
         XCTAssertEqual(encodedDataString, """
-        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0010000","gas_limit":"0010000","fee":"0010000","kind":"transaction","counter":"0","parameters":{"string":"edpkuBknW28nW72KG6RoHtYW7p12T6GKc7nAbwYX5m8Wd9sDVC9yav"}}
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":{"string":"edpkuBknW28nW72KG6RoHtYW7p12T6GKc7nAbwYX5m8Wd9sDVC9yav"}}
+        """)
+    }
+
+    func testTimestampCall() {
+        let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: Date(timeIntervalSince1970: 1502733621))
+        guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
+        XCTAssertEqual(encodedDataString, """
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":{"string":"2017-08-14T18:00:21Z"}}
+        """)
+    }
+
+    func testOptionalStringCall() {
+        let optionalString: String? = "hello"
+        let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: optionalString)
+        guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
+        XCTAssertEqual(encodedDataString, """
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":{"prim":"Some","args":[{"string":"hello"}]}}
+        """)
+    }
+
+    func testNatCall() {
+        let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: UInt(100))
+        guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
+        XCTAssertEqual(encodedDataString, """
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":{"int":"100"}}
+        """)
+    }
+
+    func testSetNatCall() {
+        let input: Set<UInt> = [UInt(1), UInt(2), UInt(3), UInt(4), UInt(5), UInt(6)]
+        let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: input)
+        guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
+        XCTAssertEqual(encodedDataString, """
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0030000","gas_limit":"0030000","fee":"0030000","kind":"transaction","counter":"0","parameters":[{"int":"1"},{"int":"2"},{"int":"3"},{"int":"4"},{"int":"5"},{"int":"6"}]}
         """)
     }
 

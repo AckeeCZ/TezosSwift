@@ -11,7 +11,7 @@ public class Operation: Encodable {
 	public static let zeroTez = Tez(0)
 
 	/** A Tezos balance that is the default used for gas and storage limits. */
-	public static let defaultLimitTez = Tez(0.001)
+	public static let defaultLimitTez = Tez(0.03)
 
 	public let source: String
 	public let kind: OperationKind
@@ -31,8 +31,8 @@ public class Operation: Encodable {
 	public init(source: String,
 		kind: OperationKind,
 		fee: Tez = Operation.defaultLimitTez,
-		gasLimit: Tez = Operation.defaultLimitTez,
-		storageLimit: Tez = Operation.zeroTez) {
+        gasLimit: Tez = Operation.defaultLimitTez,
+		storageLimit: Tez = Operation.defaultLimitTez) {
 		self.source = source
 		self.kind = kind
 		self.fee = fee

@@ -16,8 +16,9 @@ class ContractCallTests: XCTestCase {
     var wallet: Wallet!
 
     override func setUp() {
-        let mnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire praise pill"
+        let mnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire pill praise"
         wallet = Wallet(mnemonic: mnemonic)!
+        print(wallet.address)
     }
 
     // TODO: Change calling of these calls, so the counter does not conflict
