@@ -157,25 +157,49 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
 }
 
 extension UnkeyedDecodingContainer {
-    mutating func decodeElement<T: RPCDecodable & Collection>(previousContainer: UnkeyedDecodingContainer? = nil) throws -> (T, UnkeyedDecodingContainer?) where T.Element: RPCDecodable & Hashable {
-        var arrayContainer = try nestedUnkeyedContainer()
-        var array: [T.Element] = []
-        while !arrayContainer.isAtEnd {
-            let container = try arrayContainer.nestedContainer(keyedBy: StorageKeys.self)
-            let element = try container.decodeRPC(T.Element.self)
-            array.append(element)
+    mutating func decodeCollectionElement<T: RPCDecodable>(previousContainer: UnkeyedDecodingContainer? = nil) throws -> (T, UnkeyedDecodingContainer?) {
+        let value: [Any]
+        let subjectDescription = Mirror(reflecting: T.self).description
+        if subjectDescription.contains("String") {
+            let collection: [String] = try decodeCollection()
+            return try typecheckCollection(T.self, collection: collection, previousContainer: previousContainer)
+        } else if subjectDescription.contains("Int") {
+            let collection: [Int] = try decodeCollection()
+            return try typecheckCollection(T.self, collection: collection, previousContainer: previousContainer)
+        } else if subjectDescription.contains("UInt") {
+            let collection: [UInt] = try decodeCollection()
+            return try typecheckCollection(T.self, collection: collection, previousContainer: previousContainer)
+        } else if subjectDescription.contains("Bool") {
+            let collection: [Bool] = try decodeCollection()
+            return try typecheckCollection(T.self, collection: collection, previousContainer: previousContainer)
+        } else if subjectDescription.contains("Mutez") {
+            let collection: [Mutez] = try decodeCollection()
+            return try typecheckCollection(T.self, collection: collection, previousContainer: previousContainer)
+        } else if subjectDescription.contains("Data") {
+            let collection: [Data] = try decodeCollection()
+            return try typecheckCollection(T.self, collection: collection, previousContainer: previousContainer)
+        } else {
+            throw TezosError.unsupportedTezosType
         }
+    }
 
-        if let finalArray = array as? T {
+    func typecheckCollection<T: RPCDecodable, U: Collection>(_ type: T.Type, collection: U, previousContainer: UnkeyedDecodingContainer?) throws -> (T, UnkeyedDecodingContainer?) {
+        guard let finalArray = collection as? T else { throw TezosError.unsupportedTezosType }
+
+        return (finalArray, nil)
+    }
+
+    func typecheckCollection<T: RPCDecodable, U: Collection>(_ type: T.Type, collection: U, previousContainer: UnkeyedDecodingContainer?) throws -> (T, UnkeyedDecodingContainer?) where U.Element: Hashable {
+        if let finalArray = collection as? T {
             return (finalArray, nil)
         }
 
-        guard let set = Set<T.Element>(array) as? T else { throw TezosError.unsupportedTezosType }
+        guard let set = Set<U.Element>(collection) as? T else { throw TezosError.unsupportedTezosType }
 
         return (set, nil)
     }
 
-    mutating func decodeElement<T: RPCDecodable & Collection>(previousContainer: UnkeyedDecodingContainer? = nil) throws -> (T, UnkeyedDecodingContainer?) where T.Element: RPCDecodable {
+    private mutating func decodeCollection<T: RPCDecodable & Collection>() throws -> T where T.Element: RPCDecodable {
         var arrayContainer = try nestedUnkeyedContainer()
         var array: [T.Element] = []
         while !arrayContainer.isAtEnd {
@@ -185,10 +209,26 @@ extension UnkeyedDecodingContainer {
         }
 
         guard let finalArray = array as? T else { throw TezosError.unsupportedTezosType }
-        return (finalArray, nil)
+        return finalArray
+    }
+
+    private func isCollection<T>(_ type: T.Type) -> Bool {
+        let collectionsTypes = ["Set", "Array"]
+        let subjectType = Mirror(reflecting: type).description
+
+        for type in collectionsTypes {
+            if subjectType.contains(type) { return true }
+        }
+
+        return false
     }
 
     mutating func decodeElement<T: RPCDecodable>(previousContainer: UnkeyedDecodingContainer? = nil) throws -> (T, UnkeyedDecodingContainer?) {
+        let subjectType = Mirror(reflecting: T.self).subjectType
+        if isCollection(T.self) {
+            return try decodeCollectionElement(previousContainer: previousContainer)
+        }
+
         if var currentContainer = previousContainer {
             let container = try currentContainer.nestedContainer(keyedBy: StorageKeys.self)
             return (try container.decodeRPC(T.self), currentContainer)

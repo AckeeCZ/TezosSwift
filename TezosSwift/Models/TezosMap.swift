@@ -17,7 +17,6 @@ public struct TezosMap<T: RPCCodable, U: RPCCodable> {
 }
 
 extension TezosMap: Codable {
-
     public init(from decoder: Decoder) throws {
         self.pairs = try decoder.singleValueContainer().decode([TezosPair<T, U>].self)
     }

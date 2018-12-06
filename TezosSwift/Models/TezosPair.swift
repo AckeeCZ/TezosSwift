@@ -8,6 +8,10 @@
 
 import Foundation
 
+public protocol RPCCollection {}
+extension Array: RPCCollection where Element: RPCDecodable {}
+extension Set: RPCCollection where Element: RPCDecodable {}
+
 public struct TezosPair<First: RPCCodable, Second: RPCCodable> {
     public let first: First
     public let second: Second
@@ -50,4 +54,3 @@ extension TezosPair: RPCCodable {
         try container.encode(self)
     }
 }
-
