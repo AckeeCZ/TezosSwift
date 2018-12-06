@@ -121,6 +121,28 @@ extension Data: RPCEncodable {
     }
 }
 
+extension Date: RPCEncodable {
+    public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
+        let dateString = dateToRPCTimestampString()
+        try nestedContainer.encode(dateString, forKey: .string)
+    }
+
+    public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
+        var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
+        let dateString = dateToRPCTimestampString()
+        try nestedContainer.encode(dateString, forKey: .string)
+    }
+
+    private func dateToRPCTimestampString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        return dateFormatter.string(from: self)
+    }
+}
+
 extension Optional: RPCEncodable where Wrapped: RPCEncodable {
     public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)

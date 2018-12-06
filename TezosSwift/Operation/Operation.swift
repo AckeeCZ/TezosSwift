@@ -11,7 +11,7 @@ public class Operation: Encodable {
 	public static let zeroTez = Tez(0)
 
 	/** A Tezos balance that is the default used for gas and storage limits. */
-	public static let defaultLimitTez = Tez(0.01)
+	public static let defaultLimitTez = Tez(0.001)
 
 	public let source: String
 	public let kind: OperationKind
