@@ -28,7 +28,7 @@ public class TransactionOperation: Operation {
 
     // MARK: Encodable
     fileprivate enum TransactionOperationKeys: String, CodingKey {
-        case amount = "amount"
+        case amount = "amounttt"
         case destination = "destination"
         case parameters = "parameters"
     }

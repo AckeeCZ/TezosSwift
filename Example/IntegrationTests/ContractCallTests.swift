@@ -18,13 +18,13 @@ class ContractCallTests: XCTestCase {
     override func setUp() {
         let mnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire pill praise"
         wallet = Wallet(mnemonic: mnemonic)!
-        print(wallet.address)
     }
 
     // TODO: Change calling of these calls, so the counter does not conflict
     // These calls have to be executed individually for now
     func testSendingTezos() {
         let testCompletionExpectation = expectation(description: "Sending Tezos")
+        let testCompletionExpectation2 = expectation(description: "Sending Tezos")
 
         tezosClient.send(amount: Tez(1), to: "tz1dD918PXDuUHV6Mh6z2QqMukA67YULuhqd", from: wallet, completion: { result in
             switch result {
@@ -35,6 +35,43 @@ class ContractCallTests: XCTestCase {
                 testCompletionExpectation.fulfill()
             }
         })
+
+        tezosClient.send(amount: Tez(1), to: "tz1dD918PXDuUHV6Mh6z2QqMukA67YULuhqd", from: wallet, completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                testCompletionExpectation2.fulfill()
+            case .success(_):
+                testCompletionExpectation2.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3, handler: nil)
+    }
+
+    func testSendingBatchedOperations() {
+        let testCompletionExpectation = expectation(description: "Sending Tezos")
+
+        let completion: RPCCompletion<String> = { result in
+            switch result {
+            case .success(let value):
+                print("success")
+                print(value)
+            case .failure(let error):
+                print(error)
+                print(error)
+            }
+
+            testCompletionExpectation.fulfill()
+        }
+
+        let successfulTransactionOperation =
+            TransactionOperation(amount: Tez(1), source: wallet, destination: "tz1dD918PXDuUHV6Mh6z2QqMukA67YULuhqd")
+        let failingTransactionOperation = TransactionOperation(amount: Tez(100000000), source: wallet, destination: "tz1dD918PXDuUHV6Mh6z2QqMukA67YULuhqd")
+        tezosClient.forgeSignPreapplyAndInjectOperations(operations: [successfulTransactionOperation, successfulTransactionOperation],
+                                            source: wallet.address,
+                                            keys: wallet.keys,
+                                            completion: completion)
 
         waitForExpectations(timeout: 3, handler: nil)
     }

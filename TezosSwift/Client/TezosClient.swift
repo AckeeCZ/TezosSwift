@@ -106,17 +106,8 @@ public class TezosClient {
 
     /** Retrieve the balance of a given address. */
     public func balance(of address: String, completion: @escaping (Result<Tez, TezosError>) -> Void) {
-        let rpcCompletion: (Result<Double, TezosError>) -> Void = { result in
-            if let balance = result.value {
-                completion(.success(Tez(balance)))
-            } else if let error = result.error {
-                completion(.failure(error))
-            } else {
-                completion(.failure(.unknown(message: "Balance failed.")))
-            }
-        }
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/balance"
-        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+        sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     /** Retrieve the address counter for the given address. */
@@ -308,7 +299,7 @@ public class TezosClient {
 		guard let operationSigningResult = Crypto.signForgedOperation(operation: forgeResult,
 			secretKey: keys.secretKey),
 			let jsonSignedBytes = JSONUtils.jsonString(for: operationSigningResult.sbytes) else {
-				completion(.failure(.jsonSigningFailed))
+                completion(.failure(.injectError(reason: .jsonSigningFailed)))
 				return
             }
 
@@ -335,7 +326,8 @@ public class TezosClient {
 		completion: @escaping RPCCompletion<String>) {
         let rpcCompletion: RPCCompletion<String> = { [weak self] result in
             switch result {
-            case .success(_):
+            case .success(let value):
+                // TODO: Catch error here (and send it down the chain)
                 self?.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
             case .failure(let error):
                 completion(.failure(error))
@@ -364,7 +356,7 @@ public class TezosClient {
    */
     public func sendRPC<T: Decodable>(endpoint: String, method: HTTPMethod = .get, payload: Encodable? = nil, completion: @escaping RPCCompletion<T>) {
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else {
-            completion(.failure(.invalidNode))
+            completion(.failure(.rpcFailure(reason: .invalidNode)))
             return
         }
 
@@ -389,7 +381,7 @@ public class TezosClient {
                 os_log("JSON data payload: %@", log: dataLog, String(data: jsonData, encoding: .utf8) ?? "")
             }
             catch let error {
-                completion(.failure(.encryptionFailed(error: error)))
+                completion(.failure(.encryptionFailed(reason: error)))
                 return
             }
         }
@@ -406,9 +398,17 @@ public class TezosClient {
             // Decode the server's response to a string in order to bundle it with the error if it is in
             // a readable format.
             var errorMessage = ""
-            if let data = data,
-                let dataString = String(data: data, encoding: .utf8) {
-                errorMessage = dataString
+            guard let data = data else {
+                completion(.failure(.rpcFailure(reason: .noData)))
+                return
+            }
+
+            let jsonDecoder = JSONDecoder()
+            do {
+                errorMessage = try jsonDecoder.decode(String.self, from: data)
+            } catch {
+                completion(.failure(.rpcFailure(reason: .noData)))
+                return
             }
 
             // Check if the response contained a 200 HTTP OK response. If not, then propagate an error.
@@ -416,13 +416,19 @@ public class TezosClient {
                 httpResponse.statusCode != 200 {
                 // Default to unknown error and try to give a more specific error code if it can be narrowed
                 // down based on HTTP response code.
-                var error: TezosError = .responseError(code: httpResponse.statusCode, message: errorMessage, data: data)
+                var error: TezosError = .rpcFailure(reason: .responseError(code: httpResponse.statusCode, message: errorMessage))
                 // Status code 40X: Bad request was sent to server.
                 if httpResponse.statusCode >= 400 && httpResponse.statusCode < 500 {
-                    error = .unexpectedRequestFormat(message: errorMessage)
+                    error = .rpcFailure(reason: .unexpectedRequestFormat(message: errorMessage))
                     // Status code 50X: Bad request was sent to server.
                 } else if httpResponse.statusCode >= 500 {
-                    error = .unexpectedResponse(message: errorMessage)
+                    do {
+                        let rpcReason = try jsonDecoder.decode(RPCReason.self, from: data)
+                        error = .rpcFailure(reason: rpcReason)
+                    } catch {
+                        completion(.failure(.rpcFailure(reason: .unknown(message: errorMessage))))
+                        return
+                    }
                 }
 
                 // Drop data and send our error to let subsequent handlers know something went wrong and to
@@ -430,8 +436,12 @@ public class TezosClient {
                 completion(.failure(error))
                 return
             }
+            guard let self = self else {
+                completion(.failure(.unknown(message: "")))
+                return
+            }
+
             do {
-                guard let self = self else { throw TezosError.decryptionFailed }
                 let decodedObject: T = try self.decodeData(data)
                 completion(.success(decodedObject))
             } catch let tezosError as TezosError {
@@ -444,7 +454,7 @@ public class TezosClient {
 
     private func decodeData<T: Decodable>(_ data: Data?) throws -> T {
         guard let data = data else {
-            throw TezosError.noResponseData
+            throw TezosError.rpcFailure(reason: .noData)
         }
 
         let jsonDecoder = JSONDecoder()
@@ -453,14 +463,14 @@ public class TezosClient {
         do {
             return try jsonDecoder.decode(T.self, from: data)
         } catch let error {
-            guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else { throw TezosError.unexpectedResponseType(decodingError: error) }
+            guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else { throw TezosError.decryptionFailed(reason: .responseError(decodingError: error)) }
 
             if let responseNumber = singleResponse.numberValue as? T {
                 return responseNumber
             } else if let responseString = singleResponse as? T {
                 return responseString
             } else {
-                throw TezosError.unexpectedResponseType(decodingError: error)
+                throw TezosError.decryptionFailed(reason: .responseError(decodingError: error))
             }
         }
     }
@@ -521,7 +531,7 @@ public class TezosClient {
                                                           key: addressKey)
                 completion(.success(operationMetadata))
             } else {
-                completion(.failure(.unknown(message: "Getting metadata failed")))
+                completion(.failure(.injectError(reason: .missingMetadata)))
             }
         })
 	}

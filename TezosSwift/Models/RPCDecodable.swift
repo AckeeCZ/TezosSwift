@@ -162,12 +162,12 @@ extension UnkeyedDecodingContainer {
             let collection: [Data] = try decodeCollection()
             return try typecheckCollection(T.self, collection: collection, previousContainer: previousContainer)
         } else {
-            throw TezosError.unsupportedTezosType
+            throw TezosError.decryptionFailed(reason: .unsupportedTezosType)
         }
     }
 
     func typecheckCollection<T: RPCDecodable, U: Collection>(_ type: T.Type, collection: U, previousContainer: UnkeyedDecodingContainer?) throws -> (T, UnkeyedDecodingContainer?) {
-        guard let finalArray = collection as? T else { throw TezosError.unsupportedTezosType }
+        guard let finalArray = collection as? T else { throw TezosError.decryptionFailed(reason: .unsupportedTezosType) }
 
         return (finalArray, nil)
     }
@@ -181,7 +181,7 @@ extension UnkeyedDecodingContainer {
             array.append(element)
         }
 
-        guard let finalArray = array as? T else { throw TezosError.unsupportedTezosType }
+        guard let finalArray = array as? T else { throw TezosError.decryptionFailed(reason: .unsupportedTezosType) }
         return finalArray
     }
 

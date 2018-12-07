@@ -17,7 +17,7 @@ struct OrSwapContractBox {
         let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
         guard let tezosOr1 = TezosOr(left: param1, right: param2) else { 
             send = { from, amount, completion in
-                completion(.failure(.orError))
+                completion(.failure(.parameterError(reason: .orError)))
             }
             return ContractMethodInvocation(send: send)
         }
