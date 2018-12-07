@@ -49,33 +49,6 @@ class ContractCallTests: XCTestCase {
         waitForExpectations(timeout: 3, handler: nil)
     }
 
-    func testSendingBatchedOperations() {
-        let testCompletionExpectation = expectation(description: "Sending Tezos")
-
-        let completion: RPCCompletion<String> = { result in
-            switch result {
-            case .success(let value):
-                print("success")
-                print(value)
-            case .failure(let error):
-                print(error)
-                print(error)
-            }
-
-            testCompletionExpectation.fulfill()
-        }
-
-        let successfulTransactionOperation =
-            TransactionOperation(amount: Tez(1), source: wallet, destination: "tz1dD918PXDuUHV6Mh6z2QqMukA67YULuhqd")
-        let failingTransactionOperation = TransactionOperation(amount: Tez(100000000), source: wallet, destination: "tz1dD918PXDuUHV6Mh6z2QqMukA67YULuhqd")
-        tezosClient.forgeSignPreapplyAndInjectOperations(operations: [successfulTransactionOperation, successfulTransactionOperation],
-                                            source: wallet.address,
-                                            keys: wallet.keys,
-                                            completion: completion)
-
-        waitForExpectations(timeout: 3, handler: nil)
-    }
-
     func testSendingEmptyStringParam() {
         let testCompletionExpectation = expectation(description: "Sending Tezos with int param")
         tezosClient.optionalStringContract(at: "KT1F3NKYP1NcpHGKW23ch8NvB436r1LXvUJN").call(param1: nil).send(from: wallet, amount: Tez(1), completion: { result in

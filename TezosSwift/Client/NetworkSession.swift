@@ -9,6 +9,7 @@
 import Foundation
 
 // Taken from: https://www.swiftbysundell.com/posts/mocking-in-swift
+/// Protocol for network testing
 public protocol NetworkSession {
     func loadData(with urlRequest: URLRequest,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)

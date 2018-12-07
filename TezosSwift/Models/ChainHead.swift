@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Chain's head data
 public struct ChainHead: Codable {
     let chainId: String
     let hash: String

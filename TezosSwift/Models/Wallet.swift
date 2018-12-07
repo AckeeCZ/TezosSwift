@@ -11,21 +11,21 @@ public struct Wallet {
 	public let keys: Keys
 
 	/**
-   * A base58check encoded public key hash for the wallet, prefixed with "tz1" which represents an
-   * address in the Tezos ecosystem.
-   */
+     A base58check encoded public key hash for the wallet, prefixed with "tz1" which represents an
+     address in the Tezos ecosystem.
+     */
 	public let address: String
 
 	/**
-   * If this wallet was gnerated from a mnemonic, a space delimited string of english mnemonic words
-   * used to generate the wallet with the BIP39 specification, otherwise nil.
-   */
+     If this wallet was gnerated from a mnemonic, a space delimited string of english mnemonic words
+     used to generate the wallet with the BIP39 specification, otherwise nil.
+     */
 	public let mnemonic: String?
 
 	/**
-   * Create a new wallet by generating a mnemonic and encrypted with an optional passphrase.
-   *
-   * @param passphrase An optional passphrase used for encryption.
+     Create a new wallet by generating a mnemonic and encrypted with an optional passphrase.
+
+     - Parameter passphrase: An optional passphrase used for encryption.
    */
 	public init?(passphrase: String = "") {
 		guard let mnemonic = MnemonicUtil.generateMnemonic() else {
@@ -35,11 +35,10 @@ public struct Wallet {
 	}
 
 	/**
-   * Create a new wallet with the given mnemonic and encrypted with an optional passphrase.
-   *
-   * @param mnemonic A space delimited string of english mnemonic words from the BIP39
-   *        specification.
-   * @param passphrase An optional passphrase used for encryption.
+     Create a new wallet with the given mnemonic and encrypted with an optional passphrase.
+
+     - Parameter mnemonic: A space delimited string of english mnemonic words from the BIP39 specification.
+     - Parameter passphrase: An optional passphrase used for encryption.
    */
 	public init?(mnemonic: String, passphrase: String = "") {
 		guard let seedString = MnemonicUtil.seedString(from: mnemonic, passphrase: passphrase),
@@ -57,9 +56,9 @@ public struct Wallet {
 	}
 
 	/**
-   * Create a wallet with a given secret key.
-   *
-   * @param secretKey A base58check encoded secret key, prefixed with "edsk".
+     Create a wallet with a given secret key.
+
+     - Parameter secretKey: A base58check encoded secret key, prefixed with "edsk".
    */
 	public init?(secretKey: String) {
 		guard let publicKey = Crypto.extractPublicKey(secretKey: secretKey),

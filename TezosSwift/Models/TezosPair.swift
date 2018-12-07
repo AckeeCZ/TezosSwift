@@ -8,10 +8,9 @@
 
 import Foundation
 
-public protocol RPCCollection {}
-extension Array: RPCCollection where Element: RPCDecodable {}
-extension Set: RPCCollection where Element: RPCDecodable {}
-
+/** This type represents pair Michelson type
+ - Warning: This type is meant to be used by generated code from TezosGen
+ */
 public struct TezosPair<First: RPCCodable, Second: RPCCodable> {
     public let first: First
     public let second: Second

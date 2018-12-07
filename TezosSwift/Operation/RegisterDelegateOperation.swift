@@ -6,8 +6,8 @@ public class RegisterDelegateOperation: Operation {
 	public let delegate: String
     
 	/**
-   * @param delegate The address will register as a delegate.
-   */
+     - Parameter delegate: The address will register as a delegate.
+     */
 	public init(delegate: String) {
 		self.delegate = delegate
 		super.init(source: delegate, kind: .delegation)

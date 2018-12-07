@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// TezToken is a protocol to support arbitrary denotation of Tezos tokens
 public protocol TezToken {
     /**
      * A representation of the given balance for use in RPC requests.

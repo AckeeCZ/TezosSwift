@@ -2,6 +2,14 @@ import Foundation
 import Result
 import os
 
+public typealias ResultCompletion<T> = (Result<T, TezosError>) -> Void
+public typealias RPCCompletion<T: Decodable> = (Result<T, TezosError>) -> Void
+
+public enum HTTPMethod: String {
+    case post = "POST"
+    case get = "GET"
+}
+
 /**
  * TezosClient is the gateway into the Tezos Network.
  *
@@ -53,15 +61,6 @@ import os
  * operation correctly as long as the |requiresReveal| bit on the custom Operation object is set
  * correctly.
  */
-
-public typealias ResultCompletion<T> = (Result<T, TezosError>) -> Void
-public typealias RPCCompletion<T: Decodable> = (Result<T, TezosError>) -> Void
-
-public enum HTTPMethod: String {
-    case post = "POST"
-    case get = "GET"
-}
-
 public class TezosClient {
 
 	/** The URL session that will be used to manage URL requests. */
@@ -72,17 +71,17 @@ public class TezosClient {
 
     private let subsystem = "ackee.TezosSwift.TezosClient"
 
-	/**
-   * Initialize a new TezosClient.
-   *
-   * @param removeNodeURL The path to the remote node.
-   */
+    /**
+     Initialize a new TezosClient.
+
+     - Parameter remoteNodeURL: The path to the remote node.
+     */
     public init(remoteNodeURL: URL) {
         self.remoteNodeURL = remoteNodeURL
         self.urlSession = URLSession.shared
     }
 
-    // Internal init for unit testing
+    /// Init used for unit for unit testing
     public init(remoteNodeURL: URL, urlSession: NetworkSession = URLSession.shared) {
         self.remoteNodeURL = remoteNodeURL
         self.urlSession = urlSession
@@ -94,11 +93,7 @@ public class TezosClient {
         sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
-    public struct ManagerKey: Codable {
-        let manager: String
-        let key: String?
-    }
-
+    /** Retrieve manager key. */
     public func managerAddressKey(of address: String, completion: @escaping RPCCompletion<ManagerKey>) {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/manager_key"
         sendRPC(endpoint: endpoint, method: .get, completion: completion)
@@ -128,16 +123,14 @@ public class TezosClient {
         sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
-	/**
-   * Transact Tezos between accounts.
-   *
-   * @param balance The balance to send.
-   * @param recipientAddress The address which will receive the balance.
-   * @param source The address sending the balance.
-   * @param keys The keys to use to sign the operation for the address.
-   * @param completion A completion block which will be called with a string representing the
-   *        transaction ID hash if the operation was successful.
-   */
+    /**
+     Transact Tezos between accounts.
+
+     - Parameter amount: The amount of Tezos to send.
+     - Parameter recipientAddress: The address which will receive the balance.
+     - Parameter from: Wallet to send Tezos from.
+     - Parameter completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
+     */
     public func send(amount: TezToken,
                                    to recipientAddress: String,
                                    from wallet: Wallet,
@@ -150,7 +143,15 @@ public class TezosClient {
                                             completion: completion)
     }
 
+    /**
+     Transact Tezos between accounts with input.
 
+     - Parameter amount: The amount of Tezos to send.
+     - Parameter recipientAddress: The address which will receive the balance.
+     - Parameter from: Wallet to send Tezos from.
+     - Parameter completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
+     - Parameter input: Input (parameter) to send to contract.
+     */
     public func send<T: Encodable>(amount: TezToken,
 		to recipientAddress: String,
         from wallet: Wallet,
@@ -164,21 +165,17 @@ public class TezosClient {
 			completion: completion)
 	}
 
-	/**
-   * Delegate the balance of an originated account.
-   *
-   * Note that only KT1 accounts can delegate. TZ1 accounts are not able to delegate. This invariant
-   * is not checked on an input to this methods. Thus, the source address must be a KT1 address and
-   * the keys to sign the operation for the address are the keys used to manage the TZ1 address.
-   *
-   * TODO: Support clearing a delegate.
-   *
-   * @param recipientAddress The address which will receive the balance.
-   * @param source The address sending the balance.
-   * @param keys The keys to use to sign the operation for the address.
-   * @param completion A completion block which will be called with a string representing the
-   *        transaction ID hash if the operation was successful.
-   */
+    // TODO: Support clearing a delegate
+    /**
+     Delegate the balance of an originated account.
+
+     Note that only KT1 accounts can delegate. TZ1 accounts are not able to delegate. This invariant is not checked on an input to this methods. Thus, the source address must be a KT1 address and he keys to sign the operation for the address are the keys used to manage the TZ1 address.
+
+     - Parameter source: The address sending the tezos.
+     - Parameter delegate: Delegate's address.
+     - Parameter keys: The keys to use to sign the operation for the address.
+     - Parameter completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
+     */
 	public func delegate(from source: String,
 		to delegate: String,
 		keys: Keys,
@@ -225,17 +222,16 @@ public class TezosClient {
 			completion: completion)
 	}
 
-	/**
-   * Forge, sign, preapply and then inject a set of operations.
-   *
-   * Operations are processed in the order they are placed in the operation array.
-   *
-   * @param operation The operation which will be used to forge the operation.
-   * @param source The address performing the operation.
-   * @param keys The keys to use to sign the operation for the address.
-   * @param completion A completion block that will be called with the results of the operation.
-   */
+    /**
+     Forge, sign, preapply and then inject a set of operations.
 
+     Operations are processed in the order they are placed in the operation array.
+
+     - Parameter operations: The operations which will be used to forge the operations.
+     - Parameter source: The address performing the operation.
+     - Parameter keys: The keys to use to sign the operation for the address.
+     - Parameter completion: A completion block that will be called with the results of the operation.
+     */
 	public func forgeSignPreapplyAndInjectOperations(operations: [Operation],
 		source: String,
 		keys: Keys,
@@ -280,16 +276,16 @@ public class TezosClient {
         })
 	}
 
-	/**
-   * Sign the result of a forged operation, preapply and inject it if successful.
-   *
-   * @param operationPayload The operation payload which was used to forge the operation.
-   * @param operationMetadata Metadata related to the operation.
-   * @param forgeResult The result of forging the operation payload.
-   * @param source The address performing the operation.
-   * @param keys The keys to use to sign the operation for the address.
-   * @param completion A completion block that will be called with the results of the operation.
-   */
+    /**
+     Sign the result of a forged operation, preapply and inject it if successful.
+
+     - Parameter operationPayload: The operation payload which was used to forge the operation.
+     - Parameter operationMetadata: Metadata related to the operation.
+     - Parameter forgeResult: The address performing the operation.
+     - Parameter source: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
+     - Parameter keys: The keys to use to sign the operation for the address.
+     - Parameter completion: A completion block that will be called with the results of the operation.
+     */
 	private func signPreapplyAndInjectOperation(operationPayload: OperationPayload,
 		operationMetadata: OperationMetadata,
 		forgeResult: String,
@@ -311,15 +307,14 @@ public class TezosClient {
 			completion: completion)
 	}
 
-	/**
-   * Preapply an operation and inject the operation if successful.
-   *
-   * @param payload A JSON encoded string that will be preapplied.
-   * @param signedBytesForInjection A JSON encoded string that contains signed bytes for the
-   *        preapplied operation.
-   * @param operationMetadata Metadata related to the operation.
-   * @param completion A completion block that will be called with the results of the operation.
-   */
+    /**
+     Preapply an operation and inject the operation if successful.
+
+     - Parameter payload: A JSON encoded string that will be preapplied.
+     - Parameter signedBytesForInjection: A JSON encoded string that contains signed bytes for the preapplied operation.
+     - Parameter operationMetadata: Metadata related to the operation.
+     - Parameter completion: A completion block that will be called with the results of the operation.
+     */
 	private func preapplyAndInjectRPC(payload: Encodable,
 		signedBytesForInjection: String,
 		operationMetadata: OperationMetadata,
@@ -338,12 +333,12 @@ public class TezosClient {
 
 	}
 
-	/**
-   * Send an injection RPC.
-   *
-   * @param payload A JSON compatible string representing the singed operation bytes.
-   * @param completion A completion block that will be called with the results of the operation.
-   */
+    /**
+     Send an injection RPC.
+
+     - Parameter payload: A JSON compatible string representing the singed operation bytes.
+     - Parameter completion: A completion block that will be called with the results of the operation.
+     */
     private func sendInjectionRPC(payload: String, completion: @escaping RPCCompletion<String>) {
         let endpoint = "/injection/operation"
         sendRPC(endpoint: endpoint, method: .post, payload: payload, completion: { result in
@@ -351,9 +346,14 @@ public class TezosClient {
         })
 	}
 
-	/**
-   * Send an RPC as a GET or POST request.
-   */
+    /**
+     Send an RPC as a GET or POST request.
+
+     - Parameter endpoint: RPC endpoint
+     - Parameter method: HTTP Method, defaults to get
+     - Parameter payload: Payload sent
+     - Parameter completion: A completion block that will be called with the results of RPC call.
+     */
     public func sendRPC<T: Decodable>(endpoint: String, method: HTTPMethod = .get, payload: Encodable? = nil, completion: @escaping RPCCompletion<T>) {
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else {
             completion(.failure(.rpcFailure(reason: .invalidNode)))
@@ -389,6 +389,7 @@ public class TezosClient {
         sendRequest(urlRequest, remoteNodeEndpoint: remoteNodeEndpoint, completion: completion)
     }
 
+    // Send the actual request specified in sendRPC
     private func sendRequest<T: Decodable>(_ urlRequest: URLRequest, remoteNodeEndpoint: URL, completion: @escaping RPCCompletion<T>) {
         let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
 
@@ -452,6 +453,7 @@ public class TezosClient {
         }
     }
 
+    // Decode data from RPC response
     private func decodeData<T: Decodable>(_ data: Data?) throws -> T {
         guard let data = data else {
             throw TezosError.rpcFailure(reason: .noData)
@@ -463,8 +465,10 @@ public class TezosClient {
         do {
             return try jsonDecoder.decode(T.self, from: data)
         } catch let error {
+            // Could not decode data to String
             guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else { throw TezosError.decryptionFailed(reason: .responseError(decodingError: error)) }
 
+            // Decode number value from String
             if let responseNumber = singleResponse.numberValue as? T {
                 return responseNumber
             } else if let responseString = singleResponse as? T {
@@ -476,10 +480,10 @@ public class TezosClient {
     }
 
 	/**
-   * Retrieve metadata needed to forge / pre-apply / sign / inject an operation.
-   *
-   * This method parallelizes fetches to get chain and address data and returns all required data
-   * together as an OperationData object.
+     Retrieve metadata needed to forge / pre-apply / sign / inject an operation.
+
+     This method parallelizes fetches to get chain and address data and returns all required data
+     together as an OperationData object.
    */
     private func metadataForOperation(address: String, completion: @escaping (Result<OperationMetadata, TezosError>) -> Void) {
 		let fetchersGroup = DispatchGroup()

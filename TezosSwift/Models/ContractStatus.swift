@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Contract's status keys
 public enum ContractStatusKeys: String, CodingKey {
     case balance = "balance"
     case spendable = "spendable"
@@ -18,6 +19,7 @@ public enum ContractStatusKeys: String, CodingKey {
     case storage = "storage"
 }
 
+/// Contract's storage keys
 public enum StorageKeys: String, CodingKey {
     case int
     case string
@@ -26,6 +28,7 @@ public enum StorageKeys: String, CodingKey {
     case bytes
 }
 
+/// Tezos primary key types
 public enum TezosPrimaryType: String, Codable {
     case some = "Some"
     case none = "None"
@@ -35,12 +38,19 @@ public enum TezosPrimaryType: String, Codable {
     case left = "Left"
 }
 
+/// Status data of account with no or unit storage
 public struct ContractStatus: Decodable {
-    public let balance: Tez
-    public let spendable: Bool
-    public let manager: String
-    public let delegate: StatusDelegate
-    public let counter: Int
+    /// Balance of account in Tezos
+    let balance: Tez
+    /// Is contract spendable
+    let spendable: Bool
+    /// Account's manager address
+    let manager: String
+    /// Account's delegate
+    let delegate: StatusDelegate
+    /// Account's current operation counter
+    let counter: Int
+    /// Account's storage
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)

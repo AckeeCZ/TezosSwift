@@ -6,8 +6,8 @@ public class DelegationOperation: Operation {
 	public let delegate: String
     
 	/**
-   * @param source The address that will delegate funds.
-   * @param delegate The address to delegate to.
+     - Parameter source: The address that will delegate funds.
+     - Parameter delegate: The address to delegate to.
    */
 	public init(source: String, to delegate: String) {
 		self.delegate = delegate

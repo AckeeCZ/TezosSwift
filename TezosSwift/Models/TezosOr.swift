@@ -8,6 +8,9 @@
 
 import Foundation
 
+/** This type represents or Michelson type
+ - Warning: This type is meant to be used by generated code from TezosGen
+*/
 public struct TezosOr<T: RPCCodable, U: RPCCodable> {
     public typealias Left = T
     public typealias Right = U
