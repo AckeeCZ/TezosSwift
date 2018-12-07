@@ -16,7 +16,6 @@ extension String: RPCDecodable {}
 extension Data: RPCDecodable {}
 extension Tez: RPCDecodable {}
 extension Mutez: RPCDecodable {}
-extension Set: RPCDecodable where Element : RPCDecodable {}
 extension Array: RPCDecodable where Element : RPCDecodable {}
 extension Optional: RPCDecodable where Wrapped: RPCDecodable {}
 
@@ -24,16 +23,6 @@ extension UnkeyedDecodingContainer {
     func corruptedError() -> DecodingError {
         let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Decryption failed")
         return DecodingError.dataCorrupted(context)
-    }
-
-    public mutating func decodeRPC<T: RPCDecodable>(_ type: Set<T>.Type) throws -> Set<T> {
-        var set: Set<T> = []
-        while !isAtEnd {
-            let container = try nestedContainer(keyedBy: StorageKeys.self)
-            let element  = try container.decodeRPC(T.self)
-            set.insert(element)
-        }
-        return set
     }
 
     public mutating func decodeRPC<T: RPCDecodable>(_ type: [T].Type) throws -> [T] {
@@ -73,11 +62,6 @@ extension KeyedDecodingContainerProtocol {
         let dataString = try decode(String.self, forKey: key)
         guard let decodedData = dataString.data(using: .utf8) else { throw decryptionError() }
         return decodedData
-    }
-
-    public func decodeRPC<T: RPCDecodable>(_ type: Set<T>.Type, forKey key: Key) throws -> Set<T> {
-        var arrayContainer = try nestedUnkeyedContainer(forKey: key)
-        return try arrayContainer.decodeRPC(type)
     }
 
     public func decodeRPC<T: RPCDecodable>(_ type: [T].Type, forKey key: Key) throws -> [T] {
@@ -186,16 +170,6 @@ extension UnkeyedDecodingContainer {
         guard let finalArray = collection as? T else { throw TezosError.unsupportedTezosType }
 
         return (finalArray, nil)
-    }
-
-    func typecheckCollection<T: RPCDecodable, U: Collection>(_ type: T.Type, collection: U, previousContainer: UnkeyedDecodingContainer?) throws -> (T, UnkeyedDecodingContainer?) where U.Element: Hashable {
-        if let finalArray = collection as? T {
-            return (finalArray, nil)
-        }
-
-        guard let set = Set<U.Element>(collection) as? T else { throw TezosError.unsupportedTezosType }
-
-        return (set, nil)
     }
 
     private mutating func decodeCollection<T: RPCDecodable & Collection>() throws -> T where T.Element: RPCDecodable {

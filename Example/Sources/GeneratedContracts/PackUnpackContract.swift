@@ -1,8 +1,8 @@
 // Generated using TezosGen 
 // swiftlint:disable file_length
 
-import TezosSwift
 import Foundation
+import TezosSwift
 
 struct PackUnpackContractBox {
     fileprivate let tezosClient: TezosClient 
@@ -13,9 +13,9 @@ struct PackUnpackContractBox {
        self.at = at 
     }
 
-    func call(param1: String, param2: [Int], param3: Set<UInt>, param4: Data) -> ContractMethodInvocation {
+    func call(param1: String, param2: [Int], param3: [UInt], param4: Data) -> ContractMethodInvocation {
         let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
-		let input: TezosPair<TezosPair<TezosPair<String, [Int]>, Set<UInt>>, Data> = TezosPair(first: TezosPair(first: TezosPair(first: param1, second: param2), second: param3), second: param4) 
+		let input: TezosPair<TezosPair<TezosPair<String, [Int]>, [UInt]>, Data> = TezosPair(first: TezosPair(first: TezosPair(first: param1, second: param2), second: param3.sorted()), second: param4) 
         send = { from, amount, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
         }

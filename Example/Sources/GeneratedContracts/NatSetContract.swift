@@ -13,9 +13,9 @@ struct NatSetContractBox {
        self.at = at 
     }
 
-    func call(param1: Set<UInt>) -> ContractMethodInvocation {
+    func call(param1: [UInt]) -> ContractMethodInvocation {
         let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
-		let input: Set<UInt> = param1 
+		let input: [UInt] = param1.sorted() 
         send = { from, amount, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
         }
@@ -35,7 +35,7 @@ struct NatSetContractStatus: Decodable {
     let manager: String
     let delegate: StatusDelegate
     let counter: Int
-    let storage: Set<UInt>
+    let storage: [UInt]
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
@@ -46,7 +46,7 @@ struct NatSetContractStatus: Decodable {
         self.counter = try container.decodeRPC(Int.self, forKey: .counter)
 
         let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
-        self.storage = try scriptContainer.decodeRPC(Set<UInt>.self, forKey: .storage)
+        self.storage = try scriptContainer.decodeRPC([UInt].self, forKey: .storage)
     }
 }
 

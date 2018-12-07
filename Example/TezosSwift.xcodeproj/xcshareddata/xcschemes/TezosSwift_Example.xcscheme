@@ -45,10 +45,10 @@
             </SkippedTests>
          </TestableReference>
          <TestableReference
-            skipped = "YES">
+            skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F84C55842199A06500068596"
+               BlueprintIdentifier = "F85F0CC921B151D20074E391"
                BuildableName = "IntegrationTests.xctest"
                BlueprintName = "IntegrationTests"
                ReferencedContainer = "container:TezosSwift.xcodeproj">

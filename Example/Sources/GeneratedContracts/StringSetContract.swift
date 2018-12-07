@@ -1,20 +1,22 @@
 // Generated using TezosGen 
 // swiftlint:disable file_length
 
+import Foundation
 import TezosSwift
 
-struct StringSetContractBox: ContractBoxing {
+struct StringSetContractBox {
     fileprivate let tezosClient: TezosClient 
     fileprivate let at: String
-    typealias Status = StringSetContractStatus
 
     init(tezosClient: TezosClient, at: String) {
        self.tezosClient = tezosClient 
        self.at = at 
     }
-    func call(param1: Set<String>) -> ContractMethodInvocation {
-		let input: Set<String> = param1 
-        let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void = { from, amount, completion in
+
+    func call(param1: [String]) -> ContractMethodInvocation {
+        let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
+		let input: [String] = param1.sorted() 
+        send = { from, amount, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
         }
 
@@ -33,7 +35,7 @@ struct StringSetContractStatus: Decodable {
     let manager: String
     let delegate: StatusDelegate
     let counter: Int
-    let storage: Set<String> 
+    let storage: [String]
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
@@ -44,7 +46,7 @@ struct StringSetContractStatus: Decodable {
         self.counter = try container.decodeRPC(Int.self, forKey: .counter)
 
         let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
-        self.storage = try scriptContainer.decodeRPC(Set<String>.self, forKey: .storage)
+        self.storage = try scriptContainer.decodeRPC([String].self, forKey: .storage)
     }
 }
 
@@ -52,9 +54,4 @@ extension TezosClient {
     func stringSetContract(at: String) -> StringSetContractBox {
         return StringSetContractBox(tezosClient: self, at: at)
     }
-}
-
-protocol ContractBoxing {
-    associatedtype Status: Decodable
-    func status(completion: @escaping RPCCompletion<Status>)
 }

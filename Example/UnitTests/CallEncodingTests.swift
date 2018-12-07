@@ -115,7 +115,7 @@ class CallEncodingTests: XCTestCase {
     }
 
     func testSetNatCall() {
-        let input: Set<UInt> = [UInt(1), UInt(2), UInt(3), UInt(4), UInt(5), UInt(6)]
+        let input: [UInt] = [UInt(1), UInt(2), UInt(3), UInt(4), UInt(5), UInt(6)]
         let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: input)
         guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
         XCTAssertEqual(encodedDataString, """
