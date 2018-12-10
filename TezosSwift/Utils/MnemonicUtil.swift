@@ -7,17 +7,17 @@ import MnemonicKit
 public class MnemonicUtil {
 
 	/**
-   * Generate a mnemonic.
+     Generate a mnemonic.
    */
 	public static func generateMnemonic() -> String? {
         return Mnemonic.generateMnemonic(strength: 128)
 	}
 
 	/**
-   * Generate a seed string from a given mnemonic.
-   *
-   * @param mnemonic A BIP39 mnemonic phrase.
-   * @param passphrase An optional passphrase used for encryption.
+     Generate a seed string from a given mnemonic.
+
+     - Parameter mnemonic: A BIP39 mnemonic phrase.
+     - Parameter passphrase: An optional passphrase used for encryption.
    */
 	public static func seedString(from mnemonic: String, passphrase: String = "") -> String? {
         guard let rawSeedString = Mnemonic.deterministicSeedString(from: mnemonic, passphrase: passphrase) else { return nil }

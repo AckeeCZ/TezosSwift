@@ -12,6 +12,8 @@ import Foundation
  * A model class representing a balance of Tezos.
  */
 public struct Tez: TezToken, Codable {
+    /// Zero amount of Tez
+    public static let zero: TezToken = Tez(0)
 
     /** The number of decimal places available in Tezos values. */
     fileprivate static let decimalDigitCount = 6

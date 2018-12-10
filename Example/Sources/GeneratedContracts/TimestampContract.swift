@@ -14,10 +14,10 @@ struct TimestampContractBox {
     }
 
     func call(param1: Date) -> ContractMethodInvocation {
-        let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
+        let send: (_ from: Wallet, _ amount: TezToken, _ operationFees: OperationFees?, _ completion: @escaping RPCCompletion<String>) -> Void
 		let input: Date = param1 
-        send = { from, amount, completion in
-            self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
+        send = { from, amount, operationFees, completion in
+            self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, operationFees: operationFees, completion: completion)
         }
 
         return ContractMethodInvocation(send: send)

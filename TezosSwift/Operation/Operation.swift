@@ -7,19 +7,14 @@ import Foundation
  across operations and default parameter values are provided by the abstract class's
  implementation.
  */
-
 public class Operation: Encodable {
-	/** A Tezos balance representing 0. */
-	public static let zeroTez = Tez(0)
-
-	/** A Tezos balance that is the default used for gas and storage limits. */
-	public static let defaultLimitTez = Tez(0.03)
-
 	public let source: String
 	public let kind: OperationKind
-	public let fee: Tez
-	public let gasLimit: Tez
-	public let storageLimit: Tez
+
+    // Taken from: https://github.com/TezTech/eztz/blob/master/PROTO_003_FEES.md
+    /// Default fees for operation
+    public class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.001272), gasLimit: Tez(0.010100), storageLimit: Tez(0.000257)) }
+    public let operationFees: OperationFees
 	public var requiresReveal: Bool {
 		switch self.kind {
 		case .delegation, .transaction, .origination:
@@ -32,14 +27,10 @@ public class Operation: Encodable {
 
 	public init(source: String,
 		kind: OperationKind,
-		fee: Tez = Operation.defaultLimitTez,
-        gasLimit: Tez = Operation.defaultLimitTez,
-		storageLimit: Tez = Operation.defaultLimitTez) {
+        operationFees: OperationFees? = nil) {
 		self.source = source
 		self.kind = kind
-		self.fee = fee
-		self.gasLimit = gasLimit
-		self.storageLimit = storageLimit
+		self.operationFees = operationFees ?? Operation.defaultFees
 	}
 
     private enum OperationKeys: String, CodingKey {
@@ -56,9 +47,9 @@ public class Operation: Encodable {
         var container = encoder.container(keyedBy: OperationKeys.self)
         try container.encode(kind.rawValue, forKey: .kind)
         try container.encode(String(counter), forKey: .counter)
-        try container.encode(storageLimit, forKey: .storageLimit)
-        try container.encode(gasLimit, forKey: .gasLimit)
-        try container.encode(fee, forKey: .fee)
+        try container.encode(operationFees.storageLimit, forKey: .storageLimit)
+        try container.encode(operationFees.gasLimit, forKey: .gasLimit)
+        try container.encode(operationFees.fee, forKey: .fee)
         try container.encode(source, forKey: .source)
     }
 }

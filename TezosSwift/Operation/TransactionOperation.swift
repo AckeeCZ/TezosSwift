@@ -5,25 +5,31 @@ public class TransactionOperation: Operation {
 	private let amount: TezToken
 	private let destination: String
 
+    // Taken from: https://github.com/TezTech/eztz/blob/master/PROTO_003_FEES.md
+    /// Default fees for operation
+    public override class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.001272), gasLimit: Tez(0.010100), storageLimit: Tez(0.000257)) }
+
 	/**
      - Parameter amount: The amount of XTZ to transact.
      - Parameter source: The wallet that is sending the XTZ.
      - Parameter to: The address that is receiving the XTZ.
+     - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
    */
-    public convenience init(amount: TezToken, source: Wallet, destination: String) {
-        self.init(amount: amount, source: source.address, destination: destination)
+    public convenience init(amount: TezToken, source: Wallet, destination: String, operationFees: OperationFees? = nil) {
+        self.init(amount: amount, source: source.address, destination: destination, operationFees: operationFees)
 	}
 
 	/**
      - Parameter amount: The amount of XTZ to transact.
      - Parameter source: The wallet that is sending the XTZ.
      - Parameter to: The address that is receiving the XTZ.
+     - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
    */
-    public init(amount: TezToken, source: String, destination: String) {
+    public init(amount: TezToken, source: String, destination: String, operationFees: OperationFees? = nil) {
 		self.amount = amount
 		self.destination = destination
 
-		super.init(source: source, kind: .transaction)
+		super.init(source: source, kind: .transaction, operationFees: operationFees ?? TransactionOperation.defaultFees)
 	}
 
     public override func encode(to encoder: Encoder) throws {

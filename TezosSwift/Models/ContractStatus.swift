@@ -41,15 +41,15 @@ public enum TezosPrimaryType: String, Codable {
 /// Status data of account with no or unit storage
 public struct ContractStatus: Decodable {
     /// Balance of account in Tezos
-    let balance: Tez
+    public let balance: Tez
     /// Is contract spendable
-    let spendable: Bool
+    public let spendable: Bool
     /// Account's manager address
-    let manager: String
+    public let manager: String
     /// Account's delegate
-    let delegate: StatusDelegate
+    public let delegate: StatusDelegate
     /// Account's current operation counter
-    let counter: Int
+    public let counter: Int
     /// Account's storage
 
     public init(from decoder: Decoder) throws {

@@ -13,6 +13,9 @@ import Foundation
  */
 public struct Mutez: TezToken, Codable {
 
+    /// Zero amount of Tez
+    public static let zero: TezToken = Mutez(0)
+
     let integerAmount: String
     let decimalAmount: String
 

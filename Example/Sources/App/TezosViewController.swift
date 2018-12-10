@@ -8,6 +8,7 @@
 
 import UIKit
 import os
+import TezosSwift
 
 class TezosViewController: UIViewController {
     override func viewDidLoad() {

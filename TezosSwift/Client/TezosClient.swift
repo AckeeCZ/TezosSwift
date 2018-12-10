@@ -100,7 +100,7 @@ public class TezosClient {
     }
 
     /** Retrieve the balance of a given address. */
-    public func balance(of address: String, completion: @escaping (Result<Tez, TezosError>) -> Void) {
+    public func balance(of address: String, completion: @escaping RPCCompletion<Tez>) {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/balance"
         sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
@@ -129,14 +129,16 @@ public class TezosClient {
      - Parameter amount: The amount of Tezos to send.
      - Parameter recipientAddress: The address which will receive the balance.
      - Parameter from: Wallet to send Tezos from.
+     - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
      - Parameter completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
      */
     public func send(amount: TezToken,
                                    to recipientAddress: String,
                                    from wallet: Wallet,
+                                   operationFees: OperationFees? = nil,
                                    completion: @escaping RPCCompletion<String>) {
         let transactionOperation =
-            TransactionOperation(amount: amount, source: wallet.address, destination: recipientAddress)
+            TransactionOperation(amount: amount, source: wallet.address, destination: recipientAddress, operationFees: operationFees)
         forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
                                             source: wallet.address,
                                             keys: wallet.keys,
@@ -149,6 +151,7 @@ public class TezosClient {
      - Parameter amount: The amount of Tezos to send.
      - Parameter recipientAddress: The address which will receive the balance.
      - Parameter from: Wallet to send Tezos from.
+     - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
      - Parameter completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
      - Parameter input: Input (parameter) to send to contract.
      */
@@ -156,6 +159,7 @@ public class TezosClient {
 		to recipientAddress: String,
         from wallet: Wallet,
         input: T,
+        operationFees: OperationFees? = nil,
 		completion: @escaping RPCCompletion<String>) {
 		let transactionOperation =
             ContractOperation(amount: amount, source: wallet.address, destination: recipientAddress, input: input)
@@ -174,13 +178,15 @@ public class TezosClient {
      - Parameter source: The address sending the tezos.
      - Parameter delegate: Delegate's address.
      - Parameter keys: The keys to use to sign the operation for the address.
+     - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
      - Parameter completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
      */
 	public func delegate(from source: String,
 		to delegate: String,
 		keys: Keys,
+        operationFees: OperationFees? = nil,
 		completion: @escaping RPCCompletion<String>) {
-		let delegationOperation = DelegationOperation(source: source, to: delegate)
+        let delegationOperation = DelegationOperation(source: source, to: delegate, operationFees: operationFees)
 		self.forgeSignPreapplyAndInjectOperation(operation: delegationOperation,
 			source: source,
 			keys: keys,
@@ -188,16 +194,17 @@ public class TezosClient {
 	}
 
 	/**
-   * Register an address as a delegate.
-   *
-   * @param recipientAddress The address which will receive the balance.
-   * @param source The address sending the balance.
-   * @param keys The keys to use to sign the operation for the address.
-   * @param completion A completion block which will be called with a string representing the
+     Register an address as a delegate.
+
+     - Parameter recipientAddress: The address which will receive the balance.
+     - Parameter source: The address sending the balance.
+     - Parameter keys: The keys to use to sign the operation for the address.
+     - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
+     - Parameter completion: A completion block which will be called with a string representing the
    *        transaction ID hash if the operation was successful.
    */
-	public func registerDelegate(delegate: String, keys: Keys, completion: @escaping RPCCompletion<String>) {
-		let registerDelegateOperation = RegisterDelegateOperation(delegate: delegate)
+	public func registerDelegate(delegate: String, keys: Keys, operationFees: OperationFees? = nil, completion: @escaping RPCCompletion<String>) {
+        let registerDelegateOperation = RegisterDelegateOperation(delegate: delegate, operationFees: operationFees)
 		self.forgeSignPreapplyAndInjectOperation(operation: registerDelegateOperation,
 			source: delegate,
 			keys: keys,
@@ -207,10 +214,10 @@ public class TezosClient {
 	/**
    * Forge, sign, preapply and then inject a single operation.
    *
-   * @param operation The operation which will be used to forge the operation.
-   * @param source The address performing the operation.
-   * @param keys The keys to use to sign the operation for the address.
-   * @param completion A completion block that will be called with the results of the operation.
+     - Parameter operation: The operation which will be used to forge the operation.
+     - Parameter source: The address performing the operation.
+     - Parameter keys: The keys to use to sign the operation for the address.
+     - Parameter completion: A completion block that will be called with the results of the operation.
    */
 	public func forgeSignPreapplyAndInjectOperation(operation: Operation,
 		source: String,
@@ -405,12 +412,13 @@ public class TezosClient {
             }
 
             let jsonDecoder = JSONDecoder()
-            do {
-                errorMessage = try jsonDecoder.decode(String.self, from: data)
-            } catch {
-                completion(.failure(.rpcFailure(reason: .noData)))
-                return
-            }
+            errorMessage = (try? jsonDecoder.decode(String.self, from: data)) ?? ""
+//            do {
+//                errorMessage = try? jsonDecoder.decode(String.self, from: data) ?? ""
+//            } catch {
+//                completion(.failure(.rpcFailure(reason: .noData)))
+//                return
+//            }
 
             // Check if the response contained a 200 HTTP OK response. If not, then propagate an error.
             if let httpResponse = response as? HTTPURLResponse,

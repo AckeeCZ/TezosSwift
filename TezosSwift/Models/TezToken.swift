@@ -10,14 +10,16 @@ import Foundation
 
 /// TezToken is a protocol to support arbitrary denotation of Tezos tokens
 public protocol TezToken {
-    /**
-     * A representation of the given balance for use in RPC requests.
-     */
+    /// A representation of the given balance for use in RPC requests.
     var rpcRepresentation: String { get }
+
+    /// Zero amount of TezToken
+    static var zero: TezToken { get }
 }
 
 extension KeyedEncodingContainer {
     mutating func encode(_ value: TezToken, forKey key: KeyedEncodingContainer<K>.Key) throws {
         try encode(value.rpcRepresentation, forKey: key)
+        let k: CGSize = .zero
     }
 }

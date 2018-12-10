@@ -14,10 +14,10 @@ struct MapContractBox {
     }
 
     func call(param1: [(Int, Int)]) -> ContractMethodInvocation {
-        let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
+        let send: (_ from: Wallet, _ amount: TezToken, _ operationFees: OperationFees?, _ completion: @escaping RPCCompletion<String>) -> Void
 		let input: TezosMap<Int, Int> = TezosMap(pairs: param1.map { TezosPair(first: $0.0, second: $0.1) }) 
-        send = { from, amount, completion in
-            self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
+        send = { from, amount, operationFees, completion in
+            self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, operationFees: operationFees, completion: completion)
         }
 
         return ContractMethodInvocation(send: send)

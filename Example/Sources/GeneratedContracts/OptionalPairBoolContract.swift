@@ -20,10 +20,10 @@ struct OptionalPairBoolContractBox {
      Params are in the order of how they are specified in the Tezos structure tree
     */
     func call(param1: Bool, param2: Bool) -> ContractMethodInvocation {
-        let send: (_ from: Wallet, _ amount: TezToken, _ completion: @escaping RPCCompletion<String>) -> Void
+        let send: (_ from: Wallet, _ amount: TezToken, _ operationFees: OperationFees?, _ completion: @escaping RPCCompletion<String>) -> Void
 		let input: TezosPair<Bool, Bool> = TezosPair(first: param1, second: param2) 
-        send = { from, amount, completion in
-            self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, completion: completion)
+        send = { from, amount, operationFees, completion in
+            self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, operationFees: operationFees, completion: completion)
         }
 
         return ContractMethodInvocation(send: send)
