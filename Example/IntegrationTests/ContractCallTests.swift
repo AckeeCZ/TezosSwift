@@ -24,7 +24,6 @@ class ContractCallTests: XCTestCase {
     // These calls have to be executed individually for now
     func testSendingTezos() {
         let testCompletionExpectation = expectation(description: "Sending Tezos")
-        let testCompletionExpectation2 = expectation(description: "Sending Tezos")
 
         tezosClient.send(amount: Tez(1), to: "tz1dD918PXDuUHV6Mh6z2QqMukA67YULuhqd", from: wallet, completion: { result in
             switch result {
@@ -33,16 +32,6 @@ class ContractCallTests: XCTestCase {
                 testCompletionExpectation.fulfill()
             case .success(_):
                 testCompletionExpectation.fulfill()
-            }
-        })
-
-        tezosClient.send(amount: Tez(1), to: "tz1dD918PXDuUHV6Mh6z2QqMukA67YULuhqd", from: wallet, completion: { result in
-            switch result {
-            case .failure(let error):
-                XCTFail("Failed with error: \(error)")
-                testCompletionExpectation2.fulfill()
-            case .success(_):
-                testCompletionExpectation2.fulfill()
             }
         })
 
@@ -255,8 +244,7 @@ class ContractCallTests: XCTestCase {
 
     func testSetNat() {
         let testCompletionExpectation = expectation(description: "Sending Nat Set contract")
-
-        tezosClient.natSetContract(at: "KT1UoXSsYJxdjdiD4XXSzTsyi77SygSSfvP1").call(param1: [1, 2, 3, 4, 5, 6]).send(from: wallet, amount: Tez(1), completion: { result in
+        tezosClient.natSetContract(at: "KT1DwASQY1uTEkzWUShbeQJfKpBdb2ugsE5k").call(param1: [1, 2, 3]).send(from: wallet, amount: Tez(1), completion: { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
@@ -266,6 +254,24 @@ class ContractCallTests: XCTestCase {
             }
         })
 
+        waitForExpectations(timeout: 3, handler: nil)
+    }
+
+    func testSendingBatchedOperations() {
+        let testCompletionExpectation = expectation(description: "Sending in batch")
+        let input: TezosPair<TezosPair<TezosPair<String, [Int]>, [UInt]>, Data> = TezosPair(first: TezosPair(first: TezosPair(first: "toto", second: [3, 7, 9, 1]), second: [UInt(2), UInt(1), UInt(3)].sorted()), second: "hello".data(using: .utf8)!)
+        let input2: TezosPair<TezosPair<TezosPair<String, [Int]>, [UInt]>, Data> = TezosPair(first: TezosPair(first: TezosPair(first: "second input", second: [3, 7, 9, 1]), second: [UInt(2), UInt(1), UInt(3)].sorted()), second: "hello".data(using: .utf8)!)
+        let contractOperation = ContractOperation(amount: Tez(1), source: "tz1WRFiK6eGNvP3ioWkWeP6JwDaQjj95opnQ", destination: "KT1REVKi3gDXZ6H1AUp3UzpfC2YUmuM9tfRp", input: input)
+        let contractOperation2 = ContractOperation(amount: Tez(1), source: "tz1WRFiK6eGNvP3ioWkWeP6JwDaQjj95opnQ", destination: "KT1REVKi3gDXZ6H1AUp3UzpfC2YUmuM9tfRp", input: input2)
+        tezosClient.forgeSignPreapplyAndInjectOperations(operations: [contractOperation, contractOperation2], source: "tz1WRFiK6eGNvP3ioWkWeP6JwDaQjj95opnQ", keys: wallet.keys, completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                testCompletionExpectation.fulfill()
+            case .success(_):
+                testCompletionExpectation.fulfill()
+            }
+        })
         waitForExpectations(timeout: 3, handler: nil)
     }
 }

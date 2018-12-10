@@ -14,7 +14,7 @@ public class Operation: Encodable {
     // Taken from: https://github.com/TezTech/eztz/blob/master/PROTO_003_FEES.md
     /// Default fees for operation
     public class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.001272), gasLimit: Tez(0.010100), storageLimit: Tez(0.000257)) }
-    public let operationFees: OperationFees
+    public internal(set) var operationFees: OperationFees?
 	public var requiresReveal: Bool {
 		switch self.kind {
 		case .delegation, .transaction, .origination:
@@ -30,7 +30,7 @@ public class Operation: Encodable {
         operationFees: OperationFees? = nil) {
 		self.source = source
 		self.kind = kind
-		self.operationFees = operationFees ?? Operation.defaultFees
+		self.operationFees = operationFees
 	}
 
     private enum OperationKeys: String, CodingKey {
@@ -47,6 +47,7 @@ public class Operation: Encodable {
         var container = encoder.container(keyedBy: OperationKeys.self)
         try container.encode(kind.rawValue, forKey: .kind)
         try container.encode(String(counter), forKey: .counter)
+        let operationFees = self.operationFees ?? Operation.defaultFees
         try container.encode(operationFees.storageLimit, forKey: .storageLimit)
         try container.encode(operationFees.gasLimit, forKey: .gasLimit)
         try container.encode(operationFees.fee, forKey: .fee)

@@ -307,12 +307,53 @@ public class TezosClient {
             }
 
         let signedOperationPayload = SignedOperationPayload(contents: operationPayload.contents, branch: operationPayload.branch, protocol: operationMetadata.protocolHash, signature: operationSigningResult.edsig)
+        let signedRunOperationPayload = SignedRunOperationPayload(contents: operationPayload.contents, branch: operationPayload.branch, signature: operationSigningResult.edsig)
+
+        self.estimateGas(payload: [signedRunOperationPayload], signedBytesForInjection: jsonSignedBytes, operationMetadata: operationMetadata, completion: { result in
+            print("Gas result")
+            switch result {
+            case .success(let value):
+                print(value)
+            case .failure(let error):
+                print(error)
+            }
+        })
 
 		self.preapplyAndInjectRPC(payload: [signedOperationPayload],
 			signedBytesForInjection: jsonSignedBytes,
 			operationMetadata: operationMetadata,
 			completion: completion)
 	}
+
+    /// Signed operation's data
+    public struct SignedRunOperationPayload: Encodable {
+        var contents: [Operation]
+        let branch: String
+        let signature: String
+    }
+
+
+    private func estimateGas(payload: [SignedRunOperationPayload],
+                             signedBytesForInjection: String,
+                             operationMetadata: OperationMetadata,
+                             completion: @escaping RPCCompletion<String>) {
+        // TODO: Fees .max
+        let operationFees = OperationFees(fee: Tez(0), gasLimit: Tez(0.4), storageLimit: Tez(0.06))
+        var payloadWithFees = payload.map { SignedRunOperationPayload(contents: $0.contents.filter { $0.operationFees != nil }, branch: $0.branch, signature: $0.signature) }
+        let isPayloadNotEmpty = !payloadWithFees.filter { !$0.contents.isEmpty }.isEmpty
+        guard isPayloadNotEmpty else { }
+        payloadWithFees.forEach { $0.contents.forEach { $0.operationFees = operationFees } }
+        let rpcCompletion: RPCCompletion<String> = { [weak self] result in
+            switch result {
+            case .success(let value):
+                self?.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        let endpoint = "chains/main/blocks/head/helpers/scripts/run_operation"
+        sendRPC(endpoint: endpoint, method: .post, payload: payloadWithFees, completion: rpcCompletion)
+    }
 
     /**
      Preapply an operation and inject the operation if successful.
@@ -322,7 +363,7 @@ public class TezosClient {
      - Parameter operationMetadata: Metadata related to the operation.
      - Parameter completion: A completion block that will be called with the results of the operation.
      */
-	private func preapplyAndInjectRPC(payload: Encodable,
+	private func preapplyAndInjectRPC(payload: [SignedOperationPayload],
 		signedBytesForInjection: String,
 		operationMetadata: OperationMetadata,
 		completion: @escaping RPCCompletion<String>) {
@@ -337,7 +378,6 @@ public class TezosClient {
         }
         let endpoint = "chains/" + operationMetadata.chainId + "/blocks/" + operationMetadata.headHash + "/helpers/preapply/operations"
         sendRPC(endpoint: endpoint, method: .post, payload: payload, completion: rpcCompletion)
-
 	}
 
     /**
@@ -384,7 +424,7 @@ public class TezosClient {
                 urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 urlRequest.cachePolicy = .reloadIgnoringCacheData
                 urlRequest.httpBody = jsonData
-                os_log("Endnode: %@", log: dataLog, endpoint)
+                os_log("Endnode: %@", log: dataLog, remoteNodeEndpoint.absoluteString)
                 os_log("JSON data payload: %@", log: dataLog, String(data: jsonData, encoding: .utf8) ?? "")
             }
             catch let error {

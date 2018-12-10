@@ -2,15 +2,17 @@ import Foundation
 
 /** An operation to transact XTZ between addresses. */
 public class TransactionOperation: Operation {
-	private let amount: TezToken
-	private let destination: String
+	let amount: TezToken
+    let destination: String
 
     // Taken from: https://github.com/TezTech/eztz/blob/master/PROTO_003_FEES.md
+    // Storage limit is zero if account active
     /// Default fees for operation
 //    public override class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.001272), gasLimit: Tez(0.010100), storageLimit: Tez(0.000257)) }
+    public override class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.001550), gasLimit: Tez(0.012749), storageLimit: Tez(0.000257)) }
     // TODO: Calculate fees!!! (opbytes: https://github.com/TezTech/eztz/blob/master/PROTO_003_FEES.md)
     /// Default fees for operation
-    public override class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.03), gasLimit: Tez(0.03), storageLimit: Tez(0.003)) }
+//    public override class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.03), gasLimit: Tez(0.03), storageLimit: Tez(0)) }
 
 	/**
      - Parameter amount: The amount of XTZ to transact.
@@ -32,7 +34,7 @@ public class TransactionOperation: Operation {
 		self.amount = amount
 		self.destination = destination
 
-		super.init(source: source, kind: .transaction, operationFees: operationFees ?? TransactionOperation.defaultFees)
+		super.init(source: source, kind: .transaction, operationFees: operationFees)
 	}
 
     public override func encode(to encoder: Encoder) throws {
