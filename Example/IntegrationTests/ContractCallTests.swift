@@ -112,7 +112,7 @@ class ContractCallTests: XCTestCase {
     func testPackUnpack() {
         let testCompletionExpectation = expectation(description: "Sending Tezos to PackUnpack contract")
 
-        tezosClient.packUnpackContract(at: "KT1F2aWqKZ8FSmFsTnkUW2wHgNtsRp4nnCEC").call(param1: "hello", param2: [1, 2], param3: [3, 4], param4: "".data(using: .utf8)!).send(from: wallet, amount: Tez(1), completion: { result in
+        tezosClient.packUnpackContract(at: "KT1REVKi3gDXZ6H1AUp3UzpfC2YUmuM9tfRp").call(param1: "toto", param2: [1, 2], param3: [3, 4], param4: "hello".data(using: .utf8)!).send(from: wallet, amount: Tez(1), completion: { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")

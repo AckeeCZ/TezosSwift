@@ -112,12 +112,12 @@ extension Bool: RPCEncodable {
 extension Data: RPCEncodable {
     public func encodeRPC<K: CodingKey>(in container: inout KeyedEncodingContainer<K>, forKey key: KeyedEncodingContainer<K>.Key) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self, forKey: key)
-        try nestedContainer.encode(self, forKey: .bytes)
+        try nestedContainer.encode(hexEncodedString(options: .upperCase), forKey: .bytes)
     }
 
     public func encodeRPC<T: UnkeyedEncodingContainer>(in container: inout T) throws {
         var nestedContainer = container.nestedContainer(keyedBy: StorageKeys.self)
-        try nestedContainer.encode(self, forKey: .bytes)
+        try nestedContainer.encode(hexEncodedString(options: .upperCase), forKey: .bytes)
     }
 }
 
@@ -183,5 +183,24 @@ extension UnkeyedEncodingContainer {
         } else {
             try encode(value)
         }
+    }
+}
+
+// Taken from: https://stackoverflow.com/a/40089462/4975152
+extension Data {
+    struct HexEncodingOptions: OptionSet {
+        let rawValue: Int
+        static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
+    }
+
+    func hexEncodedString(options: HexEncodingOptions = []) -> String {
+        let hexDigits = Array((options.contains(.upperCase) ? "0123456789ABCDEF" : "0123456789abcdef").utf16)
+        var chars: [unichar] = []
+        chars.reserveCapacity(2 * count)
+        for byte in self {
+            chars.append(hexDigits[Int(byte / 16)])
+            chars.append(hexDigits[Int(byte % 16)])
+        }
+        return String(utf16CodeUnits: chars, count: chars.count)
     }
 }
