@@ -66,4 +66,19 @@ class TezosRPCTest: XCTestCase {
 
         waitForExpectations(timeout: 3)
     }
+
+    func testCurrentQuorum() {
+        let callExpectation = expectation(description: "Current quorum")
+        tezosClient.currentQuorum(completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                XCTAssertGreaterThan(value, 0)
+                callExpectation.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3)
+    }
 }

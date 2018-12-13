@@ -44,6 +44,8 @@ public enum DecryptionReason {
     case unsupportedTezosType
     /// Unable to decode response
     case responseError(decodingError: Error)
+    /// Unknown decryption error
+    case unknown
 }
 
 /// Errors when converting Swift parameters to Tezos data structure

@@ -123,6 +123,63 @@ public class TezosClient {
         sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
+    /// Retrieve the expected quorum.
+    public func currentQuorum(completion: @escaping RPCCompletion<Int>) {
+        let endpoint = "/chains/main/blocks/head/votes/current_quorum"
+        sendRPC(endpoint: endpoint, method: .get, completion: completion)
+    }
+
+    /// Retrieve the expected quorum.
+    public func currentPeriodKind(completion: @escaping RPCCompletion<PeriodKind>) {
+        let endpoint = "/chains/main/blocks/head/votes/current_period_kind"
+        let rpcCompletion: RPCCompletion<String> = { result in
+            switch result {
+            case .success(let periodKindString):
+                guard let periodKind = PeriodKind(rawValue: periodKindString) else { completion(.failure(.decryptionFailed(reason: .unknown))); return }
+                completion(.success(periodKind))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+    }
+
+    /// Sum of ballots cast so far during a voting period.
+    public func ballotsSum(completion: @escaping RPCCompletion<BallotsSum>) {
+        let endpoint = "/chains/main/blocks/head/votes/ballots"
+        sendRPC(endpoint: endpoint, method: .get, completion: completion)
+    }
+
+    /// List of delegates with their voting weight, in number of rolls
+    public func delegatesList(completion: @escaping RPCCompletion<[DelegateStatus]>) {
+        let endpoint = "/chains/main/blocks/head/votes/ballots"
+        sendRPC(endpoint: endpoint, method: .get, completion: completion)
+    }
+//
+//    /**
+//     * Retrieve a list of proposals with number of supporters.
+//     */
+//    public func getProposalsList(completion: @escaping ([[String: Any]]?, Error?) -> Void) {
+//        let rpc = GetProposalsListRPC(completion: completion)
+//        self.send(rpc: rpc)
+//    }
+//
+//    /**
+//     * Retrieve the current proposal under evaluation.
+//     */
+//    public func getProposalUnderEvaluation(completion: @escaping (String?, Error?) -> Void) {
+//        let rpc = GetProposalUnderEvaluationRPC(completion: completion)
+//        self.send(rpc: rpc)
+//    }
+//
+//    /**
+//     * Retrieve a list of delegates with their voting weight, in number of rolls.
+//     */
+//    public func getVotingDelegateRights(completion: @escaping ([[String: Any]]?, Error?) -> Void) {
+//        let rpc = GetVotingDelegateRightsRPC(completion: completion)
+//        self.send(rpc: rpc)
+//    }
+
     /**
      Transact Tezos between accounts.
 
@@ -187,7 +244,7 @@ public class TezosClient {
         operationFees: OperationFees? = nil,
 		completion: @escaping RPCCompletion<String>) {
         let delegationOperation = DelegationOperation(source: source, to: delegate, operationFees: operationFees)
-		self.forgeSignPreapplyAndInjectOperation(operation: delegationOperation,
+		forgeSignPreapplyAndInjectOperation(operation: delegationOperation,
 			source: source,
 			keys: keys,
 			completion: completion)
