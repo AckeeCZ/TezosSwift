@@ -13,4 +13,9 @@ public struct OperationSigningResult {
 
 	/** The operation string concatenated with a hex encoded signature. */
 	public let sbytes: String
+
+    /// String of signed bytes from sign operation
+    public var jsonSignedBytes: String? {
+        return JSONUtils.jsonString(for: sbytes)
+    }
 }

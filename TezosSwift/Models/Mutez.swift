@@ -15,7 +15,7 @@ public struct Mutez: TezToken, Codable {
 
     /// Zero amount of Tez
     public static let zero: TezToken = Mutez(0)
-
+    public let amount: Int
     let integerAmount: String
     let decimalAmount: String
 
@@ -33,27 +33,30 @@ public struct Mutez: TezToken, Codable {
         return integerAmount + decimalAmount
     }
 
-    public init(_ amount: Double) {
-        let mutez = Tez(amount * 0.000001)
+    public init(_ amount: Int) {
+        let mutez = Tez(Double(amount) * 0.000001)
         self.integerAmount = mutez.integerAmount
         self.decimalAmount = mutez.decimalAmount
-    }
-
-    fileprivate init(integerAmount: String, decimalAmount: String) {
-        self.integerAmount = integerAmount
-        self.decimalAmount = decimalAmount
+        self.amount = amount
     }
 }
 
 extension KeyedDecodingContainerProtocol {
     public func decode(_ type: Mutez.Type, forKey key: Key) throws -> Mutez {
         let amount = try decodeRPC(Int.self, forKey: key)
-        return Mutez(Double(amount))
+        return Mutez(amount)
     }
 }
 
 extension Mutez: Equatable {
     public static func == (lhs: Mutez, rhs: Mutez) -> Bool {
         return lhs.rpcRepresentation == rhs.rpcRepresentation
+    }
+}
+
+extension Mutez {
+    static func +(lhs: Mutez, rhs: Mutez) -> Mutez {
+        let mutez = lhs.amount + rhs.amount
+        return Mutez(mutez)
     }
 }

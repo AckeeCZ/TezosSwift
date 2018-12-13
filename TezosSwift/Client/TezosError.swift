@@ -57,6 +57,8 @@ public enum InjectReason {
     case missingMetadata
     /// Error during creation JSON signed bytes
     case jsonSigningFailed
+    /// Error during forging operation
+    case forgeError
 }
 
 /// Tezos Swift Error

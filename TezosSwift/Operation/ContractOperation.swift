@@ -31,7 +31,6 @@ public class ContractOperation<T: Encodable>: TransactionOperation {
      */
     public init(amount: TezToken, source: String, destination: String, input: T, operationFees: OperationFees? = nil) {
         self.input = input
-
         super.init(amount: amount, source: source, destination: destination, operationFees: operationFees)
     }
 

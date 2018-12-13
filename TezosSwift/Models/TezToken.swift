@@ -20,6 +20,5 @@ public protocol TezToken {
 extension KeyedEncodingContainer {
     mutating func encode(_ value: TezToken, forKey key: KeyedEncodingContainer<K>.Key) throws {
         try encode(value.rpcRepresentation, forKey: key)
-        let k: CGSize = .zero
     }
 }

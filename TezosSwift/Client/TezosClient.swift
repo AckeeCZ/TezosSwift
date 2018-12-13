@@ -242,7 +242,7 @@ public class TezosClient {
 	public func forgeSignPreapplyAndInjectOperations(operations: [Operation],
 		source: String,
 		keys: Keys,
-        completion: @escaping RPCCompletion<String> ) {
+        completion: @escaping RPCCompletion<String>) {
         metadataForOperation(address: source, completion: { [weak self] result in
             switch result {
             case .success(let operationMetadata):
@@ -266,22 +266,52 @@ public class TezosClient {
 
                 let operationPayload = OperationPayload(contents: contents, branch: operationMetadata.headHash)
 
-                let rpcCompletion: RPCCompletion<String> = { [weak self] result in
+                self?.forgeAndSignOperation(chainId: operationMetadata.chainId, headHash: operationMetadata.headHash, operationPayload: operationPayload, keys: keys, completion: { result in
                     switch result {
-                    case .success(let forgeResult):
-                        self?.signPreapplyAndInjectOperation(operationPayload: operationPayload, operationMetadata: operationMetadata, forgeResult: forgeResult, source: source, keys: keys, completion: completion)
+                    case .success((let signingResult, let forgeResult)):
+                        self?.preapplyAndInjectOperation(operationPayload: operationPayload, operationMetadata: operationMetadata, signingResult: signingResult, forgeResult: forgeResult, source: source, keys: keys, completion: completion)
                     case .failure(let error):
                         completion(.failure(error))
                     }
-                }
-
-                let endpoint = "/chains/" + operationMetadata.chainId + "/blocks/" + operationMetadata.headHash + "/helpers/forge/operations"
-                self?.sendRPC(endpoint: endpoint, method: .post, payload: operationPayload, completion: rpcCompletion)
+                })
             case .failure(let error):
                 completion(.failure(error))
             }
         })
 	}
+
+    private func forgeOperation(chainId: String, headHash: String, operationPayload: OperationPayload, completion: @escaping RPCCompletion<String>) {
+        let endpoint = "/chains/" + chainId + "/blocks/" + headHash + "/helpers/forge/operations"
+        sendRPC(endpoint: endpoint, method: .post, payload: operationPayload, completion: completion)
+    }
+
+    private func signOperation(operationPayload: OperationPayload, forgedOperation: String, keys: Keys) throws -> OperationSigningResult {
+        guard let operationSigningResult = Crypto.signForgedOperation(operation: forgedOperation, secretKey: keys.secretKey) else { throw TezosError.injectError(reason: .jsonSigningFailed) }
+            return operationSigningResult
+    }
+
+    private func forgeAndSignOperation(chainId: String, headHash: String, operationPayload: OperationPayload, keys: Keys, completion: @escaping (Result<(OperationSigningResult, String), TezosError>) -> Void) {
+        forgeOperation(chainId: chainId, headHash: headHash, operationPayload: operationPayload, completion: { [weak self] result in
+            switch result {
+            case .success(let forgeResult):
+                do {
+                    // Return successfully signed operation
+                    guard let signingResult: OperationSigningResult = try self?.signOperation(operationPayload: operationPayload, forgedOperation: forgeResult, keys: keys) else {
+                        completion(.failure(.injectError(reason: .forgeError)))
+                        return
+                    }
+                    completion(.success((signingResult, forgeResult)))
+                } catch let error {
+                    let unwrappedError = error as? TezosError ?? TezosError.injectError(reason: .jsonSigningFailed)
+                    completion(.failure(unwrappedError))
+                }
+
+
+            case .failure(let error):
+                completion(.failure(.injectError(reason: .forgeError)))
+            }
+        })
+    }
 
     /**
      Sign the result of a forged operation, preapply and inject it if successful.
@@ -293,66 +323,76 @@ public class TezosClient {
      - Parameter keys: The keys to use to sign the operation for the address.
      - Parameter completion: A completion block that will be called with the results of the operation.
      */
-	private func signPreapplyAndInjectOperation(operationPayload: OperationPayload,
+	private func preapplyAndInjectOperation(operationPayload: OperationPayload,
 		operationMetadata: OperationMetadata,
+        signingResult: OperationSigningResult,
+        // TODO: Delete
 		forgeResult: String,
 		source: String,
 		keys: Keys,
 		completion: @escaping RPCCompletion<String>) {
-		guard let operationSigningResult = Crypto.signForgedOperation(operation: forgeResult,
-			secretKey: keys.secretKey),
-			let jsonSignedBytes = JSONUtils.jsonString(for: operationSigningResult.sbytes) else {
-                completion(.failure(.injectError(reason: .jsonSigningFailed)))
-				return
-            }
-
-        let signedOperationPayload = SignedOperationPayload(contents: operationPayload.contents, branch: operationPayload.branch, protocol: operationMetadata.protocolHash, signature: operationSigningResult.edsig)
-        let signedRunOperationPayload = SignedRunOperationPayload(contents: operationPayload.contents, branch: operationPayload.branch, signature: operationSigningResult.edsig)
-
-        self.estimateGas(payload: [signedRunOperationPayload], signedBytesForInjection: jsonSignedBytes, operationMetadata: operationMetadata, completion: { result in
-            print("Gas result")
+        let runOperationPayload = SignedRunOperationPayload(contents: operationPayload.contents, branch: operationPayload.branch, signature: signingResult.edsig)
+        guard let jsonSignedBytes = signingResult.jsonSignedBytes else { completion(.failure(.injectError(reason: .jsonSigningFailed))); return }
+        self.estimateGas(payload: runOperationPayload, signedBytesForInjection: jsonSignedBytes, operationMetadata: operationMetadata, completion: { [weak self] result in
             switch result {
-            case .success(let value):
-                print(value)
+            case .success():
+                self?.forgeAndSignOperation(chainId: operationMetadata.chainId, headHash: operationMetadata.headHash, operationPayload: operationPayload, keys: keys, completion: { [weak self] result in
+                    guard let self = self else { completion(.failure(.injectError(reason: .forgeError))); return }
+                    switch result {
+                    case .success((let signingResult, let forgeResult)):
+                        let signedOperationPayload = SignedOperationPayload(contents: operationPayload.contents, branch: operationPayload.branch, protocol: operationMetadata.protocolHash, signature: signingResult.edsig)
+                        guard let jsonSignedBytes = signingResult.jsonSignedBytes else { completion(.failure(.injectError(reason: .jsonSigningFailed))); return }
+                        self.preapplyAndInjectRPC(payload: [signedOperationPayload],
+                                                   signedBytesForInjection: jsonSignedBytes,
+                                                   operationMetadata: operationMetadata,
+                                                   completion: completion)
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                })
+
             case .failure(let error):
-                print(error)
+                completion(.failure(error))
             }
         })
-
-		self.preapplyAndInjectRPC(payload: [signedOperationPayload],
-			signedBytesForInjection: jsonSignedBytes,
-			operationMetadata: operationMetadata,
-			completion: completion)
 	}
 
-    /// Signed operation's data
-    public struct SignedRunOperationPayload: Encodable {
-        var contents: [Operation]
-        let branch: String
-        let signature: String
-    }
-
-
-    private func estimateGas(payload: [SignedRunOperationPayload],
+    /// Estimate gas to properly estimate fees (run operation with RPC)
+    public func estimateGas(payload: SignedRunOperationPayload,
                              signedBytesForInjection: String,
                              operationMetadata: OperationMetadata,
-                             completion: @escaping RPCCompletion<String>) {
+                             completion: @escaping (Result<Void, TezosError>) -> Void) {
+        var payloadWithFees = SignedRunOperationPayload(contents: payload.contents.filter { $0.defaultFees }, branch: payload.branch, signature: payload.signature)
+        guard !payloadWithFees.contents.isEmpty else {
+            completion(.success(()))
+            return
+        }
+
+        let runPayload = SignedRunOperationPayload(contents: payload.contents, branch: payload.branch, signature: payload.signature)
         // TODO: Fees .max
         let operationFees = OperationFees(fee: Tez(0), gasLimit: Tez(0.4), storageLimit: Tez(0.06))
-        var payloadWithFees = payload.map { SignedRunOperationPayload(contents: $0.contents.filter { $0.operationFees != nil }, branch: $0.branch, signature: $0.signature) }
-        let isPayloadNotEmpty = !payloadWithFees.filter { !$0.contents.isEmpty }.isEmpty
-        guard isPayloadNotEmpty else { }
-        payloadWithFees.forEach { $0.contents.forEach { $0.operationFees = operationFees } }
-        let rpcCompletion: RPCCompletion<String> = { [weak self] result in
+        payloadWithFees.contents.forEach { $0.operationFees = operationFees }
+        let rpcCompletion: RPCCompletion<OperationContents> = { [weak self] result in
             switch result {
             case .success(let value):
-                self?.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
+                self?.modifyFees(of: payloadWithFees, with: value.contents, operationBytesString: signedBytesForInjection)
+                completion(.success(()))
             case .failure(let error):
                 completion(.failure(error))
             }
         }
         let endpoint = "chains/main/blocks/head/helpers/scripts/run_operation"
         sendRPC(endpoint: endpoint, method: .post, payload: payloadWithFees, completion: rpcCompletion)
+    }
+
+    private func modifyFees(of payload: SignedRunOperationPayload, with contents: [OperationStatus], operationBytesString: String) {
+        contents.map { operation in
+            let gasLimit = operation.metadata.operationResult.consumedGas + Mutez(100)
+            let operationBytes = operationBytesString.lengthOfBytes(using: .ascii)
+            // TODO: Check if account exists, if yes, storage limit should be zero
+            let operationFees = OperationFees(fee: Mutez(operationBytes) + Mutez(Int(Double(gasLimit.amount) * 0.1)) + Mutez(100), gasLimit: gasLimit, storageLimit: Mutez(257))
+            payload.contents.first { $0.counter == operation.counter }?.operationFees = operationFees
+        }
     }
 
     /**
