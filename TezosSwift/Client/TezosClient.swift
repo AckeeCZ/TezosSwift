@@ -2,7 +2,6 @@ import Foundation
 import Result
 import os
 
-public typealias ResultCompletion<T> = (Result<T, TezosError>) -> Void
 public typealias RPCCompletion<T: Decodable> = (Result<T, TezosError>) -> Void
 
 public enum HTTPMethod: String {
@@ -155,30 +154,6 @@ public class TezosClient {
         let endpoint = "/chains/main/blocks/head/votes/ballots"
         sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
-//
-//    /**
-//     * Retrieve a list of proposals with number of supporters.
-//     */
-//    public func getProposalsList(completion: @escaping ([[String: Any]]?, Error?) -> Void) {
-//        let rpc = GetProposalsListRPC(completion: completion)
-//        self.send(rpc: rpc)
-//    }
-//
-//    /**
-//     * Retrieve the current proposal under evaluation.
-//     */
-//    public func getProposalUnderEvaluation(completion: @escaping (String?, Error?) -> Void) {
-//        let rpc = GetProposalUnderEvaluationRPC(completion: completion)
-//        self.send(rpc: rpc)
-//    }
-//
-//    /**
-//     * Retrieve a list of delegates with their voting weight, in number of rolls.
-//     */
-//    public func getVotingDelegateRights(completion: @escaping ([[String: Any]]?, Error?) -> Void) {
-//        let rpc = GetVotingDelegateRightsRPC(completion: completion)
-//        self.send(rpc: rpc)
-//    }
 
     /**
      Transact Tezos between accounts.
@@ -194,8 +169,7 @@ public class TezosClient {
                                    from wallet: Wallet,
                                    operationFees: OperationFees? = nil,
                                    completion: @escaping RPCCompletion<String>) {
-        let transactionOperation =
-            TransactionOperation(amount: amount, source: wallet.address, destination: recipientAddress, operationFees: operationFees)
+        let transactionOperation = TransactionOperation(amount: amount, source: wallet.address, destination: recipientAddress, operationFees: operationFees)
         forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
                                             source: wallet.address,
                                             keys: wallet.keys,
@@ -226,7 +200,6 @@ public class TezosClient {
 			completion: completion)
 	}
 
-    // TODO: Support clearing a delegate
     /**
      Delegate the balance of an originated account.
 
@@ -262,7 +235,7 @@ public class TezosClient {
    */
 	public func registerDelegate(delegate: String, keys: Keys, operationFees: OperationFees? = nil, completion: @escaping RPCCompletion<String>) {
         let registerDelegateOperation = RegisterDelegateOperation(delegate: delegate, operationFees: operationFees)
-		self.forgeSignPreapplyAndInjectOperation(operation: registerDelegateOperation,
+		forgeSignPreapplyAndInjectOperation(operation: registerDelegateOperation,
 			source: delegate,
 			keys: keys,
 			completion: completion)
@@ -337,16 +310,19 @@ public class TezosClient {
         })
 	}
 
+    /// Forge operation
     private func forgeOperation(chainId: String, headHash: String, operationPayload: OperationPayload, completion: @escaping RPCCompletion<String>) {
         let endpoint = "/chains/" + chainId + "/blocks/" + headHash + "/helpers/forge/operations"
         sendRPC(endpoint: endpoint, method: .post, payload: operationPayload, completion: completion)
     }
 
+    /// Sign operation
     private func signOperation(operationPayload: OperationPayload, forgedOperation: String, keys: Keys) throws -> OperationSigningResult {
         guard let operationSigningResult = Crypto.signForgedOperation(operation: forgedOperation, secretKey: keys.secretKey) else { throw TezosError.injectError(reason: .jsonSigningFailed) }
             return operationSigningResult
     }
 
+    /// First forge operation then sign the result
     private func forgeAndSignOperation(chainId: String, headHash: String, operationPayload: OperationPayload, keys: Keys, completion: @escaping (Result<(OperationSigningResult, String), TezosError>) -> Void) {
         forgeOperation(chainId: chainId, headHash: headHash, operationPayload: operationPayload, completion: { [weak self] result in
             switch result {
@@ -627,8 +603,6 @@ public class TezosClient {
     private func metadataForOperation(address: String, completion: @escaping (Result<OperationMetadata, TezosError>) -> Void) {
 		let fetchersGroup = DispatchGroup()
 
-        fetchersGroup.enter()
-
         // Send RPCs and wait for results
 
 		// Fetch data about the chain being operated on.
@@ -636,6 +610,7 @@ public class TezosClient {
 		var headHash: String? = nil
 		var protocolHash: String? = nil
 
+        fetchersGroup.enter()
         chainHead(completion: { result in
             // TODO: Handle errors (below as well)
             chainId = result.value?.chainId
