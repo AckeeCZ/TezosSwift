@@ -68,6 +68,9 @@ public class TezosClient {
 	/** A URL pointing to a remote node that will handle requests made by this client. */
 	private let remoteNodeURL: URL
 
+    /// Handler of RPC responses
+    private let rpcResponseHandler: RPCResponseHandler = RPCResponseHandler()
+
     private let subsystem = "ackee.TezosSwift.TezosClient"
 
     /**
@@ -231,7 +234,7 @@ public class TezosClient {
      - Parameter keys: The keys to use to sign the operation for the address.
      - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
      - Parameter completion: A completion block which will be called with a string representing the
-   *        transaction ID hash if the operation was successful.
+     transaction ID hash if the operation was successful.
    */
 	public func registerDelegate(delegate: String, keys: Keys, operationFees: OperationFees? = nil, completion: @escaping RPCCompletion<String>) {
         let registerDelegateOperation = RegisterDelegateOperation(delegate: delegate, operationFees: operationFees)
@@ -242,8 +245,8 @@ public class TezosClient {
 	}
 
 	/**
-   * Forge, sign, preapply and then inject a single operation.
-   *
+     Forge, sign, preapply and then inject a single operation.
+
      - Parameter operation: The operation which will be used to forge the operation.
      - Parameter source: The address performing the operation.
      - Parameter keys: The keys to use to sign the operation for the address.
@@ -516,80 +519,16 @@ public class TezosClient {
         urlSession.loadData(with: urlRequest) { [weak self] data, response, error in
             os_log("Endnode: %@", log: dataLog, remoteNodeEndpoint.absoluteString)
             os_log("JSON response: %@", log: dataLog, String(data: data ?? Data(), encoding: .utf8) ?? "")
-            // Decode the server's response to a string in order to bundle it with the error if it is in
-            // a readable format.
-            var errorMessage = ""
-            guard let data = data else {
-                completion(.failure(.rpcFailure(reason: .noData)))
-                return
-            }
-
-            let jsonDecoder = JSONDecoder()
-            errorMessage = (try? jsonDecoder.decode(String.self, from: data)) ?? ""
-            
-            // Check if the response contained a 200 HTTP OK response. If not, then propagate an error.
-            if let httpResponse = response as? HTTPURLResponse,
-                httpResponse.statusCode != 200 {
-                // Default to unknown error and try to give a more specific error code if it can be narrowed
-                // down based on HTTP response code.
-                var error: TezosError = .rpcFailure(reason: .responseError(code: httpResponse.statusCode, message: errorMessage))
-                // Status code 40X: Bad request was sent to server.
-                if httpResponse.statusCode >= 400 && httpResponse.statusCode < 500 {
-                    error = .rpcFailure(reason: .unexpectedRequestFormat(message: errorMessage))
-                    // Status code 50X: Bad request was sent to server.
-                } else if httpResponse.statusCode >= 500 {
-                    do {
-                        let rpcReason = try jsonDecoder.decode(RPCReason.self, from: data)
-                        error = .rpcFailure(reason: rpcReason)
-                    } catch {
-                        completion(.failure(.rpcFailure(reason: .unknown(message: errorMessage))))
-                        return
-                    }
-                }
-
-                // Drop data and send our error to let subsequent handlers know something went wrong and to
-                // give up.
-                completion(.failure(error))
-                return
-            }
             guard let self = self else {
-                completion(.failure(.unknown(message: "")))
+                completion(.failure(.rpcFailure(reason: .unknown(message: ""))))
                 return
             }
-
             do {
-                let decodedObject: T = try self.decodeData(data)
+                let decodedObject: T = try self.rpcResponseHandler.handleResponse(data: data, response: response, error: error)
                 completion(.success(decodedObject))
-            } catch let tezosError as TezosError {
-                completion(.failure(tezosError))
             } catch let error {
-                completion(.failure(.unknown(message: error.localizedDescription)))
-            }
-        }
-    }
-
-    // Decode data from RPC response
-    private func decodeData<T: Decodable>(_ data: Data?) throws -> T {
-        guard let data = data else {
-            throw TezosError.rpcFailure(reason: .noData)
-        }
-
-        let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-
-        do {
-            return try jsonDecoder.decode(T.self, from: data)
-        } catch let error {
-            // Could not decode data to String
-            guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else { throw TezosError.decryptionFailed(reason: .responseError(decodingError: error)) }
-
-            // Decode number value from String
-            if let responseNumber = singleResponse.numberValue as? T {
-                return responseNumber
-            } else if let responseString = singleResponse as? T {
-                return responseString
-            } else {
-                throw TezosError.decryptionFailed(reason: .responseError(decodingError: error))
+                let unwrappedError = error as? TezosError ?? TezosError.rpcFailure(reason: .unknown(message: ""))
+                completion(.failure(unwrappedError))
             }
         }
     }
@@ -653,15 +592,6 @@ public class TezosClient {
             }
         })
 	}
-}
-
-//Taken from: https://stackoverflow.com/questions/24115141/converting-string-to-int-with-swift/46716943#46716943
-private extension String {
-    var numberValue: NSNumber? {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter.number(from: self)
-    }
 }
 
 // Taken from: https://stackoverflow.com/questions/51058292/why-can-not-use-protocol-encodable-as-a-type-in-the-func#51058460
