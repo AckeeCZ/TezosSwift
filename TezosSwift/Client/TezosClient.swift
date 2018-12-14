@@ -252,7 +252,6 @@ public class TezosClient {
      Register an address as a delegate.
 
      - Parameter recipientAddress: The address which will receive the balance.
-     - Parameter source: The address sending the balance.
      - Parameter keys: The keys to use to sign the operation for the address.
      - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
      - Parameter completion: A completion block which will be called with a string representing the
@@ -265,6 +264,24 @@ public class TezosClient {
 			keys: keys,
 			completion: completion)
 	}
+
+    /**
+     Clear the delegate of an originated account.
+     
+     - Parameter wallet: The wallet which is removing the delegate.
+     - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
+     - Parameter completion: A completion block which will be called with a string representing the
+     transaction ID hash if the operation was successful.
+     */
+    public func undelegate(wallet: Wallet,
+                           operationFees: OperationFees? = nil,
+                           completion: @escaping RPCCompletion<String>) {
+        let undelegateOperation = UndelegateOperation(source: wallet.address, operationFees: operationFees)
+        forgeSignPreapplyAndInjectOperation(operation: undelegateOperation,
+                                            source: wallet.address,
+                                            keys: wallet.keys,
+                                            completion: completion)
+    }
 
 	/**
      Forge, sign, preapply and then inject a single operation.

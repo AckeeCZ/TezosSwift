@@ -101,4 +101,18 @@ class TezosRPCTest: XCTestCase {
 
         waitForExpectations(timeout: 3)
     }
+
+    func testUndelegating() {
+        let callExpectation = expectation(description: "Undelegating")
+        tezosClient.undelegate(wallet: wallet, completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(_):
+                callExpectation.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3)
+    }
 }
