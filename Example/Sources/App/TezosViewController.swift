@@ -11,7 +11,7 @@ import os
 import TezosSwift
 
 class TezosViewController: UIViewController {
-    let tezosClient = TezosClient(remoteNodeURL: URL(string: "https://rpc.tezrpc.me")!)
+    let tezosClient = TezosClient(remoteNodeURL: URL(string: "https://rpcalpha.tzbeta.net/")!)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +27,15 @@ class TezosViewController: UIViewController {
                 print("Calling chain head failed with error: \(error)")
             }
         }
+
+        tezosClient.balance(of: "KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA", completion: { result in
+            switch result {
+            case .success(let balance):
+                print(balance.humanReadableRepresentation)
+            case .failure(let error):
+                print("Getting balance failed with error: \(error)")
+            }
+        })
 
         tezosClient.send(amount: Tez(1), to: "tz1WRFiK6eGNvP3ioWkWeP6JwDaQjj95opnQ", from: wallet, completion: { result in
             switch result {

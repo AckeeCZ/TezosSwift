@@ -1,11 +1,8 @@
 # TezosSwift
 
-Forked from: https://github.com/keefertaylor/TezosKit
+TezosSwift is a Swift library that is compatible with the [Tezos Blockchain](https://tezos.com). TezosSwift implements communication with the blockchain via the JSON API. The code also supports generating and calling smart contracts if you use the generator from: https://github.com/AckeeCZ/Tezos-iOS-Dev-Kit!
 
-Development right now happening in branch development
-
-TezosSwift is a Swift library that is compatible with the [Tezos Blockchain](https://tezos.com). TezosSwift implements communication with the blockchain via the JSON API.
-
+This project is forked from https://github.com/keefertaylor/TezosKit and the resemblance is still quite high.
 
 ## Functionality
 
@@ -18,15 +15,15 @@ TezosSwift provides first class support for the following RPCs:
 * Sending multiple operations in a single request
 * Setting a delegate
 * Registering as a delegate
-* (With more coming soon!)
+* And more!
 
 The library is extensible allowing client code to easily create additional RPCs and signed operations, as required. 
 
-TesosKit takes care of complex block chain interactions for you:
+TezosSwift takes care of complex block chain interactions for you:
 * Addresses are revealed automatically, if needed
 * Sending multiple operations by passing them in an array
 
-TezosSwift is heavily inspired by functionality provided by other Tezos SDKs, such as [eztz](https://github.com/TezTech/eztz) or [TezosJ](https://github.com/LMilfont/TezosJ-plainjava).
+It also parses data and populates the appropriate models, so you can access the data in type-safe way!
 
 ## Installation
 
@@ -34,7 +31,7 @@ TezosSwift is heavily inspired by functionality provided by other Tezos SDKs, su
 TezosSwift supports installation via CocoaPods. You can depened on TezosSwift by adding the following to your Podfile:
 
 ```
-pod "TezosSwift", :git => 'https://github.com/keefertaylor/TezosSwift.git'
+pod "TezosSwift", :git => 'https://github.com/AckeeCZ/TezosSwift.git'
 ```
 
 ### LibSodium Errors
@@ -59,26 +56,28 @@ let tezosClient = TezosClient(remoteNodeURL: publicNodeURL)
 ### Retrieve Data About the Blockchain
 
 ```swift
-tezosClient.getHead() { (result: [String: Any]?, error: Error?) in
-  guard let result = result,
-        let metadata: = result["metadata"] as? [String : Any],
-        let baker = metadata["baker"]  else {
-    return
-  }
-  print("Baker of the block at the head of the chain is \(baker)")
+tezosClient.chainHead { result in
+    switch result {
+    case .success(let chainHead):
+        print(chainHead.chainId)
+        print(chainHead.protocol)
+    case .failure(let error):
+        print("Calling chain head failed with error: \(error)")
+    }
 }
 ```
 
 ### Retrieve Data About a Contract
 
 ```swift
-let address = "KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA" // http://tezos.community
-tezosClient.getBalance(address: address) { (balance: TezosBalance?, error: Error?) in
-  guard let balance = balance else {
-    return
-  }
-  print("Balance of \(address) is \(balance.humanReadableRepresentation)")
-}
+tezosClient.balance(of: "KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA", completion: { result in
+    switch result {
+    case .success(let balance):
+        print(balance.humanReadableRepresentation)
+    case .failure(let error):
+        print("Getting balance failed with error: \(error)")
+    }
+})
 ```
 
 ### Create a Wallet
@@ -91,16 +90,18 @@ print("New wallet mnemonic is: \(wallet.mnemonic)")
 ### Send a Transaction
 
 ```swift
-let wallet = Wallet()
-let sendAmount = TezosBalance(balance: 1.0)!
-let recipientAddress = ...
-tezosClient.send(amount: sendAmount,
-                 to recipientAddress: recipientAddress,
-                 from address: wallet.address,
-                 secretKey: wallet.secretKey) { (txHash, txError) in 
-  print("Transaction sent. See: https://tzscan.io/\(txHash!)")
-}
+tezosClient.send(amount: Tez(1), to: "tz1WRFiK6eGNvP3ioWkWeP6JwDaQjj95opnQ", from: wallet, completion: { result in
+    switch result {
+    case .success(let transactionHash):
+        print(transactionHash)
+    case .failure(let error):
+        print("Sending Tezos failed with error: \(error)")
+    }
+})
 ```
+
+**Note**:
+We are using `Tez` and `Mutez` struct representing Tezos and Mutez amounts.
 
 ### Send Multiple Transactions at Once
 
@@ -124,8 +125,8 @@ let sendToBobOperation = TransactionOperation(amount: amountToSend,
 let operations = [ sendToJimOperation, sendToBobOperation ]
 tezosClient.forgeSignPreapplyAndInjectOperations(operations: operations,
                                                  source: myWallet.address,
-                                                 keys: myWallet.keys) { (txHash, error) in
-  print("Sent Jim and Bob some XTZ! See: https://tzscan.io/\(txHash!)")
+                                                 keys: myWallet.keys) { result in
+  print("Sent Jim and Bob some XTZ! See: https://tzscan.io/\(result.value!)")
 }
 ```
 
@@ -137,11 +138,16 @@ let originatedAccountAddress = <Some Account Managed By Wallet>
 let delegateAddress = ...
 tezosClient.delegate(from: originatedAccountAddress,
                      to: delegateAddress,
-                     keys: wallet.keys) { (txHash, txError) in 
+                     keys: wallet.keys) { result in 
   print("Delegate for \(originatedAccountAddress) set to \(delegateAddress).")
-  print("See: https://tzscan.io/\(txHash!)")
+  print("See: https://tzscan.io/\(result.value!)")
 }
 ```
+## More
+
+### Fees
+
+The `OperationFees` object encapsulates the fee, gas limit and storage limit to inject an operation onto the blockchain. Every `Operation` object contains a default set of fees taken from [eztz](https://github.com/TezTech/eztz/blob/master/PROTO_003_FEES.md). Clients can pass custom `OperationFees` objects when creating Operations to define their own fees. 
 
 ## Contributing
 
