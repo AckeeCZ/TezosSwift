@@ -10,7 +10,7 @@ import Foundation
 
 /// Chain's head data
 public struct ChainHead: Codable {
-    let chainId: String
-    let hash: String
-    let `protocol`: String
+    public let chainId: String
+    public let hash: String
+    public let `protocol`: String
 }

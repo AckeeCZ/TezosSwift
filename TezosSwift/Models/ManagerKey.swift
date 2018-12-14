@@ -9,6 +9,6 @@ import Foundation
 
 /// Manager key data 
 public struct ManagerKey: Codable {
-    let manager: String
-    let key: String?
+    public let manager: String
+    public let key: String?
 }

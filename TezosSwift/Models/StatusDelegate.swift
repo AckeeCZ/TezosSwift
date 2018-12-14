@@ -10,6 +10,6 @@ import Foundation
 
 /// Status delegate data
 public struct StatusDelegate: Codable {
-    let setable: Bool
-    let value: String?
+    public let setable: Bool
+    public let value: String?
 }

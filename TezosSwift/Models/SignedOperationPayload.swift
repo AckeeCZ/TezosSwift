@@ -10,8 +10,8 @@ import Foundation
 
 /// Signed operation's data 
 public struct SignedOperationPayload: Encodable {
-    let contents: [Operation]
-    let branch: String
-    let `protocol`: String
-    let signature: String
+    public let contents: [Operation]
+    public let branch: String
+    public let `protocol`: String
+    public let signature: String
 }
