@@ -184,7 +184,7 @@ public class TezosClient {
 
      - Parameter amount: The amount of Tezos to send.
      - Parameter recipientAddress: The address which will receive the balance.
-     - Parameter from: Wallet to send Tezos from.
+     - Parameter wallet: Wallet to send Tezos from.
      - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
      - Parameter completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
      - Parameter input: Input (parameter) to send to contract.
@@ -202,6 +202,28 @@ public class TezosClient {
 			keys: wallet.keys,
 			completion: completion)
 	}
+
+    /**
+     Originate a new account from the given account.
+
+     - Parameter initialBalance: Initial balance to create new account with
+     - Parameter managerAddress: The address which will manage the new account. Defaults to wallet.
+     - Parameter wallet: The wallet to use to sign the operation for the address.
+     - Parameter operationFees: OperationFees for the transaction. If nil, default fees are used.
+     - Parameter completion: A completion block which will be called with a string representing the
+     transaction ID hash if the operation was successful.
+     */
+    public func originateAccount(initialBalance: TezToken,
+                                 managerAddress: String? = nil,
+                                 from wallet: Wallet,
+                                 operationFees: OperationFees? = nil,
+                                 completion: @escaping RPCCompletion<String>) {
+        let originateAccountOperation = OriginateAccountOperation(initialBalance: initialBalance, managerAddress: managerAddress, source: wallet, operationFees: operationFees)
+        forgeSignPreapplyAndInjectOperation(operation: originateAccountOperation,
+                                            source: wallet.address,
+                                            keys: wallet.keys,
+                                            completion: completion)
+    }
 
     /**
      Delegate the balance of an originated account.

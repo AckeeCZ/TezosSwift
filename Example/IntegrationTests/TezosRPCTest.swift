@@ -5,6 +5,12 @@ import TezosSwift
 class TezosRPCTest: XCTestCase {
     let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL)
     let defaultPassiveAddress = "tz1i3TJocsNUspnScXoVA2v83SDK7De8Q7F5"
+    var wallet: Wallet!
+
+    override func setUp() {
+        let mnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire pill praise"
+        wallet = Wallet(mnemonic: mnemonic)!
+    }
 
     func testBalance() {
         let testBalanceExpectation = expectation(description: "Test balance")
@@ -75,6 +81,20 @@ class TezosRPCTest: XCTestCase {
                 XCTFail("Failed with error: \(error)")
             case .success(let value):
                 XCTAssertGreaterThan(value, 0)
+                callExpectation.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3)
+    }
+
+    func testAccountOrigination() {
+        let callExpectation = expectation(description: "Account origination")
+        tezosClient.originateAccount(initialBalance: Tez(1), from: wallet, completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(_):
                 callExpectation.fulfill()
             }
         })
