@@ -7,7 +7,7 @@ PODS:
   - Result (4.0.0)
   - SipHash (1.2.2)
   - Sodium (0.7.0)
-  - TezosSwift (0.0.1):
+  - TezosSwift (0.0.2):
     - BigInt (~> 3.1)
     - MnemonicKit
     - Result (~> 4.0.0)
@@ -36,7 +36,7 @@ SPEC CHECKSUMS:
   Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   Sodium: c5510cc6f5e1b27858e5f260b5cac80d4a3f9379
-  TezosSwift: 4316b0fa1022d8cd43196977af56653b68b7a7d5
+  TezosSwift: 4f3429ebcafb32b2c3264767065a5e0cfc73d5fc
 
 PODFILE CHECKSUM: 8fab5015085c28935bf74bf105c1e94931cabef1
 
