@@ -380,10 +380,8 @@ public class TezosClient {
                     let unwrappedError = error as? TezosError ?? TezosError.injectError(reason: .jsonSigningFailed)
                     completion(.failure(unwrappedError))
                 }
-
-
             case .failure(let error):
-                completion(.failure(.injectError(reason: .forgeError)))
+                completion(.failure(error))
             }
         })
     }
@@ -414,7 +412,7 @@ public class TezosClient {
                 self?.forgeAndSignOperation(chainId: operationMetadata.chainId, headHash: operationMetadata.headHash, operationPayload: operationPayload, keys: keys, completion: { [weak self] result in
                     guard let self = self else { completion(.failure(.injectError(reason: .forgeError))); return }
                     switch result {
-                    case .success((let signingResult, let forgeResult)):
+                    case .success((let signingResult, _)):
                         let signedOperationPayload = SignedOperationPayload(contents: operationPayload.contents, branch: operationPayload.branch, protocol: operationMetadata.protocolHash, signature: signingResult.edsig)
                         guard let jsonSignedBytes = signingResult.jsonSignedBytes else { completion(.failure(.injectError(reason: .jsonSigningFailed))); return }
                         self.preapplyAndInjectRPC(payload: [signedOperationPayload],
@@ -437,13 +435,12 @@ public class TezosClient {
                              signedBytesForInjection: String,
                              operationMetadata: OperationMetadata,
                              completion: @escaping (Result<Void, TezosError>) -> Void) {
-        var payloadWithFees = SignedRunOperationPayload(contents: payload.contents.filter { $0.defaultFees }, branch: payload.branch, signature: payload.signature)
+        let payloadWithFees = SignedRunOperationPayload(contents: payload.contents.filter { $0.defaultFees }, branch: payload.branch, signature: payload.signature)
         guard !payloadWithFees.contents.isEmpty else {
             completion(.success(()))
             return
         }
 
-        let runPayload = SignedRunOperationPayload(contents: payload.contents, branch: payload.branch, signature: payload.signature)
         // TODO: Fees .max
         let operationFees = OperationFees(fee: Tez(0), gasLimit: Tez(0.4), storageLimit: Tez(0.06))
         payloadWithFees.contents.forEach { $0.operationFees = operationFees }
@@ -461,7 +458,7 @@ public class TezosClient {
     }
 
     private func modifyFees(of payload: SignedRunOperationPayload, with contents: [OperationStatus], operationBytesString: String) {
-        contents.map { operation in
+        contents.forEach { operation in
             let gasLimit = operation.metadata.operationResult.consumedGas + Mutez(100)
             let operationBytes = operationBytesString.lengthOfBytes(using: .ascii)
             // TODO: Check if account exists, if yes, storage limit should be zero
@@ -484,7 +481,7 @@ public class TezosClient {
 		completion: @escaping RPCCompletion<String>) {
         let rpcCompletion: RPCCompletion<String> = { [weak self] result in
             switch result {
-            case .success(let value):
+            case .success(_):
                 // TODO: Catch error here (and send it down the chain)
                 self?.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
             case .failure(let error):
