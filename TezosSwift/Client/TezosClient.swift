@@ -340,7 +340,7 @@ public class TezosClient {
 
                 self?.forgeAndSignOperation(chainId: operationMetadata.chainId, headHash: operationMetadata.headHash, operationPayload: operationPayload, keys: keys, completion: { result in
                     switch result {
-                    case .success((let signingResult, let forgeResult)):
+                    case .success (let (signingResult, forgeResult)):
                         self?.preapplyAndInjectOperation(operationPayload: operationPayload, operationMetadata: operationMetadata, signingResult: signingResult, forgeResult: forgeResult, source: source, keys: keys, completion: completion)
                     case .failure(let error):
                         completion(.failure(error))
