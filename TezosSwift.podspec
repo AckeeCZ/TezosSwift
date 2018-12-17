@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.homepage      = "https://github.com/AckeeCZ/TezosSwift"
   s.license       = { :type => "MIT", :file => "LICENSE" }
   s.author        = { 'Ackee' => 'info@ackee.cz' }
-  s.source        = { :git => "https://github.com/AckeeCZ/TezosSwift.git", :tag => "0.0.2" }
+  s.source        = { :git => "https://github.com/AckeeCZ/TezosSwift.git", :tag => s.version.to_s }
   s.source_files  = "TezosSwift/**/*"
   s.swift_version = "4.2"
   s.ios.deployment_target = "10.0"
