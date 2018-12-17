@@ -1,6 +1,6 @@
 //
 //  ManagerKey.swift
-//  BigInt
+//  TezosSwift
 //
 //  Created by Marek Fořt on 12/7/18.
 //

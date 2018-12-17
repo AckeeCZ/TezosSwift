@@ -1,6 +1,6 @@
 //
 //  SignedRunOperationPayload.swift
-//  BigInt
+//  TezosSwift
 //
 //  Created by Marek Fořt on 12/13/18.
 //

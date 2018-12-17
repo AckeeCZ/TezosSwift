@@ -14,8 +14,4 @@ class TezTest: XCTestCase {
 
 		XCTAssertEqual(balanceFromNumber.rpcRepresentation, "3500000")
 	}
-
-    // TODO: Test Tez and Mutez
-
-
 }

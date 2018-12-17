@@ -14,8 +14,6 @@ class ContractStorageTests: XCTestCase {
 
     let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL)
 
-    // TODO: Rewrite to unit tests
-
     func testIntStatus() {
         let testStatusExpectation = expectation(description: "Int status")
         tezosClient.testContract(at: "KT1UA28DNuXoXNMRjU2HqyrDyCiAmDYnpid9").status { result in
