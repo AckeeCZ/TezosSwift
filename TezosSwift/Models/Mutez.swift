@@ -46,6 +46,11 @@ extension KeyedDecodingContainerProtocol {
         let amount = try decodeRPC(Int.self, forKey: key)
         return Mutez(amount)
     }
+
+    public func decodeIfPresent(_ type: Mutez.Type, forKey key: Key) throws -> Mutez? {
+        guard let amount = try? decodeRPC(Int.self, forKey: key) else { return nil }
+        return Mutez(amount)
+    }
 }
 
 extension Mutez: Equatable {
