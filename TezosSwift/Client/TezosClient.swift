@@ -154,7 +154,7 @@ public class TezosClient {
 
     /// List of delegates with their voting weight, in number of rolls
     public func delegatesList(completion: @escaping RPCCompletion<[DelegateStatus]>) {
-        let endpoint = "/chains/main/blocks/head/votes/ballots"
+        let endpoint = "/chains/main/blocks/head/votes/listings"
         sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
