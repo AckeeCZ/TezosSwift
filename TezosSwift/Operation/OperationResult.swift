@@ -24,7 +24,7 @@ struct OperationResult {
 
 extension OperationResult: Decodable {
     private enum CodingKeys: String, CodingKey {
-        case consumedGas
+        case consumedGas = "consumed_gas"
         case status
         case storageSize
         case storage
@@ -43,8 +43,8 @@ extension OperationResult: Decodable {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.consumedGas = try container.decodeIfPresent(Mutez.self, forKey: .consumedGas)
-        let statusError = try container.decode(OperationResultStatusValue.self, forKey: .status)
-        switch statusError {
+        let status = try container.decode(OperationResultStatusValue.self, forKey: .status)
+        switch status {
         case .applied:
             self.operationResultStatus = .applied
         case .failed:

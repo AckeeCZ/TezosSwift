@@ -478,11 +478,23 @@ public class TezosClient {
         let rpcCompletion: RPCCompletion<[OperationContents]> = { [weak self] result in
             switch result {
             case .success(let operationContents):
-                if let operationResultStatus = operationContents.first?.contents.first?.metadata.operationResult.operationResultStatus,
-                    case .failed(let error) = operationResultStatus {
-                    completion(.failure(.injectError(reason: error)))
-                } else {
+                // If any operation has error status, return the first error
+                let operationErrors: [InjectReason] = operationContents
+                    .flatMap {
+                    $0.contents.compactMap {
+                        if case .failed(let error) = $0.metadata.operationResult.operationResultStatus {
+                            return error
+                        } else {
+                            return nil
+                        }
+                    }
+                }
+                if operationErrors.isEmpty {
                     self?.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
+                } else if let firstOperationError = errors.first {
+                    completion(.failure(.injectError(reason: firstOperationError)))
+                } else {
+                    completion(.failure(.injectError(reason: .unknown(message: ""))))
                 }
             case .failure(let error):
                 completion(.failure(error))
