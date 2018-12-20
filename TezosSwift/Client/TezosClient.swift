@@ -454,7 +454,8 @@ public class TezosClient {
 
     private func modifyFees(of payload: SignedRunOperationPayload, with contents: [OperationStatus], operationBytesString: String) {
         contents.forEach { operation in
-            let gasLimit = operation.metadata.operationResult.consumedGas + Mutez(100)
+            guard let consumedGas = operation.metadata.operationResult.consumedGas else { return }
+            let gasLimit = consumedGas + Mutez(100)
             let operationBytes = operationBytesString.lengthOfBytes(using: .ascii)
             // TODO: Check if account exists, if yes, storage limit should be zero
             let operationFees = OperationFees(fee: Mutez(operationBytes) + Mutez(Int(Double(gasLimit.amount) * 0.1)) + Mutez(100), gasLimit: gasLimit, storageLimit: Mutez(257))
@@ -474,11 +475,15 @@ public class TezosClient {
 		signedBytesForInjection: String,
 		operationMetadata: OperationMetadata,
 		completion: @escaping RPCCompletion<String>) {
-        let rpcCompletion: RPCCompletion<String> = { [weak self] result in
+        let rpcCompletion: RPCCompletion<[OperationContents]> = { [weak self] result in
             switch result {
-            case .success(_):
-                // TODO: Catch error here (and send it down the chain)
-                self?.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
+            case .success(let operationContents):
+                if let operationResultStatus = operationContents.first?.contents.first?.metadata.operationResult.operationResultStatus,
+                    case .failed(let error) = operationResultStatus {
+                    completion(.failure(.injectError(reason: error)))
+                } else {
+                    self?.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
+                }
             case .failure(let error):
                 completion(.failure(error))
             }
