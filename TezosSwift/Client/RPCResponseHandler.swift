@@ -62,7 +62,7 @@ struct RPCResponseHandler {
         } catch let error {
             // Could not decode data to String
             guard let singleResponse = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) else { throw TezosError.decryptionFailed(reason: .responseError(decodingError: error)) }
-
+            
             // Decode number value from String
             if let responseNumber = singleResponse.numberValue as? T {
                 return responseNumber

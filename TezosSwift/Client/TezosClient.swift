@@ -102,9 +102,17 @@ public class TezosClient {
     }
 
     /** Retrieve the balance of a given address. */
-    public func balance(of address: String, completion: @escaping RPCCompletion<Tez>) {
+    public func balance(of address: String, completion: @escaping RPCCompletion<Mutez>) {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/balance"
-        sendRPC(endpoint: endpoint, method: .get, completion: completion)
+        let rpcCompletion: RPCCompletion<Int> = { result in
+            switch result {
+            case .success(let amount):
+                completion(.success(Mutez(amount)))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 
     /** Retrieve the address counter for the given address. */
