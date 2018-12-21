@@ -61,6 +61,10 @@ public enum InjectReason {
     case jsonSigningFailed
     /// Error during forging operation
     case forgeError
+    /// Not enough gas
+    case gasExhaustion
+    /// Unknown inject error
+    case unknown(message: String)
 }
 
 /// Tezos Swift Error
