@@ -35,7 +35,7 @@ struct OperationResult {
 
 extension OperationResult: Decodable {
     private enum CodingKeys: String, CodingKey {
-        case consumedGas = "consumed_gas"
+        case consumedGas
         case status
         case storageSize
         case storage
@@ -44,14 +44,6 @@ extension OperationResult: Decodable {
     }
 
     init(from decoder: Decoder) throws {
-        func decodeError(with stringError: String) -> InjectReason {
-            if stringError.contains("gas_exhausted") {
-                return .gasExhaustion
-            } else {
-                return .unknown(message: stringError)
-            }
-        }
-
         let container = try decoder.container(keyedBy: CodingKeys.self)
         consumedGas = try container.decodeIfPresent(Mutez.self, forKey: .consumedGas)
         let status = try container.decode(OperationResultStatusValue.self, forKey: .status)
@@ -61,8 +53,6 @@ extension OperationResult: Decodable {
         case .failed:
             var errorsUnkeyedContainer = try container.nestedUnkeyedContainer(forKey: .errors)
             let preapplyReasonError = try errorsUnkeyedContainer.decode(PreapplyError.self)
-//            let stringError = try errorsUnkeyedContainer.nestedContainer(keyedBy: CodingKeys.self).decode(String.self, forKey: .id)
-//            let operationError = decodeError(with: stringError)
             operationResultStatus = .failed(error: preapplyReasonError)
         }
     }

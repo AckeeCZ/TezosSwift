@@ -71,4 +71,4 @@ Environment/Environment.swift
 */Model/Generated/*
 !*/Model/Generated/.gitkeep
 
-Sources/Secret.swift
+Secret.swift

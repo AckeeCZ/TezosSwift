@@ -7,14 +7,12 @@ PODS:
   - Result (4.0.0)
   - SipHash (1.2.2)
   - Sodium (0.7.0)
-  - TezosSwift (0.1):
-    - BigInt (~> 3.1)
-    - MnemonicKit (~> 1.2.0)
-    - Result (~> 4.0.0)
-    - Sodium (~> 0.7.0)
 
 DEPENDENCIES:
-  - TezosSwift (from `../`)
+  - BigInt (~> 3.1)
+  - MnemonicKit (~> 1.2.0)
+  - Result (~> 4.0.0)
+  - Sodium (~> 0.7.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -25,10 +23,6 @@ SPEC REPOS:
     - SipHash
     - Sodium
 
-EXTERNAL SOURCES:
-  TezosSwift:
-    :path: "../"
-
 SPEC CHECKSUMS:
   BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   CryptoSwift: cd2158be2bf639aabc63ec804707c7137c90157c
@@ -36,8 +30,7 @@ SPEC CHECKSUMS:
   Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   Sodium: c5510cc6f5e1b27858e5f260b5cac80d4a3f9379
-  TezosSwift: 20119e6e44ac2ce2a02eeae294c7ad3963d09932
 
-PODFILE CHECKSUM: ae05adf7f40e930512564fc42a9e0a59c63748e6
+PODFILE CHECKSUM: 19b864b285b365a449f5fe5430e74132d8c0c172
 
 COCOAPODS: 1.6.0.beta.2

@@ -5,7 +5,14 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'TezosSwift_Example' do
-	pod 'TezosSwift', :path => '../'
+	pod "BigInt", "~> 3.1"
+	pod "MnemonicKit", "~> 1.2.0"
+	pod "Sodium", "~> 0.7.0"
+	pod "Result", "~> 4.0.0"
+
+	target "TezosSwift" do
+    	inherit! :complete
+	end
 
 	target "UnitTests" do
     	inherit! :complete
