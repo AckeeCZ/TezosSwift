@@ -487,7 +487,7 @@ public class TezosClient {
             switch result {
             case .success(let operationContents):
                 // If any operation has error status, return the first error
-                let operationErrors: [InjectReason] = operationContents
+                let operationErrors: [PreapplyError] = operationContents
                     .flatMap {
                     $0.contents.compactMap {
                         if case .failed(let error) = $0.metadata.operationResult.operationResultStatus {
@@ -500,9 +500,9 @@ public class TezosClient {
                 if operationErrors.isEmpty {
                     self?.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
                 } else if let firstOperationError = operationErrors.first {
-                    completion(.failure(.injectError(reason: firstOperationError)))
+                    completion(.failure(.preapplyError(reason: .operationError(firstOperationError))))
                 } else {
-                    completion(.failure(.injectError(reason: .unknown(message: ""))))
+                    completion(.failure(.preapplyError(reason: .unknown)))
                 }
             case .failure(let error):
                 completion(.failure(error))

@@ -67,12 +67,22 @@ public enum InjectReason {
     case unknown(message: String)
 }
 
+/// Error emitted during preapply
+public enum PreapplyReason {
+    /// Error emitted by preapply operation
+    case operationError(_ error: PreapplyError)
+    /// Unable to assign to any known error
+    case unknown
+}
+
 /// Tezos Swift Error
 public enum TezosError: Error {
     /// Unable to assign to any known error
     case unknown(message: String)
     /// Error when sending operation
     case rpcFailure(reason: RPCReason)
+    /// Error during preapplying operation
+    case preapplyError(reason: PreapplyReason)
     /// Error during process of applying operation
     case injectError(reason: InjectReason)
     /// Error while trying to parse Swift types to Tezos types

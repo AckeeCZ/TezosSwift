@@ -24,7 +24,7 @@ class ContractCallTests: XCTestCase {
     // These calls have to be executed individually for now
     func testSendingTezos() {
         let testCompletionExpectation = expectation(description: "Sending Tezos")
-        let operationFees = OperationFees(fee: Tez(0.001272), gasLimit: Tez(0.010100), storageLimit: Tez(0))
+        let operationFees = OperationFees(fee: Tez(0.001272), gasLimit: Tez(0.010000), storageLimit: Tez(0))
         tezosClient.send(amount: Tez(1), to: "tz1dD918PXDuUHV6Mh6z2QqMukA67YULuhqd", from: wallet, operationFees: operationFees, completion: { result in
             switch result {
             case .failure(let error):

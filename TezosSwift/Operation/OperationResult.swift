@@ -8,13 +8,24 @@
 import Foundation
 
 enum OperationResultStatus {
-    case failed(error: InjectReason)
+    case failed(error: PreapplyError)
     case applied
 }
 
 enum OperationResultStatusValue: String, Codable {
     case failed
     case applied
+}
+
+public enum OperationErrorKind: String, Codable {
+    case temporary
+    case branch
+    case permanent
+}
+
+public struct PreapplyError: Codable {
+    public let kind: OperationErrorKind
+    public let id: String
 }
 
 struct OperationResult {
@@ -42,16 +53,17 @@ extension OperationResult: Decodable {
         }
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.consumedGas = try container.decodeIfPresent(Mutez.self, forKey: .consumedGas)
+        consumedGas = try container.decodeIfPresent(Mutez.self, forKey: .consumedGas)
         let status = try container.decode(OperationResultStatusValue.self, forKey: .status)
         switch status {
         case .applied:
-            self.operationResultStatus = .applied
+            operationResultStatus = .applied
         case .failed:
             var errorsUnkeyedContainer = try container.nestedUnkeyedContainer(forKey: .errors)
-            let stringError = try errorsUnkeyedContainer.nestedContainer(keyedBy: CodingKeys.self).decode(String.self, forKey: .id)
-            let operationError = decodeError(with: stringError)
-            self.operationResultStatus = .failed(error: operationError)
+            let preapplyReasonError = try errorsUnkeyedContainer.decode(PreapplyError.self)
+//            let stringError = try errorsUnkeyedContainer.nestedContainer(keyedBy: CodingKeys.self).decode(String.self, forKey: .id)
+//            let operationError = decodeError(with: stringError)
+            operationResultStatus = .failed(error: preapplyReasonError)
         }
     }
 }
