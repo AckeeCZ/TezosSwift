@@ -1,5 +1,11 @@
 # TezosSwift
 
+[![CI Status](http://img.shields.io/travis/AckeeCZ/TezosSwift.svg?style=flat)](https://travis-ci.org/AckeeCZ/TezosSwift)
+[![Version](https://img.shields.io/cocoapods/v/TezosSwift.svg?style=flat)](http://cocoapods.org/pods/TezosSwift)
+[![License](https://img.shields.io/cocoapods/l/TezosSwift.svg?style=flat)](http://cocoapods.org/pods/TezosSwift)
+[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Platform](https://img.shields.io/cocoapods/p/TezosSwift.svg?style=flat)](http://cocoapods.org/pods/TezosSwift)
+
 TezosSwift is a Swift library that is compatible with the [Tezos Blockchain](https://tezos.com). TezosSwift implements communication with the blockchain via the JSON API. The code also supports generating and calling smart contracts if you use the generator from: https://github.com/AckeeCZ/Tezos-iOS-Dev-Kit!
 
 This project is forked from https://github.com/keefertaylor/TezosKit and the resemblance is still quite high.
