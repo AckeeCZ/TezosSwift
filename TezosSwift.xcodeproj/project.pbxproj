@@ -117,6 +117,10 @@
 		F868271421CD146B003C7D4D /* RPCDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E421CD146B003C7D4D /* RPCDecodable.swift */; };
 		F868271521CD146B003C7D4D /* JSONUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E621CD146B003C7D4D /* JSONUtils.swift */; };
 		F868271621CD146B003C7D4D /* MnemonicUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E721CD146B003C7D4D /* MnemonicUtil.swift */; };
+		F8A8C53621CD25F1005684A3 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53121CD25F1005684A3 /* SipHash.framework */; };
+		F8A8C53721CD25F1005684A3 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53221CD25F1005684A3 /* BigInt.framework */; };
+		F8A8C53821CD25F1005684A3 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53321CD25F1005684A3 /* Sodium.framework */; };
+		F8A8C53921CD25F1005684A3 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53421CD25F1005684A3 /* Result.framework */; };
 		F8E9207621C2B00B009148F7 /* TezosRPCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E9207521C2B00B009148F7 /* TezosRPCTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -309,6 +313,11 @@
 		F86826E421CD146B003C7D4D /* RPCDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPCDecodable.swift; sourceTree = "<group>"; };
 		F86826E621CD146B003C7D4D /* JSONUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONUtils.swift; sourceTree = "<group>"; };
 		F86826E721CD146B003C7D4D /* MnemonicUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MnemonicUtil.swift; sourceTree = "<group>"; };
+		F8A8C53021CD25F1005684A3 /* TezosSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TezosSwift.framework; path = Carthage/Build/iOS/TezosSwift.framework; sourceTree = "<group>"; };
+		F8A8C53121CD25F1005684A3 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = Carthage/Build/iOS/SipHash.framework; sourceTree = "<group>"; };
+		F8A8C53221CD25F1005684A3 /* BigInt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BigInt.framework; path = Carthage/Build/iOS/BigInt.framework; sourceTree = "<group>"; };
+		F8A8C53321CD25F1005684A3 /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = Carthage/Build/iOS/Sodium.framework; sourceTree = "<group>"; };
+		F8A8C53421CD25F1005684A3 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		F8E9207521C2B00B009148F7 /* TezosRPCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTests.swift; sourceTree = "<group>"; };
 		FE999CF7F39A6159A65DD182 /* Pods-TezosSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwift/Pods-TezosSwift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -344,6 +353,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8607531CFDC4112C19B05D3 /* Pods_TezosSwift_Example_TezosSwift.framework in Frameworks */,
+				F8A8C53621CD25F1005684A3 /* SipHash.framework in Frameworks */,
+				F8A8C53721CD25F1005684A3 /* BigInt.framework in Frameworks */,
+				F8A8C53821CD25F1005684A3 /* Sodium.framework in Frameworks */,
+				F8A8C53921CD25F1005684A3 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +424,11 @@
 		E1B299C2AF182A8A0B52D6BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F8A8C53221CD25F1005684A3 /* BigInt.framework */,
+				F8A8C53421CD25F1005684A3 /* Result.framework */,
+				F8A8C53121CD25F1005684A3 /* SipHash.framework */,
+				F8A8C53321CD25F1005684A3 /* Sodium.framework */,
+				F8A8C53021CD25F1005684A3 /* TezosSwift.framework */,
 				AD462AF223A5CD5683C948D9 /* Pods_TezosKit.framework */,
 				711B3872659EEE9B847690A5 /* Pods_TezosKitTests.framework */,
 				682BFBDE2CBB52CBDD0763D9 /* Pods_TezosSwift.framework */,
@@ -712,6 +730,7 @@
 				F86826A321CD1450003C7D4D /* Sources */,
 				F86826A421CD1450003C7D4D /* Frameworks */,
 				F86826A521CD1450003C7D4D /* Resources */,
+				F8A8C54021CD2AAC005684A3 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -896,23 +915,15 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TezosSwift_Example-IntegrationTests/Pods-TezosSwift_Example-IntegrationTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MnemonicKit/MnemonicKit.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
-				"${BUILT_PRODUCTS_DIR}/Sodium/Sodium.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MnemonicKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sodium.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -928,23 +939,15 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TezosSwift_Example-UnitTests/Pods-TezosSwift_Example-UnitTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MnemonicKit/MnemonicKit.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
-				"${BUILT_PRODUCTS_DIR}/Sodium/Sodium.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MnemonicKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sodium.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -982,28 +985,46 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TezosSwift_Example/Pods-TezosSwift_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MnemonicKit/MnemonicKit.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
-				"${BUILT_PRODUCTS_DIR}/Sodium/Sodium.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MnemonicKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sodium.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TezosSwift_Example/Pods-TezosSwift_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		F8A8C54021CD2AAC005684A3 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/SipHash.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/BigInt.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Sodium.framework",
+			);
+			name = Carthage;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SipHash.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Result.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/BigInt.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Sodium.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1319,6 +1340,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = UnitTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1341,6 +1366,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = UnitTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1412,6 +1441,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = TezosSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1442,6 +1475,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = TezosSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

@@ -1,36 +1,20 @@
 PODS:
-  - BigInt (3.1.0):
-    - SipHash (~> 1.2)
   - CryptoSwift (0.7.2)
   - MnemonicKit (1.2.0):
     - CryptoSwift (= 0.7.2)
-  - Result (4.0.0)
-  - SipHash (1.2.2)
-  - Sodium (0.7.0)
 
 DEPENDENCIES:
-  - BigInt (~> 3.1)
   - MnemonicKit (~> 1.2.0)
-  - Result (~> 4.0.0)
-  - Sodium (~> 0.7.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - BigInt
     - CryptoSwift
     - MnemonicKit
-    - Result
-    - SipHash
-    - Sodium
 
 SPEC CHECKSUMS:
-  BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   CryptoSwift: cd2158be2bf639aabc63ec804707c7137c90157c
   MnemonicKit: 9d1d037ba51545db3c1cade164b087c32e9af659
-  Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
-  SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
-  Sodium: c5510cc6f5e1b27858e5f260b5cac80d4a3f9379
 
-PODFILE CHECKSUM: a0b6c801ad290b89582f54d4d5ac3b09b54a7e43
+PODFILE CHECKSUM: 7b8710c11b9ff5ac9990705428d90699ee490034
 
 COCOAPODS: 1.5.3
