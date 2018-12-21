@@ -895,7 +895,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TezosSwift_Example-IntegrationTests/Pods-TezosSwift_Example-IntegrationTests-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-TezosSwift_Example-IntegrationTests/Pods-TezosSwift_Example-IntegrationTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MnemonicKit/MnemonicKit.framework",
@@ -916,7 +916,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TezosSwift_Example-IntegrationTests/Pods-TezosSwift_Example-IntegrationTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TezosSwift_Example-IntegrationTests/Pods-TezosSwift_Example-IntegrationTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B9B2A8AF8BBB9FD45BB9660D /* [CP] Embed Pods Frameworks */ = {
@@ -927,7 +927,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TezosSwift_Example-UnitTests/Pods-TezosSwift_Example-UnitTests-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-TezosSwift_Example-UnitTests/Pods-TezosSwift_Example-UnitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MnemonicKit/MnemonicKit.framework",
@@ -948,7 +948,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TezosSwift_Example-UnitTests/Pods-TezosSwift_Example-UnitTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TezosSwift_Example-UnitTests/Pods-TezosSwift_Example-UnitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BAE2AD1DF1A204000D9FE4D4 /* [CP] Check Pods Manifest.lock */ = {
@@ -981,7 +981,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TezosSwift_Example/Pods-TezosSwift_Example-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-TezosSwift_Example/Pods-TezosSwift_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MnemonicKit/MnemonicKit.framework",
@@ -1002,7 +1002,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TezosSwift_Example/Pods-TezosSwift_Example-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TezosSwift_Example/Pods-TezosSwift_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
