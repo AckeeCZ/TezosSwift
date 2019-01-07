@@ -18,7 +18,6 @@
 		F85F0CD421B152030074E391 /* TezosRPCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC859B2183973F006DE8FD /* TezosRPCTest.swift */; };
 		F85F0CD521B152030074E391 /* ContractCallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84C55982199AE3000068596 /* ContractCallTests.swift */; };
 		F85F0CD621B152030074E391 /* ContractStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84C55962199ADCC00068596 /* ContractStorageTests.swift */; };
-		F86825D921CD1054003C7D4D /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86825D821CD1054003C7D4D /* Secret.swift */; };
 		F868267421CD1295003C7D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F868264321CD1295003C7D4D /* Assets.xcassets */; };
 		F868267521CD1295003C7D4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F868264421CD1295003C7D4D /* LaunchScreen.storyboard */; };
 		F868267621CD1295003C7D4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F868264621CD1295003C7D4D /* AppDelegate.swift */; };
@@ -112,6 +111,7 @@
 		F868271421CD146B003C7D4D /* RPCDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E421CD146B003C7D4D /* RPCDecodable.swift */; };
 		F868271521CD146B003C7D4D /* JSONUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E621CD146B003C7D4D /* JSONUtils.swift */; };
 		F868271621CD146B003C7D4D /* MnemonicUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E721CD146B003C7D4D /* MnemonicUtil.swift */; };
+		F8692D1921E37FC100C32B3F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8692D1821E37FC100C32B3F /* Constants.swift */; };
 		F8A8C53621CD25F1005684A3 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53121CD25F1005684A3 /* SipHash.framework */; };
 		F8A8C53721CD25F1005684A3 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53221CD25F1005684A3 /* BigInt.framework */; };
 		F8A8C53821CD25F1005684A3 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53321CD25F1005684A3 /* Sodium.framework */; };
@@ -176,7 +176,6 @@
 		F85F0CCE21B151D20074E391 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F85F88C321A6D8DD00786AEC /* ContractStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStorageTests.swift; sourceTree = "<group>"; };
 		F864CC0F21AC11990014B357 /* CallEncodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallEncodingTests.swift; sourceTree = "<group>"; };
-		F86825D821CD1054003C7D4D /* Secret.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		F868264321CD1295003C7D4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F868264521CD1295003C7D4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F868264621CD1295003C7D4D /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -271,6 +270,7 @@
 		F86826E421CD146B003C7D4D /* RPCDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPCDecodable.swift; sourceTree = "<group>"; };
 		F86826E621CD146B003C7D4D /* JSONUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONUtils.swift; sourceTree = "<group>"; };
 		F86826E721CD146B003C7D4D /* MnemonicUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MnemonicUtil.swift; sourceTree = "<group>"; };
+		F8692D1821E37FC100C32B3F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F8A8C53121CD25F1005684A3 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = Carthage/Build/iOS/SipHash.framework; sourceTree = "<group>"; };
 		F8A8C53221CD25F1005684A3 /* BigInt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BigInt.framework; path = Carthage/Build/iOS/BigInt.framework; sourceTree = "<group>"; };
 		F8A8C53321CD25F1005684A3 /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = Carthage/Build/iOS/Sodium.framework; sourceTree = "<group>"; };
@@ -322,7 +322,6 @@
 		7AA8F34D2160158000C05895 = {
 			isa = PBXGroup;
 			children = (
-				F86825D821CD1054003C7D4D /* Secret.swift */,
 				F868264121CD1295003C7D4D /* Example */,
 				F85F0CB421B139250074E391 /* UnitTests */,
 				F85F0CCB21B151D20074E391 /* IntegrationTests */,
@@ -390,6 +389,7 @@
 				F868264221CD1295003C7D4D /* App */,
 				F868264921CD1295003C7D4D /* Contracts */,
 				F868265F21CD1295003C7D4D /* GeneratedContracts */,
+				F8692D1821E37FC100C32B3F /* Constants.swift */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -798,13 +798,13 @@
 				F868269C21CD1295003C7D4D /* AddressContract.swift in Sources */,
 				F868269621CD1295003C7D4D /* SetMemberContract.swift in Sources */,
 				F868269D21CD1295003C7D4D /* IntContract.swift in Sources */,
-				F86825D921CD1054003C7D4D /* Secret.swift in Sources */,
 				F868269721CD1295003C7D4D /* StringSetContract.swift in Sources */,
 				F868269F21CD1295003C7D4D /* OptionalStringContract.swift in Sources */,
 				F868269521CD1295003C7D4D /* TimestampContract.swift in Sources */,
 				F868269A21CD1295003C7D4D /* NatContract.swift in Sources */,
 				F868267821CD1295003C7D4D /* TezosViewController.swift in Sources */,
 				F868269821CD1295003C7D4D /* KeyContract.swift in Sources */,
+				F8692D1921E37FC100C32B3F /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
