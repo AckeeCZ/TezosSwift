@@ -1,4 +1,5 @@
 github "antitypical/Result" "4.0.0"
 github "attaswift/BigInt" "v3.1.0"
 github "attaswift/SipHash" "v1.2.2"
+github "fortmarek/MnemonicKit" "1.2.0"
 github "jedisct1/swift-sodium" "0.7.0"

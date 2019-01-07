@@ -19,7 +19,7 @@ class TezosRPCTest: XCTestCase {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
             case .success(let value):
-                XCTAssertEqual(Mutez(22000000), value)
+                XCTAssertEqual(Mutez(23000000), value)
                 testBalanceExpectation.fulfill()
             }
         })
@@ -58,14 +58,14 @@ class TezosRPCTest: XCTestCase {
 
     func testStatus() {
         let testStatusExpectation = expectation(description: "Test status")
-        tezosClient.status(of: defaultPassiveAddress, completion: { [unowned self] result in
+        tezosClient.status(of: defaultPassiveAddress, completion: { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
             case .success(let value):
-                XCTAssertEqual(value.balance, Tez(1.23))
-                XCTAssertEqual(value.manager, self.defaultPassiveAddress)
-                XCTAssert(value.spendable)
+                XCTAssertEqual(Tez(23), value.balance)
+                XCTAssertEqual(value.manager, "tz1dD918PXDuUHV6Mh6z2QqMukA67YULuhqd")
+                XCTAssertFalse(value.spendable)
                 testStatusExpectation.fulfill()
             }
         })

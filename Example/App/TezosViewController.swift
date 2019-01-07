@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import os
 import TezosSwift
 
 class TezosViewController: UIViewController {
@@ -15,9 +14,9 @@ class TezosViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let mnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire pill burger"
-//        let wallet = Wallet(mnemonic: mnemonic)!
-//
+        let mnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire pill praise"
+        let wallet = Wallet(mnemonic: mnemonic)!
+
 //        tezosClient.chainHead { result in
 //            switch result {
 //            case .success(let chainHead):
@@ -28,7 +27,7 @@ class TezosViewController: UIViewController {
 //            }
 //        }
 //
-//        tezosClient.balance(of: "KT1BVAXZQUc4BGo3WTJ7UML6diVaEbe4bLZA", completion: { result in
+//        tezosClient.balance(of: "KT1DwASQY1uTEkzWUShbeQJfKpBdb2ugsE5k", completion: { result in
 //            switch result {
 //            case .success(let balance):
 //                print(balance.humanReadableRepresentation)
@@ -40,10 +39,19 @@ class TezosViewController: UIViewController {
 //        tezosClient.send(amount: Tez(1), to: "tz1WRFiK6eGNvP3ioWkWeP6JwDaQjj95opnQ", from: wallet, completion: { result in
 //            switch result {
 //            case .success(let transactionHash):
-//                print(transactionHash)
+//                print("Transaction succeeded with: \(transactionHash)")
 //            case .failure(let error):
 //                print("Sending Tezos failed with error: \(error)")
 //            }
 //        })
+
+        tezosClient.natSetContract(at: "KT1DwASQY1uTEkzWUShbeQJfKpBdb2ugsE5k").call(param1: [UInt(1), UInt(2), UInt(3)]).send(from: wallet, amount: Tez.zero, completion: { result in
+            switch result {
+            case .failure(let error):
+                print("Call failed with error: \(error)")
+            case .success(let operationHash):
+                print("Call succeeded with \(operationHash)")
+            }
+        })
     }
 }

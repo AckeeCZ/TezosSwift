@@ -1,20 +1,3 @@
-PODS:
-  - CryptoSwift (0.7.2)
-  - MnemonicKit (1.2.0):
-    - CryptoSwift (= 0.7.2)
-
-DEPENDENCIES:
-  - MnemonicKit (~> 1.2.0)
-
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - CryptoSwift
-    - MnemonicKit
-
-SPEC CHECKSUMS:
-  CryptoSwift: cd2158be2bf639aabc63ec804707c7137c90157c
-  MnemonicKit: 9d1d037ba51545db3c1cade164b087c32e9af659
-
-PODFILE CHECKSUM: 7b8710c11b9ff5ac9990705428d90699ee490034
+PODFILE CHECKSUM: d8eaa3ce68365b3a6da55c7e006696c1ce87542d
 
 COCOAPODS: 1.5.3
