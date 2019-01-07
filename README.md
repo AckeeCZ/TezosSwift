@@ -8,7 +8,7 @@
 
 TezosSwift is a Swift library that is compatible with the [Tezos Blockchain](https://tezos.com). TezosSwift implements communication with the blockchain via the JSON API. The code also supports generating and calling smart contracts if you use the generator from: https://github.com/AckeeCZ/Tezos-iOS-Dev-Kit!
 
-This project is forked from https://github.com/keefertaylor/TezosKit and the resemblance is still quite high.
+This project is forked from https://github.com/keefertaylor/TezosKit and the resemblance is still quite high. 
 
 ## Functionality
 
