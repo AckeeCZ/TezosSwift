@@ -541,7 +541,7 @@ public class TezosClient {
 
         var urlRequest = URLRequest(url: remoteNodeEndpoint)
 
-        let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
+//        let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
 
         if method == .post {
             do {
@@ -556,8 +556,8 @@ public class TezosClient {
                 urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 urlRequest.cachePolicy = .reloadIgnoringCacheData
                 urlRequest.httpBody = jsonData
-                os_log("Endnode: %@", log: dataLog, remoteNodeEndpoint.absoluteString)
-                os_log("JSON data payload: %@", log: dataLog, String(data: jsonData, encoding: .utf8) ?? "")
+//                os_log("Endnode: %@", log: dataLog, remoteNodeEndpoint.absoluteString)
+//                os_log("JSON data payload: %@", log: dataLog, String(data: jsonData, encoding: .utf8) ?? "")
             }
             catch let error {
                 completion(.failure(.encryptionFailed(reason: error)))
@@ -570,11 +570,11 @@ public class TezosClient {
 
     // Send the actual request specified in sendRPC
     private func sendRequest<T: Decodable>(_ urlRequest: URLRequest, remoteNodeEndpoint: URL, completion: @escaping RPCCompletion<T>) {
-        let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
+//        let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
 
         urlSession.loadData(with: urlRequest) { [weak self] data, response, error in
-            os_log("Endnode: %@", log: dataLog, remoteNodeEndpoint.absoluteString)
-            os_log("JSON response: %@", log: dataLog, String(data: data ?? Data(), encoding: .utf8) ?? "")
+//            os_log("Endnode: %@", log: dataLog, remoteNodeEndpoint.absoluteString)
+//            os_log("JSON response: %@", log: dataLog, String(data: data ?? Data(), encoding: .utf8) ?? "")
             guard let self = self else {
                 completion(.failure(.rpcFailure(reason: .unknown(message: ""))))
                 return
