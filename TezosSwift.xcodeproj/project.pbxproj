@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00B694DA8827B9B4F0CF6884 /* Pods_TezosSwift_Example_IntegrationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5751456774D8F8139C1BD7 /* Pods_TezosSwift_Example_IntegrationTests.framework */; };
-		66453598F7C12E4846CFC554 /* Pods_TezosSwift_Example_UnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2046F24B795C6F83DD2F8E /* Pods_TezosSwift_Example_UnitTests.framework */; };
-		B8607531CFDC4112C19B05D3 /* Pods_TezosSwift_Example_TezosSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 323AA289769D37A23C84C872 /* Pods_TezosSwift_Example_TezosSwift.framework */; };
-		E1D6FFA1B92D644333B664E1 /* Pods_TezosSwift_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B89B9CDCE1CC2778D13C62AE /* Pods_TezosSwift_Example.framework */; };
 		F809FA1F21C2518C008D4A0E /* GasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F809FA1E21C2518C008D4A0E /* GasTests.swift */; };
 		F85F0CBD21B13A000074E391 /* TezosBalanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC857F2182A072006DE8FD /* TezosBalanceTest.swift */; };
 		F85F0CBE21B13A000074E391 /* AbstractOperationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */; };
@@ -164,29 +160,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		017EDEEC626A3CB7D1466B41 /* Pods-TezosKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosKit/Pods-TezosKit.release.xcconfig"; sourceTree = "<group>"; };
-		09985027FEB943E583CD43C5 /* Pods-TezosSwiftExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwiftExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwiftExample/Pods-TezosSwiftExample.debug.xcconfig"; sourceTree = "<group>"; };
-		09B08880241EA989018F0F3A /* Pods-TezosSwift_Example-UnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwift_Example-UnitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwift_Example-UnitTests/Pods-TezosSwift_Example-UnitTests.release.xcconfig"; sourceTree = "<group>"; };
-		12E8C8386ECFCF95BF6895A0 /* Pods-TezosSwiftExample-UnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwiftExample-UnitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwiftExample-UnitTests/Pods-TezosSwiftExample-UnitTests.release.xcconfig"; sourceTree = "<group>"; };
-		1421C3E40BA48E535F1B9842 /* Pods-TezosSwiftExample-UnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwiftExample-UnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwiftExample-UnitTests/Pods-TezosSwiftExample-UnitTests.debug.xcconfig"; sourceTree = "<group>"; };
-		153F0D3070E775478122EB02 /* Pods-TezosSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwiftTests/Pods-TezosSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
-		1D04D394A5F3089FCC734900 /* Pods-TezosSwift_Example-IntegrationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwift_Example-IntegrationTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwift_Example-IntegrationTests/Pods-TezosSwift_Example-IntegrationTests.debug.xcconfig"; sourceTree = "<group>"; };
-		2162ABCC8C6E6012A454C50A /* Pods-IntegrationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntegrationTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-IntegrationTests/Pods-IntegrationTests.release.xcconfig"; sourceTree = "<group>"; };
-		323AA289769D37A23C84C872 /* Pods_TezosSwift_Example_TezosSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosSwift_Example_TezosSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		42E474C0CDAFC205F3B379F1 /* Pods-TezosSwift_Example-TezosSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwift_Example-TezosSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwift_Example-TezosSwift/Pods-TezosSwift_Example-TezosSwift.release.xcconfig"; sourceTree = "<group>"; };
-		4AF892F125329781B8687BF5 /* Pods-TezosSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwift/Pods-TezosSwift.debug.xcconfig"; sourceTree = "<group>"; };
-		4BE90449D9628591FF89F23C /* Pods-IntegrationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntegrationTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IntegrationTests/Pods-IntegrationTests.debug.xcconfig"; sourceTree = "<group>"; };
-		4DFD69B9FA69738B0F094949 /* Pods-TezosSwiftExample-IntegrationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwiftExample-IntegrationTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwiftExample-IntegrationTests/Pods-TezosSwiftExample-IntegrationTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6170C576F6BBE01221084D9D /* Pods-UnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UnitTests/Pods-UnitTests.debug.xcconfig"; sourceTree = "<group>"; };
-		633241BA0820D6F7BA4CA23E /* Pods-TezosKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TezosKit/Pods-TezosKit.debug.xcconfig"; sourceTree = "<group>"; };
-		64724E5F8C6F391FCBBFC79E /* Pods_UnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		682BFBDE2CBB52CBDD0763D9 /* Pods_TezosSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6C4CA6483BE8320E2EDBE7ED /* Pods-TezosSwift_Example-IntegrationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwift_Example-IntegrationTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwift_Example-IntegrationTests/Pods-TezosSwift_Example-IntegrationTests.release.xcconfig"; sourceTree = "<group>"; };
-		711B3872659EEE9B847690A5 /* Pods_TezosKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		718BBC1E82F7E0DD2198574E /* Pods-TezosSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwiftTests/Pods-TezosSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
-		72549B9FE70AA2A616FC4C1A /* Pods_TezosSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		75D48894E33C2934F3738C60 /* Pods-TezosKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TezosKitTests/Pods-TezosKitTests.debug.xcconfig"; sourceTree = "<group>"; };
-		79F93F731818ABF0C1BD6DA3 /* Pods-TezosSwift_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwift_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwift_Example/Pods-TezosSwift_Example.release.xcconfig"; sourceTree = "<group>"; };
 		7AA8F3562160158000C05895 /* TezosSwift_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TezosSwift_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ABC856D2182655E006DE8FD /* MnemonicUtilsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicUtilsTest.swift; sourceTree = "<group>"; };
 		7ABC857D21826C71006DE8FD /* WalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletTests.swift; sourceTree = "<group>"; };
@@ -194,21 +167,6 @@
 		7ABC85812182A595006DE8FD /* CryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTests.swift; sourceTree = "<group>"; };
 		7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractOperationTest.swift; sourceTree = "<group>"; };
 		7ABC859B2183973F006DE8FD /* TezosRPCTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTest.swift; sourceTree = "<group>"; };
-		7B5751456774D8F8139C1BD7 /* Pods_TezosSwift_Example_IntegrationTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosSwift_Example_IntegrationTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8826D6F179F45C925B7A42D7 /* Pods_TezosSwiftExample_UnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosSwiftExample_UnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		92AF5C08813BF0771C1E924D /* Pods_TezosSwiftExample_IntegrationTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosSwiftExample_IntegrationTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A82E34D1AF7958060988EBA3 /* Pods_TezosSwiftExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosSwiftExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A94B1790A85FA9FF0970BA16 /* Pods-TezosSwift_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwift_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwift_Example/Pods-TezosSwift_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		AD462AF223A5CD5683C948D9 /* Pods_TezosKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B4E114B41E07966DF56639A0 /* Pods-TezosSwiftExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwiftExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwiftExample/Pods-TezosSwiftExample.release.xcconfig"; sourceTree = "<group>"; };
-		B7314248D801C9EAC57F48C3 /* Pods-TezosSwift_Example-UnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwift_Example-UnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwift_Example-UnitTests/Pods-TezosSwift_Example-UnitTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B89B9CDCE1CC2778D13C62AE /* Pods_TezosSwift_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosSwift_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BA390B13D577D172A43DDCE3 /* Pods-TezosSwift_Example-TezosSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwift_Example-TezosSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwift_Example-TezosSwift/Pods-TezosSwift_Example-TezosSwift.debug.xcconfig"; sourceTree = "<group>"; };
-		BC2046F24B795C6F83DD2F8E /* Pods_TezosSwift_Example_UnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TezosSwift_Example_UnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BD3ED1FBE91E7E9923C0F4BC /* Pods-TezosSwiftExample-IntegrationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwiftExample-IntegrationTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwiftExample-IntegrationTests/Pods-TezosSwiftExample-IntegrationTests.release.xcconfig"; sourceTree = "<group>"; };
-		CD62C1E23DB8EE52B4A7FDEB /* Pods-UnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UnitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-UnitTests/Pods-UnitTests.release.xcconfig"; sourceTree = "<group>"; };
-		D0C5CDFA7606B4DB71F78D3F /* Pods_IntegrationTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IntegrationTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E18ABC256DB067253D1C0A45 /* Pods-TezosKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosKitTests/Pods-TezosKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		F809FA1E21C2518C008D4A0E /* GasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasTests.swift; sourceTree = "<group>"; };
 		F84C55962199ADCC00068596 /* ContractStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStorageTests.swift; sourceTree = "<group>"; };
 		F84C55982199AE3000068596 /* ContractCallTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCallTests.swift; sourceTree = "<group>"; };
@@ -313,7 +271,6 @@
 		F86826E421CD146B003C7D4D /* RPCDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPCDecodable.swift; sourceTree = "<group>"; };
 		F86826E621CD146B003C7D4D /* JSONUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONUtils.swift; sourceTree = "<group>"; };
 		F86826E721CD146B003C7D4D /* MnemonicUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MnemonicUtil.swift; sourceTree = "<group>"; };
-		F8A8C53021CD25F1005684A3 /* TezosSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TezosSwift.framework; path = Carthage/Build/iOS/TezosSwift.framework; sourceTree = "<group>"; };
 		F8A8C53121CD25F1005684A3 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = Carthage/Build/iOS/SipHash.framework; sourceTree = "<group>"; };
 		F8A8C53221CD25F1005684A3 /* BigInt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BigInt.framework; path = Carthage/Build/iOS/BigInt.framework; sourceTree = "<group>"; };
 		F8A8C53321CD25F1005684A3 /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = Carthage/Build/iOS/Sodium.framework; sourceTree = "<group>"; };
@@ -321,7 +278,6 @@
 		F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		F8A8C57521CD4F93005684A3 /* MnemonicKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MnemonicKit.framework; path = Carthage/Build/iOS/MnemonicKit.framework; sourceTree = "<group>"; };
 		F8E9207521C2B00B009148F7 /* TezosRPCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTests.swift; sourceTree = "<group>"; };
-		FE999CF7F39A6159A65DD182 /* Pods-TezosSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TezosSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-TezosSwift/Pods-TezosSwift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,7 +286,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F86826AE21CD1450003C7D4D /* TezosSwift.framework in Frameworks */,
-				E1D6FFA1B92D644333B664E1 /* Pods_TezosSwift_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,7 +293,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66453598F7C12E4846CFC554 /* Pods_TezosSwift_Example_UnitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,7 +300,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00B694DA8827B9B4F0CF6884 /* Pods_TezosSwift_Example_IntegrationTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,7 +307,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B8607531CFDC4112C19B05D3 /* Pods_TezosSwift_Example_TezosSwift.framework in Frameworks */,
 				F8A8C53621CD25F1005684A3 /* SipHash.framework in Frameworks */,
 				F8A8C53721CD25F1005684A3 /* BigInt.framework in Frameworks */,
 				F8A8C53821CD25F1005684A3 /* Sodium.framework in Frameworks */,
@@ -367,39 +319,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		66DCFF36F3CA345FF65DA166 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				633241BA0820D6F7BA4CA23E /* Pods-TezosKit.debug.xcconfig */,
-				017EDEEC626A3CB7D1466B41 /* Pods-TezosKit.release.xcconfig */,
-				75D48894E33C2934F3738C60 /* Pods-TezosKitTests.debug.xcconfig */,
-				E18ABC256DB067253D1C0A45 /* Pods-TezosKitTests.release.xcconfig */,
-				4AF892F125329781B8687BF5 /* Pods-TezosSwift.debug.xcconfig */,
-				FE999CF7F39A6159A65DD182 /* Pods-TezosSwift.release.xcconfig */,
-				153F0D3070E775478122EB02 /* Pods-TezosSwiftTests.debug.xcconfig */,
-				718BBC1E82F7E0DD2198574E /* Pods-TezosSwiftTests.release.xcconfig */,
-				4BE90449D9628591FF89F23C /* Pods-IntegrationTests.debug.xcconfig */,
-				2162ABCC8C6E6012A454C50A /* Pods-IntegrationTests.release.xcconfig */,
-				6170C576F6BBE01221084D9D /* Pods-UnitTests.debug.xcconfig */,
-				CD62C1E23DB8EE52B4A7FDEB /* Pods-UnitTests.release.xcconfig */,
-				A94B1790A85FA9FF0970BA16 /* Pods-TezosSwift_Example.debug.xcconfig */,
-				79F93F731818ABF0C1BD6DA3 /* Pods-TezosSwift_Example.release.xcconfig */,
-				1D04D394A5F3089FCC734900 /* Pods-TezosSwift_Example-IntegrationTests.debug.xcconfig */,
-				6C4CA6483BE8320E2EDBE7ED /* Pods-TezosSwift_Example-IntegrationTests.release.xcconfig */,
-				B7314248D801C9EAC57F48C3 /* Pods-TezosSwift_Example-UnitTests.debug.xcconfig */,
-				09B08880241EA989018F0F3A /* Pods-TezosSwift_Example-UnitTests.release.xcconfig */,
-				09985027FEB943E583CD43C5 /* Pods-TezosSwiftExample.debug.xcconfig */,
-				B4E114B41E07966DF56639A0 /* Pods-TezosSwiftExample.release.xcconfig */,
-				4DFD69B9FA69738B0F094949 /* Pods-TezosSwiftExample-IntegrationTests.debug.xcconfig */,
-				BD3ED1FBE91E7E9923C0F4BC /* Pods-TezosSwiftExample-IntegrationTests.release.xcconfig */,
-				1421C3E40BA48E535F1B9842 /* Pods-TezosSwiftExample-UnitTests.debug.xcconfig */,
-				12E8C8386ECFCF95BF6895A0 /* Pods-TezosSwiftExample-UnitTests.release.xcconfig */,
-				BA390B13D577D172A43DDCE3 /* Pods-TezosSwift_Example-TezosSwift.debug.xcconfig */,
-				42E474C0CDAFC205F3B379F1 /* Pods-TezosSwift_Example-TezosSwift.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		7AA8F34D2160158000C05895 = {
 			isa = PBXGroup;
 			children = (
@@ -409,7 +328,6 @@
 				F85F0CCB21B151D20074E391 /* IntegrationTests */,
 				F86826A821CD1450003C7D4D /* TezosSwift */,
 				7AA8F3572160158000C05895 /* Products */,
-				66DCFF36F3CA345FF65DA166 /* Pods */,
 				E1B299C2AF182A8A0B52D6BE /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -434,20 +352,6 @@
 				F8A8C53421CD25F1005684A3 /* Result.framework */,
 				F8A8C53121CD25F1005684A3 /* SipHash.framework */,
 				F8A8C53321CD25F1005684A3 /* Sodium.framework */,
-				F8A8C53021CD25F1005684A3 /* TezosSwift.framework */,
-				AD462AF223A5CD5683C948D9 /* Pods_TezosKit.framework */,
-				711B3872659EEE9B847690A5 /* Pods_TezosKitTests.framework */,
-				682BFBDE2CBB52CBDD0763D9 /* Pods_TezosSwift.framework */,
-				72549B9FE70AA2A616FC4C1A /* Pods_TezosSwiftTests.framework */,
-				D0C5CDFA7606B4DB71F78D3F /* Pods_IntegrationTests.framework */,
-				64724E5F8C6F391FCBBFC79E /* Pods_UnitTests.framework */,
-				B89B9CDCE1CC2778D13C62AE /* Pods_TezosSwift_Example.framework */,
-				7B5751456774D8F8139C1BD7 /* Pods_TezosSwift_Example_IntegrationTests.framework */,
-				BC2046F24B795C6F83DD2F8E /* Pods_TezosSwift_Example_UnitTests.framework */,
-				A82E34D1AF7958060988EBA3 /* Pods_TezosSwiftExample.framework */,
-				92AF5C08813BF0771C1E924D /* Pods_TezosSwiftExample_IntegrationTests.framework */,
-				8826D6F179F45C925B7A42D7 /* Pods_TezosSwiftExample_UnitTests.framework */,
-				323AA289769D37A23C84C872 /* Pods_TezosSwift_Example_TezosSwift.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -668,7 +572,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7AA8F3682160158100C05895 /* Build configuration list for PBXNativeTarget "TezosSwift_Example" */;
 			buildPhases = (
-				65A376F3CDCF897A91B0BCB4 /* [CP] Check Pods Manifest.lock */,
 				7AA8F3522160158000C05895 /* Sources */,
 				7AA8F3532160158000C05895 /* Frameworks */,
 				7AA8F3542160158000C05895 /* Resources */,
@@ -688,7 +591,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F85F0CBA21B139250074E391 /* Build configuration list for PBXNativeTarget "UnitTests" */;
 			buildPhases = (
-				2C5371F34906A06DCA184E58 /* [CP] Check Pods Manifest.lock */,
 				F85F0CAF21B139250074E391 /* Sources */,
 				F85F0CB021B139250074E391 /* Frameworks */,
 				F85F0CB121B139250074E391 /* Resources */,
@@ -707,7 +609,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F85F0CD121B151D30074E391 /* Build configuration list for PBXNativeTarget "IntegrationTests" */;
 			buildPhases = (
-				2599B162B5A6225CFEF92B7A /* [CP] Check Pods Manifest.lock */,
 				F85F0CC621B151D20074E391 /* Sources */,
 				F85F0CC721B151D20074E391 /* Frameworks */,
 				F85F0CC821B151D20074E391 /* Resources */,
@@ -726,7 +627,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F86826B021CD1450003C7D4D /* Build configuration list for PBXNativeTarget "TezosSwift" */;
 			buildPhases = (
-				BAE2AD1DF1A204000D9FE4D4 /* [CP] Check Pods Manifest.lock */,
 				F86826A221CD1450003C7D4D /* Headers */,
 				F86826A321CD1450003C7D4D /* Sources */,
 				F86826A421CD1450003C7D4D /* Frameworks */,
@@ -845,90 +745,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2599B162B5A6225CFEF92B7A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TezosSwift_Example-IntegrationTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2C5371F34906A06DCA184E58 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TezosSwift_Example-UnitTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		65A376F3CDCF897A91B0BCB4 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TezosSwift_Example-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BAE2AD1DF1A204000D9FE4D4 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TezosSwift_Example-TezosSwift-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		F8A8C54021CD2AAC005684A3 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1221,7 +1037,6 @@
 		};
 		7AA8F3692160158100C05895 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A94B1790A85FA9FF0970BA16 /* Pods-TezosSwift_Example.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1245,7 +1060,6 @@
 		};
 		7AA8F36A2160158100C05895 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79F93F731818ABF0C1BD6DA3 /* Pods-TezosSwift_Example.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1268,7 +1082,6 @@
 		};
 		F85F0CBB21B139250074E391 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7314248D801C9EAC57F48C3 /* Pods-TezosSwift_Example-UnitTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1294,7 +1107,6 @@
 		};
 		F85F0CBC21B139250074E391 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 09B08880241EA989018F0F3A /* Pods-TezosSwift_Example-UnitTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1320,7 +1132,6 @@
 		};
 		F85F0CD221B151D30074E391 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D04D394A5F3089FCC734900 /* Pods-TezosSwift_Example-IntegrationTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1342,7 +1153,6 @@
 		};
 		F85F0CD321B151D30074E391 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6C4CA6483BE8320E2EDBE7ED /* Pods-TezosSwift_Example-IntegrationTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1364,7 +1174,6 @@
 		};
 		F86826B121CD1450003C7D4D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA390B13D577D172A43DDCE3 /* Pods-TezosSwift_Example-TezosSwift.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -1398,7 +1207,6 @@
 		};
 		F86826B221CD1450003C7D4D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 42E474C0CDAFC205F3B379F1 /* Pods-TezosSwift_Example-TezosSwift.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
