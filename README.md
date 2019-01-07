@@ -40,16 +40,6 @@ TezosSwift supports installation via CocoaPods. You can depened on TezosSwift by
 pod "TezosSwift", :git => 'https://github.com/AckeeCZ/TezosSwift.git'
 ```
 
-### LibSodium Errors
-
-If you receive build errors about missing headers for Sodium, you need to install the LibSodium library.
-
-The easiest way to do this is with Homebrew:
-
-```shell
-$ brew update && brew install libsodium
-```
-
 ## Getting Started
 
 ### Create a Network Client
@@ -149,11 +139,28 @@ tezosClient.delegate(from: originatedAccountAddress,
   print("See: https://tzscan.io/\(result.value!)")
 }
 ```
+
+### Michelson Types
+
+Tezos contract types are natively written in Michelson, so there had to be made some compromises to use them in Swift.
+
+One of the major ones is `Pair` - `Tuple` is unfortunately can not conform to `Codable`, and so we decided to parse the nested pairs parameter by parameter, all technicalities aside from left to right.
+To make this more clear, let’s see an example:
+
+`parameter (pair (pair (pair string (list int)) (set nat)) bytes)`
+
+This Michelson parameter is then converted, so it is called like this:
+
+```swift
+func call(param1: String, param2: [Int], param3: [UInt], param4: Data)
+```
+
+
 ## More
 
 ### Fees
 
-The `OperationFees` object encapsulates the fee, gas limit and storage limit to inject an operation onto the blockchain. Every `Operation` object contains a default set of fees taken from [eztz](https://github.com/TezTech/eztz/blob/master/PROTO_003_FEES.md). Clients can pass custom `OperationFees` objects when creating Operations to define their own fees. 
+The `OperationFees` object encapsulates the fee, gas limit and storage limit to inject an operation onto the blockchain. Every `Operation` object contains a default set of fees. If it is operation like sending parameters to a contract, it will automatically calculate the fees for you! Clients can also pass custom `OperationFees` objects when creating Operations to define their own fees (note they will rewrite even the automatically calculated fees). 
 
 ## Contributing
 

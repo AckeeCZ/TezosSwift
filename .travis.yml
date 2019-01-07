@@ -4,8 +4,7 @@ cache:
   directories:
   - Carthage
 env:
-  global:
-  - FRAMEWORK_NAME=TezosSwift
+  secure: IGfjsthKZxX3Wk44kQWNXaGmR1IU6RtY36zraSW1+RYoWCoi1a1nddGA41j1rarxEIexsA/IWX65pKnWVsIUB59Zym6Z4YbASS262lBT8MP9ZyHjRCsZJ6yA4W7vfW29krLTOjeYKImBh/3xgujCoWek7fIstQunoVmQWr28tZkglXiwYSHXcLK13FMOF2xqdQxHZUzzgZEyA87GWTI1UrOlT7tVu0l4go1wu9f/YyOjWENm2gThmdjBio7DSmvM6zw+eHOMwQ6ncIS76lvQeknvcoz3Z5UoIycmsZ1ZTncupBPzxLrXWeh0eF8RJMtOE43keQ7tIe1r17xx5PovQE1mw8Fpu/ngLAR8R2zm89ii6Zi03yN1fyBD3ZoYmDMcq115L8VutmqFlS2joNw9WVYMzP8J6sEx621HCUeMGG1OBU0SKwo47RhTpCmQwBhMeiCod64+PK5aeXDdz2zHDJfl88CM5AIYQLxzzDMXGzJpUB/yxtjGtHeNMOd83yUwW8R7d+zxiuki3vL6NEgyj7rIHHuDm8NOYgqCGmOoZeeyuHaZsV9Y87jbAdte8Pw4gTi28Tj/lPBecnmzaC6G+7uNLKnyY/XWzcBqVg+cqsmc3iLisSqhl/arYUYLWonhMKBzJu8B7YaIXyKxzBhf1JFJbQlz0RJn9EMNjLLjzNs=
 before_install:
 - brew update
 - brew outdated carthage || brew upgrade carthage
@@ -16,13 +15,12 @@ before_deploy:
 after_deploy:
 - pod trunk push --skip-import-validation --skip-tests --allow-warnings
 script:
-- set -o pipefail && xcodebuild test -scheme TezosSwift -destination 'platform=iOS Simulator,name=iPhone XS,OS=12.1' ONLY_ACTIVE_ARCH=YES | xcpretty
+- set -o pipefail && xcodebuild test -scheme TezosSwift -destination 'platform=iOS
+  Simulator,name=iPhone XS,OS=12.1' ONLY_ACTIVE_ARCH=YES | xcpretty
 deploy:
   provider: releases
   api_key:
-    secure: nHKcEDvGxpo1ykaji20oVTIibAJhLfAU8VbcjweqeBXU10VCygtMg6tReSb/uvOlLuOTj6JEA71uTiDubgrKmKKoRJfjqJ2KvZvd4AownBq6YkX7TbObLJNsn7RYEjC8Dx8CMY+5vq9lXZT6mN+1S1oIkQ75AwY9vTutpYUpFi8rPxATl342nKh69S3YCwQY2L8ivi9seWfHnGhtdb0SkxQUxcvfzF5hA/tVbb/HJrVZGONenZnr25sZ2WhNZdTStwei7SrmpU27XpvVl1HUa1WNgEUvLVgFRhJ8C78m3RYxuOX8vqo2CKtWvegE4jrZj+kJUBolrypKKsroXaBmRppJr86GpJVU6iEx3oGlMl0RpYPbm0I1zvBMAv2Vvhuiq6XHa/w9b+7i4czhf89BBnVHiAjyp1u3oqvLUpCTvzLILcctbSajzydy2UBjZY35ItjN/Vsd/eh4BGDZFt1hFXLKJAT4SMqkhebNWapEYi+A3BQSx/4xVTpzFPDwNgLf5GIeZozwlxJfDRyZRACafZjIhVTYdsVzg5hExdH6gwOa2im2FHEZiUiWHd7ycvzdPndMm8cd2SvqYefUd0VUHf4WBdlapzqpBOMF/zo6Ut+gBIoo91MO95E3TMAfOwgAzwYKxb55NtQPG6bnuoqnPaaVcfovvMgPSNvUJrLSYfc=
-  file: "$FRAMEWORK_NAME.framework.zip"
-  skip_cleanup: true
+    secure: MX6LNUA0zI0Mna8WoWR5/oM2vB3NZEoJvUh52uCJ89MVuZnPQIosL74j4CFMe7COQektKD4akoizKnDfcs+UwS4aMswrOkNXt628aLLN/lvFuJql/vkM5JrBMtTq09cBQ8zhGVumAfbvXKIc/WccOoDNKnfnLviW+ASgknvx8UK9TDbxfTRBv/LYZOM9qt0IPy+ebgasKWZezFSmt/5feZRRzFEo5NO0/tUOwETMaSGXB9WnEIFmZH6Ob2Rz9SVpqSi4rGRP5Z6PCNwHrNdIgbfHZDSc3BwyzG5+oAS/T6CP2DIggFwbbF+6jBj/ktt9Or2VcWjqmaCGSHQiMAVtd33xMz7nz/T9hfok8JPCqZ4YeEyDTJhcKKPTg/Cu08AKhm1sAcL5vsofUmmGi2zZs7EWZMhNcWUI3crAo+1QL6g3Cu9wP5bf+qtvV/FZ4wmj9W6uNorBTqdR90M17/Xx/FFU+78YtYvWiEKNnbzyLtsPpz+pLZz6qJAlq71xlL+FB32PmF5wYtzUccH/Wdi7S7wwpSSadb8Bm8Nu9o0SZiVvPnTu9z9F1pEUZ7uLz3CQrjvVBD8t/Ro890/LNwO4DLP1QNr2fUkeE0Z51A5leuMWILTUSUt7PRYvfI/Ufo9m+2pRYPyQAxgy3IMT56s0iYjOMg/2624EwPqYZG6sy+s=
+  file: TezosSwift.framework
   on:
     repo: AckeeCZ/TezosSwift
-    tags: true
