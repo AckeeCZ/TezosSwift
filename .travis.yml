@@ -1,5 +1,5 @@
 osx_image: xcode10.1
-language: swift
+language: objective-c
 cache:
   directories:
   - Carthage
@@ -13,10 +13,14 @@ before_install:
 before_deploy:
 - carthage build --no-skip-current --platform iOS --cache-builds
 - carthage archive $FRAMEWORK_NAME
+after_deploy:
+- pod trunk push --skip-import-validation --skip-tests --allow-warnings
 script:
 - set -o pipefail && xcodebuild test -scheme TezosSwift -destination 'platform=iOS Simulator,name=iPhone XS,OS=12.1' ONLY_ACTIVE_ARCH=YES | xcpretty
 deploy:
   provider: releases
+  api_key:
+    secure: nHKcEDvGxpo1ykaji20oVTIibAJhLfAU8VbcjweqeBXU10VCygtMg6tReSb/uvOlLuOTj6JEA71uTiDubgrKmKKoRJfjqJ2KvZvd4AownBq6YkX7TbObLJNsn7RYEjC8Dx8CMY+5vq9lXZT6mN+1S1oIkQ75AwY9vTutpYUpFi8rPxATl342nKh69S3YCwQY2L8ivi9seWfHnGhtdb0SkxQUxcvfzF5hA/tVbb/HJrVZGONenZnr25sZ2WhNZdTStwei7SrmpU27XpvVl1HUa1WNgEUvLVgFRhJ8C78m3RYxuOX8vqo2CKtWvegE4jrZj+kJUBolrypKKsroXaBmRppJr86GpJVU6iEx3oGlMl0RpYPbm0I1zvBMAv2Vvhuiq6XHa/w9b+7i4czhf89BBnVHiAjyp1u3oqvLUpCTvzLILcctbSajzydy2UBjZY35ItjN/Vsd/eh4BGDZFt1hFXLKJAT4SMqkhebNWapEYi+A3BQSx/4xVTpzFPDwNgLf5GIeZozwlxJfDRyZRACafZjIhVTYdsVzg5hExdH6gwOa2im2FHEZiUiWHd7ycvzdPndMm8cd2SvqYefUd0VUHf4WBdlapzqpBOMF/zo6Ut+gBIoo91MO95E3TMAfOwgAzwYKxb55NtQPG6bnuoqnPaaVcfovvMgPSNvUJrLSYfc=
   file: "$FRAMEWORK_NAME.framework.zip"
   skip_cleanup: true
   on:
