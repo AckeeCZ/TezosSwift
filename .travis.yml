@@ -25,3 +25,4 @@ deploy:
   file: "$FRAMEWORK_NAME.framework.zip"
   on:
     repo: AckeeCZ/TezosSwift
+    tags: true
