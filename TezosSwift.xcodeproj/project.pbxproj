@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8FD2643822148AF600D779C8 /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD2643722148AF600D779C8 /* Call.swift */; };
 		F809FA1F21C2518C008D4A0E /* GasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F809FA1E21C2518C008D4A0E /* GasTests.swift */; };
 		F85F0CBD21B13A000074E391 /* TezosBalanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC857F2182A072006DE8FD /* TezosBalanceTest.swift */; };
 		F85F0CBE21B13A000074E391 /* AbstractOperationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */; };
@@ -113,7 +114,7 @@
 		F868271621CD146B003C7D4D /* MnemonicUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E721CD146B003C7D4D /* MnemonicUtil.swift */; };
 		F8692D1921E37FC100C32B3F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8692D1821E37FC100C32B3F /* Constants.swift */; };
 		F8A8C53621CD25F1005684A3 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53121CD25F1005684A3 /* SipHash.framework */; };
-		F8A8C53721CD25F1005684A3 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53221CD25F1005684A3 /* BigInt.framework */; };
+		F8A8C53721CD25F1005684A3 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53221CD25F1005684A3 /* BigInt.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		F8A8C53821CD25F1005684A3 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53321CD25F1005684A3 /* Sodium.framework */; };
 		F8A8C53921CD25F1005684A3 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53421CD25F1005684A3 /* Result.framework */; };
 		F8A8C57621CD4F93005684A3 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */; };
@@ -167,6 +168,13 @@
 		7ABC85812182A595006DE8FD /* CryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTests.swift; sourceTree = "<group>"; };
 		7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractOperationTest.swift; sourceTree = "<group>"; };
 		7ABC859B2183973F006DE8FD /* TezosRPCTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTest.swift; sourceTree = "<group>"; };
+		8FD2643722148AF600D779C8 /* Call.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
+		8FD264392214960400D779C8 /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FD2643C2214960400D779C8 /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FD2643F2214960400D779C8 /* MnemonicKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MnemonicKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FD264422214960400D779C8 /* Result.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Result.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FD264452214960400D779C8 /* SipHash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SipHash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FD264482214960400D779C8 /* Sodium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sodium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F809FA1E21C2518C008D4A0E /* GasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasTests.swift; sourceTree = "<group>"; };
 		F84C55962199ADCC00068596 /* ContractStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStorageTests.swift; sourceTree = "<group>"; };
 		F84C55982199AE3000068596 /* ContractCallTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCallTests.swift; sourceTree = "<group>"; };
@@ -322,6 +330,12 @@
 		7AA8F34D2160158000C05895 = {
 			isa = PBXGroup;
 			children = (
+				8FD264482214960400D779C8 /* Sodium.framework */,
+				8FD264452214960400D779C8 /* SipHash.framework */,
+				8FD264422214960400D779C8 /* Result.framework */,
+				8FD2643F2214960400D779C8 /* MnemonicKit.framework */,
+				8FD2643C2214960400D779C8 /* CryptoSwift.framework */,
+				8FD264392214960400D779C8 /* BigInt.framework */,
 				F868264121CD1295003C7D4D /* Example */,
 				F85F0CB421B139250074E391 /* UnitTests */,
 				F85F0CCB21B151D20074E391 /* IntegrationTests */,
@@ -478,6 +492,7 @@
 			isa = PBXGroup;
 			children = (
 				F86826B521CD146B003C7D4D /* RPCResponseHandler.swift */,
+				8FD2643722148AF600D779C8 /* Call.swift */,
 				F86826B621CD146B003C7D4D /* TezosClient.swift */,
 				F86826B721CD146B003C7D4D /* NetworkSession.swift */,
 				F86826B821CD146B003C7D4D /* TezosError.swift */,
@@ -863,6 +878,7 @@
 				F86826EA21CD146B003C7D4D /* NetworkSession.swift in Sources */,
 				F868270521CD146B003C7D4D /* StatusDelegate.swift in Sources */,
 				F86826FF21CD146B003C7D4D /* TezosMap.swift in Sources */,
+				8FD2643822148AF600D779C8 /* Call.swift in Sources */,
 				F868270E21CD146B003C7D4D /* DelegateStatus.swift in Sources */,
 				F868270721CD146B003C7D4D /* ContractStatus.swift in Sources */,
 				F86826E921CD146B003C7D4D /* TezosClient.swift in Sources */,

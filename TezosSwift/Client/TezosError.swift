@@ -89,6 +89,8 @@ public enum TezosError: Error {
     case parameterError(reason: ParameterReason)
     /// Error when decoding Tezos response data
     case decryptionFailed(reason: DecryptionReason)
-    ///Error when encrypting data 
+    /// Error when encrypting data
     case encryptionFailed(reason: Error)
+	/// User cancel
+	case cancel
 }
