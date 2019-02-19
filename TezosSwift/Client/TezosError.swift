@@ -1,5 +1,7 @@
 import Foundation
 
+import Result
+
 /// Error when interacting with RPC
 public enum RPCReason {
     /// Generic Error
@@ -91,6 +93,10 @@ public enum TezosError: Error {
     case decryptionFailed(reason: DecryptionReason)
     /// Error when encrypting data
     case encryptionFailed(reason: Error)
-	/// User cancel
-	case cancel
+}
+
+extension TezosError: ErrorConvertible {
+	public static func error(from error: Error) -> TezosError {
+		return .unknown(message: error.localizedDescription)
+	}
 }

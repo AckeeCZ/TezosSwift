@@ -16,6 +16,8 @@ public protocol NetworkSession {
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> Cancelable?
 }
 
+extension URLSessionTask: Cancelable {}
+
 extension URLSession: NetworkSession {
 	@discardableResult
     public func loadData(with urlRequest: URLRequest,

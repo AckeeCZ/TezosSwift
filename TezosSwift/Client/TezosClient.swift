@@ -342,9 +342,9 @@ public class TezosClient {
 		keys: Keys,
         completion: @escaping RPCCompletion<String>) -> Cancelable? {
 		
-		return AnyCall<OperationMetadata, TezosError> {
+		return AnyCompletable<OperationMetadata, TezosError> {
 			self.metadataForOperation(address: source, completion: $0)
-		}.flatMap { (operationMetadata: OperationMetadata) -> AnyCall<String, TezosError> in
+		}.flatMap { (operationMetadata: OperationMetadata) -> AnyCompletable<String, TezosError> in
 			let operationsWithReveal: [Operation]
 			// Determine if the address performing the operations has been revealed. If it has not been,
 			// check if any of the operations to perform requires the address to be revealed. If so,
@@ -365,7 +365,7 @@ public class TezosClient {
 			
 			let operationPayload = OperationPayload(contents: contents, branch: operationMetadata.headHash)
 			
-			return AnyCall<OperationSigningResult, TezosError> {
+			return AnyCompletable<OperationSigningResult, TezosError> {
 				self.forgeAndSignOperation(
 					chainId: operationMetadata.chainId,
 					headHash: operationMetadata.headHash,
@@ -373,8 +373,8 @@ public class TezosClient {
 					keys: keys,
 					completion: $0
 				)
-			}.flatMap { (signingResult: OperationSigningResult) -> AnyCall<String, TezosError> in
-				AnyCall<String, TezosError> {
+			}.flatMap { (signingResult: OperationSigningResult) -> AnyCompletable<String, TezosError> in
+				AnyCompletable<String, TezosError> {
 					self.preapplyAndInjectOperation(
 						operationPayload: operationPayload,
 						operationMetadata: operationMetadata,
@@ -385,7 +385,7 @@ public class TezosClient {
 					)
 				}
 			}
-		}.perform(completion)
+		}.execute(completion)
 	}
 
     /// Forge operation
@@ -447,7 +447,7 @@ public class TezosClient {
 			return nil
 		}
 
-		return AnyCall<Void, TezosError> {
+		return AnyCompletable<Void, TezosError> {
 			self.estimateGas(
 				payload: runOperationPayload,
 				signedBytesForInjection: jsonSignedBytes,
@@ -455,7 +455,7 @@ public class TezosClient {
 				completion: $0
 			)
 		}.flatMap {
-			AnyCall<OperationSigningResult, TezosError> {
+			AnyCompletable<OperationSigningResult, TezosError> {
 				self.forgeAndSignOperation(
 					chainId: operationMetadata.chainId,
 					headHash: operationMetadata.headHash,
@@ -464,7 +464,7 @@ public class TezosClient {
 					completion: $0
 				)
 			}
-		}.flatMap { (signingResult: OperationSigningResult) -> AnyCall<String, TezosError> in
+		}.flatMap { (signingResult: OperationSigningResult) -> AnyCompletable<String, TezosError> in
 			let signedOperationPayload = SignedOperationPayload(
 				contents: operationPayload.contents,
 				branch: operationPayload.branch,
@@ -474,7 +474,7 @@ public class TezosClient {
 			guard let jsonSignedBytes = signingResult.jsonSignedBytes else {
 				throw TezosError.injectError(reason: .jsonSigningFailed)
 			}
-			return AnyCall<String, TezosError> {
+			return AnyCompletable<String, TezosError> {
 				self.preapplyAndInjectRPC(
 					payload: [signedOperationPayload],
 					signedBytesForInjection: jsonSignedBytes,
@@ -482,7 +482,7 @@ public class TezosClient {
 					completion: $0
 				)
 			}
-		}.perform(completion)
+		}.execute(completion)
 	}
 
     /// Estimate gas to properly estimate fees (run operation with RPC)
@@ -536,9 +536,9 @@ public class TezosClient {
 		completion: @escaping RPCCompletion<String>) -> Cancelable? {
 
         let endpoint = "chains/" + operationMetadata.chainId + "/blocks/" + operationMetadata.headHash + "/helpers/preapply/operations"
-		return AnyCall<[OperationContents], TezosError> {
+		return AnyCompletable<[OperationContents], TezosError> {
 			self.sendRPC(endpoint: endpoint, completion: $0)
-		}.flatMap { (operationContents: [OperationContents]) -> AnyCall<String, TezosError> in
+		}.flatMap { (operationContents: [OperationContents]) -> AnyCompletable<String, TezosError> in
 			let operationErrors: [PreapplyError] = operationContents.flatMap {
 				$0.contents.compactMap {
 					if case let .failed(error) = $0.metadata.operationResult.operationResultStatus {
@@ -548,13 +548,13 @@ public class TezosClient {
 				}
 			}
 			if operationErrors.isEmpty {
-				return AnyCall { self.sendInjectionRPC(payload: signedBytesForInjection, completion: $0) }
+				return AnyCompletable { self.sendInjectionRPC(payload: signedBytesForInjection, completion: $0) }
 			}
 			if let firstOperationError = operationErrors.first {
 				throw TezosError.preapplyError(reason: .operationError(firstOperationError))
 			}
 			throw TezosError.preapplyError(reason: .unknown)
-		}.perform(completion)
+		}.execute(completion)
 	}
 
     /**
