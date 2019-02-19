@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8FD2643822148AF600D779C8 /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD2643722148AF600D779C8 /* Call.swift */; };
+		8F4384A1221C29F40003BD0B /* Cancelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F43849E221C29F40003BD0B /* Cancelable.swift */; };
+		8F4384A2221C29F40003BD0B /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F43849F221C29F40003BD0B /* Atomic.swift */; };
+		8F4384A3221C29F40003BD0B /* Completable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4384A0221C29F40003BD0B /* Completable.swift */; };
 		F809FA1F21C2518C008D4A0E /* GasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F809FA1E21C2518C008D4A0E /* GasTests.swift */; };
 		F85F0CBD21B13A000074E391 /* TezosBalanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC857F2182A072006DE8FD /* TezosBalanceTest.swift */; };
 		F85F0CBE21B13A000074E391 /* AbstractOperationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */; };
@@ -168,7 +170,9 @@
 		7ABC85812182A595006DE8FD /* CryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTests.swift; sourceTree = "<group>"; };
 		7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractOperationTest.swift; sourceTree = "<group>"; };
 		7ABC859B2183973F006DE8FD /* TezosRPCTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTest.swift; sourceTree = "<group>"; };
-		8FD2643722148AF600D779C8 /* Call.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
+		8F43849E221C29F40003BD0B /* Cancelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancelable.swift; sourceTree = "<group>"; };
+		8F43849F221C29F40003BD0B /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
+		8F4384A0221C29F40003BD0B /* Completable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Completable.swift; sourceTree = "<group>"; };
 		8FD264392214960400D779C8 /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FD2643C2214960400D779C8 /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FD2643F2214960400D779C8 /* MnemonicKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MnemonicKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -492,7 +496,6 @@
 			isa = PBXGroup;
 			children = (
 				F86826B521CD146B003C7D4D /* RPCResponseHandler.swift */,
-				8FD2643722148AF600D779C8 /* Call.swift */,
 				F86826B621CD146B003C7D4D /* TezosClient.swift */,
 				F86826B721CD146B003C7D4D /* NetworkSession.swift */,
 				F86826B821CD146B003C7D4D /* TezosError.swift */,
@@ -565,6 +568,9 @@
 			isa = PBXGroup;
 			children = (
 				F86826E621CD146B003C7D4D /* JSONUtils.swift */,
+				8F43849F221C29F40003BD0B /* Atomic.swift */,
+				8F43849E221C29F40003BD0B /* Cancelable.swift */,
+				8F4384A0221C29F40003BD0B /* Completable.swift */,
 				F86826E721CD146B003C7D4D /* MnemonicUtil.swift */,
 			);
 			path = Utils;
@@ -878,18 +884,20 @@
 				F86826EA21CD146B003C7D4D /* NetworkSession.swift in Sources */,
 				F868270521CD146B003C7D4D /* StatusDelegate.swift in Sources */,
 				F86826FF21CD146B003C7D4D /* TezosMap.swift in Sources */,
-				8FD2643822148AF600D779C8 /* Call.swift in Sources */,
 				F868270E21CD146B003C7D4D /* DelegateStatus.swift in Sources */,
 				F868270721CD146B003C7D4D /* ContractStatus.swift in Sources */,
 				F86826E921CD146B003C7D4D /* TezosClient.swift in Sources */,
 				F86826F321CD146B003C7D4D /* OperationContents.swift in Sources */,
+				8F4384A3221C29F40003BD0B /* Completable.swift in Sources */,
 				F86826EC21CD146B003C7D4D /* KeyPair.swift in Sources */,
 				F86826EF21CD146B003C7D4D /* Base58String.swift in Sources */,
 				F868270121CD146B003C7D4D /* Keys.swift in Sources */,
+				8F4384A2221C29F40003BD0B /* Atomic.swift in Sources */,
 				F86826F921CD146B003C7D4D /* OperationKind.swift in Sources */,
 				F86826F821CD146B003C7D4D /* TransactionOperation.swift in Sources */,
 				F868270021CD146B003C7D4D /* TezosOr.swift in Sources */,
 				F868271321CD146B003C7D4D /* ChainHead.swift in Sources */,
+				8F4384A1221C29F40003BD0B /* Cancelable.swift in Sources */,
 				F86826F021CD146B003C7D4D /* DelegationOperation.swift in Sources */,
 				F868270321CD146B003C7D4D /* RPCEncodable.swift in Sources */,
 				F86826F621CD146B003C7D4D /* UndelegateOperation.swift in Sources */,
