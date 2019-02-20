@@ -93,10 +93,16 @@ public enum TezosError: Error {
     case decryptionFailed(reason: DecryptionReason)
     /// Error when encrypting data
     case encryptionFailed(reason: Error)
+	/// User cancel
+	case userCancel
 }
 
 extension TezosError: ErrorConvertible {
 	public static func error(from error: Error) -> TezosError {
 		return .unknown(message: error.localizedDescription)
 	}
+}
+
+extension TezosError: CancelProtocol {
+	public static let cancel: TezosError = .userCancel
 }
