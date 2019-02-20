@@ -617,23 +617,23 @@ public class TezosClient {
     // Send the actual request specified in sendRPC
 	internal func sendRequest<T: Decodable>(_ urlRequest: URLRequest, completion: @escaping RPCCompletion<T>) -> Cancelable? {
 //        let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
-
-		// TODO: maybe call completion with unknown error when no task is created
-        return urlSession.loadData(with: urlRequest) { [weak self] data, response, error in
-//            os_log("Endnode: %@", log: dataLog, urlRequest.url?.absoluteString ?? "")
-//            os_log("JSON response: %@", log: dataLog, String(data: data ?? Data(), encoding: .utf8) ?? "")
-            guard let self = self else {
-                completion(.failure(.rpcFailure(reason: .unknown(message: ""))))
-                return
-            }
-            do {
-                let decodedObject: T = try self.rpcResponseHandler.handleResponse(data: data, response: response, error: error)
-                completion(.success(decodedObject))
-            } catch let error {
-                let unwrappedError = error as? TezosError ?? TezosError.rpcFailure(reason: .unknown(message: ""))
-                completion(.failure(unwrappedError))
-            }
-        }
+		return AnyCompletable<T, TezosError> { completion in
+			self.urlSession.loadData(with: urlRequest) { [weak self] data, response, error in
+				//            os_log("Endnode: %@", log: dataLog, urlRequest.url?.absoluteString ?? "")
+				//            os_log("JSON response: %@", log: dataLog, String(data: data ?? Data(), encoding: .utf8) ?? "")
+				guard let self = self else {
+					completion(.failure(.rpcFailure(reason: .unknown(message: ""))))
+					return
+				}
+				do {
+					let decodedObject: T = try self.rpcResponseHandler.handleResponse(data: data, response: response, error: error)
+					completion(.success(decodedObject))
+				} catch let error {
+					let unwrappedError = error as? TezosError ?? TezosError.rpcFailure(reason: .unknown(message: ""))
+					completion(.failure(unwrappedError))
+				}
+			}
+		}.execute(completion)
     }
 
 	/**

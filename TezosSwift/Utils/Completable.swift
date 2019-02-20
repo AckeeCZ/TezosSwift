@@ -56,7 +56,7 @@ public struct AnyCompletable<Value, Error: Swift.Error & CancelProtocol>: Comple
 }
 
 public extension AnyCompletable {
-	public init<T>(_ base: T) where T : Completable, Value == T.Value, Error == T.Error {
+	public init<T>(_ base: T) where T: Completable, Value == T.Value, Error == T.Error {
 		self.init(base.execute)
 	}
 }
@@ -115,4 +115,3 @@ public extension Completable {
 		}
 	}
 }
-

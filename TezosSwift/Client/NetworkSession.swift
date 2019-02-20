@@ -19,6 +19,7 @@ public protocol NetworkSession {
 extension URLSessionTask: Cancelable {}
 
 extension URLSession: NetworkSession {
+	// TODO: maybe call completion with unknown error when no task is created
 	@discardableResult
     public func loadData(with urlRequest: URLRequest,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> Cancelable? {
