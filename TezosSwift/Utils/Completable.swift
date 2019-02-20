@@ -6,25 +6,27 @@
 //  Copyright © 2019 Steve Sanches. All rights reserved.
 //
 
-// cancel must trigger completion failure
-
 import Foundation
 import Result
+
+public protocol CancelProtocol: Error {
+	static var cancel: Self { get }
+}
 
 public protocol Completable {
 	
 	associatedtype Value
-	associatedtype Error: Swift.Error
+	associatedtype Error: Swift.Error & CancelProtocol
 	
-	typealias Completion = (Result<Value, Error>) -> Void
+	typealias Completion = (Result<Value, Self.Error>) -> Void
 	
 	func execute(_ completion: @escaping Completion) -> Cancelable?
 }
 
 public extension Completable {
-
+	
 	public typealias OnSuccess = (Value) -> Void
-	public typealias OnFailure = (Self.Error) -> Void
+	public typealias OnFailure = (Error) -> Void
 	
 	public func execute(onSuccess: @escaping OnSuccess, onFailure: @escaping OnFailure) -> Cancelable? {
 		return execute {
@@ -36,18 +38,20 @@ public extension Completable {
 	}
 }
 
-public struct AnyCompletable<Value, Error: Swift.Error>: Completable {
-
+public struct AnyCompletable<Value, Error: Swift.Error & CancelProtocol>: Completable {
+	
 	public typealias Body = (@escaping Completion) -> Cancelable?
-
+	
 	private let body: Body
 	
 	public init(_ body: @escaping Body) {
 		self.body = body
 	}
-
+	
 	public func execute(_ completion: @escaping (Result<Value, Error>) -> Void) -> Cancelable? {
-		return body(completion)
+		let execution = Execution<Value, Error>(completion)
+		execution.trigger = body(execution.complete)
+		return execution
 	}
 }
 
@@ -100,7 +104,7 @@ public extension Completable where Value : Completable, Error == Value.Error {
 public extension Completable where Error: ErrorConvertible {
 	public func flatMap<T>(_ transform: @escaping (Value) throws -> T) -> AnyCompletable<T.Value, Error>
 		where T : Completable, Error == T.Error {
-		return map(transform).flatten()
+			return map(transform).flatten()
 	}
 }
 
@@ -111,3 +115,4 @@ public extension Completable {
 		}
 	}
 }
+

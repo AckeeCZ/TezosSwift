@@ -19,8 +19,9 @@ public struct Atomic<Value> {
 	}
 	
 	public mutating func reduce(with transition: (Value) -> Value) {
-		semaphore.wait(); defer { semaphore.signal() }
+		semaphore.wait()
 		value = transition(value)
+		semaphore.signal()
 	}
 }
 
