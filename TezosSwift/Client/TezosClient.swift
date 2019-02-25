@@ -590,8 +590,11 @@ public class TezosClient {
 //        let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
 
         if method == .post {
+			guard let payload = payload else {
+				completion(.failure(.encryptionFailed(reason: .noPayload)))
+				return nil
+			}
             do {
-				guard let payload = payload else { return nil } // TODO: maybe call completion with .encryptionFailed
                 let jsonData: Data
                 if let stringPayload = payload as? String, let stringData = stringPayload.data(using: .utf8) {
                     jsonData = stringData
@@ -605,8 +608,8 @@ public class TezosClient {
 //                os_log("Endnode: %@", log: dataLog, remoteNodeEndpoint.absoluteString)
 //                os_log("JSON data payload: %@", log: dataLog, String(data: jsonData, encoding: .utf8) ?? "")
             }
-            catch let error {
-                completion(.failure(.encryptionFailed(reason: error)))
+            catch {
+				completion(.failure(.encryptionFailed(reason: .requestError(encodingError: error))))
                 return nil
             }
         }
