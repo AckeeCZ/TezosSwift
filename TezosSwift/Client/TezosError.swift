@@ -1,5 +1,7 @@
 import Foundation
 
+import Result
+
 /// Error when interacting with RPC
 public enum RPCReason {
     /// Generic Error
@@ -48,6 +50,15 @@ public enum DecryptionReason {
     case unknown
 }
 
+public enum EncryptionReason {
+	/// No payload to encode
+	case noPayload
+	/// Unable to encode request
+	case requestError(encodingError: Error)
+	/// Unknown encryption error
+	case unknown
+}
+
 /// Errors when converting Swift parameters to Tezos data structure
 public enum ParameterReason {
     /// At least one value in Michelson or type has to be non-nil
@@ -89,6 +100,18 @@ public enum TezosError: Error {
     case parameterError(reason: ParameterReason)
     /// Error when decoding Tezos response data
     case decryptionFailed(reason: DecryptionReason)
-    ///Error when encrypting data 
-    case encryptionFailed(reason: Error)
+    /// Error when encrypting data
+    case encryptionFailed(reason: EncryptionReason)
+	/// Error when canceling operation
+	case canceled
+}
+
+extension TezosError: ErrorConvertible {
+	public static func error(from error: Error) -> TezosError {
+		return .unknown(message: error.localizedDescription)
+	}
+}
+
+extension TezosError: CancelProtocol {
+	public static let cancel: TezosError = .canceled
 }

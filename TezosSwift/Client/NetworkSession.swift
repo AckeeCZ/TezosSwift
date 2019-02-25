@@ -11,17 +11,23 @@ import Foundation
 // Taken from: https://www.swiftbysundell.com/posts/mocking-in-swift
 /// Protocol for network testing
 public protocol NetworkSession {
+	@discardableResult
     func loadData(with urlRequest: URLRequest,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
+                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> Cancelable?
 }
 
+extension URLSessionTask: Cancelable {}
+
 extension URLSession: NetworkSession {
+	// TODO: maybe call completion with unknown error when no task is created
+	@discardableResult
     public func loadData(with urlRequest: URLRequest,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)  {
+                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> Cancelable? {
         let task = dataTask(with: urlRequest) { (data, response, error) in
             completionHandler(data, response, error)
         }
 
         task.resume()
+		return task
     }
 }

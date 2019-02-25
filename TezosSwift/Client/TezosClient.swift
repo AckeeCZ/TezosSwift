@@ -90,19 +90,22 @@ public class TezosClient {
     }
 
     /** Retrieve data about the chain head. */
-    public func chainHead(completion: @escaping RPCCompletion<ChainHead>) {
+	@discardableResult
+    public func chainHead(completion: @escaping RPCCompletion<ChainHead>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head"
-        sendRPC(endpoint: endpoint, method: .get, completion: completion)
+		return sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     /** Retrieve manager key. */
-    public func managerAddressKey(of address: String, completion: @escaping RPCCompletion<ManagerKey>) {
+	@discardableResult
+    public func managerAddressKey(of address: String, completion: @escaping RPCCompletion<ManagerKey>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/manager_key"
-        sendRPC(endpoint: endpoint, method: .get, completion: completion)
+		return sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     /** Retrieve the balance of a given address. */
-    public func balance(of address: String, completion: @escaping RPCCompletion<Mutez>) {
+	@discardableResult
+    public func balance(of address: String, completion: @escaping RPCCompletion<Mutez>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/balance"
         let rpcCompletion: RPCCompletion<Int> = { result in
             switch result {
@@ -112,35 +115,40 @@ public class TezosClient {
                 completion(.failure(error))
             }
         }
-        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+        return sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 
     /** Retrieve the address counter for the given address. */
-    public func status(of address: String, completion: @escaping RPCCompletion<ContractStatus>) {
+	@discardableResult
+    public func status(of address: String, completion: @escaping RPCCompletion<ContractStatus>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address
-        sendRPC(endpoint: endpoint, method: .get, completion: completion)
+        return sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     /** Retrieve the delegate of a given address. */
-    public func delegate(of address: String, completion: @escaping RPCCompletion<String>) {
+	@discardableResult
+    public func delegate(of address: String, completion: @escaping RPCCompletion<String>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/delegate"
-        sendRPC(endpoint: endpoint, method: .get, completion: completion)
+        return sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     /** Retrieve the address counter for the given address. */
-    public func counter(of address: String, completion: @escaping RPCCompletion<Int>) {
+	@discardableResult
+    public func counter(of address: String, completion: @escaping RPCCompletion<Int>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + address + "/counter"
-        sendRPC(endpoint: endpoint, method: .get, completion: completion)
+        return sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     /// Retrieve the expected quorum.
-    public func currentQuorum(completion: @escaping RPCCompletion<Int>) {
+	@discardableResult
+    public func currentQuorum(completion: @escaping RPCCompletion<Int>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/votes/current_quorum"
-        sendRPC(endpoint: endpoint, method: .get, completion: completion)
+        return sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     /// Retrieve the expected quorum.
-    public func currentPeriodKind(completion: @escaping RPCCompletion<PeriodKind>) {
+	@discardableResult
+    public func currentPeriodKind(completion: @escaping RPCCompletion<PeriodKind>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/votes/current_period_kind"
         let rpcCompletion: RPCCompletion<String> = { result in
             switch result {
@@ -151,19 +159,21 @@ public class TezosClient {
                 completion(.failure(error))
             }
         }
-        sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
+		return sendRPC(endpoint: endpoint, method: .get, completion: rpcCompletion)
     }
 
     /// Sum of ballots cast so far during a voting period.
-    public func ballotsSum(completion: @escaping RPCCompletion<BallotsSum>) {
+	@discardableResult
+    public func ballotsSum(completion: @escaping RPCCompletion<BallotsSum>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/votes/ballots"
-        sendRPC(endpoint: endpoint, method: .get, completion: completion)
+		return sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     /// List of delegates with their voting weight, in number of rolls
-    public func delegatesList(completion: @escaping RPCCompletion<[DelegateStatus]>) {
+	@discardableResult
+    public func delegatesList(completion: @escaping RPCCompletion<[DelegateStatus]>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/votes/listings"
-        sendRPC(endpoint: endpoint, method: .get, completion: completion)
+        return sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 
     /**
@@ -175,13 +185,14 @@ public class TezosClient {
      - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
      - Parameter completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
      */
+	@discardableResult
     public func send(amount: TezToken,
                                    to recipientAddress: String,
                                    from wallet: Wallet,
                                    operationFees: OperationFees? = nil,
-                                   completion: @escaping RPCCompletion<String>) {
+                                   completion: @escaping RPCCompletion<String>) -> Cancelable? {
         let transactionOperation = TransactionOperation(amount: amount, source: wallet.address, destination: recipientAddress, operationFees: operationFees)
-        forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
+        return forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
                                             source: wallet.address,
                                             keys: wallet.keys,
                                             completion: completion)
@@ -197,15 +208,16 @@ public class TezosClient {
      - Parameter completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
      - Parameter input: Input (parameter) to send to contract.
      */
+	@discardableResult
     public func send<T: Encodable>(amount: TezToken,
 		to recipientAddress: String,
         from wallet: Wallet,
         input: T,
         operationFees: OperationFees? = nil,
-		completion: @escaping RPCCompletion<String>) {
+		completion: @escaping RPCCompletion<String>) -> Cancelable? {
 		let transactionOperation =
             ContractOperation(amount: amount, source: wallet.address, destination: recipientAddress, input: input)
-		forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
+		return forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
 			source: wallet.address,
 			keys: wallet.keys,
 			completion: completion)
@@ -221,13 +233,14 @@ public class TezosClient {
      - Parameter completion: A completion block which will be called with a string representing the
      transaction ID hash if the operation was successful.
      */
+	@discardableResult
     public func originateAccount(initialBalance: TezToken,
                                  managerAddress: String? = nil,
                                  from wallet: Wallet,
                                  operationFees: OperationFees? = nil,
-                                 completion: @escaping RPCCompletion<String>) {
+                                 completion: @escaping RPCCompletion<String>) -> Cancelable? {
         let originateAccountOperation = OriginateAccountOperation(initialBalance: initialBalance, managerAddress: managerAddress, source: wallet, operationFees: operationFees)
-        forgeSignPreapplyAndInjectOperation(operation: originateAccountOperation,
+        return forgeSignPreapplyAndInjectOperation(operation: originateAccountOperation,
                                             source: wallet.address,
                                             keys: wallet.keys,
                                             completion: completion)
@@ -244,13 +257,14 @@ public class TezosClient {
      - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
      - Parameter completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
      */
+	@discardableResult
 	public func delegate(from source: String,
 		to delegate: String,
 		keys: Keys,
         operationFees: OperationFees? = nil,
-		completion: @escaping RPCCompletion<String>) {
+		completion: @escaping RPCCompletion<String>) -> Cancelable? {
         let delegationOperation = DelegationOperation(source: source, to: delegate, operationFees: operationFees)
-		forgeSignPreapplyAndInjectOperation(operation: delegationOperation,
+		return forgeSignPreapplyAndInjectOperation(operation: delegationOperation,
 			source: source,
 			keys: keys,
 			completion: completion)
@@ -265,9 +279,10 @@ public class TezosClient {
      - Parameter completion: A completion block which will be called with a string representing the
      transaction ID hash if the operation was successful.
    */
-	public func registerDelegate(delegate: String, keys: Keys, operationFees: OperationFees? = nil, completion: @escaping RPCCompletion<String>) {
+	@discardableResult
+	public func registerDelegate(delegate: String, keys: Keys, operationFees: OperationFees? = nil, completion: @escaping RPCCompletion<String>) -> Cancelable? {
         let registerDelegateOperation = RegisterDelegateOperation(delegate: delegate, operationFees: operationFees)
-		forgeSignPreapplyAndInjectOperation(operation: registerDelegateOperation,
+		return forgeSignPreapplyAndInjectOperation(operation: registerDelegateOperation,
 			source: delegate,
 			keys: keys,
 			completion: completion)
@@ -281,11 +296,12 @@ public class TezosClient {
      - Parameter completion: A completion block which will be called with a string representing the
      transaction ID hash if the operation was successful.
      */
+	@discardableResult
     public func undelegate(wallet: Wallet,
                            operationFees: OperationFees? = nil,
-                           completion: @escaping RPCCompletion<String>) {
+                           completion: @escaping RPCCompletion<String>) -> Cancelable? {
         let undelegateOperation = UndelegateOperation(source: wallet.address, operationFees: operationFees)
-        forgeSignPreapplyAndInjectOperation(operation: undelegateOperation,
+        return forgeSignPreapplyAndInjectOperation(operation: undelegateOperation,
                                             source: wallet.address,
                                             keys: wallet.keys,
                                             completion: completion)
@@ -299,11 +315,12 @@ public class TezosClient {
      - Parameter keys: The keys to use to sign the operation for the address.
      - Parameter completion: A completion block that will be called with the results of the operation.
    */
+	@discardableResult
 	public func forgeSignPreapplyAndInjectOperation(operation: Operation,
 		source: String,
 		keys: Keys,
-        completion: @escaping RPCCompletion<String>) {
-		forgeSignPreapplyAndInjectOperations(operations: [operation],
+        completion: @escaping RPCCompletion<String>) -> Cancelable? {
+		return forgeSignPreapplyAndInjectOperations(operations: [operation],
 			source: source,
 			keys: keys,
 			completion: completion)
@@ -319,51 +336,62 @@ public class TezosClient {
      - Parameter keys: The keys to use to sign the operation for the address.
      - Parameter completion: A completion block that will be called with the results of the operation.
      */
+	@discardableResult
 	public func forgeSignPreapplyAndInjectOperations(operations: [Operation],
 		source: String,
 		keys: Keys,
-        completion: @escaping RPCCompletion<String>) {
-        metadataForOperation(address: source, completion: { [weak self] result in
-            switch result {
-            case .success(let operationMetadata):
-                let operationsWithReveal: [Operation]
-                // Determine if the address performing the operations has been revealed. If it has not been,
-                // check if any of the operations to perform requires the address to be revealed. If so,
-                // prepend a reveal operation to the operations to perform.
-                let revealOperations = operations.filter { $0.requiresReveal }
-                if operationMetadata.key == nil, !revealOperations.isEmpty {
-                    let revealOperation = RevealOperation(from: source, publicKey: keys.publicKey)
-                    operationsWithReveal = [revealOperation] + operations
-                } else {
-                    operationsWithReveal = operations
-                }
-
-                // Process all operations to have increasing counters and place them in the contents array.
-                let contents: [Operation] = operationsWithReveal.enumerated().map {
-                    $1.counter = operationMetadata.addressCounter + $0 + 1
-                    return $1
-                }
-
-                let operationPayload = OperationPayload(contents: contents, branch: operationMetadata.headHash)
-
-                self?.forgeAndSignOperation(chainId: operationMetadata.chainId, headHash: operationMetadata.headHash, operationPayload: operationPayload, keys: keys, completion: { result in
-                    switch result {
-                    case .success (let signingResult):
-                        self?.preapplyAndInjectOperation(operationPayload: operationPayload, operationMetadata: operationMetadata, signingResult: signingResult, source: source, keys: keys, completion: completion)
-                    case .failure(let error):
-                        completion(.failure(error))
-                    }
-                })
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        })
+        completion: @escaping RPCCompletion<String>) -> Cancelable? {
+		
+		return AnyCompletable<OperationMetadata, TezosError> {
+			self.metadataForOperation(address: source, completion: $0)
+		}.flatMap { (operationMetadata: OperationMetadata) -> AnyCompletable<String, TezosError> in
+			let operationsWithReveal: [Operation]
+			// Determine if the address performing the operations has been revealed. If it has not been,
+			// check if any of the operations to perform requires the address to be revealed. If so,
+			// prepend a reveal operation to the operations to perform.
+			let revealOperations = operations.filter { $0.requiresReveal }
+			if operationMetadata.key == nil, !revealOperations.isEmpty {
+				let revealOperation = RevealOperation(from: source, publicKey: keys.publicKey)
+				operationsWithReveal = [revealOperation] + operations
+			} else {
+				operationsWithReveal = operations
+			}
+			
+			// Process all operations to have increasing counters and place them in the contents array.
+			let contents: [Operation] = operationsWithReveal.enumerated().map {
+				$1.counter = operationMetadata.addressCounter + $0 + 1
+				return $1
+			}
+			
+			let operationPayload = OperationPayload(contents: contents, branch: operationMetadata.headHash)
+			
+			return AnyCompletable<OperationSigningResult, TezosError> {
+				self.forgeAndSignOperation(
+					chainId: operationMetadata.chainId,
+					headHash: operationMetadata.headHash,
+					operationPayload: operationPayload,
+					keys: keys,
+					completion: $0
+				)
+			}.flatMap { (signingResult: OperationSigningResult) -> AnyCompletable<String, TezosError> in
+				AnyCompletable<String, TezosError> {
+					self.preapplyAndInjectOperation(
+						operationPayload: operationPayload,
+						operationMetadata: operationMetadata,
+						signingResult: signingResult,
+						source: source,
+						keys: keys,
+						completion: $0
+					)
+				}
+			}
+		}.execute(completion)
 	}
 
     /// Forge operation
-    private func forgeOperation(chainId: String, headHash: String, operationPayload: OperationPayload, completion: @escaping RPCCompletion<String>) {
+    private func forgeOperation(chainId: String, headHash: String, operationPayload: OperationPayload, completion: @escaping RPCCompletion<String>) -> Cancelable? {
         let endpoint = "/chains/" + chainId + "/blocks/" + headHash + "/helpers/forge/operations"
-        sendRPC(endpoint: endpoint, method: .post, payload: operationPayload, completion: completion)
+        return sendRPC(endpoint: endpoint, method: .post, payload: operationPayload, completion: completion)
     }
 
     /// Sign operation
@@ -373,8 +401,8 @@ public class TezosClient {
     }
 
     /// First forge operation then sign the result
-    private func forgeAndSignOperation(chainId: String, headHash: String, operationPayload: OperationPayload, keys: Keys, completion: @escaping (Result<OperationSigningResult, TezosError>) -> Void) {
-        forgeOperation(chainId: chainId, headHash: headHash, operationPayload: operationPayload, completion: { [weak self] result in
+    private func forgeAndSignOperation(chainId: String, headHash: String, operationPayload: OperationPayload, keys: Keys, completion: @escaping (Result<OperationSigningResult, TezosError>) -> Void) -> Cancelable? {
+        return forgeOperation(chainId: chainId, headHash: headHash, operationPayload: operationPayload, completion: { [weak self] result in
             switch result {
             case .success(let forgeResult):
                 do {
@@ -408,43 +436,66 @@ public class TezosClient {
         signingResult: OperationSigningResult,
 		source: String,
 		keys: Keys,
-		completion: @escaping RPCCompletion<String>) {
-        let runOperationPayload = SignedRunOperationPayload(contents: operationPayload.contents, branch: operationPayload.branch, signature: signingResult.edsig)
-        guard let jsonSignedBytes = signingResult.jsonSignedBytes else { completion(.failure(.injectError(reason: .jsonSigningFailed))); return }
-        self.estimateGas(payload: runOperationPayload, signedBytesForInjection: jsonSignedBytes, operationMetadata: operationMetadata, completion: { [weak self] result in
-            switch result {
-            case .success():
-                self?.forgeAndSignOperation(chainId: operationMetadata.chainId, headHash: operationMetadata.headHash, operationPayload: operationPayload, keys: keys, completion: { [weak self] result in
-                    guard let self = self else { completion(.failure(.injectError(reason: .forgeError))); return }
-                    switch result {
-                    case .success(let signingResult):
-                        let signedOperationPayload = SignedOperationPayload(contents: operationPayload.contents, branch: operationPayload.branch, protocol: operationMetadata.protocolHash, signature: signingResult.edsig)
-                        guard let jsonSignedBytes = signingResult.jsonSignedBytes else { completion(.failure(.injectError(reason: .jsonSigningFailed))); return }
-                        self.preapplyAndInjectRPC(payload: [signedOperationPayload],
-                                                   signedBytesForInjection: jsonSignedBytes,
-                                                   operationMetadata: operationMetadata,
-                                                   completion: completion)
-                    case .failure(let error):
-                        completion(.failure(error))
-                    }
-                })
+		completion: @escaping RPCCompletion<String>) -> Cancelable? {
+        let runOperationPayload = SignedRunOperationPayload(
+			contents: operationPayload.contents,
+			branch: operationPayload.branch,
+			signature: signingResult.edsig
+		)
+        guard let jsonSignedBytes = signingResult.jsonSignedBytes else {
+			completion(.failure(.injectError(reason: .jsonSigningFailed)))
+			return nil
+		}
 
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        })
+		return AnyCompletable<Void, TezosError> {
+			self.estimateGas(
+				payload: runOperationPayload,
+				signedBytesForInjection: jsonSignedBytes,
+				operationMetadata: operationMetadata,
+				completion: $0
+			)
+		}.flatMap {
+			AnyCompletable<OperationSigningResult, TezosError> {
+				self.forgeAndSignOperation(
+					chainId: operationMetadata.chainId,
+					headHash: operationMetadata.headHash,
+					operationPayload: operationPayload,
+					keys: keys,
+					completion: $0
+				)
+			}
+		}.flatMap { (signingResult: OperationSigningResult) -> AnyCompletable<String, TezosError> in
+			let signedOperationPayload = SignedOperationPayload(
+				contents: operationPayload.contents,
+				branch: operationPayload.branch,
+				protocol: operationMetadata.protocolHash,
+				signature: signingResult.edsig
+			)
+			guard let jsonSignedBytes = signingResult.jsonSignedBytes else {
+				throw TezosError.injectError(reason: .jsonSigningFailed)
+			}
+			return AnyCompletable<String, TezosError> {
+				self.preapplyAndInjectRPC(
+					payload: [signedOperationPayload],
+					signedBytesForInjection: jsonSignedBytes,
+					operationMetadata: operationMetadata,
+					completion: $0
+				)
+			}
+		}.execute(completion)
 	}
 
     /// Estimate gas to properly estimate fees (run operation with RPC)
+	@discardableResult
     public func estimateGas(payload: SignedRunOperationPayload,
                              signedBytesForInjection: String,
                              operationMetadata: OperationMetadata,
-                             completion: @escaping (Result<Void, TezosError>) -> Void) {
+                             completion: @escaping (Result<Void, TezosError>) -> Void) -> Cancelable? {
         let payloadWithFees = SignedRunOperationPayload(contents: payload.contents.filter { $0.defaultFees }, branch: payload.branch, signature: payload.signature)
         guard !payloadWithFees.contents.isEmpty else {
             completion(.success(()))
-            return
-        }
+            return nil
+		}
 
         payloadWithFees.contents.forEach { $0.operationFees = Operation.defaultMaxFees }
         let rpcCompletion: RPCCompletion<OperationContents> = { [weak self] result in
@@ -457,7 +508,7 @@ public class TezosClient {
             }
         }
         let endpoint = "chains/main/blocks/head/helpers/scripts/run_operation"
-        sendRPC(endpoint: endpoint, method: .post, payload: payloadWithFees, completion: rpcCompletion)
+        return sendRPC(endpoint: endpoint, method: .post, payload: payloadWithFees, completion: rpcCompletion)
     }
 
     private func modifyFees(of payload: SignedRunOperationPayload, with contents: [OperationStatus], operationBytesString: String) {
@@ -482,34 +533,28 @@ public class TezosClient {
 	private func preapplyAndInjectRPC(payload: [SignedOperationPayload],
 		signedBytesForInjection: String,
 		operationMetadata: OperationMetadata,
-		completion: @escaping RPCCompletion<String>) {
-        let rpcCompletion: RPCCompletion<[OperationContents]> = { [weak self] result in
-            switch result {
-            case .success(let operationContents):
-                // If any operation has error status, return the first error
-                let operationErrors: [PreapplyError] = operationContents
-                    .flatMap {
-                    $0.contents.compactMap {
-                        if case .failed(let error) = $0.metadata.operationResult.operationResultStatus {
-                            return error
-                        } else {
-                            return nil
-                        }
-                    }
-                }
-                if operationErrors.isEmpty {
-                    self?.sendInjectionRPC(payload: signedBytesForInjection, completion: completion)
-                } else if let firstOperationError = operationErrors.first {
-                    completion(.failure(.preapplyError(reason: .operationError(firstOperationError))))
-                } else {
-                    completion(.failure(.preapplyError(reason: .unknown)))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
+		completion: @escaping RPCCompletion<String>) -> Cancelable? {
+
         let endpoint = "chains/" + operationMetadata.chainId + "/blocks/" + operationMetadata.headHash + "/helpers/preapply/operations"
-        sendRPC(endpoint: endpoint, method: .post, payload: payload, completion: rpcCompletion)
+		return AnyCompletable<[OperationContents], TezosError> {
+			self.sendRPC(endpoint: endpoint, completion: $0)
+		}.flatMap { (operationContents: [OperationContents]) -> AnyCompletable<String, TezosError> in
+			let operationErrors: [PreapplyError] = operationContents.flatMap {
+				$0.contents.compactMap {
+					if case let .failed(error) = $0.metadata.operationResult.operationResultStatus {
+						return error
+					}
+					return nil
+				}
+			}
+			if operationErrors.isEmpty {
+				return AnyCompletable { self.sendInjectionRPC(payload: signedBytesForInjection, completion: $0) }
+			}
+			if let firstOperationError = operationErrors.first {
+				throw TezosError.preapplyError(reason: .operationError(firstOperationError))
+			}
+			throw TezosError.preapplyError(reason: .unknown)
+		}.execute(completion)
 	}
 
     /**
@@ -518,9 +563,9 @@ public class TezosClient {
      - Parameter payload: A JSON compatible string representing the singed operation bytes.
      - Parameter completion: A completion block that will be called with the results of the operation.
      */
-    private func sendInjectionRPC(payload: String, completion: @escaping RPCCompletion<String>) {
+    private func sendInjectionRPC(payload: String, completion: @escaping RPCCompletion<String>) -> Cancelable? {
         let endpoint = "/injection/operation"
-        sendRPC(endpoint: endpoint, method: .post, payload: payload, completion: { result in
+        return sendRPC(endpoint: endpoint, method: .post, payload: payload, completion: { result in
             completion(result)
         })
 	}
@@ -533,10 +578,11 @@ public class TezosClient {
      - Parameter payload: Payload sent
      - Parameter completion: A completion block that will be called with the results of RPC call.
      */
-    public func sendRPC<T: Decodable>(endpoint: String, method: HTTPMethod = .get, payload: Encodable? = nil, completion: @escaping RPCCompletion<T>) {
+	@discardableResult
+    public func sendRPC<T: Decodable>(endpoint: String, method: HTTPMethod = .get, payload: Encodable? = nil, completion: @escaping RPCCompletion<T>) -> Cancelable? {
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else {
             completion(.failure(.rpcFailure(reason: .invalidNode)))
-            return
+            return nil
         }
 
         var urlRequest = URLRequest(url: remoteNodeEndpoint)
@@ -544,8 +590,11 @@ public class TezosClient {
 //        let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
 
         if method == .post {
+			guard let payload = payload else {
+				completion(.failure(.encryptionFailed(reason: .noPayload)))
+				return nil
+			}
             do {
-                guard let payload = payload else { return }
                 let jsonData: Data
                 if let stringPayload = payload as? String, let stringData = stringPayload.data(using: .utf8) {
                     jsonData = stringData
@@ -559,34 +608,35 @@ public class TezosClient {
 //                os_log("Endnode: %@", log: dataLog, remoteNodeEndpoint.absoluteString)
 //                os_log("JSON data payload: %@", log: dataLog, String(data: jsonData, encoding: .utf8) ?? "")
             }
-            catch let error {
-                completion(.failure(.encryptionFailed(reason: error)))
-                return
+            catch {
+				completion(.failure(.encryptionFailed(reason: .requestError(encodingError: error))))
+                return nil
             }
         }
 
-        sendRequest(urlRequest, remoteNodeEndpoint: remoteNodeEndpoint, completion: completion)
+        return sendRequest(urlRequest, completion: completion)
     }
 
     // Send the actual request specified in sendRPC
-    private func sendRequest<T: Decodable>(_ urlRequest: URLRequest, remoteNodeEndpoint: URL, completion: @escaping RPCCompletion<T>) {
+	internal func sendRequest<T: Decodable>(_ urlRequest: URLRequest, completion: @escaping RPCCompletion<T>) -> Cancelable? {
 //        let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
-
-        urlSession.loadData(with: urlRequest) { [weak self] data, response, error in
-//            os_log("Endnode: %@", log: dataLog, remoteNodeEndpoint.absoluteString)
-//            os_log("JSON response: %@", log: dataLog, String(data: data ?? Data(), encoding: .utf8) ?? "")
-            guard let self = self else {
-                completion(.failure(.rpcFailure(reason: .unknown(message: ""))))
-                return
-            }
-            do {
-                let decodedObject: T = try self.rpcResponseHandler.handleResponse(data: data, response: response, error: error)
-                completion(.success(decodedObject))
-            } catch let error {
-                let unwrappedError = error as? TezosError ?? TezosError.rpcFailure(reason: .unknown(message: ""))
-                completion(.failure(unwrappedError))
-            }
-        }
+		return AnyCompletable<T, TezosError> { completion in
+			self.urlSession.loadData(with: urlRequest) { [weak self] data, response, error in
+				//            os_log("Endnode: %@", log: dataLog, urlRequest.url?.absoluteString ?? "")
+				//            os_log("JSON response: %@", log: dataLog, String(data: data ?? Data(), encoding: .utf8) ?? "")
+				guard let self = self else {
+					completion(.failure(.rpcFailure(reason: .unknown(message: ""))))
+					return
+				}
+				do {
+					let decodedObject: T = try self.rpcResponseHandler.handleResponse(data: data, response: response, error: error)
+					completion(.success(decodedObject))
+				} catch let error {
+					let unwrappedError = error as? TezosError ?? TezosError.rpcFailure(reason: .unknown(message: ""))
+					completion(.failure(unwrappedError))
+				}
+			}
+		}.execute(completion)
     }
 
 	/**
@@ -595,7 +645,7 @@ public class TezosClient {
      This method parallelizes fetches to get chain and address data and returns all required data
      together as an OperationData object.
    */
-    private func metadataForOperation(address: String, completion: @escaping (Result<OperationMetadata, TezosError>) -> Void) {
+    private func metadataForOperation(address: String, completion: @escaping (Result<OperationMetadata, TezosError>) -> Void) -> Cancelable? {
 		let fetchersGroup = DispatchGroup()
 
         // Send RPCs and wait for results
@@ -606,7 +656,7 @@ public class TezosClient {
 		var protocolHash: String? = nil
 
         fetchersGroup.enter()
-        chainHead(completion: { result in
+        let chainHeadCancelable = chainHead(completion: { result in
             // TODO: Handle errors (below as well)
             chainId = result.value?.chainId
             headHash = result.value?.hash
@@ -617,7 +667,7 @@ public class TezosClient {
         fetchersGroup.enter()
         // Fetch data about the address being operated on.
         var operationCounter: Int? = nil
-        counter(of: address, completion: { result in
+       	let counterCancelable = counter(of: address, completion: { result in
             operationCounter = result.value
             fetchersGroup.leave()
         })
@@ -626,7 +676,7 @@ public class TezosClient {
         fetchersGroup.enter()
 		// Fetch data about the key.
 		var addressKey: String? = nil
-        managerAddressKey(of: address, completion: { result in
+        let managerAddressKeyCancelable = managerAddressKey(of: address, completion: { result in
             addressKey = result.value?.key
             fetchersGroup.leave()
         })
@@ -647,6 +697,12 @@ public class TezosClient {
                 completion(.failure(.injectError(reason: .missingMetadata)))
             }
         })
+		
+		return AnyCancelable {
+			chainHeadCancelable?.cancel()
+			counterCancelable?.cancel()
+			managerAddressKeyCancelable?.cancel()
+		}
 	}
 }
 

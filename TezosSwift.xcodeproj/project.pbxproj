@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F4384A1221C29F40003BD0B /* Cancelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F43849E221C29F40003BD0B /* Cancelable.swift */; };
+		8F4384A2221C29F40003BD0B /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F43849F221C29F40003BD0B /* Atomic.swift */; };
+		8F4384A3221C29F40003BD0B /* Completable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4384A0221C29F40003BD0B /* Completable.swift */; };
+		8F4384A5221C2CC60003BD0B /* CompletableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4384A4221C2CC60003BD0B /* CompletableTests.swift */; };
+		8F8DDF5B221C7B580008F688 /* Execution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DDF5A221C7B580008F688 /* Execution.swift */; };
+		8FAB19B1221D736300DD3F9B /* ExecutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */; };
 		F809FA1F21C2518C008D4A0E /* GasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F809FA1E21C2518C008D4A0E /* GasTests.swift */; };
 		F85F0CBD21B13A000074E391 /* TezosBalanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC857F2182A072006DE8FD /* TezosBalanceTest.swift */; };
 		F85F0CBE21B13A000074E391 /* AbstractOperationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */; };
@@ -113,7 +119,7 @@
 		F868271621CD146B003C7D4D /* MnemonicUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E721CD146B003C7D4D /* MnemonicUtil.swift */; };
 		F8692D1921E37FC100C32B3F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8692D1821E37FC100C32B3F /* Constants.swift */; };
 		F8A8C53621CD25F1005684A3 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53121CD25F1005684A3 /* SipHash.framework */; };
-		F8A8C53721CD25F1005684A3 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53221CD25F1005684A3 /* BigInt.framework */; };
+		F8A8C53721CD25F1005684A3 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53221CD25F1005684A3 /* BigInt.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		F8A8C53821CD25F1005684A3 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53321CD25F1005684A3 /* Sodium.framework */; };
 		F8A8C53921CD25F1005684A3 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53421CD25F1005684A3 /* Result.framework */; };
 		F8A8C57621CD4F93005684A3 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */; };
@@ -167,6 +173,18 @@
 		7ABC85812182A595006DE8FD /* CryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTests.swift; sourceTree = "<group>"; };
 		7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractOperationTest.swift; sourceTree = "<group>"; };
 		7ABC859B2183973F006DE8FD /* TezosRPCTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTest.swift; sourceTree = "<group>"; };
+		8F43849E221C29F40003BD0B /* Cancelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancelable.swift; sourceTree = "<group>"; };
+		8F43849F221C29F40003BD0B /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
+		8F4384A0221C29F40003BD0B /* Completable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Completable.swift; sourceTree = "<group>"; };
+		8F4384A4221C2CC60003BD0B /* CompletableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletableTests.swift; sourceTree = "<group>"; };
+		8F8DDF5A221C7B580008F688 /* Execution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Execution.swift; sourceTree = "<group>"; };
+		8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutionTests.swift; sourceTree = "<group>"; };
+		8FD264392214960400D779C8 /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FD2643C2214960400D779C8 /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FD2643F2214960400D779C8 /* MnemonicKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MnemonicKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FD264422214960400D779C8 /* Result.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Result.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FD264452214960400D779C8 /* SipHash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SipHash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FD264482214960400D779C8 /* Sodium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sodium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F809FA1E21C2518C008D4A0E /* GasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasTests.swift; sourceTree = "<group>"; };
 		F84C55962199ADCC00068596 /* ContractStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStorageTests.swift; sourceTree = "<group>"; };
 		F84C55982199AE3000068596 /* ContractCallTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCallTests.swift; sourceTree = "<group>"; };
@@ -322,6 +340,12 @@
 		7AA8F34D2160158000C05895 = {
 			isa = PBXGroup;
 			children = (
+				8FD264482214960400D779C8 /* Sodium.framework */,
+				8FD264452214960400D779C8 /* SipHash.framework */,
+				8FD264422214960400D779C8 /* Result.framework */,
+				8FD2643F2214960400D779C8 /* MnemonicKit.framework */,
+				8FD2643C2214960400D779C8 /* CryptoSwift.framework */,
+				8FD264392214960400D779C8 /* BigInt.framework */,
 				F868264121CD1295003C7D4D /* Example */,
 				F85F0CB421B139250074E391 /* UnitTests */,
 				F85F0CCB21B151D20074E391 /* IntegrationTests */,
@@ -358,6 +382,8 @@
 		F85F0CB421B139250074E391 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				8F4384A4221C2CC60003BD0B /* CompletableTests.swift */,
+				8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */,
 				7ABC85812182A595006DE8FD /* CryptoTests.swift */,
 				7ABC857F2182A072006DE8FD /* TezosBalanceTest.swift */,
 				F809FA1E21C2518C008D4A0E /* GasTests.swift */,
@@ -550,6 +576,10 @@
 			isa = PBXGroup;
 			children = (
 				F86826E621CD146B003C7D4D /* JSONUtils.swift */,
+				8F43849F221C29F40003BD0B /* Atomic.swift */,
+				8F43849E221C29F40003BD0B /* Cancelable.swift */,
+				8F4384A0221C29F40003BD0B /* Completable.swift */,
+				8F8DDF5A221C7B580008F688 /* Execution.swift */,
 				F86826E721CD146B003C7D4D /* MnemonicUtil.swift */,
 			);
 			path = Utils;
@@ -818,6 +848,8 @@
 				F85F0CBE21B13A000074E391 /* AbstractOperationTest.swift in Sources */,
 				F85F0CC321B13A000074E391 /* ContractStorageTests.swift in Sources */,
 				F85F0CC021B13A000074E391 /* CryptoTests.swift in Sources */,
+				8FAB19B1221D736300DD3F9B /* ExecutionTests.swift in Sources */,
+				8F4384A5221C2CC60003BD0B /* CompletableTests.swift in Sources */,
 				F85F0CC221B13A000074E391 /* CallEncodingTests.swift in Sources */,
 				F85F0CC121B13A000074E391 /* MnemonicUtilsTest.swift in Sources */,
 				F809FA1F21C2518C008D4A0E /* GasTests.swift in Sources */,
@@ -844,6 +876,7 @@
 				F86826F721CD146B003C7D4D /* ContractOperation.swift in Sources */,
 				F86826FD21CD146B003C7D4D /* OperationPayload.swift in Sources */,
 				F868270421CD146B003C7D4D /* OperationFees.swift in Sources */,
+				8F8DDF5B221C7B580008F688 /* Execution.swift in Sources */,
 				F86826F421CD146B003C7D4D /* RegisterDelegateOperation.swift in Sources */,
 				F868271221CD146B003C7D4D /* Wallet.swift in Sources */,
 				F868270F21CD146B003C7D4D /* ManagerKey.swift in Sources */,
@@ -867,13 +900,16 @@
 				F868270721CD146B003C7D4D /* ContractStatus.swift in Sources */,
 				F86826E921CD146B003C7D4D /* TezosClient.swift in Sources */,
 				F86826F321CD146B003C7D4D /* OperationContents.swift in Sources */,
+				8F4384A3221C29F40003BD0B /* Completable.swift in Sources */,
 				F86826EC21CD146B003C7D4D /* KeyPair.swift in Sources */,
 				F86826EF21CD146B003C7D4D /* Base58String.swift in Sources */,
 				F868270121CD146B003C7D4D /* Keys.swift in Sources */,
+				8F4384A2221C29F40003BD0B /* Atomic.swift in Sources */,
 				F86826F921CD146B003C7D4D /* OperationKind.swift in Sources */,
 				F86826F821CD146B003C7D4D /* TransactionOperation.swift in Sources */,
 				F868270021CD146B003C7D4D /* TezosOr.swift in Sources */,
 				F868271321CD146B003C7D4D /* ChainHead.swift in Sources */,
+				8F4384A1221C29F40003BD0B /* Cancelable.swift in Sources */,
 				F86826F021CD146B003C7D4D /* DelegationOperation.swift in Sources */,
 				F868270321CD146B003C7D4D /* RPCEncodable.swift in Sources */,
 				F86826F621CD146B003C7D4D /* UndelegateOperation.swift in Sources */,

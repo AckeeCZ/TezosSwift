@@ -387,7 +387,8 @@ class NetworkSessionMock: NetworkSession {
     var response = HTTPURLResponse(url: URL(string: "https://google.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
 
     func loadData(with urlRequest: URLRequest,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)  {
+                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> Cancelable?  {
         completionHandler(data, response, error)
+		return nil
     }
 }
