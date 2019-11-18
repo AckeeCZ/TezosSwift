@@ -657,9 +657,9 @@ public class TezosClient {
         fetchersGroup.enter()
         let chainHeadCancelable = chainHead(completion: { result in
             // TODO: Handle errors (below as well)
-            chainId = result.value?.chainId
-            headHash = result.value?.hash
-            protocolHash = result.value?.protocol
+            chainId = try? result.get().chainId
+            headHash = try? result.get().hash
+            protocolHash = try? result.get().protocol
             fetchersGroup.leave()
         })
 
@@ -667,7 +667,7 @@ public class TezosClient {
         // Fetch data about the address being operated on.
         var operationCounter: Int? = nil
        	let counterCancelable = counter(of: address, completion: { result in
-            operationCounter = result.value
+            operationCounter = try? result.get()
             fetchersGroup.leave()
         })
 
@@ -676,7 +676,9 @@ public class TezosClient {
 		// Fetch data about the key.
 		var addressKey: String? = nil
         let managerAddressKeyCancelable = managerAddressKey(of: address, completion: { result in
-            addressKey = result.value?.key
+            if let key = try? result.get().key {
+                addressKey = key
+            }
             fetchersGroup.leave()
         })
 
