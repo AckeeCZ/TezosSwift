@@ -37,7 +37,7 @@ It also parses data and populates the appropriate models, so you can access the 
 TezosSwift supports installation via CocoaPods. You can depened on TezosSwift by adding the following to your Podfile:
 
 ```
-pod "TezosSwift", :git => 'https://github.com/AckeeCZ/TezosSwift.git'
+pod "TezosSwift"
 ```
 
 ## Getting Started
