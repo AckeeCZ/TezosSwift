@@ -25,10 +25,10 @@ public protocol Completable {
 
 public extension Completable {
 	
-	public typealias OnSuccess = (Value) -> Void
-	public typealias OnFailure = (Error) -> Void
+	typealias OnSuccess = (Value) -> Void
+	typealias OnFailure = (Error) -> Void
 	
-	public func execute(onSuccess: @escaping OnSuccess, onFailure: @escaping OnFailure) -> Cancelable? {
+	func execute(onSuccess: @escaping OnSuccess, onFailure: @escaping OnFailure) -> Cancelable? {
 		return execute {
 			switch $0 {
 			case let .success(value): onSuccess(value)
@@ -56,13 +56,13 @@ public struct AnyCompletable<Value, Error: Swift.Error & CancelProtocol>: Comple
 }
 
 public extension AnyCompletable {
-	public init<T>(_ base: T) where T: Completable, Value == T.Value, Error == T.Error {
+	init<T>(_ base: T) where T: Completable, Value == T.Value, Error == T.Error {
 		self.init(base.execute)
 	}
 }
 
 public extension Result where Error: ErrorConvertible {
-	public func map<T>(_ transform: (Value) throws -> T) -> Result<T, Error> {
+	func map<T>(_ transform: (Value) throws -> T) -> Result<T, Error> {
 		do {
 			switch self {
 			case let .success(value):
@@ -79,7 +79,7 @@ public extension Result where Error: ErrorConvertible {
 }
 
 public extension Completable where Error: ErrorConvertible {
-	public func map<T>(_ transform: @escaping (Value) throws -> T) -> AnyCompletable<T, Error> {
+	func map<T>(_ transform: @escaping (Value) throws -> T) -> AnyCompletable<T, Error> {
 		return AnyCompletable { completion in
 			self.execute { completion($0.map(transform)) }
 		}
@@ -87,7 +87,7 @@ public extension Completable where Error: ErrorConvertible {
 }
 
 public extension Completable where Value : Completable, Error == Value.Error {
-	public func flatten() -> AnyCompletable<Value.Value, Value.Error> {
+	func flatten() -> AnyCompletable<Value.Value, Value.Error> {
 		return AnyCompletable { completion in
 			var cancelable = Atomic<Cancelable?>(nil)
 			cancelable.update(
@@ -102,14 +102,14 @@ public extension Completable where Value : Completable, Error == Value.Error {
 }
 
 public extension Completable where Error: ErrorConvertible {
-	public func flatMap<T>(_ transform: @escaping (Value) throws -> T) -> AnyCompletable<T.Value, Error>
+	func flatMap<T>(_ transform: @escaping (Value) throws -> T) -> AnyCompletable<T.Value, Error>
 		where T : Completable, Error == T.Error {
 			return map(transform).flatten()
 	}
 }
 
 public extension Completable {
-	public func on(_ queue: DispatchQueue) -> AnyCompletable<Value, Error> {
+	func on(_ queue: DispatchQueue) -> AnyCompletable<Value, Error> {
 		return AnyCompletable { completion in
 			self.execute { result in queue.async { completion(result) } }
 		}

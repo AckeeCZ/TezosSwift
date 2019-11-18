@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.dependency "BigInt", "~> 3.1"		
   s.dependency "MnemonicKit"
-  s.dependency "Sodium", "~> 0.7.0"  
+  s.dependency "Sodium", "~> 0.8.0"  
   s.dependency "Result", "~> 4.0.0" 
   
 end
