@@ -1,7 +1,5 @@
 import Foundation
 
-import Result
-
 /// Error when interacting with RPC
 public enum RPCReason {
     /// Generic Error

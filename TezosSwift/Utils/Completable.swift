@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Result
 
 public protocol CancelProtocol: Error {
 	static var cancel: Self { get }

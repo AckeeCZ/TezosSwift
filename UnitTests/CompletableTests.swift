@@ -8,7 +8,6 @@
 
 import XCTest
 import TezosSwift
-import Result
 
 class CompletableTests: XCTestCase {
 

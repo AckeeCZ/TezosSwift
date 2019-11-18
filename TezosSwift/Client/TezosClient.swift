@@ -1,5 +1,4 @@
 import Foundation
-import Result
 import os
 
 public typealias RPCCompletion<T: Decodable> = (Result<T, TezosError>) -> Void
