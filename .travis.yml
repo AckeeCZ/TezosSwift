@@ -1,4 +1,4 @@
-osx_image: xcode10.1
+osx_image: xcode11
 language: objective-c
 cache:
   directories:
@@ -17,7 +17,7 @@ after_deploy:
 - pod trunk push --skip-import-validation --skip-tests --allow-warnings
 script:
 - set -o pipefail && xcodebuild test -scheme TezosSwift -destination 'platform=iOS
-  Simulator,name=iPhone XS,OS=12.1' ONLY_ACTIVE_ARCH=YES | xcpretty
+  Simulator,name=iPhone XS,OS=13.0' ONLY_ACTIVE_ARCH=YES | xcpretty
 deploy:
   provider: releases
   api_key:
