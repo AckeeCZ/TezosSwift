@@ -21,6 +21,7 @@
 		F84A54162387D8C8005D0367 /* ContractPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A54152387D8C8005D0367 /* ContractPublisher.swift */; };
 		F84A54182387D8EF005D0367 /* ContractSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A54172387D8EF005D0367 /* ContractSubscription.swift */; };
 		F84A541B2387D920005D0367 /* TezosClient+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A541A2387D920005D0367 /* TezosClient+Combine.swift */; };
+		F84A541E2387E21E005D0367 /* XCTestCase+Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A541D2387E21E005D0367 /* XCTestCase+Extra.swift */; };
 		F85F0CBD21B13A000074E391 /* TezosBalanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC857F2182A072006DE8FD /* TezosBalanceTest.swift */; };
 		F85F0CBE21B13A000074E391 /* AbstractOperationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */; };
 		F85F0CBF21B13A000074E391 /* WalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC857D21826C71006DE8FD /* WalletTests.swift */; };
@@ -223,6 +224,7 @@
 		F84A54152387D8C8005D0367 /* ContractPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractPublisher.swift; sourceTree = "<group>"; };
 		F84A54172387D8EF005D0367 /* ContractSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractSubscription.swift; sourceTree = "<group>"; };
 		F84A541A2387D920005D0367 /* TezosClient+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TezosClient+Combine.swift"; sourceTree = "<group>"; };
+		F84A541D2387E21E005D0367 /* XCTestCase+Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extra.swift"; sourceTree = "<group>"; };
 		F84C55962199ADCC00068596 /* ContractStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStorageTests.swift; sourceTree = "<group>"; };
 		F84C55982199AE3000068596 /* ContractCallTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCallTests.swift; sourceTree = "<group>"; };
 		F85F0CB321B139250074E391 /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -464,9 +466,18 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		F84A541C2387E20E005D0367 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F84A541D2387E21E005D0367 /* XCTestCase+Extra.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		F85F0CB421B139250074E391 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				F84A541C2387E20E005D0367 /* Extensions */,
 				8F4384A4221C2CC60003BD0B /* CompletableTests.swift */,
 				8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */,
 				7ABC85812182A595006DE8FD /* CryptoTests.swift */,
@@ -1025,6 +1036,7 @@
 				F85F0CC221B13A000074E391 /* CallEncodingTests.swift in Sources */,
 				F85F0CC121B13A000074E391 /* MnemonicUtilsTest.swift in Sources */,
 				F809FA1F21C2518C008D4A0E /* GasTests.swift in Sources */,
+				F84A541E2387E21E005D0367 /* XCTestCase+Extra.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
