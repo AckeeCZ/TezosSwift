@@ -10,18 +10,11 @@
 		8F4384A5221C2CC60003BD0B /* CompletableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4384A4221C2CC60003BD0B /* CompletableTests.swift */; };
 		8FAB19B1221D736300DD3F9B /* ExecutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */; };
 		F809FA1F21C2518C008D4A0E /* GasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F809FA1E21C2518C008D4A0E /* GasTests.swift */; };
-		F84A54012387D8A3005D0367 /* TezosSwiftCaombine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84A53F82387D8A3005D0367 /* TezosSwiftCaombine.framework */; };
+		F84A54012387D8A3005D0367 /* TezosSwiftCombine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */; };
 		F84A54082387D8A3005D0367 /* TezosSwift_CombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A54072387D8A3005D0367 /* TezosSwift_CombineTests.swift */; };
-		F84A540E2387D8A3005D0367 /* TezosSwiftCaombine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F84A53F82387D8A3005D0367 /* TezosSwiftCaombine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F84A540E2387D8A3005D0367 /* TezosSwiftCombine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F84A541E2387E21E005D0367 /* XCTestCase+Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A541D2387E21E005D0367 /* XCTestCase+Extra.swift */; };
-		F84A541F2387FA91005D0367 /* TezosSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86826A721CD1450003C7D4D /* TezosSwift.framework */; };
-		F84A54202387FB78005D0367 /* TezosSwiftCaombine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84A53F82387D8A3005D0367 /* TezosSwiftCaombine.framework */; };
-		F84A542123881088005D0367 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53221CD25F1005684A3 /* BigInt.framework */; };
-		F84A542223881088005D0367 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */; };
-		F84A542323881088005D0367 /* MnemonicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C57521CD4F93005684A3 /* MnemonicKit.framework */; };
-		F84A542423881088005D0367 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53421CD25F1005684A3 /* Result.framework */; };
-		F84A542523881088005D0367 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53121CD25F1005684A3 /* SipHash.framework */; };
-		F84A542623881088005D0367 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53321CD25F1005684A3 /* Sodium.framework */; };
+		F84A54202387FB78005D0367 /* TezosSwiftCombine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */; };
 		F84A546023881FED005D0367 /* DelegationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A542923881FED005D0367 /* DelegationOperation.swift */; };
 		F84A546123881FED005D0367 /* RevealOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A542A23881FED005D0367 /* RevealOperation.swift */; };
 		F84A546223881FED005D0367 /* RegisterAccountOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A542B23881FED005D0367 /* RegisterAccountOperation.swift */; };
@@ -75,6 +68,11 @@
 		F84A549F2388207C005D0367 /* ContractPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A549423881FF7005D0367 /* ContractPublisher.swift */; };
 		F84A54A02388207C005D0367 /* TezosClient+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A549623881FF7005D0367 /* TezosClient+Combine.swift */; };
 		F84A54A12388207C005D0367 /* ContractSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A549723881FF7005D0367 /* ContractSubscription.swift */; };
+		F84A54A323882883005D0367 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53221CD25F1005684A3 /* BigInt.framework */; };
+		F84A54A823882886005D0367 /* MnemonicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C57521CD4F93005684A3 /* MnemonicKit.framework */; };
+		F84A54AE2388288A005D0367 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53321CD25F1005684A3 /* Sodium.framework */; };
+		F84A54C7238829CB005D0367 /* TezosSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86826A721CD1450003C7D4D /* TezosSwift.framework */; };
+		F84A54CC23882A3D005D0367 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */; };
 		F85F0CBD21B13A000074E391 /* TezosBalanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC857F2182A072006DE8FD /* TezosBalanceTest.swift */; };
 		F85F0CBE21B13A000074E391 /* AbstractOperationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */; };
 		F85F0CBF21B13A000074E391 /* WalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC857D21826C71006DE8FD /* WalletTests.swift */; };
@@ -133,12 +131,6 @@
 		F86826AE21CD1450003C7D4D /* TezosSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86826A721CD1450003C7D4D /* TezosSwift.framework */; };
 		F86826AF21CD1450003C7D4D /* TezosSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F86826A721CD1450003C7D4D /* TezosSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F8692D1921E37FC100C32B3F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8692D1821E37FC100C32B3F /* Constants.swift */; };
-		F8A8C53621CD25F1005684A3 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53121CD25F1005684A3 /* SipHash.framework */; };
-		F8A8C53721CD25F1005684A3 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53221CD25F1005684A3 /* BigInt.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		F8A8C53821CD25F1005684A3 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53321CD25F1005684A3 /* Sodium.framework */; };
-		F8A8C53921CD25F1005684A3 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53421CD25F1005684A3 /* Result.framework */; };
-		F8A8C57621CD4F93005684A3 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */; };
-		F8A8C57721CD4F93005684A3 /* MnemonicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C57521CD4F93005684A3 /* MnemonicKit.framework */; };
 		F8E9207621C2B00B009148F7 /* TezosRPCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E9207521C2B00B009148F7 /* TezosRPCTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -163,6 +155,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = F84A53F72387D8A3005D0367;
 			remoteInfo = "TezosSwift-Combine";
+		};
+		F84A54C8238829DD005D0367 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AA8F34E2160158000C05895 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F86826A621CD1450003C7D4D;
+			remoteInfo = TezosSwift;
 		};
 		F85F0CB821B139250074E391 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -194,7 +193,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F84A540E2387D8A3005D0367 /* TezosSwiftCaombine.framework in Embed Frameworks */,
+				F84A540E2387D8A3005D0367 /* TezosSwiftCombine.framework in Embed Frameworks */,
 				F86826AF21CD1450003C7D4D /* TezosSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -219,7 +218,7 @@
 		8FD264452214960400D779C8 /* SipHash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SipHash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FD264482214960400D779C8 /* Sodium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sodium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F809FA1E21C2518C008D4A0E /* GasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasTests.swift; sourceTree = "<group>"; };
-		F84A53F82387D8A3005D0367 /* TezosSwiftCaombine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TezosSwiftCaombine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TezosSwiftCombine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F84A54002387D8A3005D0367 /* TezosSwift-CombineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TezosSwift-CombineTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F84A54072387D8A3005D0367 /* TezosSwift_CombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosSwift_CombineTests.swift; sourceTree = "<group>"; };
 		F84A54092387D8A3005D0367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -279,6 +278,7 @@
 		F84A549623881FF7005D0367 /* TezosClient+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TezosClient+Combine.swift"; sourceTree = "<group>"; };
 		F84A549723881FF7005D0367 /* ContractSubscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractSubscription.swift; sourceTree = "<group>"; };
 		F84A549823881FF7005D0367 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F84A54CA23882A22005D0367 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/Mac/CryptoSwift.framework; sourceTree = "<group>"; };
 		F84C55962199ADCC00068596 /* ContractStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStorageTests.swift; sourceTree = "<group>"; };
 		F84C55982199AE3000068596 /* ContractCallTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCallTests.swift; sourceTree = "<group>"; };
 		F85F0CB321B139250074E391 /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -335,10 +335,8 @@
 		F868267321CD1295003C7D4D /* ParameterPairContract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterPairContract.swift; sourceTree = "<group>"; };
 		F86826A721CD1450003C7D4D /* TezosSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TezosSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8692D1821E37FC100C32B3F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		F8A8C53121CD25F1005684A3 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = Carthage/Build/iOS/SipHash.framework; sourceTree = "<group>"; };
 		F8A8C53221CD25F1005684A3 /* BigInt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BigInt.framework; path = Carthage/Build/iOS/BigInt.framework; sourceTree = "<group>"; };
 		F8A8C53321CD25F1005684A3 /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = Carthage/Build/iOS/Sodium.framework; sourceTree = "<group>"; };
-		F8A8C53421CD25F1005684A3 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		F8A8C57521CD4F93005684A3 /* MnemonicKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MnemonicKit.framework; path = Carthage/Build/iOS/MnemonicKit.framework; sourceTree = "<group>"; };
 		F8E9207521C2B00B009148F7 /* TezosRPCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTests.swift; sourceTree = "<group>"; };
@@ -349,7 +347,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F84A54202387FB78005D0367 /* TezosSwiftCaombine.framework in Frameworks */,
+				F84A54202387FB78005D0367 /* TezosSwiftCombine.framework in Frameworks */,
 				F86826AE21CD1450003C7D4D /* TezosSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,13 +356,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F84A541F2387FA91005D0367 /* TezosSwift.framework in Frameworks */,
-				F84A542123881088005D0367 /* BigInt.framework in Frameworks */,
-				F84A542223881088005D0367 /* CryptoSwift.framework in Frameworks */,
-				F84A542323881088005D0367 /* MnemonicKit.framework in Frameworks */,
-				F84A542423881088005D0367 /* Result.framework in Frameworks */,
-				F84A542523881088005D0367 /* SipHash.framework in Frameworks */,
-				F84A542623881088005D0367 /* Sodium.framework in Frameworks */,
+				F84A54C7238829CB005D0367 /* TezosSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,7 +364,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F84A54012387D8A3005D0367 /* TezosSwiftCaombine.framework in Frameworks */,
+				F84A54012387D8A3005D0367 /* TezosSwiftCombine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,12 +386,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8A8C53621CD25F1005684A3 /* SipHash.framework in Frameworks */,
-				F8A8C53721CD25F1005684A3 /* BigInt.framework in Frameworks */,
-				F8A8C53821CD25F1005684A3 /* Sodium.framework in Frameworks */,
-				F8A8C53921CD25F1005684A3 /* Result.framework in Frameworks */,
-				F8A8C57621CD4F93005684A3 /* CryptoSwift.framework in Frameworks */,
-				F8A8C57721CD4F93005684A3 /* MnemonicKit.framework in Frameworks */,
+				F84A54CC23882A3D005D0367 /* CryptoSwift.framework in Frameworks */,
+				F84A54A823882886005D0367 /* MnemonicKit.framework in Frameworks */,
+				F84A54AE2388288A005D0367 /* Sodium.framework in Frameworks */,
+				F84A54A323882883005D0367 /* BigInt.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,7 +422,7 @@
 				F85F0CB321B139250074E391 /* UnitTests.xctest */,
 				F85F0CCA21B151D20074E391 /* IntegrationTests.xctest */,
 				F86826A721CD1450003C7D4D /* TezosSwift.framework */,
-				F84A53F82387D8A3005D0367 /* TezosSwiftCaombine.framework */,
+				F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */,
 				F84A54002387D8A3005D0367 /* TezosSwift-CombineTests.xctest */,
 			);
 			name = Products;
@@ -442,10 +432,9 @@
 			isa = PBXGroup;
 			children = (
 				F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */,
+				F84A54CA23882A22005D0367 /* CryptoSwift.framework */,
 				F8A8C57521CD4F93005684A3 /* MnemonicKit.framework */,
 				F8A8C53221CD25F1005684A3 /* BigInt.framework */,
-				F8A8C53421CD25F1005684A3 /* Result.framework */,
-				F8A8C53121CD25F1005684A3 /* SipHash.framework */,
 				F8A8C53321CD25F1005684A3 /* Sodium.framework */,
 			);
 			name = Frameworks;
@@ -755,10 +744,11 @@
 			buildRules = (
 			);
 			dependencies = (
+				F84A54C9238829DD005D0367 /* PBXTargetDependency */,
 			);
 			name = Combine;
 			productName = "TezosSwift-Combine";
-			productReference = F84A53F82387D8A3005D0367 /* TezosSwiftCaombine.framework */;
+			productReference = F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		F84A53FF2387D8A3005D0367 /* TezosSwift-CombineTests */ = {
@@ -824,7 +814,7 @@
 				F86826A321CD1450003C7D4D /* Sources */,
 				F86826A421CD1450003C7D4D /* Frameworks */,
 				F86826A521CD1450003C7D4D /* Resources */,
-				F8A8C54021CD2AAC005684A3 /* Carthage */,
+				F84A54CD23882AF1005D0367 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -962,7 +952,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F8A8C54021CD2AAC005684A3 /* Carthage */ = {
+		F84A54CD23882AF1005D0367 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -970,23 +960,19 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/SipHash.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/BigInt.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Sodium.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/MnemonicKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CryptoSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/MnemonicKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Sodium.framework",
 			);
 			name = Carthage;
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SipHash.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Result.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/BigInt.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Sodium.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/MnemonicKit.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CryptoSwift.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/MnemonicKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1146,6 +1132,11 @@
 			isa = PBXTargetDependency;
 			target = F84A53F72387D8A3005D0367 /* Combine */;
 			targetProxy = F84A540B2387D8A3005D0367 /* PBXContainerItemProxy */;
+		};
+		F84A54C9238829DD005D0367 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F86826A621CD1450003C7D4D /* TezosSwift */;
+			targetProxy = F84A54C8238829DD005D0367 /* PBXContainerItemProxy */;
 		};
 		F85F0CB921B139250074E391 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1360,7 +1351,7 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ackee.TezosSwift.Combine;
-				PRODUCT_NAME = TezosSwiftCaombine;
+				PRODUCT_NAME = TezosSwiftCombine;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1393,7 +1384,7 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ackee.TezosSwift.Combine;
-				PRODUCT_NAME = TezosSwiftCaombine;
+				PRODUCT_NAME = TezosSwiftCombine;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1542,6 +1533,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = TezosSwift/Core/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1574,6 +1566,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = TezosSwift/Core/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

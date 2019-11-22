@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import TezosSwift_Combine
+@testable import TezosSwiftCombine
 
 class TezosSwift_CombineTests: XCTestCase {
 
