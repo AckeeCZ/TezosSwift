@@ -3,6 +3,7 @@ name: Checks
 
 on: push
 
+jobs:
   changelog:
     name: Changelog
     runs-on: ubuntu-latest
