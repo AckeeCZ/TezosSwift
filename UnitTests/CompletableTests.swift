@@ -27,7 +27,7 @@ class CompletableTests: XCTestCase {
 		}.execute {
 			result = $0
 		}
-		XCTAssertEqual(result?.value, 4)
+        XCTAssertSuccessResult(result, 4)
 	}
 	
 	func testExecuteFailure() {
@@ -38,7 +38,7 @@ class CompletableTests: XCTestCase {
 		}.execute {
 			result = $0
 		}
-		XCTAssertEqual(result?.error, .dummy)
+        XCTAssertFailureResult(result, .dummy)
 	}
 	
     func testMapSuccess() {
@@ -52,7 +52,7 @@ class CompletableTests: XCTestCase {
 		}.execute {
 			result = $0
 		}
-		XCTAssertEqual(result?.value, string.count)
+        XCTAssertSuccessResult(result, string.count)
     }
 	
 	func testMapFailure() {
@@ -66,7 +66,7 @@ class CompletableTests: XCTestCase {
 		}.execute {
 			result = $0
 		}
-		XCTAssertEqual(result?.error, .dummy)
+        XCTAssertFailureResult(result, .dummy)
 	}
 	
 	func testFlattenSuccess() {
@@ -81,7 +81,7 @@ class CompletableTests: XCTestCase {
 		}.flatten().execute {
 			result = $0
 		}
-		XCTAssertEqual(result?.value, 4)
+        XCTAssertSuccessResult(result, 4)
 	}
 	
 	func testFlattenSinkFailure() {
@@ -96,7 +96,7 @@ class CompletableTests: XCTestCase {
 		}.flatten().execute {
 			result = $0
 		}
-		XCTAssertEqual(result?.error, .dummy)
+        XCTAssertFailureResult(result, .dummy)
 	}
 	
 	func testFlattenGeneratorFailure() {
@@ -107,7 +107,7 @@ class CompletableTests: XCTestCase {
 		}.flatten().execute {
 			result = $0
 		}
-		XCTAssertEqual(result?.error, .dummy)
+        XCTAssertFailureResult(result, .dummy)
 	}
 	
 	func testCancel() {
@@ -124,7 +124,7 @@ class CompletableTests: XCTestCase {
 		}
 		cancelable?.cancel()
 		wait(for: [expectation], timeout: 2)
-		XCTAssertEqual(result?.error, .userCancel)
+		XCTAssertFailureResult(result, .userCancel)
 	}
 	
 	enum FakeError: Error, CancelProtocol, ErrorConvertible, Equatable {
