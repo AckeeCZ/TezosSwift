@@ -1,4 +1,4 @@
-github "attaswift/BigInt" "v5.0.0"
+github "attaswift/BigInt" "7bd99f7ebb8886cd3a0dfac26fea9c1049027a08"
+github "fortmarek/MnemonicKit" "c794bf9e7d64a4a775043d5e8aeb889796274fe8"
 github "jedisct1/swift-sodium" "0.8.0"
-github "keefertaylor/MnemonicKit" "1.3.9"
-github "krzyzanowskim/CryptoSwift" "0.14.0"
+github "krzyzanowskim/CryptoSwift" "1.2.0"
