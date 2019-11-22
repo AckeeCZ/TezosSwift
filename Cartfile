@@ -1,2 +1,1 @@
 github "attaswift/BigInt" "master" 
-github "jedisct1/swift-sodium" ~> 0.8.0
