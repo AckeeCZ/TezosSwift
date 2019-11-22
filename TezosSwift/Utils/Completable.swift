@@ -7,7 +7,11 @@
 //
 
 import Foundation
-import Result
+
+/// Protocol used to constrain `tryMap` to `Result`s with compatible `Error`s.
+public protocol ErrorConvertible: Swift.Error {
+    static func error(from error: Swift.Error) -> Self
+}
 
 public protocol CancelProtocol: Error {
 	static var cancel: Self { get }
@@ -61,8 +65,8 @@ public extension AnyCompletable {
 	}
 }
 
-public extension Result where Error: ErrorConvertible {
-	func map<T>(_ transform: (Value) throws -> T) -> Result<T, Error> {
+public extension Result where Failure: ErrorConvertible {
+	func map<T>(_ transform: (Success) throws -> T) -> Result<T, Failure> {
 		do {
 			switch self {
 			case let .success(value):
@@ -70,7 +74,7 @@ public extension Result where Error: ErrorConvertible {
 			case let .failure(error):
 				throw error
 			}
-		} catch let error as Error {
+		} catch let error as Failure {
 			return .failure(error)
 		} catch {
 			return .failure(.error(from: error))
