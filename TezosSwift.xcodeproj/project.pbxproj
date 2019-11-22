@@ -14,6 +14,13 @@
 		8F8DDF5B221C7B580008F688 /* Execution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DDF5A221C7B580008F688 /* Execution.swift */; };
 		8FAB19B1221D736300DD3F9B /* ExecutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */; };
 		F809FA1F21C2518C008D4A0E /* GasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F809FA1E21C2518C008D4A0E /* GasTests.swift */; };
+		F84A54012387D8A3005D0367 /* TezosSwiftCombine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */; };
+		F84A54082387D8A3005D0367 /* TezosSwift_CombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A54072387D8A3005D0367 /* TezosSwift_CombineTests.swift */; };
+		F84A540D2387D8A3005D0367 /* TezosSwiftCombine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */; };
+		F84A540E2387D8A3005D0367 /* TezosSwiftCombine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F84A54162387D8C8005D0367 /* ContractPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A54152387D8C8005D0367 /* ContractPublisher.swift */; };
+		F84A54182387D8EF005D0367 /* ContractSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A54172387D8EF005D0367 /* ContractSubscription.swift */; };
+		F84A541B2387D920005D0367 /* TezosClient+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A541A2387D920005D0367 /* TezosClient+Combine.swift */; };
 		F85F0CBD21B13A000074E391 /* TezosBalanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC857F2182A072006DE8FD /* TezosBalanceTest.swift */; };
 		F85F0CBE21B13A000074E391 /* AbstractOperationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */; };
 		F85F0CBF21B13A000074E391 /* WalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC857D21826C71006DE8FD /* WalletTests.swift */; };
@@ -128,6 +135,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F84A54022387D8A3005D0367 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AA8F34E2160158000C05895 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F84A53F72387D8A3005D0367;
+			remoteInfo = "TezosSwift-Combine";
+		};
+		F84A54042387D8A3005D0367 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AA8F34E2160158000C05895 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7AA8F3552160158000C05895;
+			remoteInfo = TezosSwift_Example;
+		};
+		F84A540B2387D8A3005D0367 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AA8F34E2160158000C05895 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F84A53F72387D8A3005D0367;
+			remoteInfo = "TezosSwift-Combine";
+		};
 		F85F0CB821B139250074E391 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7AA8F34E2160158000C05895 /* Project object */;
@@ -158,6 +186,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				F84A540E2387D8A3005D0367 /* TezosSwiftCombine.framework in Embed Frameworks */,
 				F86826AF21CD1450003C7D4D /* TezosSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -186,6 +215,14 @@
 		8FD264452214960400D779C8 /* SipHash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SipHash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FD264482214960400D779C8 /* Sodium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sodium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F809FA1E21C2518C008D4A0E /* GasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasTests.swift; sourceTree = "<group>"; };
+		F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TezosSwiftCombine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F84A53FB2387D8A3005D0367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F84A54002387D8A3005D0367 /* TezosSwift-CombineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TezosSwift-CombineTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F84A54072387D8A3005D0367 /* TezosSwift_CombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosSwift_CombineTests.swift; sourceTree = "<group>"; };
+		F84A54092387D8A3005D0367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F84A54152387D8C8005D0367 /* ContractPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractPublisher.swift; sourceTree = "<group>"; };
+		F84A54172387D8EF005D0367 /* ContractSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractSubscription.swift; sourceTree = "<group>"; };
+		F84A541A2387D920005D0367 /* TezosClient+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TezosClient+Combine.swift"; sourceTree = "<group>"; };
 		F84C55962199ADCC00068596 /* ContractStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStorageTests.swift; sourceTree = "<group>"; };
 		F84C55982199AE3000068596 /* ContractCallTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCallTests.swift; sourceTree = "<group>"; };
 		F85F0CB321B139250074E391 /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -303,7 +340,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F84A540D2387D8A3005D0367 /* TezosSwiftCombine.framework in Frameworks */,
 				F86826AE21CD1450003C7D4D /* TezosSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F84A53F52387D8A3005D0367 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F84A53FD2387D8A3005D0367 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84A54012387D8A3005D0367 /* TezosSwiftCombine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +403,8 @@
 				F85F0CB421B139250074E391 /* UnitTests */,
 				F85F0CCB21B151D20074E391 /* IntegrationTests */,
 				F86826A821CD1450003C7D4D /* TezosSwift */,
+				F84A53F92387D8A3005D0367 /* Combine */,
+				F84A54062387D8A3005D0367 /* TezosSwift-CombineTests */,
 				7AA8F3572160158000C05895 /* Products */,
 				E1B299C2AF182A8A0B52D6BE /* Frameworks */,
 			);
@@ -362,6 +417,8 @@
 				F85F0CB321B139250074E391 /* UnitTests.xctest */,
 				F85F0CCA21B151D20074E391 /* IntegrationTests.xctest */,
 				F86826A721CD1450003C7D4D /* TezosSwift.framework */,
+				F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */,
+				F84A54002387D8A3005D0367 /* TezosSwift-CombineTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -377,6 +434,34 @@
 				F8A8C53321CD25F1005684A3 /* Sodium.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F84A53F92387D8A3005D0367 /* Combine */ = {
+			isa = PBXGroup;
+			children = (
+				F84A53FB2387D8A3005D0367 /* Info.plist */,
+				F84A54152387D8C8005D0367 /* ContractPublisher.swift */,
+				F84A54172387D8EF005D0367 /* ContractSubscription.swift */,
+				F84A54192387D915005D0367 /* Extensions */,
+			);
+			path = Combine;
+			sourceTree = "<group>";
+		};
+		F84A54062387D8A3005D0367 /* TezosSwift-CombineTests */ = {
+			isa = PBXGroup;
+			children = (
+				F84A54072387D8A3005D0367 /* TezosSwift_CombineTests.swift */,
+				F84A54092387D8A3005D0367 /* Info.plist */,
+			);
+			path = "TezosSwift-CombineTests";
+			sourceTree = "<group>";
+		};
+		F84A54192387D915005D0367 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F84A541A2387D920005D0367 /* TezosClient+Combine.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		F85F0CB421B139250074E391 /* UnitTests */ = {
@@ -588,6 +673,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		F84A53F32387D8A3005D0367 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F86826A221CD1450003C7D4D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -611,11 +703,49 @@
 			);
 			dependencies = (
 				F86826AD21CD1450003C7D4D /* PBXTargetDependency */,
+				F84A540C2387D8A3005D0367 /* PBXTargetDependency */,
 			);
 			name = TezosSwift_Example;
 			productName = TezosKit;
 			productReference = 7AA8F3562160158000C05895 /* TezosSwift_Example.app */;
 			productType = "com.apple.product-type.application";
+		};
+		F84A53F72387D8A3005D0367 /* Combine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F84A54132387D8A3005D0367 /* Build configuration list for PBXNativeTarget "Combine" */;
+			buildPhases = (
+				F84A53F32387D8A3005D0367 /* Headers */,
+				F84A53F42387D8A3005D0367 /* Sources */,
+				F84A53F52387D8A3005D0367 /* Frameworks */,
+				F84A53F62387D8A3005D0367 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Combine;
+			productName = "TezosSwift-Combine";
+			productReference = F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F84A53FF2387D8A3005D0367 /* TezosSwift-CombineTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F84A54142387D8A3005D0367 /* Build configuration list for PBXNativeTarget "TezosSwift-CombineTests" */;
+			buildPhases = (
+				F84A53FC2387D8A3005D0367 /* Sources */,
+				F84A53FD2387D8A3005D0367 /* Frameworks */,
+				F84A53FE2387D8A3005D0367 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F84A54032387D8A3005D0367 /* PBXTargetDependency */,
+				F84A54052387D8A3005D0367 /* PBXTargetDependency */,
+			);
+			name = "TezosSwift-CombineTests";
+			productName = "TezosSwift-CombineTests";
+			productReference = F84A54002387D8A3005D0367 /* TezosSwift-CombineTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		F85F0CB221B139250074E391 /* UnitTests */ = {
 			isa = PBXNativeTarget;
@@ -678,13 +808,21 @@
 		7AA8F34E2160158000C05895 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1100;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = Ackee;
 				TargetAttributes = {
 					7AA8F3552160158000C05895 = {
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1010;
+					};
+					F84A53F72387D8A3005D0367 = {
+						CreatedOnToolsVersion = 11.0;
+						LastSwiftMigration = 1100;
+					};
+					F84A53FF2387D8A3005D0367 = {
+						CreatedOnToolsVersion = 11.0;
+						TestTargetID = 7AA8F3552160158000C05895;
 					};
 					F85F0CB221B139250074E391 = {
 						CreatedOnToolsVersion = 10.1;
@@ -716,6 +854,8 @@
 				F85F0CB221B139250074E391 /* UnitTests */,
 				F85F0CC921B151D20074E391 /* IntegrationTests */,
 				F86826A621CD1450003C7D4D /* TezosSwift */,
+				F84A53F72387D8A3005D0367 /* Combine */,
+				F84A53FF2387D8A3005D0367 /* TezosSwift-CombineTests */,
 			);
 		};
 /* End PBXProject section */
@@ -748,6 +888,20 @@
 				F868268221CD1295003C7D4D /* key_abi.json in Resources */,
 				F868268921CD1295003C7D4D /* nat_abi.json in Resources */,
 				F868268021CD1295003C7D4D /* string_set_abi.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F84A53F62387D8A3005D0367 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F84A53FE2387D8A3005D0367 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -835,6 +989,24 @@
 				F868267821CD1295003C7D4D /* TezosViewController.swift in Sources */,
 				F868269821CD1295003C7D4D /* KeyContract.swift in Sources */,
 				F8692D1921E37FC100C32B3F /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F84A53F42387D8A3005D0367 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84A54182387D8EF005D0367 /* ContractSubscription.swift in Sources */,
+				F84A541B2387D920005D0367 /* TezosClient+Combine.swift in Sources */,
+				F84A54162387D8C8005D0367 /* ContractPublisher.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F84A53FC2387D8A3005D0367 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84A54082387D8A3005D0367 /* TezosSwift_CombineTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -926,6 +1098,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F84A54032387D8A3005D0367 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F84A53F72387D8A3005D0367 /* Combine */;
+			targetProxy = F84A54022387D8A3005D0367 /* PBXContainerItemProxy */;
+		};
+		F84A54052387D8A3005D0367 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7AA8F3552160158000C05895 /* TezosSwift_Example */;
+			targetProxy = F84A54042387D8A3005D0367 /* PBXContainerItemProxy */;
+		};
+		F84A540C2387D8A3005D0367 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F84A53F72387D8A3005D0367 /* Combine */;
+			targetProxy = F84A540B2387D8A3005D0367 /* PBXContainerItemProxy */;
+		};
 		F85F0CB921B139250074E391 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7AA8F3552160158000C05895 /* TezosSwift_Example */;
@@ -1116,6 +1303,101 @@
 			};
 			name = Release;
 		};
+		F84A540F2387D8A3005D0367 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Combine/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ackee.TezosSwift.Combine;
+				PRODUCT_NAME = TezosSwiftCombine;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F84A54102387D8A3005D0367 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Combine/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ackee.TezosSwift.Combine;
+				PRODUCT_NAME = TezosSwiftCombine;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		F84A54112387D8A3005D0367 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "TezosSwift-CombineTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ackee.TezosSwift.TezosSwift-CombineTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TezosSwift_Example.app/TezosSwift_Example";
+			};
+			name = Debug;
+		};
+		F84A54122387D8A3005D0367 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "TezosSwift-CombineTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ackee.TezosSwift.TezosSwift-CombineTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TezosSwift_Example.app/TezosSwift_Example";
+			};
+			name = Release;
+		};
 		F85F0CBB21B139250074E391 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1285,6 +1567,24 @@
 			buildConfigurations = (
 				7AA8F3692160158100C05895 /* Debug */,
 				7AA8F36A2160158100C05895 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F84A54132387D8A3005D0367 /* Build configuration list for PBXNativeTarget "Combine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F84A540F2387D8A3005D0367 /* Debug */,
+				F84A54102387D8A3005D0367 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F84A54142387D8A3005D0367 /* Build configuration list for PBXNativeTarget "TezosSwift-CombineTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F84A54112387D8A3005D0367 /* Debug */,
+				F84A54122387D8A3005D0367 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
