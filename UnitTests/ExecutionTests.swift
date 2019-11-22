@@ -23,13 +23,13 @@ class ExecutionTests: XCTestCase {
 		var result: Result<Int, FakeError>?
 		let execution = Execution { result = $0 }
 		execution.complete(with: .success(4))
-		XCTAssertEqual(result?.value, 4)
+        XCTAssertSuccessResult(result, 4)
 	}
     func testExectionCompleteFailure() {
 		var result: Result<Int, FakeError>?
 		let execution = Execution { result = $0 }
 		execution.complete(with: .failure(.dummy))
-		XCTAssertEqual(result?.error, .dummy)
+        XCTAssertFailureResult(result, .dummy)
     }
 	
 	func testExecutionCancelSuccess() {
@@ -37,14 +37,14 @@ class ExecutionTests: XCTestCase {
 		let execution = Execution { result = $0 }
 		execution.cancel()
 		execution.complete(with: .success(4))
-		XCTAssertEqual(result?.error, .userCancel)
+        XCTAssertFailureResult(result, .userCancel)
 	}
 	func testExecutionCancelFailure() {
 		var result: Result<Int, FakeError>?
 		let execution = Execution { result = $0 }
 		execution.cancel()
 		execution.complete(with: .failure(.dummy))
-		XCTAssertEqual(result?.error, .userCancel)
+		XCTAssertFailureResult(result, .userCancel)
 	}
 	
 	func testExecutionCancelTrigger() {
@@ -55,7 +55,7 @@ class ExecutionTests: XCTestCase {
 		execution.cancel()
 		execution.complete(with: .success(4))
 		XCTAssertTrue(spy.cancelCalled)
-		XCTAssertEqual(result?.error, .userCancel)
+		XCTAssertFailureResult(result, .userCancel)
 	}
 	
 	enum FakeError: Error, CancelProtocol, ErrorConvertible, Equatable {
@@ -77,4 +77,32 @@ class ExecutionTests: XCTestCase {
 			cancelCalled = true
 		}
 	}
+}
+
+extension XCTestCase {
+    func XCTAssertFailureResult<Error: Swift.Error & Equatable, T>(_ result: Result<T, Error>?, _ error: Error, file: StaticString = #file, line: UInt = #line) {
+        guard let result = result else {
+            XCTFail("Result is equal to nil", file: file, line: line)
+            return
+        }
+        switch result {
+        case let .failure(resultError):
+            XCTAssertEqual(error, resultError, file: file, line: line)
+        case .success:
+            XCTFail("Result was successful - expected failure", file: file, line: line)
+        }
+    }
+    
+    func XCTAssertSuccessResult<Error: Swift.Error, T: Equatable>(_ result: Result<T, Error>?, _ expectedValue: T, file: StaticString = #file, line: UInt = #line) {
+        guard let result = result else {
+            XCTFail("Result is equal to nil", file: file, line: line)
+            return
+        }
+        switch result {
+        case .failure:
+            XCTFail("Result is a failure - expected success", file: file, line: line)
+        case let .success(value):
+            XCTAssertEqual(expectedValue, value)
+        }
+    }
 }
