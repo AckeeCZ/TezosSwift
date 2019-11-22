@@ -6,7 +6,6 @@
 //  Copyright © 2018 Keefer Taylor. All rights reserved.
 //
 
-import Result
 import XCTest
 import TezosSwift
 @testable import TezosSwift_Example

@@ -6,8 +6,6 @@
 //  Copyright © 2019 Ackee. All rights reserved.
 //
 
-import Result
-
 public final class Execution<Value, Error: Swift.Error & CancelProtocol>: Cancelable {
 
 	public typealias Completion = AnyCompletable<Value, Error>.Completion
