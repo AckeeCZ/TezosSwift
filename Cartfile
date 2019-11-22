@@ -1,3 +1,2 @@
 github "attaswift/BigInt" "master" 
 github "jedisct1/swift-sodium" ~> 0.8.0
-github "fortmarek/MnemonicKit" "bump_crypto_swift" 
