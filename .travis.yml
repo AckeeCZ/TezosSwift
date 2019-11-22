@@ -9,7 +9,7 @@ env:
 before_install:
 - brew update
 - brew outdated carthage || brew upgrade carthage
-- carthage bootstrap --platform iOS 
+- carthage bootstrap --platform iOS  --cache-builds --new-resolver
 before_deploy:
 - carthage build --no-skip-current --platform iOS --cache-builds 
 - carthage archive $FRAMEWORK_NAME
