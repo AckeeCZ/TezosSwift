@@ -1,3 +1,4 @@
+github "fortmarek/BigInt" "812c74066f1ff36d6ad47bcae116a55f0f740503"
 github "jedisct1/swift-sodium" "0.8.0"
 github "keefertaylor/MnemonicKit" "1.3.9"
 github "krzyzanowskim/CryptoSwift" "0.14.0"
