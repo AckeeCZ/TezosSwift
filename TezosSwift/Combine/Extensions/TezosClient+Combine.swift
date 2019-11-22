@@ -16,7 +16,6 @@ public extension TezosClient {
         ContractPublisher(send: { self.chainHead(completion: $0) })
     }
     
-    
     func managerAddressKey(of address: String) -> ContractPublisher<ManagerKey> {
         ContractPublisher(send: { self.managerAddressKey(of: address, completion: $0) })
     }
