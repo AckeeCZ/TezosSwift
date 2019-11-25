@@ -586,8 +586,6 @@ public class TezosClient {
 
         var urlRequest = URLRequest(url: remoteNodeEndpoint)
 
-//        let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
-
         if method == .post {
 			guard let payload = payload else {
 				completion(.failure(.encryptionFailed(reason: .noPayload)))
@@ -603,10 +601,7 @@ public class TezosClient {
                 urlRequest.httpMethod = "POST"
                 urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 urlRequest.cachePolicy = .reloadIgnoringCacheData
-                urlRequest.httpBody = jsonData
-//                os_log("Endnode: %@", log: dataLog, remoteNodeEndpoint.absoluteString)
-//                os_log("JSON data payload: %@", log: dataLog, String(data: jsonData, encoding: .utf8) ?? "")
-            }
+                urlRequest.httpBody = jsonData            }
             catch {
 				completion(.failure(.encryptionFailed(reason: .requestError(encodingError: error))))
                 return nil
@@ -618,11 +613,8 @@ public class TezosClient {
 
     // Send the actual request specified in sendRPC
 	internal func sendRequest<T: Decodable>(_ urlRequest: URLRequest, completion: @escaping RPCCompletion<T>) -> Cancelable? {
-//        let dataLog = OSLog(subsystem: subsystem, category: "Data Flow")
 		return AnyCompletable<T, TezosError> { completion in
 			self.urlSession.loadData(with: urlRequest) { [weak self] data, response, error in
-				//            os_log("Endnode: %@", log: dataLog, urlRequest.url?.absoluteString ?? "")
-				//            os_log("JSON response: %@", log: dataLog, String(data: data ?? Data(), encoding: .utf8) ?? "")
 				guard let self = self else {
 					completion(.failure(.rpcFailure(reason: .unknown(message: ""))))
 					return
@@ -635,7 +627,7 @@ public class TezosClient {
 					completion(.failure(unwrappedError))
 				}
 			}
-		}.execute(completion)
+        }.execute(completion)
     }
 
 	/**

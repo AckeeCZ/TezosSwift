@@ -7,13 +7,72 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8F4384A1221C29F40003BD0B /* Cancelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F43849E221C29F40003BD0B /* Cancelable.swift */; };
-		8F4384A2221C29F40003BD0B /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F43849F221C29F40003BD0B /* Atomic.swift */; };
-		8F4384A3221C29F40003BD0B /* Completable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4384A0221C29F40003BD0B /* Completable.swift */; };
 		8F4384A5221C2CC60003BD0B /* CompletableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4384A4221C2CC60003BD0B /* CompletableTests.swift */; };
-		8F8DDF5B221C7B580008F688 /* Execution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DDF5A221C7B580008F688 /* Execution.swift */; };
 		8FAB19B1221D736300DD3F9B /* ExecutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */; };
 		F809FA1F21C2518C008D4A0E /* GasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F809FA1E21C2518C008D4A0E /* GasTests.swift */; };
+		F84A54012387D8A3005D0367 /* TezosSwiftCombine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */; };
+		F84A54082387D8A3005D0367 /* TezosSwift_CombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A54072387D8A3005D0367 /* TezosSwift_CombineTests.swift */; };
+		F84A540E2387D8A3005D0367 /* TezosSwiftCombine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F84A541E2387E21E005D0367 /* XCTestCase+Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A541D2387E21E005D0367 /* XCTestCase+Extra.swift */; };
+		F84A54202387FB78005D0367 /* TezosSwiftCombine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */; };
+		F84A546023881FED005D0367 /* DelegationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A542923881FED005D0367 /* DelegationOperation.swift */; };
+		F84A546123881FED005D0367 /* RevealOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A542A23881FED005D0367 /* RevealOperation.swift */; };
+		F84A546223881FED005D0367 /* RegisterAccountOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A542B23881FED005D0367 /* RegisterAccountOperation.swift */; };
+		F84A546323881FED005D0367 /* OperationContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A542C23881FED005D0367 /* OperationContents.swift */; };
+		F84A546423881FED005D0367 /* RegisterDelegateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A542D23881FED005D0367 /* RegisterDelegateOperation.swift */; };
+		F84A546523881FED005D0367 /* OperationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A542E23881FED005D0367 /* OperationResult.swift */; };
+		F84A546623881FED005D0367 /* UndelegateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A542F23881FED005D0367 /* UndelegateOperation.swift */; };
+		F84A546723881FED005D0367 /* ContractOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543023881FED005D0367 /* ContractOperation.swift */; };
+		F84A546823881FED005D0367 /* TransactionOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543123881FED005D0367 /* TransactionOperation.swift */; };
+		F84A546923881FED005D0367 /* OperationKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543223881FED005D0367 /* OperationKind.swift */; };
+		F84A546A23881FED005D0367 /* OperationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543323881FED005D0367 /* OperationStatus.swift */; };
+		F84A546B23881FED005D0367 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543423881FED005D0367 /* Operation.swift */; };
+		F84A546C23881FEE005D0367 /* KeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543623881FED005D0367 /* KeyPair.swift */; };
+		F84A546D23881FEE005D0367 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543723881FED005D0367 /* Crypto.swift */; };
+		F84A546E23881FEE005D0367 /* OperationSigningResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543823881FED005D0367 /* OperationSigningResult.swift */; };
+		F84A546F23881FEE005D0367 /* Base58String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543923881FED005D0367 /* Base58String.swift */; };
+		F84A547023881FEE005D0367 /* Cancelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543B23881FED005D0367 /* Cancelable.swift */; };
+		F84A547123881FEE005D0367 /* Execution.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543C23881FED005D0367 /* Execution.swift */; };
+		F84A547223881FEE005D0367 /* JSONUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543D23881FED005D0367 /* JSONUtils.swift */; };
+		F84A547323881FEE005D0367 /* MnemonicUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543E23881FED005D0367 /* MnemonicUtil.swift */; };
+		F84A547423881FEE005D0367 /* Completable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A543F23881FED005D0367 /* Completable.swift */; };
+		F84A547523881FEE005D0367 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544023881FED005D0367 /* Atomic.swift */; };
+		F84A547623881FEE005D0367 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544223881FED005D0367 /* Metadata.swift */; };
+		F84A547723881FEE005D0367 /* OperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544323881FED005D0367 /* OperationPayload.swift */; };
+		F84A547823881FEE005D0367 /* BallotsSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544423881FED005D0367 /* BallotsSum.swift */; };
+		F84A547923881FEE005D0367 /* TezosMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544523881FED005D0367 /* TezosMap.swift */; };
+		F84A547A23881FEE005D0367 /* TezosOr.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544623881FED005D0367 /* TezosOr.swift */; };
+		F84A547B23881FEE005D0367 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544723881FED005D0367 /* Keys.swift */; };
+		F84A547C23881FEE005D0367 /* OperationMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544823881FED005D0367 /* OperationMetadata.swift */; };
+		F84A547D23881FEE005D0367 /* RPCEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544923881FED005D0367 /* RPCEncodable.swift */; };
+		F84A547E23881FEE005D0367 /* OperationFees.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544A23881FED005D0367 /* OperationFees.swift */; };
+		F84A547F23881FEE005D0367 /* StatusDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544B23881FED005D0367 /* StatusDelegate.swift */; };
+		F84A548023881FEE005D0367 /* RPCCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544C23881FED005D0367 /* RPCCodable.swift */; };
+		F84A548123881FEE005D0367 /* ContractStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544D23881FED005D0367 /* ContractStatus.swift */; };
+		F84A548223881FEE005D0367 /* SignedRunOperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544E23881FED005D0367 /* SignedRunOperationPayload.swift */; };
+		F84A548323881FEE005D0367 /* Tez.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544F23881FED005D0367 /* Tez.swift */; };
+		F84A548423881FEE005D0367 /* Mutez.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545023881FED005D0367 /* Mutez.swift */; };
+		F84A548523881FEE005D0367 /* TezosPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545123881FED005D0367 /* TezosPair.swift */; };
+		F84A548623881FEE005D0367 /* SignedOperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545223881FED005D0367 /* SignedOperationPayload.swift */; };
+		F84A548723881FEE005D0367 /* DelegateStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545323881FED005D0367 /* DelegateStatus.swift */; };
+		F84A548823881FEE005D0367 /* ManagerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545423881FED005D0367 /* ManagerKey.swift */; };
+		F84A548923881FEE005D0367 /* PeriodKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545523881FED005D0367 /* PeriodKind.swift */; };
+		F84A548A23881FEE005D0367 /* TezToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545623881FED005D0367 /* TezToken.swift */; };
+		F84A548B23881FEE005D0367 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545723881FED005D0367 /* Wallet.swift */; };
+		F84A548C23881FEE005D0367 /* ChainHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545823881FED005D0367 /* ChainHead.swift */; };
+		F84A548D23881FEE005D0367 /* RPCDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545923881FED005D0367 /* RPCDecodable.swift */; };
+		F84A548E23881FEE005D0367 /* RPCResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545B23881FED005D0367 /* RPCResponseHandler.swift */; };
+		F84A548F23881FEF005D0367 /* TezosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545C23881FED005D0367 /* TezosClient.swift */; };
+		F84A549023881FEF005D0367 /* NetworkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545D23881FED005D0367 /* NetworkSession.swift */; };
+		F84A549123881FEF005D0367 /* TezosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545E23881FED005D0367 /* TezosError.swift */; };
+		F84A549F2388207C005D0367 /* ContractPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A549423881FF7005D0367 /* ContractPublisher.swift */; };
+		F84A54A02388207C005D0367 /* TezosClient+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A549623881FF7005D0367 /* TezosClient+Combine.swift */; };
+		F84A54A12388207C005D0367 /* ContractSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A549723881FF7005D0367 /* ContractSubscription.swift */; };
+		F84A54A323882883005D0367 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53221CD25F1005684A3 /* BigInt.framework */; };
+		F84A54A823882886005D0367 /* MnemonicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C57521CD4F93005684A3 /* MnemonicKit.framework */; };
+		F84A54AE2388288A005D0367 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53321CD25F1005684A3 /* Sodium.framework */; };
+		F84A54C7238829CB005D0367 /* TezosSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86826A721CD1450003C7D4D /* TezosSwift.framework */; };
+		F84A54CC23882A3D005D0367 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */; };
 		F85F0CBD21B13A000074E391 /* TezosBalanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC857F2182A072006DE8FD /* TezosBalanceTest.swift */; };
 		F85F0CBE21B13A000074E391 /* AbstractOperationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */; };
 		F85F0CBF21B13A000074E391 /* WalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC857D21826C71006DE8FD /* WalletTests.swift */; };
@@ -71,63 +130,39 @@
 		F86826A121CD1295003C7D4D /* ParameterPairContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = F868267321CD1295003C7D4D /* ParameterPairContract.swift */; };
 		F86826AE21CD1450003C7D4D /* TezosSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86826A721CD1450003C7D4D /* TezosSwift.framework */; };
 		F86826AF21CD1450003C7D4D /* TezosSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F86826A721CD1450003C7D4D /* TezosSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F86826E821CD146B003C7D4D /* RPCResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826B521CD146B003C7D4D /* RPCResponseHandler.swift */; };
-		F86826E921CD146B003C7D4D /* TezosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826B621CD146B003C7D4D /* TezosClient.swift */; };
-		F86826EA21CD146B003C7D4D /* NetworkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826B721CD146B003C7D4D /* NetworkSession.swift */; };
-		F86826EB21CD146B003C7D4D /* TezosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826B821CD146B003C7D4D /* TezosError.swift */; };
-		F86826EC21CD146B003C7D4D /* KeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826BA21CD146B003C7D4D /* KeyPair.swift */; };
-		F86826ED21CD146B003C7D4D /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826BB21CD146B003C7D4D /* Crypto.swift */; };
-		F86826EE21CD146B003C7D4D /* OperationSigningResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826BC21CD146B003C7D4D /* OperationSigningResult.swift */; };
-		F86826EF21CD146B003C7D4D /* Base58String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826BD21CD146B003C7D4D /* Base58String.swift */; };
-		F86826F021CD146B003C7D4D /* DelegationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826BF21CD146B003C7D4D /* DelegationOperation.swift */; };
-		F86826F121CD146B003C7D4D /* RevealOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826C021CD146B003C7D4D /* RevealOperation.swift */; };
-		F86826F221CD146B003C7D4D /* RegisterAccountOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826C121CD146B003C7D4D /* RegisterAccountOperation.swift */; };
-		F86826F321CD146B003C7D4D /* OperationContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826C221CD146B003C7D4D /* OperationContents.swift */; };
-		F86826F421CD146B003C7D4D /* RegisterDelegateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826C321CD146B003C7D4D /* RegisterDelegateOperation.swift */; };
-		F86826F521CD146B003C7D4D /* OperationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826C421CD146B003C7D4D /* OperationResult.swift */; };
-		F86826F621CD146B003C7D4D /* UndelegateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826C521CD146B003C7D4D /* UndelegateOperation.swift */; };
-		F86826F721CD146B003C7D4D /* ContractOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826C621CD146B003C7D4D /* ContractOperation.swift */; };
-		F86826F821CD146B003C7D4D /* TransactionOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826C721CD146B003C7D4D /* TransactionOperation.swift */; };
-		F86826F921CD146B003C7D4D /* OperationKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826C821CD146B003C7D4D /* OperationKind.swift */; };
-		F86826FA21CD146B003C7D4D /* OperationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826C921CD146B003C7D4D /* OperationStatus.swift */; };
-		F86826FB21CD146B003C7D4D /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826CA21CD146B003C7D4D /* Operation.swift */; };
-		F86826FC21CD146B003C7D4D /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826CC21CD146B003C7D4D /* Metadata.swift */; };
-		F86826FD21CD146B003C7D4D /* OperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826CD21CD146B003C7D4D /* OperationPayload.swift */; };
-		F86826FE21CD146B003C7D4D /* BallotsSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826CE21CD146B003C7D4D /* BallotsSum.swift */; };
-		F86826FF21CD146B003C7D4D /* TezosMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826CF21CD146B003C7D4D /* TezosMap.swift */; };
-		F868270021CD146B003C7D4D /* TezosOr.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826D021CD146B003C7D4D /* TezosOr.swift */; };
-		F868270121CD146B003C7D4D /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826D121CD146B003C7D4D /* Keys.swift */; };
-		F868270221CD146B003C7D4D /* OperationMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826D221CD146B003C7D4D /* OperationMetadata.swift */; };
-		F868270321CD146B003C7D4D /* RPCEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826D321CD146B003C7D4D /* RPCEncodable.swift */; };
-		F868270421CD146B003C7D4D /* OperationFees.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826D421CD146B003C7D4D /* OperationFees.swift */; };
-		F868270521CD146B003C7D4D /* StatusDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826D521CD146B003C7D4D /* StatusDelegate.swift */; };
-		F868270621CD146B003C7D4D /* RPCCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826D621CD146B003C7D4D /* RPCCodable.swift */; };
-		F868270721CD146B003C7D4D /* ContractStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826D721CD146B003C7D4D /* ContractStatus.swift */; };
-		F868270921CD146B003C7D4D /* SignedRunOperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826D921CD146B003C7D4D /* SignedRunOperationPayload.swift */; };
-		F868270A21CD146B003C7D4D /* Tez.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826DA21CD146B003C7D4D /* Tez.swift */; };
-		F868270B21CD146B003C7D4D /* Mutez.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826DB21CD146B003C7D4D /* Mutez.swift */; };
-		F868270C21CD146B003C7D4D /* TezosPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826DC21CD146B003C7D4D /* TezosPair.swift */; };
-		F868270D21CD146B003C7D4D /* SignedOperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826DD21CD146B003C7D4D /* SignedOperationPayload.swift */; };
-		F868270E21CD146B003C7D4D /* DelegateStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826DE21CD146B003C7D4D /* DelegateStatus.swift */; };
-		F868270F21CD146B003C7D4D /* ManagerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826DF21CD146B003C7D4D /* ManagerKey.swift */; };
-		F868271021CD146B003C7D4D /* PeriodKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E021CD146B003C7D4D /* PeriodKind.swift */; };
-		F868271121CD146B003C7D4D /* TezToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E121CD146B003C7D4D /* TezToken.swift */; };
-		F868271221CD146B003C7D4D /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E221CD146B003C7D4D /* Wallet.swift */; };
-		F868271321CD146B003C7D4D /* ChainHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E321CD146B003C7D4D /* ChainHead.swift */; };
-		F868271421CD146B003C7D4D /* RPCDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E421CD146B003C7D4D /* RPCDecodable.swift */; };
-		F868271521CD146B003C7D4D /* JSONUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E621CD146B003C7D4D /* JSONUtils.swift */; };
-		F868271621CD146B003C7D4D /* MnemonicUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86826E721CD146B003C7D4D /* MnemonicUtil.swift */; };
 		F8692D1921E37FC100C32B3F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8692D1821E37FC100C32B3F /* Constants.swift */; };
-		F8A8C53621CD25F1005684A3 /* SipHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53121CD25F1005684A3 /* SipHash.framework */; };
-		F8A8C53721CD25F1005684A3 /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53221CD25F1005684A3 /* BigInt.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		F8A8C53821CD25F1005684A3 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53321CD25F1005684A3 /* Sodium.framework */; };
-		F8A8C53921CD25F1005684A3 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C53421CD25F1005684A3 /* Result.framework */; };
-		F8A8C57621CD4F93005684A3 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */; };
-		F8A8C57721CD4F93005684A3 /* MnemonicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A8C57521CD4F93005684A3 /* MnemonicKit.framework */; };
 		F8E9207621C2B00B009148F7 /* TezosRPCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E9207521C2B00B009148F7 /* TezosRPCTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F84A54022387D8A3005D0367 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AA8F34E2160158000C05895 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F84A53F72387D8A3005D0367;
+			remoteInfo = "TezosSwift-Combine";
+		};
+		F84A54042387D8A3005D0367 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AA8F34E2160158000C05895 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7AA8F3552160158000C05895;
+			remoteInfo = TezosSwift_Example;
+		};
+		F84A540B2387D8A3005D0367 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AA8F34E2160158000C05895 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F84A53F72387D8A3005D0367;
+			remoteInfo = "TezosSwift-Combine";
+		};
+		F84A54C8238829DD005D0367 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AA8F34E2160158000C05895 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F86826A621CD1450003C7D4D;
+			remoteInfo = TezosSwift;
+		};
 		F85F0CB821B139250074E391 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7AA8F34E2160158000C05895 /* Project object */;
@@ -158,6 +193,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				F84A540E2387D8A3005D0367 /* TezosSwiftCombine.framework in Embed Frameworks */,
 				F86826AF21CD1450003C7D4D /* TezosSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -173,19 +209,69 @@
 		7ABC85812182A595006DE8FD /* CryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTests.swift; sourceTree = "<group>"; };
 		7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractOperationTest.swift; sourceTree = "<group>"; };
 		7ABC859B2183973F006DE8FD /* TezosRPCTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTest.swift; sourceTree = "<group>"; };
-		8F43849E221C29F40003BD0B /* Cancelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancelable.swift; sourceTree = "<group>"; };
-		8F43849F221C29F40003BD0B /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
-		8F4384A0221C29F40003BD0B /* Completable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Completable.swift; sourceTree = "<group>"; };
 		8F4384A4221C2CC60003BD0B /* CompletableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletableTests.swift; sourceTree = "<group>"; };
-		8F8DDF5A221C7B580008F688 /* Execution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Execution.swift; sourceTree = "<group>"; };
 		8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutionTests.swift; sourceTree = "<group>"; };
-		8FD264392214960400D779C8 /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8FD2643C2214960400D779C8 /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8FD2643F2214960400D779C8 /* MnemonicKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MnemonicKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8FD264422214960400D779C8 /* Result.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Result.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8FD264452214960400D779C8 /* SipHash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SipHash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8FD264482214960400D779C8 /* Sodium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sodium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F809FA1E21C2518C008D4A0E /* GasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasTests.swift; sourceTree = "<group>"; };
+		F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TezosSwiftCombine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F84A54002387D8A3005D0367 /* TezosSwift-CombineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TezosSwift-CombineTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F84A54072387D8A3005D0367 /* TezosSwift_CombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosSwift_CombineTests.swift; sourceTree = "<group>"; };
+		F84A54092387D8A3005D0367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F84A541D2387E21E005D0367 /* XCTestCase+Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extra.swift"; sourceTree = "<group>"; };
+		F84A542923881FED005D0367 /* DelegationOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegationOperation.swift; sourceTree = "<group>"; };
+		F84A542A23881FED005D0367 /* RevealOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RevealOperation.swift; sourceTree = "<group>"; };
+		F84A542B23881FED005D0367 /* RegisterAccountOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterAccountOperation.swift; sourceTree = "<group>"; };
+		F84A542C23881FED005D0367 /* OperationContents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationContents.swift; sourceTree = "<group>"; };
+		F84A542D23881FED005D0367 /* RegisterDelegateOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterDelegateOperation.swift; sourceTree = "<group>"; };
+		F84A542E23881FED005D0367 /* OperationResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationResult.swift; sourceTree = "<group>"; };
+		F84A542F23881FED005D0367 /* UndelegateOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UndelegateOperation.swift; sourceTree = "<group>"; };
+		F84A543023881FED005D0367 /* ContractOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractOperation.swift; sourceTree = "<group>"; };
+		F84A543123881FED005D0367 /* TransactionOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionOperation.swift; sourceTree = "<group>"; };
+		F84A543223881FED005D0367 /* OperationKind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationKind.swift; sourceTree = "<group>"; };
+		F84A543323881FED005D0367 /* OperationStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationStatus.swift; sourceTree = "<group>"; };
+		F84A543423881FED005D0367 /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
+		F84A543623881FED005D0367 /* KeyPair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPair.swift; sourceTree = "<group>"; };
+		F84A543723881FED005D0367 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
+		F84A543823881FED005D0367 /* OperationSigningResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationSigningResult.swift; sourceTree = "<group>"; };
+		F84A543923881FED005D0367 /* Base58String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base58String.swift; sourceTree = "<group>"; };
+		F84A543B23881FED005D0367 /* Cancelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancelable.swift; sourceTree = "<group>"; };
+		F84A543C23881FED005D0367 /* Execution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Execution.swift; sourceTree = "<group>"; };
+		F84A543D23881FED005D0367 /* JSONUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONUtils.swift; sourceTree = "<group>"; };
+		F84A543E23881FED005D0367 /* MnemonicUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MnemonicUtil.swift; sourceTree = "<group>"; };
+		F84A543F23881FED005D0367 /* Completable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Completable.swift; sourceTree = "<group>"; };
+		F84A544023881FED005D0367 /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
+		F84A544223881FED005D0367 /* Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
+		F84A544323881FED005D0367 /* OperationPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationPayload.swift; sourceTree = "<group>"; };
+		F84A544423881FED005D0367 /* BallotsSum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallotsSum.swift; sourceTree = "<group>"; };
+		F84A544523881FED005D0367 /* TezosMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosMap.swift; sourceTree = "<group>"; };
+		F84A544623881FED005D0367 /* TezosOr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosOr.swift; sourceTree = "<group>"; };
+		F84A544723881FED005D0367 /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
+		F84A544823881FED005D0367 /* OperationMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationMetadata.swift; sourceTree = "<group>"; };
+		F84A544923881FED005D0367 /* RPCEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPCEncodable.swift; sourceTree = "<group>"; };
+		F84A544A23881FED005D0367 /* OperationFees.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationFees.swift; sourceTree = "<group>"; };
+		F84A544B23881FED005D0367 /* StatusDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusDelegate.swift; sourceTree = "<group>"; };
+		F84A544C23881FED005D0367 /* RPCCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPCCodable.swift; sourceTree = "<group>"; };
+		F84A544D23881FED005D0367 /* ContractStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractStatus.swift; sourceTree = "<group>"; };
+		F84A544E23881FED005D0367 /* SignedRunOperationPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignedRunOperationPayload.swift; sourceTree = "<group>"; };
+		F84A544F23881FED005D0367 /* Tez.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tez.swift; sourceTree = "<group>"; };
+		F84A545023881FED005D0367 /* Mutez.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutez.swift; sourceTree = "<group>"; };
+		F84A545123881FED005D0367 /* TezosPair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosPair.swift; sourceTree = "<group>"; };
+		F84A545223881FED005D0367 /* SignedOperationPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignedOperationPayload.swift; sourceTree = "<group>"; };
+		F84A545323881FED005D0367 /* DelegateStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateStatus.swift; sourceTree = "<group>"; };
+		F84A545423881FED005D0367 /* ManagerKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagerKey.swift; sourceTree = "<group>"; };
+		F84A545523881FED005D0367 /* PeriodKind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeriodKind.swift; sourceTree = "<group>"; };
+		F84A545623881FED005D0367 /* TezToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezToken.swift; sourceTree = "<group>"; };
+		F84A545723881FED005D0367 /* Wallet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
+		F84A545823881FED005D0367 /* ChainHead.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainHead.swift; sourceTree = "<group>"; };
+		F84A545923881FED005D0367 /* RPCDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPCDecodable.swift; sourceTree = "<group>"; };
+		F84A545B23881FED005D0367 /* RPCResponseHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPCResponseHandler.swift; sourceTree = "<group>"; };
+		F84A545C23881FED005D0367 /* TezosClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosClient.swift; sourceTree = "<group>"; };
+		F84A545D23881FED005D0367 /* NetworkSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSession.swift; sourceTree = "<group>"; };
+		F84A545E23881FED005D0367 /* TezosError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosError.swift; sourceTree = "<group>"; };
+		F84A545F23881FED005D0367 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F84A549423881FF7005D0367 /* ContractPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractPublisher.swift; sourceTree = "<group>"; };
+		F84A549623881FF7005D0367 /* TezosClient+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TezosClient+Combine.swift"; sourceTree = "<group>"; };
+		F84A549723881FF7005D0367 /* ContractSubscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractSubscription.swift; sourceTree = "<group>"; };
+		F84A549823881FF7005D0367 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F84C55962199ADCC00068596 /* ContractStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractStorageTests.swift; sourceTree = "<group>"; };
 		F84C55982199AE3000068596 /* ContractCallTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCallTests.swift; sourceTree = "<group>"; };
 		F85F0CB321B139250074E391 /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -241,58 +327,9 @@
 		F868267221CD1295003C7D4D /* SharedContract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedContract.swift; sourceTree = "<group>"; };
 		F868267321CD1295003C7D4D /* ParameterPairContract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterPairContract.swift; sourceTree = "<group>"; };
 		F86826A721CD1450003C7D4D /* TezosSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TezosSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F86826AA21CD1450003C7D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F86826B521CD146B003C7D4D /* RPCResponseHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPCResponseHandler.swift; sourceTree = "<group>"; };
-		F86826B621CD146B003C7D4D /* TezosClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosClient.swift; sourceTree = "<group>"; };
-		F86826B721CD146B003C7D4D /* NetworkSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSession.swift; sourceTree = "<group>"; };
-		F86826B821CD146B003C7D4D /* TezosError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosError.swift; sourceTree = "<group>"; };
-		F86826BA21CD146B003C7D4D /* KeyPair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPair.swift; sourceTree = "<group>"; };
-		F86826BB21CD146B003C7D4D /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
-		F86826BC21CD146B003C7D4D /* OperationSigningResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationSigningResult.swift; sourceTree = "<group>"; };
-		F86826BD21CD146B003C7D4D /* Base58String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base58String.swift; sourceTree = "<group>"; };
-		F86826BF21CD146B003C7D4D /* DelegationOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegationOperation.swift; sourceTree = "<group>"; };
-		F86826C021CD146B003C7D4D /* RevealOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RevealOperation.swift; sourceTree = "<group>"; };
-		F86826C121CD146B003C7D4D /* RegisterAccountOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterAccountOperation.swift; sourceTree = "<group>"; };
-		F86826C221CD146B003C7D4D /* OperationContents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationContents.swift; sourceTree = "<group>"; };
-		F86826C321CD146B003C7D4D /* RegisterDelegateOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterDelegateOperation.swift; sourceTree = "<group>"; };
-		F86826C421CD146B003C7D4D /* OperationResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationResult.swift; sourceTree = "<group>"; };
-		F86826C521CD146B003C7D4D /* UndelegateOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UndelegateOperation.swift; sourceTree = "<group>"; };
-		F86826C621CD146B003C7D4D /* ContractOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractOperation.swift; sourceTree = "<group>"; };
-		F86826C721CD146B003C7D4D /* TransactionOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionOperation.swift; sourceTree = "<group>"; };
-		F86826C821CD146B003C7D4D /* OperationKind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationKind.swift; sourceTree = "<group>"; };
-		F86826C921CD146B003C7D4D /* OperationStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationStatus.swift; sourceTree = "<group>"; };
-		F86826CA21CD146B003C7D4D /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
-		F86826CC21CD146B003C7D4D /* Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
-		F86826CD21CD146B003C7D4D /* OperationPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationPayload.swift; sourceTree = "<group>"; };
-		F86826CE21CD146B003C7D4D /* BallotsSum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallotsSum.swift; sourceTree = "<group>"; };
-		F86826CF21CD146B003C7D4D /* TezosMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosMap.swift; sourceTree = "<group>"; };
-		F86826D021CD146B003C7D4D /* TezosOr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosOr.swift; sourceTree = "<group>"; };
-		F86826D121CD146B003C7D4D /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
-		F86826D221CD146B003C7D4D /* OperationMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationMetadata.swift; sourceTree = "<group>"; };
-		F86826D321CD146B003C7D4D /* RPCEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPCEncodable.swift; sourceTree = "<group>"; };
-		F86826D421CD146B003C7D4D /* OperationFees.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationFees.swift; sourceTree = "<group>"; };
-		F86826D521CD146B003C7D4D /* StatusDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusDelegate.swift; sourceTree = "<group>"; };
-		F86826D621CD146B003C7D4D /* RPCCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPCCodable.swift; sourceTree = "<group>"; };
-		F86826D721CD146B003C7D4D /* ContractStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractStatus.swift; sourceTree = "<group>"; };
-		F86826D921CD146B003C7D4D /* SignedRunOperationPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignedRunOperationPayload.swift; sourceTree = "<group>"; };
-		F86826DA21CD146B003C7D4D /* Tez.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tez.swift; sourceTree = "<group>"; };
-		F86826DB21CD146B003C7D4D /* Mutez.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutez.swift; sourceTree = "<group>"; };
-		F86826DC21CD146B003C7D4D /* TezosPair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosPair.swift; sourceTree = "<group>"; };
-		F86826DD21CD146B003C7D4D /* SignedOperationPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignedOperationPayload.swift; sourceTree = "<group>"; };
-		F86826DE21CD146B003C7D4D /* DelegateStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateStatus.swift; sourceTree = "<group>"; };
-		F86826DF21CD146B003C7D4D /* ManagerKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagerKey.swift; sourceTree = "<group>"; };
-		F86826E021CD146B003C7D4D /* PeriodKind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeriodKind.swift; sourceTree = "<group>"; };
-		F86826E121CD146B003C7D4D /* TezToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezToken.swift; sourceTree = "<group>"; };
-		F86826E221CD146B003C7D4D /* Wallet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
-		F86826E321CD146B003C7D4D /* ChainHead.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainHead.swift; sourceTree = "<group>"; };
-		F86826E421CD146B003C7D4D /* RPCDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPCDecodable.swift; sourceTree = "<group>"; };
-		F86826E621CD146B003C7D4D /* JSONUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONUtils.swift; sourceTree = "<group>"; };
-		F86826E721CD146B003C7D4D /* MnemonicUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MnemonicUtil.swift; sourceTree = "<group>"; };
 		F8692D1821E37FC100C32B3F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		F8A8C53121CD25F1005684A3 /* SipHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SipHash.framework; path = Carthage/Build/iOS/SipHash.framework; sourceTree = "<group>"; };
 		F8A8C53221CD25F1005684A3 /* BigInt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BigInt.framework; path = Carthage/Build/iOS/BigInt.framework; sourceTree = "<group>"; };
 		F8A8C53321CD25F1005684A3 /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = Carthage/Build/iOS/Sodium.framework; sourceTree = "<group>"; };
-		F8A8C53421CD25F1005684A3 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		F8A8C57521CD4F93005684A3 /* MnemonicKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MnemonicKit.framework; path = Carthage/Build/iOS/MnemonicKit.framework; sourceTree = "<group>"; };
 		F8E9207521C2B00B009148F7 /* TezosRPCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTests.swift; sourceTree = "<group>"; };
@@ -303,7 +340,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F84A54202387FB78005D0367 /* TezosSwiftCombine.framework in Frameworks */,
 				F86826AE21CD1450003C7D4D /* TezosSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F84A53F52387D8A3005D0367 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84A54C7238829CB005D0367 /* TezosSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F84A53FD2387D8A3005D0367 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84A54012387D8A3005D0367 /* TezosSwiftCombine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,12 +379,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8A8C53621CD25F1005684A3 /* SipHash.framework in Frameworks */,
-				F8A8C53721CD25F1005684A3 /* BigInt.framework in Frameworks */,
-				F8A8C53821CD25F1005684A3 /* Sodium.framework in Frameworks */,
-				F8A8C53921CD25F1005684A3 /* Result.framework in Frameworks */,
-				F8A8C57621CD4F93005684A3 /* CryptoSwift.framework in Frameworks */,
-				F8A8C57721CD4F93005684A3 /* MnemonicKit.framework in Frameworks */,
+				F84A54CC23882A3D005D0367 /* CryptoSwift.framework in Frameworks */,
+				F84A54A823882886005D0367 /* MnemonicKit.framework in Frameworks */,
+				F84A54AE2388288A005D0367 /* Sodium.framework in Frameworks */,
+				F84A54A323882883005D0367 /* BigInt.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,16 +392,11 @@
 		7AA8F34D2160158000C05895 = {
 			isa = PBXGroup;
 			children = (
-				8FD264482214960400D779C8 /* Sodium.framework */,
-				8FD264452214960400D779C8 /* SipHash.framework */,
-				8FD264422214960400D779C8 /* Result.framework */,
-				8FD2643F2214960400D779C8 /* MnemonicKit.framework */,
-				8FD2643C2214960400D779C8 /* CryptoSwift.framework */,
-				8FD264392214960400D779C8 /* BigInt.framework */,
 				F868264121CD1295003C7D4D /* Example */,
 				F85F0CB421B139250074E391 /* UnitTests */,
 				F85F0CCB21B151D20074E391 /* IntegrationTests */,
 				F86826A821CD1450003C7D4D /* TezosSwift */,
+				F84A54062387D8A3005D0367 /* TezosSwift-CombineTests */,
 				7AA8F3572160158000C05895 /* Products */,
 				E1B299C2AF182A8A0B52D6BE /* Frameworks */,
 			);
@@ -362,6 +409,8 @@
 				F85F0CB321B139250074E391 /* UnitTests.xctest */,
 				F85F0CCA21B151D20074E391 /* IntegrationTests.xctest */,
 				F86826A721CD1450003C7D4D /* TezosSwift.framework */,
+				F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */,
+				F84A54002387D8A3005D0367 /* TezosSwift-CombineTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -372,16 +421,149 @@
 				F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */,
 				F8A8C57521CD4F93005684A3 /* MnemonicKit.framework */,
 				F8A8C53221CD25F1005684A3 /* BigInt.framework */,
-				F8A8C53421CD25F1005684A3 /* Result.framework */,
-				F8A8C53121CD25F1005684A3 /* SipHash.framework */,
 				F8A8C53321CD25F1005684A3 /* Sodium.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F84A54062387D8A3005D0367 /* TezosSwift-CombineTests */ = {
+			isa = PBXGroup;
+			children = (
+				F84A54072387D8A3005D0367 /* TezosSwift_CombineTests.swift */,
+				F84A54092387D8A3005D0367 /* Info.plist */,
+			);
+			path = "TezosSwift-CombineTests";
+			sourceTree = "<group>";
+		};
+		F84A541C2387E20E005D0367 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F84A541D2387E21E005D0367 /* XCTestCase+Extra.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F84A542723881FED005D0367 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F84A542823881FED005D0367 /* Operation */,
+				F84A543523881FED005D0367 /* Cryptography */,
+				F84A543A23881FED005D0367 /* Utils */,
+				F84A544123881FED005D0367 /* Models */,
+				F84A545A23881FED005D0367 /* Client */,
+				F84A545F23881FED005D0367 /* Info.plist */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		F84A542823881FED005D0367 /* Operation */ = {
+			isa = PBXGroup;
+			children = (
+				F84A542923881FED005D0367 /* DelegationOperation.swift */,
+				F84A542A23881FED005D0367 /* RevealOperation.swift */,
+				F84A542B23881FED005D0367 /* RegisterAccountOperation.swift */,
+				F84A542C23881FED005D0367 /* OperationContents.swift */,
+				F84A542D23881FED005D0367 /* RegisterDelegateOperation.swift */,
+				F84A542E23881FED005D0367 /* OperationResult.swift */,
+				F84A542F23881FED005D0367 /* UndelegateOperation.swift */,
+				F84A543023881FED005D0367 /* ContractOperation.swift */,
+				F84A543123881FED005D0367 /* TransactionOperation.swift */,
+				F84A543223881FED005D0367 /* OperationKind.swift */,
+				F84A543323881FED005D0367 /* OperationStatus.swift */,
+				F84A543423881FED005D0367 /* Operation.swift */,
+			);
+			path = Operation;
+			sourceTree = "<group>";
+		};
+		F84A543523881FED005D0367 /* Cryptography */ = {
+			isa = PBXGroup;
+			children = (
+				F84A543623881FED005D0367 /* KeyPair.swift */,
+				F84A543723881FED005D0367 /* Crypto.swift */,
+				F84A543823881FED005D0367 /* OperationSigningResult.swift */,
+				F84A543923881FED005D0367 /* Base58String.swift */,
+			);
+			path = Cryptography;
+			sourceTree = "<group>";
+		};
+		F84A543A23881FED005D0367 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F84A543B23881FED005D0367 /* Cancelable.swift */,
+				F84A543C23881FED005D0367 /* Execution.swift */,
+				F84A543D23881FED005D0367 /* JSONUtils.swift */,
+				F84A543E23881FED005D0367 /* MnemonicUtil.swift */,
+				F84A543F23881FED005D0367 /* Completable.swift */,
+				F84A544023881FED005D0367 /* Atomic.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		F84A544123881FED005D0367 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F84A544223881FED005D0367 /* Metadata.swift */,
+				F84A544323881FED005D0367 /* OperationPayload.swift */,
+				F84A544423881FED005D0367 /* BallotsSum.swift */,
+				F84A544523881FED005D0367 /* TezosMap.swift */,
+				F84A544623881FED005D0367 /* TezosOr.swift */,
+				F84A544723881FED005D0367 /* Keys.swift */,
+				F84A544823881FED005D0367 /* OperationMetadata.swift */,
+				F84A544923881FED005D0367 /* RPCEncodable.swift */,
+				F84A544A23881FED005D0367 /* OperationFees.swift */,
+				F84A544B23881FED005D0367 /* StatusDelegate.swift */,
+				F84A544C23881FED005D0367 /* RPCCodable.swift */,
+				F84A544D23881FED005D0367 /* ContractStatus.swift */,
+				F84A544E23881FED005D0367 /* SignedRunOperationPayload.swift */,
+				F84A544F23881FED005D0367 /* Tez.swift */,
+				F84A545023881FED005D0367 /* Mutez.swift */,
+				F84A545123881FED005D0367 /* TezosPair.swift */,
+				F84A545223881FED005D0367 /* SignedOperationPayload.swift */,
+				F84A545323881FED005D0367 /* DelegateStatus.swift */,
+				F84A545423881FED005D0367 /* ManagerKey.swift */,
+				F84A545523881FED005D0367 /* PeriodKind.swift */,
+				F84A545623881FED005D0367 /* TezToken.swift */,
+				F84A545723881FED005D0367 /* Wallet.swift */,
+				F84A545823881FED005D0367 /* ChainHead.swift */,
+				F84A545923881FED005D0367 /* RPCDecodable.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F84A545A23881FED005D0367 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				F84A545B23881FED005D0367 /* RPCResponseHandler.swift */,
+				F84A545C23881FED005D0367 /* TezosClient.swift */,
+				F84A545D23881FED005D0367 /* NetworkSession.swift */,
+				F84A545E23881FED005D0367 /* TezosError.swift */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
+		F84A549323881FF7005D0367 /* Combine */ = {
+			isa = PBXGroup;
+			children = (
+				F84A549423881FF7005D0367 /* ContractPublisher.swift */,
+				F84A549523881FF7005D0367 /* Extensions */,
+				F84A549723881FF7005D0367 /* ContractSubscription.swift */,
+				F84A549823881FF7005D0367 /* Info.plist */,
+			);
+			path = Combine;
+			sourceTree = "<group>";
+		};
+		F84A549523881FF7005D0367 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F84A549623881FF7005D0367 /* TezosClient+Combine.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		F85F0CB421B139250074E391 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				F84A541C2387E20E005D0367 /* Extensions */,
 				8F4384A4221C2CC60003BD0B /* CompletableTests.swift */,
 				8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */,
 				7ABC85812182A595006DE8FD /* CryptoTests.swift */,
@@ -490,104 +672,22 @@
 		F86826A821CD1450003C7D4D /* TezosSwift */ = {
 			isa = PBXGroup;
 			children = (
-				F86826B421CD146B003C7D4D /* Client */,
-				F86826B921CD146B003C7D4D /* Cryptography */,
-				F86826CB21CD146B003C7D4D /* Models */,
-				F86826BE21CD146B003C7D4D /* Operation */,
-				F86826E521CD146B003C7D4D /* Utils */,
-				F86826AA21CD1450003C7D4D /* Info.plist */,
+				F84A549323881FF7005D0367 /* Combine */,
+				F84A542723881FED005D0367 /* Core */,
 			);
 			path = TezosSwift;
-			sourceTree = "<group>";
-		};
-		F86826B421CD146B003C7D4D /* Client */ = {
-			isa = PBXGroup;
-			children = (
-				F86826B521CD146B003C7D4D /* RPCResponseHandler.swift */,
-				F86826B621CD146B003C7D4D /* TezosClient.swift */,
-				F86826B721CD146B003C7D4D /* NetworkSession.swift */,
-				F86826B821CD146B003C7D4D /* TezosError.swift */,
-			);
-			path = Client;
-			sourceTree = "<group>";
-		};
-		F86826B921CD146B003C7D4D /* Cryptography */ = {
-			isa = PBXGroup;
-			children = (
-				F86826BA21CD146B003C7D4D /* KeyPair.swift */,
-				F86826BB21CD146B003C7D4D /* Crypto.swift */,
-				F86826BC21CD146B003C7D4D /* OperationSigningResult.swift */,
-				F86826BD21CD146B003C7D4D /* Base58String.swift */,
-			);
-			path = Cryptography;
-			sourceTree = "<group>";
-		};
-		F86826BE21CD146B003C7D4D /* Operation */ = {
-			isa = PBXGroup;
-			children = (
-				F86826BF21CD146B003C7D4D /* DelegationOperation.swift */,
-				F86826C021CD146B003C7D4D /* RevealOperation.swift */,
-				F86826C121CD146B003C7D4D /* RegisterAccountOperation.swift */,
-				F86826C221CD146B003C7D4D /* OperationContents.swift */,
-				F86826C321CD146B003C7D4D /* RegisterDelegateOperation.swift */,
-				F86826C421CD146B003C7D4D /* OperationResult.swift */,
-				F86826C521CD146B003C7D4D /* UndelegateOperation.swift */,
-				F86826C621CD146B003C7D4D /* ContractOperation.swift */,
-				F86826C721CD146B003C7D4D /* TransactionOperation.swift */,
-				F86826C821CD146B003C7D4D /* OperationKind.swift */,
-				F86826C921CD146B003C7D4D /* OperationStatus.swift */,
-				F86826CA21CD146B003C7D4D /* Operation.swift */,
-			);
-			path = Operation;
-			sourceTree = "<group>";
-		};
-		F86826CB21CD146B003C7D4D /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				F86826CC21CD146B003C7D4D /* Metadata.swift */,
-				F86826CD21CD146B003C7D4D /* OperationPayload.swift */,
-				F86826CE21CD146B003C7D4D /* BallotsSum.swift */,
-				F86826CF21CD146B003C7D4D /* TezosMap.swift */,
-				F86826D021CD146B003C7D4D /* TezosOr.swift */,
-				F86826D121CD146B003C7D4D /* Keys.swift */,
-				F86826D221CD146B003C7D4D /* OperationMetadata.swift */,
-				F86826D321CD146B003C7D4D /* RPCEncodable.swift */,
-				F86826D421CD146B003C7D4D /* OperationFees.swift */,
-				F86826D521CD146B003C7D4D /* StatusDelegate.swift */,
-				F86826D621CD146B003C7D4D /* RPCCodable.swift */,
-				F86826D721CD146B003C7D4D /* ContractStatus.swift */,
-				F86826D921CD146B003C7D4D /* SignedRunOperationPayload.swift */,
-				F86826DA21CD146B003C7D4D /* Tez.swift */,
-				F86826DB21CD146B003C7D4D /* Mutez.swift */,
-				F86826DC21CD146B003C7D4D /* TezosPair.swift */,
-				F86826DD21CD146B003C7D4D /* SignedOperationPayload.swift */,
-				F86826DE21CD146B003C7D4D /* DelegateStatus.swift */,
-				F86826DF21CD146B003C7D4D /* ManagerKey.swift */,
-				F86826E021CD146B003C7D4D /* PeriodKind.swift */,
-				F86826E121CD146B003C7D4D /* TezToken.swift */,
-				F86826E221CD146B003C7D4D /* Wallet.swift */,
-				F86826E321CD146B003C7D4D /* ChainHead.swift */,
-				F86826E421CD146B003C7D4D /* RPCDecodable.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		F86826E521CD146B003C7D4D /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				F86826E621CD146B003C7D4D /* JSONUtils.swift */,
-				8F43849F221C29F40003BD0B /* Atomic.swift */,
-				8F43849E221C29F40003BD0B /* Cancelable.swift */,
-				8F4384A0221C29F40003BD0B /* Completable.swift */,
-				8F8DDF5A221C7B580008F688 /* Execution.swift */,
-				F86826E721CD146B003C7D4D /* MnemonicUtil.swift */,
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		F84A53F32387D8A3005D0367 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F86826A221CD1450003C7D4D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -611,11 +711,50 @@
 			);
 			dependencies = (
 				F86826AD21CD1450003C7D4D /* PBXTargetDependency */,
+				F84A540C2387D8A3005D0367 /* PBXTargetDependency */,
 			);
 			name = TezosSwift_Example;
 			productName = TezosKit;
 			productReference = 7AA8F3562160158000C05895 /* TezosSwift_Example.app */;
 			productType = "com.apple.product-type.application";
+		};
+		F84A53F72387D8A3005D0367 /* Combine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F84A54132387D8A3005D0367 /* Build configuration list for PBXNativeTarget "Combine" */;
+			buildPhases = (
+				F84A53F32387D8A3005D0367 /* Headers */,
+				F84A53F42387D8A3005D0367 /* Sources */,
+				F84A53F52387D8A3005D0367 /* Frameworks */,
+				F84A53F62387D8A3005D0367 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F84A54C9238829DD005D0367 /* PBXTargetDependency */,
+			);
+			name = Combine;
+			productName = "TezosSwift-Combine";
+			productReference = F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F84A53FF2387D8A3005D0367 /* TezosSwift-CombineTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F84A54142387D8A3005D0367 /* Build configuration list for PBXNativeTarget "TezosSwift-CombineTests" */;
+			buildPhases = (
+				F84A53FC2387D8A3005D0367 /* Sources */,
+				F84A53FD2387D8A3005D0367 /* Frameworks */,
+				F84A53FE2387D8A3005D0367 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F84A54032387D8A3005D0367 /* PBXTargetDependency */,
+				F84A54052387D8A3005D0367 /* PBXTargetDependency */,
+			);
+			name = "TezosSwift-CombineTests";
+			productName = "TezosSwift-CombineTests";
+			productReference = F84A54002387D8A3005D0367 /* TezosSwift-CombineTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		F85F0CB221B139250074E391 /* UnitTests */ = {
 			isa = PBXNativeTarget;
@@ -661,7 +800,7 @@
 				F86826A321CD1450003C7D4D /* Sources */,
 				F86826A421CD1450003C7D4D /* Frameworks */,
 				F86826A521CD1450003C7D4D /* Resources */,
-				F8A8C54021CD2AAC005684A3 /* Carthage */,
+				F84A54CD23882AF1005D0367 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -678,13 +817,21 @@
 		7AA8F34E2160158000C05895 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1100;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = Ackee;
 				TargetAttributes = {
 					7AA8F3552160158000C05895 = {
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1010;
+					};
+					F84A53F72387D8A3005D0367 = {
+						CreatedOnToolsVersion = 11.0;
+						LastSwiftMigration = 1100;
+					};
+					F84A53FF2387D8A3005D0367 = {
+						CreatedOnToolsVersion = 11.0;
+						TestTargetID = 7AA8F3552160158000C05895;
 					};
 					F85F0CB221B139250074E391 = {
 						CreatedOnToolsVersion = 10.1;
@@ -716,6 +863,8 @@
 				F85F0CB221B139250074E391 /* UnitTests */,
 				F85F0CC921B151D20074E391 /* IntegrationTests */,
 				F86826A621CD1450003C7D4D /* TezosSwift */,
+				F84A53F72387D8A3005D0367 /* Combine */,
+				F84A53FF2387D8A3005D0367 /* TezosSwift-CombineTests */,
 			);
 		};
 /* End PBXProject section */
@@ -751,6 +900,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F84A53F62387D8A3005D0367 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F84A53FE2387D8A3005D0367 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F85F0CB121B139250074E391 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -775,7 +938,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F8A8C54021CD2AAC005684A3 /* Carthage */ = {
+		F84A54CD23882AF1005D0367 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -783,23 +946,19 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/SipHash.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/BigInt.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Sodium.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/MnemonicKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CryptoSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/MnemonicKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Sodium.framework",
 			);
 			name = Carthage;
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SipHash.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Result.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/BigInt.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Sodium.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/MnemonicKit.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CryptoSwift.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/MnemonicKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -838,6 +997,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F84A53F42387D8A3005D0367 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84A54A02388207C005D0367 /* TezosClient+Combine.swift in Sources */,
+				F84A549F2388207C005D0367 /* ContractPublisher.swift in Sources */,
+				F84A54A12388207C005D0367 /* ContractSubscription.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F84A53FC2387D8A3005D0367 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84A54082387D8A3005D0367 /* TezosSwift_CombineTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F85F0CAF21B139250074E391 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -853,6 +1030,7 @@
 				F85F0CC221B13A000074E391 /* CallEncodingTests.swift in Sources */,
 				F85F0CC121B13A000074E391 /* MnemonicUtilsTest.swift in Sources */,
 				F809FA1F21C2518C008D4A0E /* GasTests.swift in Sources */,
+				F84A541E2387E21E005D0367 /* XCTestCase+Extra.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -870,62 +1048,82 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F86826F221CD146B003C7D4D /* RegisterAccountOperation.swift in Sources */,
-				F868270621CD146B003C7D4D /* RPCCodable.swift in Sources */,
-				F868270A21CD146B003C7D4D /* Tez.swift in Sources */,
-				F86826F721CD146B003C7D4D /* ContractOperation.swift in Sources */,
-				F86826FD21CD146B003C7D4D /* OperationPayload.swift in Sources */,
-				F868270421CD146B003C7D4D /* OperationFees.swift in Sources */,
-				8F8DDF5B221C7B580008F688 /* Execution.swift in Sources */,
-				F86826F421CD146B003C7D4D /* RegisterDelegateOperation.swift in Sources */,
-				F868271221CD146B003C7D4D /* Wallet.swift in Sources */,
-				F868270F21CD146B003C7D4D /* ManagerKey.swift in Sources */,
-				F86826FB21CD146B003C7D4D /* Operation.swift in Sources */,
-				F868270221CD146B003C7D4D /* OperationMetadata.swift in Sources */,
-				F86826FE21CD146B003C7D4D /* BallotsSum.swift in Sources */,
-				F86826FA21CD146B003C7D4D /* OperationStatus.swift in Sources */,
-				F868270B21CD146B003C7D4D /* Mutez.swift in Sources */,
-				F868271021CD146B003C7D4D /* PeriodKind.swift in Sources */,
-				F868270D21CD146B003C7D4D /* SignedOperationPayload.swift in Sources */,
-				F86826F521CD146B003C7D4D /* OperationResult.swift in Sources */,
-				F86826F121CD146B003C7D4D /* RevealOperation.swift in Sources */,
-				F86826FC21CD146B003C7D4D /* Metadata.swift in Sources */,
-				F868271521CD146B003C7D4D /* JSONUtils.swift in Sources */,
-				F86826ED21CD146B003C7D4D /* Crypto.swift in Sources */,
-				F868271121CD146B003C7D4D /* TezToken.swift in Sources */,
-				F86826EA21CD146B003C7D4D /* NetworkSession.swift in Sources */,
-				F868270521CD146B003C7D4D /* StatusDelegate.swift in Sources */,
-				F86826FF21CD146B003C7D4D /* TezosMap.swift in Sources */,
-				F868270E21CD146B003C7D4D /* DelegateStatus.swift in Sources */,
-				F868270721CD146B003C7D4D /* ContractStatus.swift in Sources */,
-				F86826E921CD146B003C7D4D /* TezosClient.swift in Sources */,
-				F86826F321CD146B003C7D4D /* OperationContents.swift in Sources */,
-				8F4384A3221C29F40003BD0B /* Completable.swift in Sources */,
-				F86826EC21CD146B003C7D4D /* KeyPair.swift in Sources */,
-				F86826EF21CD146B003C7D4D /* Base58String.swift in Sources */,
-				F868270121CD146B003C7D4D /* Keys.swift in Sources */,
-				8F4384A2221C29F40003BD0B /* Atomic.swift in Sources */,
-				F86826F921CD146B003C7D4D /* OperationKind.swift in Sources */,
-				F86826F821CD146B003C7D4D /* TransactionOperation.swift in Sources */,
-				F868270021CD146B003C7D4D /* TezosOr.swift in Sources */,
-				F868271321CD146B003C7D4D /* ChainHead.swift in Sources */,
-				8F4384A1221C29F40003BD0B /* Cancelable.swift in Sources */,
-				F86826F021CD146B003C7D4D /* DelegationOperation.swift in Sources */,
-				F868270321CD146B003C7D4D /* RPCEncodable.swift in Sources */,
-				F86826F621CD146B003C7D4D /* UndelegateOperation.swift in Sources */,
-				F86826EE21CD146B003C7D4D /* OperationSigningResult.swift in Sources */,
-				F868270C21CD146B003C7D4D /* TezosPair.swift in Sources */,
-				F868271621CD146B003C7D4D /* MnemonicUtil.swift in Sources */,
-				F86826EB21CD146B003C7D4D /* TezosError.swift in Sources */,
-				F868270921CD146B003C7D4D /* SignedRunOperationPayload.swift in Sources */,
-				F868271421CD146B003C7D4D /* RPCDecodable.swift in Sources */,
-				F86826E821CD146B003C7D4D /* RPCResponseHandler.swift in Sources */,
+				F84A547023881FEE005D0367 /* Cancelable.swift in Sources */,
+				F84A546123881FED005D0367 /* RevealOperation.swift in Sources */,
+				F84A548423881FEE005D0367 /* Mutez.swift in Sources */,
+				F84A548023881FEE005D0367 /* RPCCodable.swift in Sources */,
+				F84A546723881FED005D0367 /* ContractOperation.swift in Sources */,
+				F84A546C23881FEE005D0367 /* KeyPair.swift in Sources */,
+				F84A547923881FEE005D0367 /* TezosMap.swift in Sources */,
+				F84A547D23881FEE005D0367 /* RPCEncodable.swift in Sources */,
+				F84A546323881FED005D0367 /* OperationContents.swift in Sources */,
+				F84A546023881FED005D0367 /* DelegationOperation.swift in Sources */,
+				F84A547123881FEE005D0367 /* Execution.swift in Sources */,
+				F84A546623881FED005D0367 /* UndelegateOperation.swift in Sources */,
+				F84A546223881FED005D0367 /* RegisterAccountOperation.swift in Sources */,
+				F84A548A23881FEE005D0367 /* TezToken.swift in Sources */,
+				F84A548823881FEE005D0367 /* ManagerKey.swift in Sources */,
+				F84A547A23881FEE005D0367 /* TezosOr.swift in Sources */,
+				F84A548F23881FEF005D0367 /* TezosClient.swift in Sources */,
+				F84A547323881FEE005D0367 /* MnemonicUtil.swift in Sources */,
+				F84A547523881FEE005D0367 /* Atomic.swift in Sources */,
+				F84A548323881FEE005D0367 /* Tez.swift in Sources */,
+				F84A548123881FEE005D0367 /* ContractStatus.swift in Sources */,
+				F84A548E23881FEE005D0367 /* RPCResponseHandler.swift in Sources */,
+				F84A547F23881FEE005D0367 /* StatusDelegate.swift in Sources */,
+				F84A546E23881FEE005D0367 /* OperationSigningResult.swift in Sources */,
+				F84A547C23881FEE005D0367 /* OperationMetadata.swift in Sources */,
+				F84A547E23881FEE005D0367 /* OperationFees.swift in Sources */,
+				F84A548723881FEE005D0367 /* DelegateStatus.swift in Sources */,
+				F84A548223881FEE005D0367 /* SignedRunOperationPayload.swift in Sources */,
+				F84A549023881FEF005D0367 /* NetworkSession.swift in Sources */,
+				F84A547723881FEE005D0367 /* OperationPayload.swift in Sources */,
+				F84A546A23881FED005D0367 /* OperationStatus.swift in Sources */,
+				F84A548C23881FEE005D0367 /* ChainHead.swift in Sources */,
+				F84A546523881FED005D0367 /* OperationResult.swift in Sources */,
+				F84A546823881FED005D0367 /* TransactionOperation.swift in Sources */,
+				F84A547823881FEE005D0367 /* BallotsSum.swift in Sources */,
+				F84A546423881FED005D0367 /* RegisterDelegateOperation.swift in Sources */,
+				F84A546F23881FEE005D0367 /* Base58String.swift in Sources */,
+				F84A548623881FEE005D0367 /* SignedOperationPayload.swift in Sources */,
+				F84A546923881FED005D0367 /* OperationKind.swift in Sources */,
+				F84A548523881FEE005D0367 /* TezosPair.swift in Sources */,
+				F84A548B23881FEE005D0367 /* Wallet.swift in Sources */,
+				F84A547623881FEE005D0367 /* Metadata.swift in Sources */,
+				F84A546D23881FEE005D0367 /* Crypto.swift in Sources */,
+				F84A547423881FEE005D0367 /* Completable.swift in Sources */,
+				F84A549123881FEF005D0367 /* TezosError.swift in Sources */,
+				F84A547B23881FEE005D0367 /* Keys.swift in Sources */,
+				F84A546B23881FED005D0367 /* Operation.swift in Sources */,
+				F84A548923881FEE005D0367 /* PeriodKind.swift in Sources */,
+				F84A547223881FEE005D0367 /* JSONUtils.swift in Sources */,
+				F84A548D23881FEE005D0367 /* RPCDecodable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F84A54032387D8A3005D0367 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F84A53F72387D8A3005D0367 /* Combine */;
+			targetProxy = F84A54022387D8A3005D0367 /* PBXContainerItemProxy */;
+		};
+		F84A54052387D8A3005D0367 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7AA8F3552160158000C05895 /* TezosSwift_Example */;
+			targetProxy = F84A54042387D8A3005D0367 /* PBXContainerItemProxy */;
+		};
+		F84A540C2387D8A3005D0367 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F84A53F72387D8A3005D0367 /* Combine */;
+			targetProxy = F84A540B2387D8A3005D0367 /* PBXContainerItemProxy */;
+		};
+		F84A54C9238829DD005D0367 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F86826A621CD1450003C7D4D /* TezosSwift */;
+			targetProxy = F84A54C8238829DD005D0367 /* PBXContainerItemProxy */;
+		};
 		F85F0CB921B139250074E391 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7AA8F3552160158000C05895 /* TezosSwift_Example */;
@@ -1116,6 +1314,109 @@
 			};
 			name = Release;
 		};
+		F84A540F2387D8A3005D0367 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = TezosSwift/Combine/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ackee.TezosSwift.Combine;
+				PRODUCT_NAME = TezosSwiftCombine;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F84A54102387D8A3005D0367 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = TezosSwift/Combine/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ackee.TezosSwift.Combine;
+				PRODUCT_NAME = TezosSwiftCombine;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		F84A54112387D8A3005D0367 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "TezosSwift-CombineTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ackee.TezosSwift.TezosSwift-CombineTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TezosSwift_Example.app/TezosSwift_Example";
+			};
+			name = Debug;
+		};
+		F84A54122387D8A3005D0367 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "TezosSwift-CombineTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ackee.TezosSwift.TezosSwift-CombineTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TezosSwift_Example.app/TezosSwift_Example";
+			};
+			name = Release;
+		};
 		F85F0CBB21B139250074E391 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1218,8 +1519,9 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				INFOPLIST_FILE = TezosSwift/Info.plist;
+				INFOPLIST_FILE = TezosSwift/Core/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1250,8 +1552,9 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				INFOPLIST_FILE = TezosSwift/Info.plist;
+				INFOPLIST_FILE = TezosSwift/Core/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1285,6 +1588,24 @@
 			buildConfigurations = (
 				7AA8F3692160158100C05895 /* Debug */,
 				7AA8F36A2160158100C05895 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F84A54132387D8A3005D0367 /* Build configuration list for PBXNativeTarget "Combine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F84A540F2387D8A3005D0367 /* Debug */,
+				F84A54102387D8A3005D0367 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F84A54142387D8A3005D0367 /* Build configuration list for PBXNativeTarget "TezosSwift-CombineTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F84A54112387D8A3005D0367 /* Debug */,
+				F84A54122387D8A3005D0367 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
