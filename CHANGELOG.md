@@ -1,5 +1,7 @@
 ## Next
 
+## 1.1
+
 ### Added
 
 - Combine support https://github.com/AckeeCZ/TezosSwift/pull/6 by @fortmarek
