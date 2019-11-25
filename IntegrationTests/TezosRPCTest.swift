@@ -4,7 +4,7 @@ import TezosSwift
 
 class TezosRPCTest: XCTestCase {
     let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL)
-    let defaultPassiveAddress = "KT1DwASQY1uTEkzWUShbeQJfKpBdb2ugsE5k"
+    let defaultPassiveAddress = "tz1NRTQeqcuwybgrZfJavBY3of83u8uLpFBj"
     var wallet: Wallet!
 
     override func setUp() {
@@ -19,7 +19,7 @@ class TezosRPCTest: XCTestCase {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
             case .success(let value):
-                XCTAssertEqual(Mutez(23000000), value)
+                XCTAssertEqual(Mutez(104403), value)
                 testBalanceExpectation.fulfill()
             }
         })
