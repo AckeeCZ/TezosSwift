@@ -1,6 +1,6 @@
 # TezosSwift
 
-[![CI Status](http://img.shields.io/travis/AckeeCZ/TezosSwift.svg?style=flat)](https://travis-ci.org/AckeeCZ/TezosSwift)
+[![CI Status](http://img.shields.io/travis/AckeeCZ/TezosSwift.svg?style=flat)](https://travis-ci.com/AckeeCZ/TezosSwift)
 [![Version](https://img.shields.io/cocoapods/v/TezosSwift.svg?style=flat)](http://cocoapods.org/pods/TezosSwift)
 [![License](https://img.shields.io/cocoapods/l/TezosSwift.svg?style=flat)](http://cocoapods.org/pods/TezosSwift)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
