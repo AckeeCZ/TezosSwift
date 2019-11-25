@@ -12,51 +12,51 @@ import TezosSwift
 
 public extension TezosClient {
      /// Retrieve data about the chain head.
-    func chainHead() -> ContractPublisher<ChainHead> {
+    func chainHeadPublisher() -> ContractPublisher<ChainHead> {
         ContractPublisher(send: { self.chainHead(completion: $0) })
     }
     
-    func managerAddressKey(of address: String) -> ContractPublisher<ManagerKey> {
+    func managerAddressKeyPublisher(of address: String) -> ContractPublisher<ManagerKey> {
         ContractPublisher(send: { self.managerAddressKey(of: address, completion: $0) })
     }
 
      /// Retrieve the balance of a given address.
-     func balance(of address: String) -> ContractPublisher<Mutez> {
+     func balancePublisher(of address: String) -> ContractPublisher<Mutez> {
         ContractPublisher(send: { self.balance(of: address, completion: $0) })
      }
 
      /// Retrieve the address counter for the given address.
-     func status(of address: String) -> ContractPublisher<ContractStatus> {
+     func statusPublisher(of address: String) -> ContractPublisher<ContractStatus> {
         ContractPublisher(send: { self.status(of: address, completion: $0) })
      }
 
      /// Retrieve the delegate of a given address.
-     func delegate(of address: String) -> ContractPublisher<String> {
+     func delegatePublisher(of address: String) -> ContractPublisher<String> {
         ContractPublisher(send: { self.delegate(of: address, completion: $0) })
      }
 
      /// Retrieve the address counter for the given address.
-     func counter(of address: String) -> ContractPublisher<Int> {
+     func counterPublisher(of address: String) -> ContractPublisher<Int> {
         ContractPublisher(send: { self.counter(of: address, completion: $0) })
      }
 
      /// Retrieve the expected quorum.
-     func currentQuorum() -> ContractPublisher<Int> {
+     func currentQuorumPublisher() -> ContractPublisher<Int> {
         ContractPublisher(send: { self.currentQuorum(completion: $0) })
      }
 
      /// Retrieve the expected quorum.
-     func currentPeriodKind() -> ContractPublisher<PeriodKind> {
+     func currentPeriodKindPublisher() -> ContractPublisher<PeriodKind> {
         ContractPublisher(send: { self.currentPeriodKind(completion: $0) })
      }
 
      /// Sum of ballots cast so far during a voting period.
-     func ballotsSum() -> ContractPublisher<BallotsSum> {
+     func ballotsSumPublisher() -> ContractPublisher<BallotsSum> {
         ContractPublisher(send: { self.ballotsSum(completion: $0) })
      }
 
      /// List of delegates with their voting weight, in number of rolls
-     func delegatesList() -> ContractPublisher<[DelegateStatus]> {
+     func delegatesListPublisher() -> ContractPublisher<[DelegateStatus]> {
         ContractPublisher(send: { self.delegatesList(completion: $0) })
      }
 
@@ -67,10 +67,10 @@ public extension TezosClient {
     ///     - from: Wallet to send Tezos from.
     ///     - operationFees: to include in the transaction if the call is being made to a smart contract.
     ///     - completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
-     func send(amount: TezToken,
-               to recipientAddress: String,
-               from wallet: Wallet,
-               operationFees: OperationFees? = nil) -> ContractPublisher<String> {
+     func sendPublisher(amount: TezToken,
+                        to recipientAddress: String,
+                        from wallet: Wallet,
+                        operationFees: OperationFees? = nil) -> ContractPublisher<String> {
         ContractPublisher(send: { self.send(amount: amount, to: recipientAddress, from: wallet, completion: $0) })
      }
 
@@ -82,11 +82,11 @@ public extension TezosClient {
     ///     - operationFees: to include in the transaction if the call is being made to a smart contract.
     ///     - completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
     ///     - input: Input (parameter) to send to contract.
-     func send<T: Encodable>(amount: TezToken,
-                             to recipientAddress: String,
-                             from wallet: Wallet,
-                             input: T,
-                             operationFees: OperationFees? = nil) -> ContractPublisher<String> {
+     func sendPublisher<T: Encodable>(amount: TezToken,
+                                      to recipientAddress: String,
+                                      from wallet: Wallet,
+                                      input: T,
+                                      operationFees: OperationFees? = nil) -> ContractPublisher<String> {
         ContractPublisher(send: { self.send(amount: amount, to: recipientAddress, from: wallet, input: input, completion: $0) })
      }
 
@@ -96,10 +96,10 @@ public extension TezosClient {
     ///     - managerAddress: The address which will manage the new account. Defaults to wallet.
     ///     - wallet: The wallet to use to sign the operation for the address.
     ///     - operationFees: OperationFees for the transaction. If nil, default fees are used.
-     func originateAccount(initialBalance: TezToken,
-                           managerAddress: String? = nil,
-                           from wallet: Wallet,
-                           operationFees: OperationFees? = nil) -> ContractPublisher<String> {
+     func originateAccountPublisher(initialBalance: TezToken,
+                                    managerAddress: String? = nil,
+                                    from wallet: Wallet,
+                                    operationFees: OperationFees? = nil) -> ContractPublisher<String> {
         ContractPublisher(send: { self.originateAccount(initialBalance: initialBalance, managerAddress: managerAddress, from: wallet, operationFees: operationFees, completion: $0) })
      }
 
@@ -110,10 +110,10 @@ public extension TezosClient {
     ///     - delegate: Delegate's address.
     ///     - keys: The keys to use to sign the operation for the address.
     ///     - operationFees: to include in the transaction if the call is being made to a smart contract.
-     func delegate(from source: String,
-                   to delegate: String,
-                   keys: Keys,
-                   operationFees: OperationFees? = nil) -> ContractPublisher<String> {
+     func delegatePublisher(from source: String,
+                            to delegate: String,
+                            keys: Keys,
+                            operationFees: OperationFees? = nil) -> ContractPublisher<String> {
         ContractPublisher(send: { self.delegate(from: source, to: delegate, keys: keys, operationFees: operationFees, completion: $0) })
      }
 
@@ -122,9 +122,9 @@ public extension TezosClient {
     ///     - recipientAddress: The address which will receive the balance.
     ///     - keys: The keys to use to sign the operation for the address.
     ///     - operationFees: to include in the transaction if the call is being made to a smart contract.
-    func registerDelegate(delegate: String,
-                          keys: Keys,
-                          operationFees: OperationFees? = nil) -> ContractPublisher<String> {
+    func registerDelegatePublisher(delegate: String,
+                                   keys: Keys,
+                                   operationFees: OperationFees? = nil) -> ContractPublisher<String> {
         ContractPublisher(send: { self.registerDelegate(delegate: delegate, keys: keys, operationFees: operationFees, completion: $0) })
      }
 
@@ -132,8 +132,8 @@ public extension TezosClient {
     /// - Parameters:
     ///     - wallet: The wallet which is removing the delegate.
     ///     - operationFees: to include in the transaction if the call is being made to a smart contract.
-     func undelegate(wallet: Wallet,
-                     operationFees: OperationFees? = nil) -> ContractPublisher<String> {
+     func undelegatePublisher(wallet: Wallet,
+                              operationFees: OperationFees? = nil) -> ContractPublisher<String> {
         ContractPublisher(send: { self.undelegate(wallet: wallet, operationFees: operationFees, completion: $0) })
      }
 
@@ -142,9 +142,9 @@ public extension TezosClient {
     ///     - operation: The operation which will be used to forge the operation.
     ///     - source: The address performing the operation.
     ///     - keys: The keys to use to sign the operation for the address.
-    func forgeSignPreapplyAndInjectOperation(operation: TezosSwift.Operation,
-                                             source: String,
-                                             keys: Keys) -> ContractPublisher<String> {
+    func forgeSignPreapplyAndInjectOperationPublisher(operation: TezosSwift.Operation,
+                                                      source: String,
+                                                      keys: Keys) -> ContractPublisher<String> {
         ContractPublisher(send: { self.forgeSignPreapplyAndInjectOperation(operation: operation, source: source, keys: keys, completion: $0) })
      }
 }

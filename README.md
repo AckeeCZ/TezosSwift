@@ -21,6 +21,7 @@ TezosSwift provides first class support for the following RPCs:
 * Sending multiple operations in a single request
 * Setting a delegate
 * Registering as a delegate
+* **New**: Combine support!
 * And more!
 
 The library is extensible allowing client code to easily create additional RPCs and signed operations, as required. 
@@ -38,6 +39,11 @@ TezosSwift supports installation via CocoaPods. You can depened on TezosSwift by
 
 ```
 pod "TezosSwift"
+```
+
+If you want Combine support, you can add:
+```
+pod "TezosSwift/Combine"
 ```
 
 ## Getting Started
@@ -155,6 +161,18 @@ This Michelson parameter is then converted, so it is called like this:
 func call(param1: String, param2: [Int], param3: [UInt], param4: Data)
 ```
 
+## Combine
+
+There are extensions on `TezosClient` that implement Combine behavior - ie
+```swift
+balance(of: "tezos_address")
+```
+can also be called like this:
+```swift
+balancePublisher(of: "tezos_address")
+```
+
+This method returns a `Publisher` that you can subscribe to. Yay!
 
 ## More
 
