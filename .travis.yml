@@ -8,7 +8,7 @@ before_install:
 - brew outdated carthage || brew upgrade carthage
 - carthage bootstrap --platform iOS --cache-builds 
 before_deploy:
-- brew outdated cocoapods || brew upgrade cocoapods 
+- gem update cocoapods 
 - carthage build --no-skip-current --platform iOS --cache-builds 
 - carthage archive $FRAMEWORK_NAME
 after_deploy:
