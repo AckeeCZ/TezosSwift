@@ -9,7 +9,7 @@ public struct ContractPublisher<O: Decodable>: Publisher {
     
     private let send: SendMethod<Output>
     
-    init(send: @escaping SendMethod<Output>) {
+    public init(send: @escaping SendMethod<Output>) {
         self.send = send
     }
     
