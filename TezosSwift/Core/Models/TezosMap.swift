@@ -32,3 +32,15 @@ extension TezosMap: Codable {
         }
     }
 }
+
+extension TezosMap: RPCCodable {
+    public func encodeRPC<K>(in container: inout KeyedEncodingContainer<K>, forKey key: K) throws where K : CodingKey {
+        var nestedContainer = container.nestedUnkeyedContainer(forKey: key)
+        try pairs.forEach { try nestedContainer.encodeRPC($0) }
+    }
+    
+    public func encodeRPC<T>(in container: inout T) throws where T : UnkeyedEncodingContainer {
+        var nestedContainer = container.nestedUnkeyedContainer()
+        try pairs.forEach { try nestedContainer.encodeRPC($0) }
+    }
+}

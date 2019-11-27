@@ -131,6 +131,7 @@
 		F86826AE21CD1450003C7D4D /* TezosSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86826A721CD1450003C7D4D /* TezosSwift.framework */; };
 		F86826AF21CD1450003C7D4D /* TezosSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F86826A721CD1450003C7D4D /* TezosSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F8692D1921E37FC100C32B3F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8692D1821E37FC100C32B3F /* Constants.swift */; };
+		F88C6790238EE15F00912435 /* Never.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88C678F238EE15F00912435 /* Never.swift */; };
 		F8E9207621C2B00B009148F7 /* TezosRPCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E9207521C2B00B009148F7 /* TezosRPCTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -328,6 +329,7 @@
 		F868267321CD1295003C7D4D /* ParameterPairContract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterPairContract.swift; sourceTree = "<group>"; };
 		F86826A721CD1450003C7D4D /* TezosSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TezosSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8692D1821E37FC100C32B3F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F88C678F238EE15F00912435 /* Never.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Never.swift; sourceTree = "<group>"; };
 		F8A8C53221CD25F1005684A3 /* BigInt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BigInt.framework; path = Carthage/Build/iOS/BigInt.framework; sourceTree = "<group>"; };
 		F8A8C53321CD25F1005684A3 /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = Carthage/Build/iOS/Sodium.framework; sourceTree = "<group>"; };
 		F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
@@ -518,6 +520,7 @@
 				F84A544F23881FED005D0367 /* Tez.swift */,
 				F84A545023881FED005D0367 /* Mutez.swift */,
 				F84A545123881FED005D0367 /* TezosPair.swift */,
+				F88C678F238EE15F00912435 /* Never.swift */,
 				F84A545223881FED005D0367 /* SignedOperationPayload.swift */,
 				F84A545323881FED005D0367 /* DelegateStatus.swift */,
 				F84A545423881FED005D0367 /* ManagerKey.swift */,
@@ -1097,6 +1100,7 @@
 				F84A546B23881FED005D0367 /* Operation.swift in Sources */,
 				F84A548923881FEE005D0367 /* PeriodKind.swift in Sources */,
 				F84A547223881FEE005D0367 /* JSONUtils.swift in Sources */,
+				F88C6790238EE15F00912435 /* Never.swift in Sources */,
 				F84A548D23881FEE005D0367 /* RPCDecodable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
