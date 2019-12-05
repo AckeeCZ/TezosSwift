@@ -237,7 +237,7 @@ class ContractStorageTests: XCTestCase {
     func testPairMapBoolStatus() {
         let networkSessionMock = NetworkSessionMock()
         networkSessionMock.data = """
-        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"1000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"storage","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"code","args":[[{"prim":"CDR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage": {"prim":"Pair","args":[[{"prim":"Elt","args":[{"string":"tz1d9awmksnaUGTy8QuMATm7yKeoVVVkDgJv"},{"int":"0"}]}],{"prim":"False"}]},"counter":"0"}
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"1000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"storage","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"code","args":[[{"prim":"CDR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{ "prim":"Pair","args":[[{"prim":"Elt","args":[{"string":"tz1d9awmksnaUGTy8QuMATm7yKeoVVVkDgJv"},{"int":"0"}]}],{"prim":"False"}]}},"counter":"0"}
         """.data(using: .utf8)!
         let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
         let testStatusExpectation = expectation(description: "Map status")
@@ -245,6 +245,29 @@ class ContractStorageTests: XCTestCase {
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
+                testStatusExpectation.fulfill()
+            case .success(let value):
+                XCTAssertEqual(value.storage.arg1["tz1d9awmksnaUGTy8QuMATm7yKeoVVVkDgJv"], 0)
+                XCTAssertEqual(value.storage.arg2, false)
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testRateContractStatus() {
+        let networkSessionMock = NetworkSessionMock()
+        networkSessionMock.data = """
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"1000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"storage","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"code","args":[[{"prim":"CDR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{"prim":"Pair","args":[{"prim":"Pair","args":[{"prim":"Pair","args":[{"prim":"Pair","args":[[{"prim":"Elt","args":[{"string":"tz1d9awmksnaUGTy8QuMATm7yKeoVVVkDgJv"},{"int":"0"}]}],{"prim":"False"}]},{"string":"tz1cJde3XLCTo6zqjjo2niKvaFzXo3HYTgAD"}]},{"int":"0"}]},[{"prim":"Elt","args":[{"string":"tz1cJde3XLCTo6zqjjo2niKvaFzXo3HYTgAD"},{"int":"3"}]}]]}},"counter":"0"}
+        """.data(using: .utf8)!
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+        let testStatusExpectation = expectation(description: "Map status")
+        tezosClient.pairMapBoolContract(at: "contract").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                testStatusExpectation.fulfill()
             case .success(let value):
                 XCTAssertEqual(value.storage.arg1["tz1d9awmksnaUGTy8QuMATm7yKeoVVVkDgJv"], 0)
                 XCTAssertEqual(value.storage.arg2, false)

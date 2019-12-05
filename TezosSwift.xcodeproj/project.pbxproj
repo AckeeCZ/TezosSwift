@@ -225,6 +225,7 @@
 		DAE3373EE33D47028A21C074 /* StringOptionalContract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = StringOptionalContract.swift; sourceTree = "<group>"; };
 		F809FA1E21C2518C008D4A0E /* GasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasTests.swift; sourceTree = "<group>"; };
 		F822CF6D2398FF110059AF55 /* pair_map_bool.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pair_map_bool.json; sourceTree = "<group>"; };
+		F822CF6F239922290059AF55 /* rate_contract_abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = rate_contract_abi.json; sourceTree = "<group>"; };
 		F84A53F82387D8A3005D0367 /* TezosSwiftCombine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TezosSwiftCombine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F84A54002387D8A3005D0367 /* TezosSwift-CombineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TezosSwift-CombineTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F84A54072387D8A3005D0367 /* TezosSwift_CombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosSwift_CombineTests.swift; sourceTree = "<group>"; };
@@ -653,6 +654,7 @@
 				F822CF6D2398FF110059AF55 /* pair_map_bool.json */,
 				F868265D21CD1295003C7D4D /* pair_abi.json */,
 				F868265E21CD1295003C7D4D /* address_abi.json */,
+				F822CF6F239922290059AF55 /* rate_contract_abi.json */,
 			);
 			path = Contracts;
 			sourceTree = "<group>";

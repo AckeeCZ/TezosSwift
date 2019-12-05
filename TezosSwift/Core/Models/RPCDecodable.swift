@@ -133,7 +133,7 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
         case is Date.Type, is Date?.Type:
             value = try decodeRPC(Date.self)
         default:
-            value = try decode(type, forKey: .prim)
+            throw decryptionError()
         }
         guard let unwrappedValue = value as? T else { throw decryptionError() }
         return unwrappedValue
@@ -205,14 +205,21 @@ extension UnkeyedDecodingContainer {
             let container = try currentContainer.nestedContainer(keyedBy: StorageKeys.self)
             return (try container.decodeRPC(T.self), currentContainer)
         }
-        let container = try nestedContainer(keyedBy: StorageKeys.self)
-        let primaryType = try container.decodeIfPresent(TezosPrimaryType.self, forKey: .prim).self
-        if primaryType == .pair || primaryType == .some || primaryType == .map {
-            var mutableSomeContainer = try container.nestedUnkeyedContainer(forKey: .args)
-            let someContainer = try mutableSomeContainer.nestedContainer(keyedBy: StorageKeys.self)
-            return (try someContainer.decodeRPC(T.self), mutableSomeContainer)
+        
+        print(T.self)
+        var unkeyedContainer = self
+        if (try? unkeyedContainer.nestedUnkeyedContainer()) != nil {
+            return try (decode(T.self), nil)
         } else {
-            return (try container.decodeRPC(T.self), nil)
+            let container = try nestedContainer(keyedBy: StorageKeys.self)
+            let primaryType = try? container.decodeIfPresent(TezosPrimaryType.self, forKey: .prim).self
+            if primaryType == .pair || primaryType == .some || primaryType == .map {
+                var mutableSomeContainer = try container.nestedUnkeyedContainer(forKey: .args)
+                let someContainer = try mutableSomeContainer.nestedContainer(keyedBy: StorageKeys.self)
+                return (try someContainer.decodeRPC(T.self), mutableSomeContainer)
+            } else {
+                return (try container.decodeRPC(T.self), nil)
+            }
         }
     }
 }
