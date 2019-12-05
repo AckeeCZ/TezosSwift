@@ -1,21 +1,26 @@
-// Generated using TezosGen 
+// Generated using TezosGen
 // swiftlint:disable file_length
 
 import Foundation
 import TezosSwift
 
+/// Struct for function currying
 struct StringSetContractBox {
-    fileprivate let tezosClient: TezosClient 
+    fileprivate let tezosClient: TezosClient
     fileprivate let at: String
 
-    init(tezosClient: TezosClient, at: String) {
-       self.tezosClient = tezosClient 
-       self.at = at 
+    fileprivate init(tezosClient: TezosClient, at: String) {
+       self.tezosClient = tezosClient
+       self.at = at
     }
-
-    func call(param1: [String]) -> ContractMethodInvocation {
-        let send: (_ from: Wallet, _ amount: TezToken, _ operationFees: OperationFees?, _ completion: @escaping RPCCompletion<String>) -> Void
-		let input: [String] = param1.sorted() 
+    /**
+     Call StringSetContract with specified params.
+     **Important:**
+     Params are in the order of how they are specified in the Tezos structure tree
+    */
+    func call(_ param1: [String]) -> ContractMethodInvocation {
+        let send: (_ from: Wallet, _ amount: TezToken, _ operationFees: OperationFees?, _ completion: @escaping RPCCompletion<String>) -> Cancelable?
+        let input: [String] = param1.sorted()
         send = { from, amount, operationFees, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, operationFees: operationFees, completion: completion)
         }
@@ -23,19 +28,28 @@ struct StringSetContractBox {
         return ContractMethodInvocation(send: send)
     }
 
-	func status(completion: @escaping RPCCompletion<StringSetContractStatus>) {
+    /// Call this method to obtain contract status data
+    @discardableResult
+    func status(completion: @escaping RPCCompletion<StringSetContractStatus>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + at
-        tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
+        return tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 }
 
+/// Status data of StringSetContract
 struct StringSetContractStatus: Decodable {
+    /// Balance of StringSetContract in Tezos
     let balance: Tez
+    /// Is contract spendable
     let spendable: Bool
+    /// StringSetContract's manager address
     let manager: String
+    /// StringSetContract's delegate
     let delegate: StatusDelegate
+    /// StringSetContract's current operation counter
     let counter: Int
-    let storage: [String]
+    /// StringSetContract's storage
+    let storage:[String]
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
@@ -51,6 +65,13 @@ struct StringSetContractStatus: Decodable {
 }
 
 extension TezosClient {
+    /**
+     This function returns type that you can then use to call StringSetContract specified by address.
+
+     - Parameter at: String description of desired address.
+
+     - Returns: Callable type to send Tezos with.
+    */
     func stringSetContract(at: String) -> StringSetContractBox {
         return StringSetContractBox(tezosClient: self, at: at)
     }

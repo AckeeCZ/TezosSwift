@@ -1,21 +1,26 @@
-// Generated using TezosGen 
+// Generated using TezosGen
 // swiftlint:disable file_length
 
-import TezosSwift
 import Foundation
+import TezosSwift
 
+/// Struct for function currying
 struct MapContractBox {
-    fileprivate let tezosClient: TezosClient 
+    fileprivate let tezosClient: TezosClient
     fileprivate let at: String
 
-    init(tezosClient: TezosClient, at: String) {
-       self.tezosClient = tezosClient 
-       self.at = at 
+    fileprivate init(tezosClient: TezosClient, at: String) {
+       self.tezosClient = tezosClient
+       self.at = at
     }
-
-    func call(param1: [(Int, Int)]) -> ContractMethodInvocation {
-        let send: (_ from: Wallet, _ amount: TezToken, _ operationFees: OperationFees?, _ completion: @escaping RPCCompletion<String>) -> Void
-		let input: TezosMap<Int, Int> = TezosMap(pairs: param1.map { TezosPair(first: $0.0, second: $0.1) }) 
+    /**
+     Call MapContract with specified params.
+     **Important:**
+     Params are in the order of how they are specified in the Tezos structure tree
+    */
+    func call(_ param1: [Int: Int]) -> ContractMethodInvocation {
+        let send: (_ from: Wallet, _ amount: TezToken, _ operationFees: OperationFees?, _ completion: @escaping RPCCompletion<String>) -> Cancelable?
+        let input: TezosMap<Int, Int> = TezosMap(pairs: param1.map { TezosPair(first: $0.0, second: $0.1) })
         send = { from, amount, operationFees, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, operationFees: operationFees, completion: completion)
         }
@@ -23,19 +28,28 @@ struct MapContractBox {
         return ContractMethodInvocation(send: send)
     }
 
-	func status(completion: @escaping RPCCompletion<MapContractStatus>) {
+    /// Call this method to obtain contract status data
+    @discardableResult
+    func status(completion: @escaping RPCCompletion<MapContractStatus>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + at
-        tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
+        return tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 }
 
+/// Status data of MapContract
 struct MapContractStatus: Decodable {
+    /// Balance of MapContract in Tezos
     let balance: Tez
+    /// Is contract spendable
     let spendable: Bool
+    /// MapContract's manager address
     let manager: String
+    /// MapContract's delegate
     let delegate: StatusDelegate
+    /// MapContract's current operation counter
     let counter: Int
-    let storage: [(Int, Int)]
+    /// MapContract's storage
+    let storage:[Int: Int]
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
@@ -46,11 +60,18 @@ struct MapContractStatus: Decodable {
         self.counter = try container.decodeRPC(Int.self, forKey: .counter)
 
         let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
-        self.storage = try scriptContainer.decode(TezosMap<Int, Int>.self, forKey: .storage).pairs.map { ($0.first, $0.second) }
+        self.storage = try scriptContainer.decode(TezosMap<Int, Int>.self, forKey: .storage).pairs.reduce([:], { var mutable = $0; mutable[$1.first] = $1.second; return mutable })
     }
 }
 
 extension TezosClient {
+    /**
+     This function returns type that you can then use to call MapContract specified by address.
+
+     - Parameter at: String description of desired address.
+
+     - Returns: Callable type to send Tezos with.
+    */
     func mapContract(at: String) -> MapContractBox {
         return MapContractBox(tezosClient: self, at: at)
     }

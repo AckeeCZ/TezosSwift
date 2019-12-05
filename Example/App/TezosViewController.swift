@@ -45,7 +45,7 @@ class TezosViewController: UIViewController {
 //            }
 //        })
 
-        tezosClient.natSetContract(at: "KT1DwASQY1uTEkzWUShbeQJfKpBdb2ugsE5k").call(param1: [UInt(1), UInt(2), UInt(3)]).send(from: wallet, amount: Tez.zero, completion: { result in
+        tezosClient.natSetContract(at: "KT1DwASQY1uTEkzWUShbeQJfKpBdb2ugsE5k").call([UInt(1), UInt(2), UInt(3)]).send(from: wallet, amount: Tez.zero, completion: { result in
             switch result {
             case .failure(let error):
                 print("Call failed with error: \(error)")

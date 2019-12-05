@@ -5,7 +5,7 @@ import Foundation
 import TezosSwift
 
 /// Struct for function currying
-struct IntListContractBox {
+struct PairContractBox {
     fileprivate let tezosClient: TezosClient
     fileprivate let at: String
 
@@ -14,13 +14,13 @@ struct IntListContractBox {
        self.at = at
     }
     /**
-     Call IntListContract with specified params.
+     Call PairContract with specified params.
      **Important:**
      Params are in the order of how they are specified in the Tezos structure tree
     */
-    func call(_ param1: [Int]) -> ContractMethodInvocation {
+    func call(param1: Bool, param2: Bool) -> ContractMethodInvocation {
         let send: (_ from: Wallet, _ amount: TezToken, _ operationFees: OperationFees?, _ completion: @escaping RPCCompletion<String>) -> Cancelable?
-        let input: [Int] = param1
+        let input: TezosPair<Bool, Bool> = TezosPair(first: param1, second: param2)
         send = { from, amount, operationFees, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, operationFees: operationFees, completion: completion)
         }
@@ -30,26 +30,26 @@ struct IntListContractBox {
 
     /// Call this method to obtain contract status data
     @discardableResult
-    func status(completion: @escaping RPCCompletion<IntListContractStatus>) -> Cancelable? {
+    func status(completion: @escaping RPCCompletion<PairContractStatus>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + at
         return tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 }
 
-/// Status data of IntListContract
-struct IntListContractStatus: Decodable {
-    /// Balance of IntListContract in Tezos
+/// Status data of PairContract
+struct PairContractStatus: Decodable {
+    /// Balance of PairContract in Tezos
     let balance: Tez
     /// Is contract spendable
     let spendable: Bool
-    /// IntListContract's manager address
+    /// PairContract's manager address
     let manager: String
-    /// IntListContract's delegate
+    /// PairContract's delegate
     let delegate: StatusDelegate
-    /// IntListContract's current operation counter
+    /// PairContract's current operation counter
     let counter: Int
-    /// IntListContract's storage
-    let storage:[Int]
+    /// PairContract's storage
+    let storage:PairContractStatusStorage
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
@@ -60,19 +60,35 @@ struct IntListContractStatus: Decodable {
         self.counter = try container.decodeRPC(Int.self, forKey: .counter)
 
         let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
-        self.storage = try scriptContainer.decodeRPC([Int].self, forKey: .storage)
+        self.storage = try scriptContainer.decode(PairContractStatusStorage.self, forKey: .storage)
+    }
+}
+/**
+ PairContract's storage with specified args.
+ **Important:**
+ Args are in the order of how they are specified in the Tezos structure tree
+*/
+struct PairContractStatusStorage: Decodable {
+    let arg1: Bool
+	let arg2: Bool
+
+    public init(from decoder: Decoder) throws {
+        let tezosElement = try decoder.singleValueContainer().decode(TezosPair<Bool, Bool>.self)
+
+        self.arg1 = tezosElement.first
+		self.arg2 = tezosElement.second
     }
 }
 
 extension TezosClient {
     /**
-     This function returns type that you can then use to call IntListContract specified by address.
+     This function returns type that you can then use to call PairContract specified by address.
 
      - Parameter at: String description of desired address.
 
      - Returns: Callable type to send Tezos with.
     */
-    func intListContract(at: String) -> IntListContractBox {
-        return IntListContractBox(tezosClient: self, at: at)
+    func pairContract(at: String) -> PairContractBox {
+        return PairContractBox(tezosClient: self, at: at)
     }
 }

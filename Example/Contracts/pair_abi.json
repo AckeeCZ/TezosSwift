@@ -1,1 +1,1 @@
-{ "storage": {"prim": "pair", "first": {"prim": "bool"}, "second": {"prim": "bool"}}, "parameter": {"prim": "pair", "first": {"prim": "bool"}, "second": {"prim": "bool"}} }
+{ "storage": {"prim":"pair","args":[{"prim":"bool"},{"prim":"bool"}]}, "parameter": {"prim":"pair","args":[{"prim":"bool"},{"prim":"bool"}]} }

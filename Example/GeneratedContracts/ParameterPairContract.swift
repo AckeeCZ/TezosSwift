@@ -1,4 +1,4 @@
-// Generated using TezosGen 
+// Generated using TezosGen
 // swiftlint:disable file_length
 
 import Foundation
@@ -6,22 +6,21 @@ import TezosSwift
 
 /// Struct for function currying
 struct ParameterPairContractBox {
-    fileprivate let tezosClient: TezosClient 
+    fileprivate let tezosClient: TezosClient
     fileprivate let at: String
 
     fileprivate init(tezosClient: TezosClient, at: String) {
-       self.tezosClient = tezosClient 
-       self.at = at 
+       self.tezosClient = tezosClient
+       self.at = at
     }
-
     /**
      Call ParameterPairContract with specified params.
      **Important:**
      Params are in the order of how they are specified in the Tezos structure tree
     */
     func call(first: Bool, second: Bool) -> ContractMethodInvocation {
-        let send: (_ from: Wallet, _ amount: TezToken, _ operationFees: OperationFees?, _ completion: @escaping RPCCompletion<String>) -> Void
-		let input: TezosPair<Bool, Bool> = TezosPair(first: first, second: second) 
+        let send: (_ from: Wallet, _ amount: TezToken, _ operationFees: OperationFees?, _ completion: @escaping RPCCompletion<String>) -> Cancelable?
+        let input: TezosPair<Bool, Bool> = TezosPair(first: first, second: second)
         send = { from, amount, operationFees, completion in
             self.tezosClient.send(amount: amount, to: self.at, from: from, input: input, operationFees: operationFees, completion: completion)
         }
@@ -30,9 +29,10 @@ struct ParameterPairContractBox {
     }
 
     /// Call this method to obtain contract status data
-	func status(completion: @escaping RPCCompletion<ParameterPairContractStatus>) {
+    @discardableResult
+    func status(completion: @escaping RPCCompletion<ParameterPairContractStatus>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + at
-        tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
+        return tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
     }
 }
 
@@ -46,10 +46,10 @@ struct ParameterPairContractStatus: Decodable {
     let manager: String
     /// ParameterPairContract's delegate
     let delegate: StatusDelegate
-    /// ParameterPairContract's current operation counter 
+    /// ParameterPairContract's current operation counter
     let counter: Int
     /// ParameterPairContract's storage
-    let storage: Bool?
+    let storage:Bool?
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
