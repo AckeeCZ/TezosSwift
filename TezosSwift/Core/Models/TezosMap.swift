@@ -23,10 +23,14 @@ extension TezosMap: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var mapArrayContainer = encoder.unkeyedContainer()
+        try encode(in: &mapArrayContainer)
+    }
+    
+    fileprivate func encode(in container: inout UnkeyedEncodingContainer) throws {
         try pairs.forEach {
-            var mapContainer = mapArrayContainer.nestedContainer(keyedBy: StorageKeys.self)
-            try mapContainer.encode(TezosPrimaryType.map, forKey: .prim)
-            var argsContainer = mapContainer.nestedUnkeyedContainer(forKey: .args)
+            var container = container.nestedContainer(keyedBy: StorageKeys.self)
+            try container.encode(TezosPrimaryType.map, forKey: .prim)
+            var argsContainer = container.nestedUnkeyedContainer(forKey: .args)
             try argsContainer.encodeRPC($0.first)
             try argsContainer.encodeRPC($0.second)
         }
@@ -35,12 +39,13 @@ extension TezosMap: Codable {
 
 extension TezosMap: RPCCodable {
     public func encodeRPC<K>(in container: inout KeyedEncodingContainer<K>, forKey key: K) throws where K : CodingKey {
-        var nestedContainer = container.nestedUnkeyedContainer(forKey: key)
-        try pairs.forEach { try nestedContainer.encodeRPC($0) }
+        var mapArrayContainer = container.nestedUnkeyedContainer(forKey: key)
+        try encode(in: &mapArrayContainer)
     }
     
     public func encodeRPC<T>(in container: inout T) throws where T : UnkeyedEncodingContainer {
-        var nestedContainer = container.nestedUnkeyedContainer()
-        try pairs.forEach { try nestedContainer.encodeRPC($0) }
+        var mapArrayContainer = container.nestedUnkeyedContainer()
+        try encode(in: &mapArrayContainer)
+        
     }
 }
