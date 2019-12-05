@@ -9,6 +9,7 @@ struct ContractMethodInvocation {
         self.send = send
     }
 
+    @discardableResult
     func send(from: Wallet, amount: TezToken, operationFees: OperationFees? = nil, completion: @escaping RPCCompletion<String>) -> Cancelable? {
         self.send(from, amount, operationFees, completion)
     }
