@@ -72,9 +72,7 @@ struct SetMemberContractStatusStorage: Decodable {
     let arg1: [String]
 	let arg2: Bool?
 
-    public init(from decoder: Decoder) throws {
-        let tezosElement = try decoder.singleValueContainer().decode(TezosPair<[String], Bool?>.self)
-
+    public init(from decoder: Decoder) throws {        let tezosElement = try decoder.singleValueContainer().decode(TezosPair<[String], Bool?>.self)
         self.arg1 = tezosElement.first.sorted()
 		self.arg2 = tezosElement.second
     }

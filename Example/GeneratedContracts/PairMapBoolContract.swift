@@ -72,9 +72,7 @@ struct PairMapBoolContractStatusStorage: Decodable {
     let arg1: [String: Int]
 	let arg2: Bool
 
-    public init(from decoder: Decoder) throws {
-        let tezosElement = try decoder.singleValueContainer().decode(TezosPair<TezosMap<String, Int>, Bool>.self)
-
+    public init(from decoder: Decoder) throws {        let tezosElement = try decoder.singleValueContainer().decode(TezosPair<TezosMap<String, Int>, Bool>.self)
         self.arg1 = tezosElement.first.pairs.reduce([:], { var mutable = $0; mutable[$1.first] = $1.second; return mutable })
 		self.arg2 = tezosElement.second
     }

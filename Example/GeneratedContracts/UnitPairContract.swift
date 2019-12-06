@@ -72,9 +72,7 @@ struct UnitPairContractStatusStorage: Decodable {
     let arg1: Never?
 	let arg2: String
 
-    public init(from decoder: Decoder) throws {
-        let tezosElement = try decoder.singleValueContainer().decode(TezosPair<Never?, String>.self)
-
+    public init(from decoder: Decoder) throws {        let tezosElement = try decoder.singleValueContainer().decode(TezosPair<Never?, String>.self)
         self.arg1 = tezosElement.first
 		self.arg2 = tezosElement.second
     }
