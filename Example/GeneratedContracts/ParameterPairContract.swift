@@ -49,7 +49,7 @@ struct ParameterPairContractStatus: Decodable {
     /// ParameterPairContract's current operation counter
     let counter: Int
     /// ParameterPairContract's storage
-    let storage:Bool?
+    let storage: Bool?
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)

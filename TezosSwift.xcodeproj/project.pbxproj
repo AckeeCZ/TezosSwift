@@ -14,6 +14,7 @@
 		8F4384A5221C2CC60003BD0B /* CompletableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4384A4221C2CC60003BD0B /* CompletableTests.swift */; };
 		8FAB19B1221D736300DD3F9B /* ExecutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */; };
 		A3FEA3257A0B23D31BE0F83E /* StringOptionalContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE3373EE33D47028A21C074 /* StringOptionalContract.swift */; };
+		A97A56A10E5F4DAD20520C4E /* RateContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1600E09BA652135B60FA1F12 /* RateContract.swift */; };
 		AC06DEA2773C32C01A744C4B /* SharedContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = F868267221CD1295003C7D4D /* SharedContract.swift */; };
 		D066A0B4EE160765144FA596 /* UnitPairContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B53222C1C6E6F871E4B226 /* UnitPairContract.swift */; };
 		E7B8C0F28A45A5454C11071D /* PairMapBoolContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9112612E09F53A021CF6A1 /* PairMapBoolContract.swift */; };
@@ -210,6 +211,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1600E09BA652135B60FA1F12 /* RateContract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = RateContract.swift; path = RateContract.swift; sourceTree = "<group>"; };
 		1EE7FF72DE50B5787FB84FE8 /* PairContract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = PairContract.swift; sourceTree = "<group>"; };
 		26B53222C1C6E6F871E4B226 /* UnitPairContract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = UnitPairContract.swift; sourceTree = "<group>"; };
 		7AA8F3562160158000C05895 /* TezosSwift_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TezosSwift_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -685,6 +687,7 @@
 				DABB83924D8D5FE186E106E7 /* IntListcontract.swift */,
 				DAE3373EE33D47028A21C074 /* StringOptionalContract.swift */,
 				1EE7FF72DE50B5787FB84FE8 /* PairContract.swift */,
+				1600E09BA652135B60FA1F12 /* RateContract.swift */,
 			);
 			path = GeneratedContracts;
 			sourceTree = "<group>";
@@ -1017,6 +1020,7 @@
 				A3FEA3257A0B23D31BE0F83E /* StringOptionalContract.swift in Sources */,
 				7340C8F8C5AA2E984AAEDEBC /* PairContract.swift in Sources */,
 				295F97D9A7BD6BEE565A73D2 /* IntListContract.swift in Sources */,
+				A97A56A10E5F4DAD20520C4E /* RateContract.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

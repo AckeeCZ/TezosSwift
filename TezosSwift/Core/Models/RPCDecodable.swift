@@ -200,24 +200,19 @@ extension UnkeyedDecodingContainer {
         if isCollection(T.self) {
             return try decodeCollectionElement(previousContainer: previousContainer)
         }
-
-        if var currentContainer = previousContainer {
-            let container = try currentContainer.nestedContainer(keyedBy: StorageKeys.self)
-            return (try container.decodeRPC(T.self), currentContainer)
-        }
         
         print(T.self)
         var unkeyedContainer = self
+        // Map is inside an array, does not have a primary type (only for its elements)
         if (try? unkeyedContainer.nestedUnkeyedContainer()) != nil {
             return try (decode(T.self), nil)
         } else {
-            let container = try nestedContainer(keyedBy: StorageKeys.self)
+            let container = try unkeyedContainer.nestedContainer(keyedBy: StorageKeys.self)
             let primaryType = try? container.decodeIfPresent(TezosPrimaryType.self, forKey: .prim).self
-            if primaryType == .pair || primaryType == .some || primaryType == .map {
-                var mutableSomeContainer = try container.nestedUnkeyedContainer(forKey: .args)
-                let someContainer = try mutableSomeContainer.nestedContainer(keyedBy: StorageKeys.self)
-                return (try someContainer.decodeRPC(T.self), mutableSomeContainer)
+            if primaryType == .pair {
+                return (try decode(T.self), nil)
             } else {
+                let container = try nestedContainer(keyedBy: StorageKeys.self)
                 return (try container.decodeRPC(T.self), nil)
             }
         }

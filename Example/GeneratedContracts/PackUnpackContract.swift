@@ -30,37 +30,9 @@ struct PackUnpackContractBox {
 
     /// Call this method to obtain contract status data
     @discardableResult
-    func status(completion: @escaping RPCCompletion<PackUnpackContractStatus>) -> Cancelable? {
+    func status(completion: @escaping RPCCompletion<ContractStatus>) -> Cancelable? {
         let endpoint = "/chains/main/blocks/head/context/contracts/" + at
         return tezosClient.sendRPC(endpoint: endpoint, method: .get, completion: completion)
-    }
-}
-
-/// Status data of PackUnpackContract
-struct PackUnpackContractStatus: Decodable {
-    /// Balance of PackUnpackContract in Tezos
-    let balance: Tez
-    /// Is contract spendable
-    let spendable: Bool
-    /// PackUnpackContract's manager address
-    let manager: String
-    /// PackUnpackContract's delegate
-    let delegate: StatusDelegate
-    /// PackUnpackContract's current operation counter
-    let counter: Int
-    /// PackUnpackContract's storage
-    let storage:Never?
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: ContractStatusKeys.self)
-        self.balance = try container.decode(Tez.self, forKey: .balance)
-        self.spendable = try container.decode(Bool.self, forKey: .spendable)
-        self.manager = try container.decode(String.self, forKey: .manager)
-        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
-        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
-
-        let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
-        self.storage = try scriptContainer.nestedContainer(keyedBy: StorageKeys.self, forKey: .storage).decodeRPC(Never?.self)
     }
 }
 

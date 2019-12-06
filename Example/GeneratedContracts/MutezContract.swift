@@ -49,7 +49,7 @@ struct MutezContractStatus: Decodable {
     /// MutezContract's current operation counter
     let counter: Int
     /// MutezContract's storage
-    let storage:Mutez
+    let storage: Mutez
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)

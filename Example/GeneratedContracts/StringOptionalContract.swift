@@ -49,7 +49,7 @@ struct StringOptionalContractStatus: Decodable {
     /// StringOptionalContract's current operation counter
     let counter: Int
     /// StringOptionalContract's storage
-    let storage:String?
+    let storage: String?
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)

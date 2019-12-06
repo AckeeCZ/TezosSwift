@@ -49,7 +49,7 @@ struct TimestampContractStatus: Decodable {
     /// TimestampContract's current operation counter
     let counter: Int
     /// TimestampContract's storage
-    let storage:Date
+    let storage: Date
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)

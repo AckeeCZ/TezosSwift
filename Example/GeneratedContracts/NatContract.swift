@@ -49,7 +49,7 @@ struct NatContractStatus: Decodable {
     /// NatContract's current operation counter
     let counter: Int
     /// NatContract's storage
-    let storage:UInt
+    let storage: UInt
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)

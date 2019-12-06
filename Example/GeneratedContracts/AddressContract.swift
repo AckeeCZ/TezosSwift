@@ -49,7 +49,7 @@ struct AddressContractStatus: Decodable {
     /// AddressContract's current operation counter
     let counter: Int
     /// AddressContract's storage
-    let storage:String
+    let storage: String
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)

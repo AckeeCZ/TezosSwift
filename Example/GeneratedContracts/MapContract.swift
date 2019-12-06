@@ -49,7 +49,7 @@ struct MapContractStatus: Decodable {
     /// MapContract's current operation counter
     let counter: Int
     /// MapContract's storage
-    let storage:[Int: Int]
+    let storage: [Int: Int]
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)

@@ -64,7 +64,7 @@ struct OrSwapContractStatus: Decodable {
     /// OrSwapContract's current operation counter
     let counter: Int
     /// OrSwapContract's storage
-    let storage:OrSwapContractStatusStorage
+    let storage: OrSwapContractStatusStorage
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)

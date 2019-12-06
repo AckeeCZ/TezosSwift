@@ -49,7 +49,7 @@ struct KeyHashContractStatus: Decodable {
     /// KeyHashContract's current operation counter
     let counter: Int
     /// KeyHashContract's storage
-    let storage:String
+    let storage: String
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
