@@ -269,10 +269,11 @@ class ContractStorageTests: XCTestCase {
                 XCTFail("Failed with error: \(error)")
                 testStatusExpectation.fulfill()
             case .success(let value):
-//                XCTAssertEqual(value.storage.arg1["tz1d9awmksnaUGTy8QuMATm7yKeoVVVkDgJv"], 0)
-//                XCTAssertEqual(value.storage.arg2, false)
-                testStatusExpectation.fulfill()
+                XCTAssertEqual(value.storage.ballot["tz1d9awmksnaUGTy8QuMATm7yKeoVVVkDgJv"], 0)
+                XCTAssertEqual(value.storage.hasEnded, false)
+                XCTAssertEqual(value.storage.voters["tz1cJde3XLCTo6zqjjo2niKvaFzXo3HYTgAD"], 3)
             }
+            testStatusExpectation.fulfill()
         }
 
         waitForExpectations(timeout: 1)

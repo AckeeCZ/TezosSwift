@@ -87,7 +87,8 @@ struct OrSwapContractStatusStorage: Decodable {
     let arg1: String?
 	let arg2: Bool?
 
-    public init(from decoder: Decoder) throws {        let tezosElement = try decoder.singleValueContainer().decode(TezosOr<String, Bool>.self)
+    public init(from decoder: Decoder) throws {
+        let tezosElement = try decoder.singleValueContainer().decode(TezosOr<String, Bool>.self)
         self.arg1 = tezosElement.left
 		self.arg2 = tezosElement.right
     }

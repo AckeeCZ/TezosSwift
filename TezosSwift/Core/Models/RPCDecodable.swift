@@ -216,14 +216,12 @@ extension UnkeyedDecodingContainer {
             return try decodeCollectionElement(previousContainer: previousContainer)
         }
         
-        print(T.self)
         var unkeyedContainer = self
         // Map is inside an array, does not have a primary type (only for its elements)
         if (try? unkeyedContainer.nestedUnkeyedContainer()) != nil {
             return try (decode(T.self), nil)
         } else {
             let container = try unkeyedContainer.nestedContainer(keyedBy: StorageKeys.self)
-            print(container.allKeys)
             let primaryType = try? container.decodeIfPresent(TezosPrimaryType.self, forKey: .prim).self
             switch primaryType {
             case .pair:

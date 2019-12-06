@@ -38,26 +38,11 @@ struct RateContractBox {
 
 /// Status data of RateContract
 struct RateContractStatus: Decodable {
-    /// Balance of RateContract in Tezos
-    let balance: Tez
-    /// Is contract spendable
-    let spendable: Bool
-    /// RateContract's manager address
-    let manager: String
-    /// RateContract's delegate
-    let delegate: StatusDelegate
-    /// RateContract's current operation counter
-    let counter: Int
     /// RateContract's storage
     let storage: RateContractStatusStorage
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
-        self.balance = try container.decode(Tez.self, forKey: .balance)
-        self.spendable = try container.decode(Bool.self, forKey: .spendable)
-        self.manager = try container.decode(String.self, forKey: .manager)
-        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
-        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
 
         let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
         self.storage = try scriptContainer.decode(RateContractStatusStorage.self, forKey: .storage)
@@ -75,7 +60,8 @@ struct RateContractStatusStorage: Decodable {
 	let totalNumberOfVotes: Int
 	let voters: [String: Int]
 
-    public init(from decoder: Decoder) throws {        let tezosElement = try decoder.singleValueContainer().decode(TezosPair<TezosPair<TezosPair<TezosPair<TezosMap<String, Int>, Bool>, String>, Int>, TezosMap<String, Int>>.self)
+    public init(from decoder: Decoder) throws {
+        let tezosElement = try decoder.singleValueContainer().decode(TezosPair<TezosPair<TezosPair<TezosPair<TezosMap<String, Int>, Bool>, String>, Int>, TezosMap<String, Int>>.self)
         self.ballot = tezosElement.first.first.first.first.pairs.reduce([:], { var mutable = $0; mutable[$1.first] = $1.second; return mutable })
 		self.hasEnded = tezosElement.first.first.first.second
 		self.master = tezosElement.first.first.second

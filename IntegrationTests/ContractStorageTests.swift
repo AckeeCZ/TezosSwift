@@ -135,5 +135,20 @@ class ContractStorageTests: XCTestCase {
 
         waitForExpectations(timeout: 3)
     }
+    
+    func testRateContractStatus() {
+        let testStatusExpectation = expectation(description: "Rate contract status")
+        tezosClient.rateContract(at: "KT1EDS35c3a7unangqgnijm1oSZduuWpRqHP").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+            case .success(let value):
+                break
+            }
+            testStatusExpectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 3)
+    }
 }
 

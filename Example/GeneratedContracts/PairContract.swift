@@ -72,7 +72,8 @@ struct PairContractStatusStorage: Decodable {
     let arg1: Bool
 	let arg2: Bool
 
-    public init(from decoder: Decoder) throws {        let tezosElement = try decoder.singleValueContainer().decode(TezosPair<Bool, Bool>.self)
+    public init(from decoder: Decoder) throws {
+        let tezosElement = try decoder.singleValueContainer().decode(TezosPair<Bool, Bool>.self)
         self.arg1 = tezosElement.first
 		self.arg2 = tezosElement.second
     }
