@@ -18,6 +18,7 @@ extension Tez: RPCDecodable {}
 extension Mutez: RPCDecodable {}
 extension Array: RPCDecodable where Element : RPCDecodable {}
 extension Optional: RPCDecodable where Wrapped: RPCDecodable {}
+extension Date: RPCDecodable { }
 
 extension UnkeyedDecodingContainer {
     func corruptedError() -> DecodingError {
@@ -118,20 +119,34 @@ extension KeyedDecodingContainerProtocol where Key == StorageKeys {
         // TODO: Would be nice to do this generically, thus supporting right away all RPCDecodable types
         let value: Any
         switch type {
-        case is Int.Type, is Int?.Type:
+        case is Int.Type:
             value = try decodeRPC(Int.self)
-        case is UInt.Type, is UInt?.Type:
+        case is Int?.Type:
+            value = try decodeRPC(Int?.self) as Any
+        case is UInt.Type:
             value = try decodeRPC(UInt.self)
-        case is String.Type, is String?.Type:
+        case is UInt?.Type:
+            value = try decodeRPC(UInt?.self) as Any
+        case is String.Type:
             value = try decodeRPC(String.self)
-        case is Bool.Type, is Bool?.Type:
+        case is String?.Type:
+            value = try decodeRPC(String?.self) as Any
+        case is Bool.Type:
             value = try decodeRPC(Bool.self)
-        case is Data.Type, is Data?.Type:
+        case is Bool?.Type:
+            value = try decodeRPC(Bool?.self) as Any
+        case is Data.Type:
             value = try decodeRPC(Data.self)
-        case is Mutez.Type, is Mutez?.Type:
+        case is Data?.Type:
+            value = try decodeRPC(Data?.self) as Any
+        case is Mutez.Type:
             value = try decodeRPC(Mutez.self)
-        case is Date.Type, is Date?.Type:
+        case is Mutez?.Type:
+            value = try decodeRPC(Mutez?.self) as Any
+        case is Date.Type:
             value = try decodeRPC(Date.self)
+        case is Date?.Type:
+            value = try decodeRPC(Date?.self) as Any
         default:
             throw decryptionError()
         }
@@ -208,13 +223,16 @@ extension UnkeyedDecodingContainer {
             return try (decode(T.self), nil)
         } else {
             let container = try unkeyedContainer.nestedContainer(keyedBy: StorageKeys.self)
+            print(container.allKeys)
             let primaryType = try? container.decodeIfPresent(TezosPrimaryType.self, forKey: .prim).self
-            if primaryType == .pair {
+            switch primaryType {
+            case .pair:
                 return (try decode(T.self), nil)
-            } else {
+            default:
                 let container = try nestedContainer(keyedBy: StorageKeys.self)
                 return (try container.decodeRPC(T.self), nil)
             }
         }
     }
 }
+
