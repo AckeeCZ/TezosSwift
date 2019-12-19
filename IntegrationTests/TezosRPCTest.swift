@@ -8,6 +8,7 @@ class TezosRPCTest: XCTestCase {
     var wallet: Wallet!
 
     override func setUp() {
+        super.setUp()
         let mnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire pill praise"
         wallet = Wallet(mnemonic: mnemonic)!
     }

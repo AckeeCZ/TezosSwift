@@ -22,7 +22,7 @@ struct RPCResponseHandler {
         // Decode the server's response to a string in order to bundle it with the error if it is in
         // a readable format.
         let jsonDecoder = JSONDecoder()
-        let errorMessage = (try? jsonDecoder.decode(String.self, from: data)) ?? ""
+        let errorMessage = String(data: data, encoding: .utf8) ?? ""
 
         // Call was successful
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 else { return }

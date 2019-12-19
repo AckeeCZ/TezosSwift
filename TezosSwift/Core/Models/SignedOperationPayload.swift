@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Signed operation's data 
+/// Signed operation's data
 public struct SignedOperationPayload: Encodable {
     public let contents: [Operation]
     public let branch: String

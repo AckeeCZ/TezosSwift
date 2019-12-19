@@ -17,7 +17,7 @@ class CallEncodingTests: XCTestCase {
         let contractOperation = ContractOperation(amount: Tez(1), source: "contract", destination: "another_contract", input: 10)
         guard let encodedDataString = String(data: try! JSONEncoder().encode(contractOperation), encoding: .utf8) else { XCTFail(); return }
         XCTAssertEqual(encodedDataString, """
-        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0000257","gas_limit":"0010100","fee":"0001272","kind":"transaction","counter":"0","parameters":{"int":"10"}}
+        {"amount":"1000000","source":"contract","destination":"another_contract","storage_limit":"0000257","gas_limit":"0010100","fee":"0001272","kind":"transaction","counter":"0","parameters":{"value":{"int":"10"},"entrypoint": "default"}}
         """)
     }
 

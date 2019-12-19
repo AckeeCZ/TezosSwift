@@ -19,8 +19,9 @@ public class Operation: Encodable {
     public internal(set) var operationFees: OperationFees?
 	public var requiresReveal: Bool {
 		switch self.kind {
+        // TODO: Fix!
 		case .delegation, .transaction, .origination:
-			return true
+			return false
 		case .activateAccount, .reveal:
 			return false
 		}

@@ -16,8 +16,8 @@ class ContractCallTests: XCTestCase {
     var wallet: Wallet!
 
     override func setUp() {
-        let mnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire pill praise"
-        wallet = Wallet(mnemonic: mnemonic)!
+        super.setUp()
+        wallet = Wallet(secretKey: "edskS8prNjez35pfbMSQARwg9fzMoGh613uriXtnGCSwVk5FX1Ee9Sd4FHKrgxTje2XEfA78SytvyKFbnAKFjvVbpQMXnzqT8Z")!
     }
 
     // TODO: Change calling of these calls, so the counter does not conflict
@@ -74,6 +74,23 @@ class ContractCallTests: XCTestCase {
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
+                testCompletionExpectation.fulfill()
+            case .success(_):
+                testCompletionExpectation.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3, handler: nil)
+    }
+    
+    func testSendingStringParam() {
+        let testCompletionExpectation = expectation(description: "Sending Tezos with string param")
+        wallet = Wallet(secretKey: "edskS8prNjez35pfbMSQARwg9fzMoGh613uriXtnGCSwVk5FX1Ee9Sd4FHKrgxTje2XEfA78SytvyKFbnAKFjvVbpQMXnzqT8Z")!
+        tezosClient.stringRateContract(at: "KT1BgA1y2Epm3qDh1HDf2mzjaiAx5hrNngcE").call("vote").send(from: wallet, amount: Tez(1), completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                print(error)
                 testCompletionExpectation.fulfill()
             case .success(_):
                 testCompletionExpectation.fulfill()

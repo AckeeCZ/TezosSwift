@@ -37,6 +37,23 @@ public class ContractOperation<T: Encodable>: TransactionOperation {
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var parametersContainer = encoder.container(keyedBy: TransactionOperationKeys.self)
-        try parametersContainer.encodeRPC(input, forKey: .parameters)
+        let contractEntrypoint = ContractEntrypoint(entrypoint: "default", value: input)
+        try parametersContainer.encode(contractEntrypoint, forKey: .parameters)
+    }
+}
+
+public struct ContractEntrypoint<T: Encodable>: Encodable {
+    let entrypoint: String
+    let value: T
+    
+    enum CodingKeys: String, CodingKey {
+        case entrypoint
+        case value
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(entrypoint, forKey: .entrypoint)
+        try container.encodeRPC(value, forKey: .value)
     }
 }

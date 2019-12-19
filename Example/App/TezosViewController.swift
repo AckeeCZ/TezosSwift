@@ -14,8 +14,8 @@ class TezosViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let mnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire pill praise"
-        let wallet = Wallet(mnemonic: mnemonic)!
+//        let mnemonic = "soccer click number muscle police corn couch bitter gorilla camp camera shove expire pill praise"
+//        let wallet = Wallet(mnemonic: mnemonic)!
 
 //        tezosClient.chainHead { result in
 //            switch result {
@@ -45,13 +45,13 @@ class TezosViewController: UIViewController {
 //            }
 //        })
 
-        tezosClient.natSetContract(at: "KT1DwASQY1uTEkzWUShbeQJfKpBdb2ugsE5k").call([UInt(1), UInt(2), UInt(3)]).send(from: wallet, amount: Tez.zero, completion: { result in
-            switch result {
-            case .failure(let error):
-                print("Call failed with error: \(error)")
-            case .success(let operationHash):
-                print("Call succeeded with \(operationHash)")
-            }
-        })
+//        tezosClient.natSetContract(at: "KT1DwASQY1uTEkzWUShbeQJfKpBdb2ugsE5k").call([UInt(1), UInt(2), UInt(3)]).send(from: wallet, amount: Tez.zero, completion: { result in
+//            switch result {
+//            case .failure(let error):
+//                print("Call failed with error: \(error)")
+//            case .success(let operationHash):
+//                print("Call succeeded with \(operationHash)")
+//            }
+//        })
     }
 }

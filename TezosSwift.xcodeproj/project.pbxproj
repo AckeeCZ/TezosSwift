@@ -13,6 +13,7 @@
 		7340C8F8C5AA2E984AAEDEBC /* PairContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE7FF72DE50B5787FB84FE8 /* PairContract.swift */; };
 		8F4384A5221C2CC60003BD0B /* CompletableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4384A4221C2CC60003BD0B /* CompletableTests.swift */; };
 		8FAB19B1221D736300DD3F9B /* ExecutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */; };
+		8FD83A0AF4ECC1F327B032A6 /* StringRateContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88021C3E124EA96ECA4A9CEB /* StringRateContract.swift */; };
 		A3FEA3257A0B23D31BE0F83E /* StringOptionalContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE3373EE33D47028A21C074 /* StringOptionalContract.swift */; };
 		A97A56A10E5F4DAD20520C4E /* RateContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1600E09BA652135B60FA1F12 /* RateContract.swift */; };
 		AC06DEA2773C32C01A744C4B /* SharedContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = F868267221CD1295003C7D4D /* SharedContract.swift */; };
@@ -64,7 +65,6 @@
 		F84A548323881FEE005D0367 /* Tez.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A544F23881FED005D0367 /* Tez.swift */; };
 		F84A548423881FEE005D0367 /* Mutez.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545023881FED005D0367 /* Mutez.swift */; };
 		F84A548523881FEE005D0367 /* TezosPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545123881FED005D0367 /* TezosPair.swift */; };
-		F84A548623881FEE005D0367 /* SignedOperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545223881FED005D0367 /* SignedOperationPayload.swift */; };
 		F84A548723881FEE005D0367 /* DelegateStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545323881FED005D0367 /* DelegateStatus.swift */; };
 		F84A548823881FEE005D0367 /* ManagerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545423881FED005D0367 /* ManagerKey.swift */; };
 		F84A548923881FEE005D0367 /* PeriodKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A545523881FED005D0367 /* PeriodKind.swift */; };
@@ -141,6 +141,7 @@
 		F8692D1921E37FC100C32B3F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8692D1821E37FC100C32B3F /* Constants.swift */; };
 		F88C6790238EE15F00912435 /* Never.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88C678F238EE15F00912435 /* Never.swift */; };
 		F8E9207621C2B00B009148F7 /* TezosRPCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E9207521C2B00B009148F7 /* TezosRPCTests.swift */; };
+		F8FCF93123ABC8B40078C94E /* SignedOperationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FCF93023ABC8B40078C94E /* SignedOperationPayload.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -211,7 +212,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1600E09BA652135B60FA1F12 /* RateContract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = RateContract.swift; path = RateContract.swift; sourceTree = "<group>"; };
+		1600E09BA652135B60FA1F12 /* RateContract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = RateContract.swift; sourceTree = "<group>"; };
 		1EE7FF72DE50B5787FB84FE8 /* PairContract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = PairContract.swift; sourceTree = "<group>"; };
 		26B53222C1C6E6F871E4B226 /* UnitPairContract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = UnitPairContract.swift; sourceTree = "<group>"; };
 		7AA8F3562160158000C05895 /* TezosSwift_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TezosSwift_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -221,6 +222,7 @@
 		7ABC85812182A595006DE8FD /* CryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTests.swift; sourceTree = "<group>"; };
 		7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractOperationTest.swift; sourceTree = "<group>"; };
 		7ABC859B2183973F006DE8FD /* TezosRPCTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTest.swift; sourceTree = "<group>"; };
+		88021C3E124EA96ECA4A9CEB /* StringRateContract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = StringRateContract.swift; sourceTree = "<group>"; };
 		8F4384A4221C2CC60003BD0B /* CompletableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletableTests.swift; sourceTree = "<group>"; };
 		8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutionTests.swift; sourceTree = "<group>"; };
 		DABB83924D8D5FE186E106E7 /* IntListcontract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = IntListcontract.swift; sourceTree = "<group>"; };
@@ -271,7 +273,6 @@
 		F84A544F23881FED005D0367 /* Tez.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tez.swift; sourceTree = "<group>"; };
 		F84A545023881FED005D0367 /* Mutez.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutez.swift; sourceTree = "<group>"; };
 		F84A545123881FED005D0367 /* TezosPair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TezosPair.swift; sourceTree = "<group>"; };
-		F84A545223881FED005D0367 /* SignedOperationPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignedOperationPayload.swift; sourceTree = "<group>"; };
 		F84A545323881FED005D0367 /* DelegateStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateStatus.swift; sourceTree = "<group>"; };
 		F84A545423881FED005D0367 /* ManagerKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagerKey.swift; sourceTree = "<group>"; };
 		F84A545523881FED005D0367 /* PeriodKind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeriodKind.swift; sourceTree = "<group>"; };
@@ -348,6 +349,7 @@
 		F8A8C57421CD4F93005684A3 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		F8A8C57521CD4F93005684A3 /* MnemonicKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MnemonicKit.framework; path = Carthage/Build/iOS/MnemonicKit.framework; sourceTree = "<group>"; };
 		F8E9207521C2B00B009148F7 /* TezosRPCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTests.swift; sourceTree = "<group>"; };
+		F8FCF93023ABC8B40078C94E /* SignedOperationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedOperationPayload.swift; sourceTree = "<group>"; };
 		FB9112612E09F53A021CF6A1 /* PairMapBoolContract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = PairMapBoolContract.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -520,6 +522,7 @@
 			children = (
 				F84A544223881FED005D0367 /* Metadata.swift */,
 				F84A544323881FED005D0367 /* OperationPayload.swift */,
+				F8FCF93023ABC8B40078C94E /* SignedOperationPayload.swift */,
 				F84A544423881FED005D0367 /* BallotsSum.swift */,
 				F84A544523881FED005D0367 /* TezosMap.swift */,
 				F84A544623881FED005D0367 /* TezosOr.swift */,
@@ -535,7 +538,6 @@
 				F84A545023881FED005D0367 /* Mutez.swift */,
 				F84A545123881FED005D0367 /* TezosPair.swift */,
 				F88C678F238EE15F00912435 /* Never.swift */,
-				F84A545223881FED005D0367 /* SignedOperationPayload.swift */,
 				F84A545323881FED005D0367 /* DelegateStatus.swift */,
 				F84A545423881FED005D0367 /* ManagerKey.swift */,
 				F84A545523881FED005D0367 /* PeriodKind.swift */,
@@ -688,6 +690,7 @@
 				DAE3373EE33D47028A21C074 /* StringOptionalContract.swift */,
 				1EE7FF72DE50B5787FB84FE8 /* PairContract.swift */,
 				1600E09BA652135B60FA1F12 /* RateContract.swift */,
+				88021C3E124EA96ECA4A9CEB /* StringRateContract.swift */,
 			);
 			path = GeneratedContracts;
 			sourceTree = "<group>";
@@ -1021,6 +1024,7 @@
 				7340C8F8C5AA2E984AAEDEBC /* PairContract.swift in Sources */,
 				295F97D9A7BD6BEE565A73D2 /* IntListContract.swift in Sources */,
 				A97A56A10E5F4DAD20520C4E /* RateContract.swift in Sources */,
+				8FD83A0AF4ECC1F327B032A6 /* StringRateContract.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1116,12 +1120,12 @@
 				F84A547823881FEE005D0367 /* BallotsSum.swift in Sources */,
 				F84A546423881FED005D0367 /* RegisterDelegateOperation.swift in Sources */,
 				F84A546F23881FEE005D0367 /* Base58String.swift in Sources */,
-				F84A548623881FEE005D0367 /* SignedOperationPayload.swift in Sources */,
 				F84A546923881FED005D0367 /* OperationKind.swift in Sources */,
 				F84A548523881FEE005D0367 /* TezosPair.swift in Sources */,
 				F84A548B23881FEE005D0367 /* Wallet.swift in Sources */,
 				F84A547623881FEE005D0367 /* Metadata.swift in Sources */,
 				F84A546D23881FEE005D0367 /* Crypto.swift in Sources */,
+				F8FCF93123ABC8B40078C94E /* SignedOperationPayload.swift in Sources */,
 				F84A547423881FEE005D0367 /* Completable.swift in Sources */,
 				F84A549123881FEF005D0367 /* TezosError.swift in Sources */,
 				F84A547B23881FEE005D0367 /* Keys.swift in Sources */,
@@ -1236,7 +1240,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1291,7 +1295,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

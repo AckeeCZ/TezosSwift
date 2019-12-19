@@ -9,5 +9,5 @@
 import Foundation
 
 enum Constants {
-    static let defaultNodeURL = URL(string: "https://rpcalpha.tzbeta.net/")!
+    static let defaultNodeURL = URL(string: "https://rpczero.tzbeta.net/")!
 }
