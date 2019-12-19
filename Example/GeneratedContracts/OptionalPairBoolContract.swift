@@ -38,27 +38,11 @@ struct OptionalPairBoolContractBox {
 
 /// Status data of OptionalPairBoolContract
 struct OptionalPairBoolContractStatus: Decodable {
-    /// Balance of OptionalPairBoolContract in Tezos
-    let balance: Tez
-    /// Is contract spendable
-    let spendable: Bool
-    /// OptionalPairBoolContract's manager address
-    let manager: String
-    /// OptionalPairBoolContract's delegate
-    let delegate: StatusDelegate
-    /// OptionalPairBoolContract's current operation counter
-    let counter: Int
     /// OptionalPairBoolContract's storage
     let storage: OptionalPairBoolContractStatusStorage
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
-        self.balance = try container.decode(Tez.self, forKey: .balance)
-        self.spendable = try container.decode(Bool.self, forKey: .spendable)
-        self.manager = try container.decode(String.self, forKey: .manager)
-        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
-        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
-
         let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
         self.storage = try scriptContainer.decode(OptionalPairBoolContractStatusStorage.self, forKey: .storage)
     }

@@ -38,27 +38,11 @@ struct IntListContractBox {
 
 /// Status data of IntListContract
 struct IntListContractStatus: Decodable {
-    /// Balance of IntListContract in Tezos
-    let balance: Tez
-    /// Is contract spendable
-    let spendable: Bool
-    /// IntListContract's manager address
-    let manager: String
-    /// IntListContract's delegate
-    let delegate: StatusDelegate
-    /// IntListContract's current operation counter
-    let counter: Int
     /// IntListContract's storage
     let storage: [Int]
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
-        self.balance = try container.decode(Tez.self, forKey: .balance)
-        self.spendable = try container.decode(Bool.self, forKey: .spendable)
-        self.manager = try container.decode(String.self, forKey: .manager)
-        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
-        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
-
         let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
         self.storage = try scriptContainer.decodeRPC([Int].self, forKey: .storage)
     }

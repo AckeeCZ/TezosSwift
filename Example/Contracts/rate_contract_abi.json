@@ -1,1 +1,25 @@
-{"parameter":  {"prim":"pair","args":[{"prim":"pair","args":[{"prim":"pair","args":[{"prim":"pair","args":[{"prim":"map","args":[{"prim":"address"},{"prim":"int"}],"annots":["%ballot"]},{"prim":"bool","annots":["%hasEnded"]}]},{"prim":"address","annots":["%master"]}]},{"prim":"int","annots":["%totalNumberOfVotes"]}]},{"prim":"map","args":[{"prim":"address"},{"prim":"int"}],"annots":["%voters"]}]}, "storage": {"prim":"pair","args":[{"prim":"pair","args":[{"prim":"pair","args":[{"prim":"pair","args":[{"prim":"map","args":[{"prim":"address"},{"prim":"int"}],"annots":["%ballot"]},{"prim":"bool","annots":["%hasEnded"]}]},{"prim":"address","annots":["%master"]}]},{"prim":"int","annots":["%totalNumberOfVotes"]}]},{"prim":"map","args":[{"prim":"address"},{"prim":"int"}],"annots":["%voters"]}]}}
+{"parameter": {"prim":"or","args":[
+    {"prim":"unit","annots":["%end"]},
+    {"prim":"map","args":[
+     {"prim":"address"},{"prim":"int"}]
+    ,"annots":["%vote"]}]
+   }, "storage": {"prim":"pair","args":[
+    {"prim":"pair","args":[
+     {"prim":"pair","args":[
+      {"prim":"pair","args":[
+       {"prim":"pair","args":[
+        {"prim":"map","args":[
+         {"prim":"address"},
+         {"prim":"pair","args":[
+          {"prim":"string","annots":["%candidateName"]},{"prim":"int","annots":["%numberOfVotes"]}]
+         }]
+        ,"annots":["%ballot"]},{"prim":"bool","annots":["%hasEnded"]}]
+       },{"prim":"address","annots":["%master"]}]
+      },{"prim":"int","annots":["%totalNumberOfVotes"]}]
+     },
+     {"prim":"map","args":[
+      {"prim":"address"},{"prim":"int"}]
+     ,"annots":["%voters"]}]
+    },{"prim":"int","annots":["%votesPerVoter"]}]
+   }
+}

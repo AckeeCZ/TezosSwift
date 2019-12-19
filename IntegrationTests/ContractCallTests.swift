@@ -99,6 +99,23 @@ class ContractCallTests: XCTestCase {
 
         waitForExpectations(timeout: 3, handler: nil)
     }
+    
+    func testSendingToRateContract() {
+        let testCompletionExpectation = expectation(description: "Sending Tezos with rate contract")
+        wallet = Wallet(secretKey: "edskS8prNjez35pfbMSQARwg9fzMoGh613uriXtnGCSwVk5FX1Ee9Sd4FHKrgxTje2XEfA78SytvyKFbnAKFjvVbpQMXnzqT8Z")!
+        tezosClient.rateContract(at: "KT1BgA1y2Epm3qDh1HDf2mzjaiAx5hrNngcE").call("vote").send(from: wallet, amount: Tez(1), completion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                print(error)
+                testCompletionExpectation.fulfill()
+            case .success(_):
+                testCompletionExpectation.fulfill()
+            }
+        })
+
+        waitForExpectations(timeout: 3, handler: nil)
+    }
 
     func testSendingPairBoolParam() {
         let testCompletionExpectation = expectation(description: "Sending Tezos with int param")

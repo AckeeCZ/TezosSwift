@@ -38,27 +38,11 @@ struct SetMemberContractBox {
 
 /// Status data of SetMemberContract
 struct SetMemberContractStatus: Decodable {
-    /// Balance of SetMemberContract in Tezos
-    let balance: Tez
-    /// Is contract spendable
-    let spendable: Bool
-    /// SetMemberContract's manager address
-    let manager: String
-    /// SetMemberContract's delegate
-    let delegate: StatusDelegate
-    /// SetMemberContract's current operation counter
-    let counter: Int
     /// SetMemberContract's storage
     let storage: SetMemberContractStatusStorage
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ContractStatusKeys.self)
-        self.balance = try container.decode(Tez.self, forKey: .balance)
-        self.spendable = try container.decode(Bool.self, forKey: .spendable)
-        self.manager = try container.decode(String.self, forKey: .manager)
-        self.delegate = try container.decode(StatusDelegate.self, forKey: .delegate)
-        self.counter = try container.decodeRPC(Int.self, forKey: .counter)
-
         let scriptContainer = try container.nestedContainer(keyedBy: ContractStatusKeys.self, forKey: .script)
         self.storage = try scriptContainer.decode(SetMemberContractStatusStorage.self, forKey: .storage)
     }
