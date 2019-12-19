@@ -374,6 +374,7 @@ public class TezosClient {
 				)
 			}.flatMap { (signingResult: OperationSigningResult) -> AnyCompletable<String, TezosError> in
 				AnyCompletable<String, TezosError> {
+                    // TODO: Fix!
                     operationPayload.operation.contents.first.flatMap { $0.counter += 1 }
 					return self.preapplyAndInjectOperation(
 						operationPayload: operationPayload,

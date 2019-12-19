@@ -13,7 +13,6 @@
 		7340C8F8C5AA2E984AAEDEBC /* PairContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE7FF72DE50B5787FB84FE8 /* PairContract.swift */; };
 		8F4384A5221C2CC60003BD0B /* CompletableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4384A4221C2CC60003BD0B /* CompletableTests.swift */; };
 		8FAB19B1221D736300DD3F9B /* ExecutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */; };
-		8FD83A0AF4ECC1F327B032A6 /* StringRateContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88021C3E124EA96ECA4A9CEB /* StringRateContract.swift */; };
 		A3FEA3257A0B23D31BE0F83E /* StringOptionalContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE3373EE33D47028A21C074 /* StringOptionalContract.swift */; };
 		A97A56A10E5F4DAD20520C4E /* RateContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1600E09BA652135B60FA1F12 /* RateContract.swift */; };
 		AC06DEA2773C32C01A744C4B /* SharedContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = F868267221CD1295003C7D4D /* SharedContract.swift */; };
@@ -222,7 +221,6 @@
 		7ABC85812182A595006DE8FD /* CryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTests.swift; sourceTree = "<group>"; };
 		7ABC85832182AE86006DE8FD /* AbstractOperationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractOperationTest.swift; sourceTree = "<group>"; };
 		7ABC859B2183973F006DE8FD /* TezosRPCTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TezosRPCTest.swift; sourceTree = "<group>"; };
-		88021C3E124EA96ECA4A9CEB /* StringRateContract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = StringRateContract.swift; sourceTree = "<group>"; };
 		8F4384A4221C2CC60003BD0B /* CompletableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletableTests.swift; sourceTree = "<group>"; };
 		8FAB19B0221D736300DD3F9B /* ExecutionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutionTests.swift; sourceTree = "<group>"; };
 		DABB83924D8D5FE186E106E7 /* IntListcontract.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = IntListcontract.swift; sourceTree = "<group>"; };
@@ -690,7 +688,6 @@
 				DAE3373EE33D47028A21C074 /* StringOptionalContract.swift */,
 				1EE7FF72DE50B5787FB84FE8 /* PairContract.swift */,
 				1600E09BA652135B60FA1F12 /* RateContract.swift */,
-				88021C3E124EA96ECA4A9CEB /* StringRateContract.swift */,
 			);
 			path = GeneratedContracts;
 			sourceTree = "<group>";
@@ -1024,7 +1021,6 @@
 				7340C8F8C5AA2E984AAEDEBC /* PairContract.swift in Sources */,
 				295F97D9A7BD6BEE565A73D2 /* IntListContract.swift in Sources */,
 				A97A56A10E5F4DAD20520C4E /* RateContract.swift in Sources */,
-				8FD83A0AF4ECC1F327B032A6 /* StringRateContract.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

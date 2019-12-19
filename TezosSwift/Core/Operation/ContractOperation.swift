@@ -37,7 +37,7 @@ public class ContractOperation<T: Encodable>: TransactionOperation {
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var parametersContainer = encoder.container(keyedBy: TransactionOperationKeys.self)
-        let contractEntrypoint = ContractEntrypoint(entrypoint: "default", value: input)
+        let contractEntrypoint = ContractEntrypoint(entrypoint: "vote", value: input)
         try parametersContainer.encode(contractEntrypoint, forKey: .parameters)
     }
 }
