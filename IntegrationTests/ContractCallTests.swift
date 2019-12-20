@@ -278,8 +278,8 @@ class ContractCallTests: XCTestCase {
         let testCompletionExpectation = expectation(description: "Sending in batch")
         let input: TezosPair<TezosPair<TezosPair<String, [Int]>, [UInt]>, Data> = TezosPair(first: TezosPair(first: TezosPair(first: "toto", second: [3, 7, 9, 1]), second: [UInt(2), UInt(1), UInt(3)].sorted()), second: "hello".data(using: .utf8)!)
         let input2: TezosPair<TezosPair<TezosPair<String, [Int]>, [UInt]>, Data> = TezosPair(first: TezosPair(first: TezosPair(first: "second input", second: [3, 7, 9, 1]), second: [UInt(2), UInt(1), UInt(3)].sorted()), second: "hello".data(using: .utf8)!)
-        let contractOperation = ContractOperation(amount: Tez(1), source: "tz1WRFiK6eGNvP3ioWkWeP6JwDaQjj95opnQ", destination: "KT1REVKi3gDXZ6H1AUp3UzpfC2YUmuM9tfRp", input: input)
-        let contractOperation2 = ContractOperation(amount: Tez(1), source: "tz1WRFiK6eGNvP3ioWkWeP6JwDaQjj95opnQ", destination: "KT1REVKi3gDXZ6H1AUp3UzpfC2YUmuM9tfRp", input: input2)
+        let contractOperation = ContractOperation(amount: Tez(1), source: "tz1WRFiK6eGNvP3ioWkWeP6JwDaQjj95opnQ", destination: "KT1REVKi3gDXZ6H1AUp3UzpfC2YUmuM9tfRp", input: input, operationName: "default")
+        let contractOperation2 = ContractOperation(amount: Tez(1), source: "tz1WRFiK6eGNvP3ioWkWeP6JwDaQjj95opnQ", destination: "KT1REVKi3gDXZ6H1AUp3UzpfC2YUmuM9tfRp", input: input2, operationName: "default")
         tezosClient.forgeSignPreapplyAndInjectOperations(operations: [contractOperation, contractOperation2], source: "tz1WRFiK6eGNvP3ioWkWeP6JwDaQjj95opnQ", keys: wallet.keys, completion: { result in
             switch result {
             case .failure(let error):

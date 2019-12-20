@@ -186,10 +186,10 @@ public class TezosClient {
      */
 	@discardableResult
     public func send(amount: TezToken,
-                                   to recipientAddress: String,
-                                   from wallet: Wallet,
-                                   operationFees: OperationFees? = nil,
-                                   completion: @escaping RPCCompletion<String>) -> Cancelable? {
+                     to recipientAddress: String,
+                     from wallet: Wallet,
+                     operationFees: OperationFees? = nil,
+                     completion: @escaping RPCCompletion<String>) -> Cancelable? {
         let transactionOperation = TransactionOperation(amount: amount, source: wallet.address, destination: recipientAddress, operationFees: operationFees)
         return forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
                                             source: wallet.address,
@@ -211,11 +211,15 @@ public class TezosClient {
     public func send<T: Encodable>(amount: TezToken,
                                    to recipientAddress: String,
                                    from wallet: Wallet,
-                                   input: T,
+                                   input: T?,
+                                   operationName: String = "default",
                                    operationFees: OperationFees? = nil,
                                    completion: @escaping RPCCompletion<String>) -> Cancelable? {
-		let transactionOperation =
-            ContractOperation(amount: amount, source: wallet.address, destination: recipientAddress, input: input)
+		let transactionOperation = ContractOperation(amount: amount,
+                                                     source: wallet.address,
+                                                     destination: recipientAddress,
+                                                     input: input,
+                                                     operationName: operationName)
 		return forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
 			source: wallet.address,
 			keys: wallet.keys,
