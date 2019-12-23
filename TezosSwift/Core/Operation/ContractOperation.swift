@@ -58,6 +58,12 @@ public struct ContractEntrypoint<T: Encodable>: Encodable {
         try container.encode(entrypoint, forKey: .entrypoint)
         if let value = value {
             try container.encodeRPC(value, forKey: .value)
+        } else if value is Never? {
+            try container.encode(UnitValue(), forKey: .value)
         }
     }
+}
+
+private struct UnitValue: Encodable {
+    let prim: String = "Unit"
 }

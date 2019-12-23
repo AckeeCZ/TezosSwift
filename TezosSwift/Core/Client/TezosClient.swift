@@ -197,18 +197,39 @@ public class TezosClient {
                                             completion: completion)
     }
 
-    /**
-     Transact Tezos between accounts with input.
-
-     - Parameter amount: The amount of Tezos to send.
-     - Parameter recipientAddress: The address which will receive the balance.
-     - Parameter wallet: Wallet to send Tezos from.
-     - Parameter operationFees: to include in the transaction if the call is being made to a smart contract.
-     - Parameter completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
-     - Parameter input: Input (parameter) to send to contract.
-     */
+    /// Transact Tezos between accounts with `Unit` input.
+    /// - Parameters:
+    ///    - amount: The amount of Tezos to send.
+    ///    - recipientAddress: The address which will receive the balance.
+    ///    - wallet: Wallet to send Tezos from.
+    ///    - operationFees: to include in the transaction if the call is being made to a smart contract.
+    ///    - completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
+    @discardableResult
+    public func call(amount: TezToken,
+                     to recipientAddress: String,
+                     from wallet: Wallet,
+                     operationName: String = "default",
+                     operationFees: OperationFees? = nil,
+                     completion: @escaping RPCCompletion<String>) -> Cancelable? {
+        call(amount: amount,
+             to: recipientAddress,
+             from: wallet,
+             input: nil as Never?,
+             operationName: operationName,
+             operationFees: operationFees,
+             completion: completion)
+    }
+    
+    /// Transact Tezos between accounts with input.
+    /// - Parameters:
+    ///    - amount: The amount of Tezos to send.
+    ///    - recipientAddress: The address which will receive the balance.
+    ///    - wallet: Wallet to send Tezos from.
+    ///    - operationFees: to include in the transaction if the call is being made to a smart contract.
+    ///    - completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
+    ///    - input: Input (parameter) to send to contract
 	@discardableResult
-    public func send<T: Encodable>(amount: TezToken,
+    public func call<T: Encodable>(amount: TezToken,
                                    to recipientAddress: String,
                                    from wallet: Wallet,
                                    input: T?,
@@ -286,9 +307,9 @@ public class TezosClient {
 	public func registerDelegate(delegate: String, keys: Keys, operationFees: OperationFees? = nil, completion: @escaping RPCCompletion<String>) -> Cancelable? {
         let registerDelegateOperation = RegisterDelegateOperation(delegate: delegate, operationFees: operationFees)
 		return forgeSignPreapplyAndInjectOperation(operation: registerDelegateOperation,
-			source: delegate,
-			keys: keys,
-			completion: completion)
+                                                   source: delegate,
+                                                   keys: keys,
+                                                   completion: completion)
 	}
 
     /**
@@ -305,9 +326,9 @@ public class TezosClient {
                            completion: @escaping RPCCompletion<String>) -> Cancelable? {
         let undelegateOperation = UndelegateOperation(source: wallet.address, operationFees: operationFees)
         return forgeSignPreapplyAndInjectOperation(operation: undelegateOperation,
-                                            source: wallet.address,
-                                            keys: wallet.keys,
-                                            completion: completion)
+                                                   source: wallet.address,
+                                                   keys: wallet.keys,
+                                                   completion: completion)
     }
 
 	/**
@@ -584,14 +605,13 @@ public class TezosClient {
         })
 	}
 
-    /**
-     Send an RPC as a GET or POST request.
-
-     - Parameter endpoint: RPC endpoint
-     - Parameter method: HTTP Method, defaults to get
-     - Parameter payload: Payload sent
-     - Parameter completion: A completion block that will be called with the results of RPC call.
-     */
+    
+    /// Send an RPC as a GET or POST request.
+    /// - Parameters:
+    ///    - endpoint: RPC endpoint
+    ///    - method: HTTP Method, defaults to get
+    ///    - payload: Payload sent
+    ///    - completion: A completion block that will be called with the results of RPC call.
 	@discardableResult
     public func sendRPC<T: Decodable>(endpoint: String, method: HTTPMethod = .get, payload: Encodable? = nil, completion: @escaping RPCCompletion<T>) -> Cancelable? {
         guard let remoteNodeEndpoint = URL(string: endpoint, relativeTo: remoteNodeURL) else {

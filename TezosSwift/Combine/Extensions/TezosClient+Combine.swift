@@ -82,12 +82,12 @@ public extension TezosClient {
     ///     - operationFees: to include in the transaction if the call is being made to a smart contract.
     ///     - completion: A completion block which will be called with a string representing the transaction ID hash if the operation was successful.
     ///     - input: Input (parameter) to send to contract.
-     func sendPublisher<T: Encodable>(amount: TezToken,
+     func callPublisher<T: Encodable>(amount: TezToken,
                                       to recipientAddress: String,
                                       from wallet: Wallet,
                                       input: T,
                                       operationFees: OperationFees? = nil) -> ContractPublisher<String> {
-        ContractPublisher(send: { self.send(amount: amount, to: recipientAddress, from: wallet, input: input, completion: $0) })
+        ContractPublisher(send: { self.call(amount: amount, to: recipientAddress, from: wallet, input: input, completion: $0) })
      }
 
     ///Originate a new account from the given account.
