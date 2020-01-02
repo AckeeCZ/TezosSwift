@@ -7,7 +7,7 @@ public class TransactionOperation: Operation {
 
     // Taken from: https://github.com/TezTech/eztz/blob/master/PROTO_003_FEES.md
     /// Default fees for operation
-    public override class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.001272), gasLimit: Tez(0.010100), storageLimit: Tez(0)) }
+    public override class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.001272), gasLimit: Mutez(800000), storageLimit: Tez(0)) }
 
 	/**
      - Parameter amount: The amount of XTZ to transfer.

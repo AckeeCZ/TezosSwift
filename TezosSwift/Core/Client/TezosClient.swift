@@ -242,9 +242,9 @@ public class TezosClient {
                                                      input: input,
                                                      operationName: operationName)
 		return forgeSignPreapplyAndInjectOperation(operation: transactionOperation,
-			source: wallet.address,
-			keys: wallet.keys,
-			completion: completion)
+                                                   source: wallet.address,
+                                                   keys: wallet.keys,
+                                                   completion: completion)
 	}
 
     /**
@@ -341,13 +341,13 @@ public class TezosClient {
    */
 	@discardableResult
 	public func forgeSignPreapplyAndInjectOperation(operation: Operation,
-		source: String,
-		keys: Keys,
-        completion: @escaping RPCCompletion<String>) -> Cancelable? {
+                                                    source: String,
+                                                    keys: Keys,
+                                                    completion: @escaping RPCCompletion<String>) -> Cancelable? {
 		return forgeSignPreapplyAndInjectOperations(operations: [operation],
-			source: source,
-			keys: keys,
-			completion: completion)
+                                                    source: source,
+                                                    keys: keys,
+                                                    completion: completion)
 	}
 
     /**
@@ -527,7 +527,9 @@ public class TezosClient {
                              signedBytesForInjection: String,
                              operationMetadata: OperationMetadata,
                              completion: @escaping (Result<Void, TezosError>) -> Void) -> Cancelable? {
-        let payloadWithFees = SignedRunOperationPayload(contents: payload.contents.filter { $0.defaultFees }, branch: payload.branch, signature: payload.signature)
+        let payloadWithFees = SignedRunOperationPayload(contents: payload.contents.filter { $0.defaultFees },
+                                                        branch: payload.branch,
+                                                        signature: payload.signature)
         guard !payloadWithFees.contents.isEmpty else {
             completion(.success(()))
             return nil
@@ -550,7 +552,8 @@ public class TezosClient {
     private func modifyFees(of payload: SignedRunOperationPayload, with contents: [OperationStatus], operationBytesString: String) {
         contents.forEach { operation in
             guard let consumedGas = operation.metadata.operationResult.consumedGas else { return }
-            let gasLimit = consumedGas + Mutez(100)
+            let internalConsumedGas = operation.metadata.internalOperationResults.reduce(Mutez(0)) { $0 + $1.result.consumedGas }
+            let gasLimit = consumedGas + internalConsumedGas + Mutez(100)
             let operationBytes = operationBytesString.lengthOfBytes(using: .ascii)
             // TODO: Check if account exists, if yes, storage limit should be zero
             let operationFees = OperationFees(fee: Mutez(operationBytes) + Mutez(Int(Double(gasLimit.amount) * 0.1)) + Mutez(100), gasLimit: gasLimit, storageLimit: Mutez(257))

@@ -17,14 +17,14 @@ class ContractCallTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        wallet = Wallet(secretKey: "edskS8prNjez35pfbMSQARwg9fzMoGh613uriXtnGCSwVk5FX1Ee9Sd4FHKrgxTje2XEfA78SytvyKFbnAKFjvVbpQMXnzqT8Z")!
+        wallet = Wallet(secretKey: "edskRpM2c6UnVQhqoQSUbpWMKHpuDb3hGDofWaWryQGMG9oJHvnmgbKpN92RqZyBZyaPxZaAxsSrKmrrn5agJh1QHS1g9eHDNJ")!
     }
 
     // TODO: Change calling of these calls, so the counter does not conflict
     // These calls have to be executed individually for now
     func testSendingTezos() {
         let testCompletionExpectation = expectation(description: "Sending Tezos")
-        let operationFees = OperationFees(fee: Tez(0.001272), gasLimit: Tez(0.010000), storageLimit: Tez(0))
+        let operationFees = OperationFees(fee: Tez(0.001272), gasLimit: Tez(10000), storageLimit: Tez(0))
         tezosClient.send(amount: Tez(1), to: "tz1dD918PXDuUHV6Mh6z2QqMukA67YULuhqd", from: wallet, operationFees: operationFees, completion: { result in
             switch result {
             case .failure(let error):
@@ -85,8 +85,8 @@ class ContractCallTests: XCTestCase {
     
     func testSendingToRateContract() {
         let testCompletionExpectation = expectation(description: "Sending Tezos with rate contract")
-        wallet = Wallet(secretKey: "edskS8prNjez35pfbMSQARwg9fzMoGh613uriXtnGCSwVk5FX1Ee9Sd4FHKrgxTje2XEfA78SytvyKFbnAKFjvVbpQMXnzqT8Z")!
-        tezosClient.rateContract(at: "KT1SwMaeEygYz8MuK3jjUFAUen7xRXGkxTyP").vote(["tz1S8g2w1YCzFwueTNweWPnA852mgCeXpsEu": 1]).send(from: wallet, amount: Tez(1), completion: { result in
+        wallet = Wallet(secretKey: "edskRpM2c6UnVQhqoQSUbpWMKHpuDb3hGDofWaWryQGMG9oJHvnmgbKpN92RqZyBZyaPxZaAxsSrKmrrn5agJh1QHS1g9eHDNJ")!
+        tezosClient.rateContract(at: "KT1R7VzGxxKnekLmhE9VqW6nASxvg1wiYkSB").vote(["tz1c2mnLJSwUYHNytq1XZ9YQT81ojca7YDYY": 1]).send(from: wallet, amount: Tez(0), completion: { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
@@ -102,8 +102,8 @@ class ContractCallTests: XCTestCase {
     
     func testEndingRateContract() {
         let testCompletionExpectation = expectation(description: "Sending Tezos with rate contract")
-        wallet = Wallet(secretKey: "edskS8prNjez35pfbMSQARwg9fzMoGh613uriXtnGCSwVk5FX1Ee9Sd4FHKrgxTje2XEfA78SytvyKFbnAKFjvVbpQMXnzqT8Z")!
-        tezosClient.rateContract(at: "KT1SwMaeEygYz8MuK3jjUFAUen7xRXGkxTyP").end().send(from: wallet, amount: Tez(1), completion: { result in
+        wallet = Wallet(secretKey: "edskRpM2c6UnVQhqoQSUbpWMKHpuDb3hGDofWaWryQGMG9oJHvnmgbKpN92RqZyBZyaPxZaAxsSrKmrrn5agJh1QHS1g9eHDNJ")!
+        tezosClient.rateContract(at: "KT1R7VzGxxKnekLmhE9VqW6nASxvg1wiYkSB").end().send(from: wallet, amount: Tez(0), completion: { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")

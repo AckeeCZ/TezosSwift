@@ -28,6 +28,14 @@ public struct PreapplyError: Codable {
     public let id: String
 }
 
+struct InternalOperationResult: Decodable {
+    let result: InternalOperationResultStatus
+}
+
+struct InternalOperationResultStatus: Decodable {
+    let consumedGas: Mutez
+}
+
 struct OperationResult {
     let consumedGas: Mutez?
     let operationResultStatus: OperationResultStatus

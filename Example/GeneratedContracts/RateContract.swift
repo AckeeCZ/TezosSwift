@@ -21,7 +21,7 @@ struct RateContractBox {
     func end() -> ContractMethodInvocation {
         let send: (_ from: Wallet, _ amount: TezToken, _ operationFees: OperationFees?, _ completion: @escaping RPCCompletion<String>) -> Cancelable?
         send = { from, amount, operationFees, completion in
-            self.tezosClient.call(amount: amount, to: self.at, from: from, operationName: "end", operationFees: operationFees, completion: completion)
+            self.tezosClient.call(amount: amount, to: self.at, from: from, operationName: "end", operationFees: OperationFees(fee: Tez(1), gasLimit: Tez(1), storageLimit: Tez(1)), completion: completion)
         }
 
         return ContractMethodInvocation(send: send)

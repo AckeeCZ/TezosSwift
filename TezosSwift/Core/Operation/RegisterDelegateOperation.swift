@@ -7,7 +7,7 @@ public class RegisterDelegateOperation: Operation {
 
     // Taken from: https://github.com/TezTech/eztz/blob/master/PROTO_003_FEES.md
     /// Default fees for operation
-    public override class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.001272), gasLimit: Tez(0.010000), storageLimit: Tez.zero) }
+    public override class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.001272), gasLimit: Tez(10000), storageLimit: Tez.zero) }
     
 	/**
      - Parameter delegate: The address will register as a delegate.

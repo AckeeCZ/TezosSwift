@@ -32,7 +32,7 @@ public struct Tez: TezToken, Codable {
      * A representation of the given balance for use in RPC requests.
      */
     public var rpcRepresentation: String {
-        return integerAmount + decimalAmount
+        return decimalAmount
     }
 
     /**
@@ -58,9 +58,9 @@ public struct Tez: TezToken, Codable {
         // be less than 6 then the number dropped leading zeros. E.G. '0' instead of '000000' or '400'
         // rather than 000400.
         var paddedDecimalAmount = String(decimalValue)
-        while paddedDecimalAmount.count < Tez.decimalDigitCount {
-            paddedDecimalAmount = "0" + paddedDecimalAmount
-        }
+//        while paddedDecimalAmount.count < Tez.decimalDigitCount {
+//            paddedDecimalAmount = "0" + paddedDecimalAmount
+//        }
         self.decimalAmount = paddedDecimalAmount
     }
 
