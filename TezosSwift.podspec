@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TezosSwift"
-  s.version      = "1.1"
+  s.version      = "1.1.1"
   s.summary      = "TezosSwift provides a Swift based toolchain for interacting with the Tezos blockchain"
   s.description  = <<-DESC
   TezosSwift provides utilities for interacting with the Tezos Blockchain over an RPC API.
