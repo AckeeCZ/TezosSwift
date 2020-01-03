@@ -1,5 +1,9 @@
 ## Next
 
+### Fixed
+
+- RPCCodable for additional types, gas esimations https://github.com/AckeeCZ/TezosSwift/pull/7 by @fortmarek
+
 ## 1.1
 
 ### Added
