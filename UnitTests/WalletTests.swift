@@ -87,4 +87,22 @@ class WalletTests: XCTestCase {
 		let wallet = Wallet(secretKey: "thisIsNotAValidKey")
 		XCTAssertNil(wallet)
 	}
+    
+    func testEqualityFromSecretKeys() {
+      // Test equality on wallets generated from a secret key.
+      let secretKey1 =
+        "edskS4pbuA7rwMjsZGmHU18aMP96VmjegxBzwMZs3DrcXHcMV7VyfQLkD5pqEE84wAMHzi8oVZF6wbgxv3FKzg7cLqzURjaXUp"
+      let secretKey2 =
+        "edskRr4SG9qd4Hx9jZvdQ5dS2bCKxUnaEnXv9BrwSs2YxU8g8WpQ2CfXuiE96BWSsceaSi6HvSz4YnTKkwVqeWpUF288SzLXZ5"
+      guard let wallet1 = Wallet(secretKey: secretKey1),
+        let wallet2 = Wallet(secretKey: secretKey1),
+        let wallet3 = Wallet(secretKey: secretKey2)
+        else {
+            XCTFail()
+            return
+      }
+      // Wallets 1 and 2 were generated from the same secret key, wallet 3 was not.
+      XCTAssertEqual(wallet1, wallet2)
+      XCTAssertNotEqual(wallet1, wallet3)
+    }
 }

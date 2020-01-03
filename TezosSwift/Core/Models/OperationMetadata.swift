@@ -17,14 +17,10 @@ public struct OperationMetadata {
 	/** The counter for the address being operated on. */
 	public let addressCounter: Int
 
-	/** The key for the address, or nil if the key is not yet revealed. */
-	public let key: String?
-
-    public init(chainId: String, headHash: String, protocolHash: String, addressCounter: Int, key: String?) {
+    public init(chainId: String, headHash: String, protocolHash: String, addressCounter: Int) {
         self.chainId = chainId
         self.headHash = headHash
         self.protocolHash = protocolHash
         self.addressCounter = addressCounter
-        self.key = key
     }
 }

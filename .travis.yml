@@ -1,8 +1,11 @@
-osx_image: xcode11
+osx_image: xcode11.2
 language: objective-c
 env:
   global:
   - FRAMEWORK_NAME=TezosSwift
+cache:
+  directories:
+  - Carthage
 before_install:
 - brew update
 - brew outdated carthage || brew upgrade carthage
@@ -15,8 +18,7 @@ before_deploy:
 after_deploy:
 - pod trunk push --skip-import-validation --skip-tests --allow-warnings
 script:
-- set -o pipefail && xcodebuild test -scheme TezosSwift -destination 'platform=iOS
-  Simulator,name=iPhone 11,OS=13.0' ONLY_ACTIVE_ARCH=YES | xcpretty
+- set -o pipefail && xcodebuild test -scheme TezosSwift -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=13.2.2' ONLY_ACTIVE_ARCH=YES | xcpretty
 deploy:
   provider: releases
   api_key:

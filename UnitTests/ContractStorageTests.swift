@@ -39,7 +39,7 @@ class ContractStorageTests: XCTestCase {
         """.data(using: .utf8)!
         let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
         let testStatusExpectation = expectation(description: "Optional non-nil string status")
-        tezosClient.optionalStringContract(at: "contract").status { result in
+        tezosClient.stringOptionalContract(at: "contract").status { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
@@ -59,7 +59,7 @@ class ContractStorageTests: XCTestCase {
         """.data(using: .utf8)!
         let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
         let testStatusExpectation = expectation(description: "Optional nil string status")
-        tezosClient.optionalStringContract(at: "contract").status { result in
+        tezosClient.stringOptionalContract(at: "contract").status { result in
             switch result {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
@@ -86,8 +86,8 @@ class ContractStorageTests: XCTestCase {
             case .success(let value):
                 XCTAssertEqual(value.storage.arg1, true)
                 XCTAssertEqual(value.storage.arg2, false)
-                testStatusExpectation.fulfill()
             }
+            testStatusExpectation.fulfill()
         }
 
         waitForExpectations(timeout: 1)
@@ -216,7 +216,7 @@ class ContractStorageTests: XCTestCase {
     func testMapStatus() {
         let networkSessionMock = NetworkSessionMock()
         networkSessionMock.data = """
-        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"1000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"storage","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"code","args":[[{"prim":"CDR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":[{"prim":"Elt","args":[{"int":"0"},{"int":"100"}]},{"prim":"Elt","args":[{"int":"2"},{"int":"100"}]}]},"counter":"0"}
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"1000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"storage","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"code","args":[[{"prim":"CDR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":[{"prim":"Elt","args":[{"int":"0"},{"int":"100"}]},{"prim":"Elt","args":[{"int":"2"},{"int":"200"}]}]},"counter":"0"}
         """.data(using: .utf8)!
         let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
         let testStatusExpectation = expectation(description: "Map status")
@@ -225,10 +225,30 @@ class ContractStorageTests: XCTestCase {
             case .failure(let error):
                 XCTFail("Failed with error: \(error)")
             case .success(let value):
-                XCTAssertEqual(value.storage.first?.0, 0)
-                XCTAssertEqual(value.storage.first?.1, 100)
-                XCTAssertEqual(value.storage.last?.0, 2)
-                XCTAssertEqual(value.storage.last?.1, 100)
+                XCTAssertEqual(value.storage[0], 100)
+                XCTAssertEqual(value.storage[2], 200)
+                testStatusExpectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testPairMapBoolStatus() {
+        let networkSessionMock = NetworkSessionMock()
+        networkSessionMock.data = """
+        {"manager":"tz1XV5grkdVLMC9x5cy8GSPLEuSKQeDi39D5","balance":"1000000","spendable":false,"delegate":{"setable":false},"script":{"code":[{"prim":"parameter","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"storage","args":[{"prim":"map","args":[{"prim":"int"},{"prim":"int"}]}]},{"prim":"code","args":[[{"prim":"CDR"},{"prim":"NIL","args":[{"prim":"operation"}]},{"prim":"PAIR"}]]}],"storage":{ "prim":"Pair","args":[[{"prim":"Elt","args":[{"string":"tz1d9awmksnaUGTy8QuMATm7yKeoVVVkDgJv"},{"int":"0"}]}],{"prim":"False"}]}},"counter":"0"}
+        """.data(using: .utf8)!
+        let tezosClient = TezosClient(remoteNodeURL: Constants.defaultNodeURL, urlSession: networkSessionMock)
+        let testStatusExpectation = expectation(description: "Map status")
+        tezosClient.pairMapBoolContract(at: "contract").status { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Failed with error: \(error)")
+                testStatusExpectation.fulfill()
+            case .success(let value):
+                XCTAssertEqual(value.storage.arg1["tz1d9awmksnaUGTy8QuMATm7yKeoVVVkDgJv"], 0)
+                XCTAssertEqual(value.storage.arg2, false)
                 testStatusExpectation.fulfill()
             }
         }
@@ -350,8 +370,8 @@ class ContractStorageTests: XCTestCase {
             case .success(let value):
                 XCTAssertEqual(value.storage.arg1, [])
                 XCTAssertEqual(value.storage.arg2, false)
-                testStatusExpectation.fulfill()
             }
+            testStatusExpectation.fulfill()
         }
 
         waitForExpectations(timeout: 1)

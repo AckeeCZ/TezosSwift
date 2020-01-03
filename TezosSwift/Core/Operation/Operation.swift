@@ -14,13 +14,14 @@ public class Operation: Encodable {
 
     // Taken from: https://github.com/TezTech/eztz/blob/master/PROTO_003_FEES.md
     /// Default fees for operation
-    public class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.001272), gasLimit: Tez(0.010100), storageLimit: Tez(0.000257)) }
-    public class var defaultMaxFees: OperationFees { return OperationFees(fee: Tez(0), gasLimit: Tez(0.4), storageLimit: Tez(0.06)) }
+    public class var defaultFees: OperationFees { return OperationFees(fee: Tez(0.001272), gasLimit: Mutez(800000), storageLimit: Mutez(60000)) }
+    public class var defaultMaxFees: OperationFees { return OperationFees(fee: Tez(0), gasLimit: Mutez(800000), storageLimit: Mutez(60000)) }
     public internal(set) var operationFees: OperationFees?
 	public var requiresReveal: Bool {
 		switch self.kind {
+        // TODO: Fix!
 		case .delegation, .transaction, .origination:
-			return true
+			return false
 		case .activateAccount, .reveal:
 			return false
 		}

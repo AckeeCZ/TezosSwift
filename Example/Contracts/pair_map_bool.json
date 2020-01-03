@@ -1,0 +1,1 @@
+{ "storage": {"prim":"pair","args":[{"prim":"map","args":[{"prim":"address"},{"prim":"int"}]},{"prim":"bool"}]}, "parameter": {"prim":"pair","args":[{"prim":"map","args":[{"prim":"address"},{"prim":"int"}]},{"prim":"bool"}]} }

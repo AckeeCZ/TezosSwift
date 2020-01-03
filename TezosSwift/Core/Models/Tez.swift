@@ -32,7 +32,7 @@ public struct Tez: TezToken, Codable {
      * A representation of the given balance for use in RPC requests.
      */
     public var rpcRepresentation: String {
-        return integerAmount + decimalAmount
+        integerAmount + decimalAmount
     }
 
     /**

@@ -22,7 +22,7 @@ class GasTests: XCTestCase {
         let operation = Operation(source: "", kind: .transaction, operationFees: nil)
         operation.counter = 619
         let payload = SignedRunOperationPayload(contents: [operation], branch: "", signature: "")
-        let operationMetadata = OperationMetadata(chainId: "", headHash: "", protocolHash: "", addressCounter: 619, key: nil)
+        let operationMetadata = OperationMetadata(chainId: "", headHash: "", protocolHash: "", addressCounter: 619)
         tezosClient.estimateGas(payload: payload, signedBytesForInjection: "", operationMetadata: operationMetadata, completion: { result in
             switch result {
             case .failure(let error):

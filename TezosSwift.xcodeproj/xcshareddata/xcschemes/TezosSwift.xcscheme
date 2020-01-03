@@ -47,16 +47,6 @@
                ReferencedContainer = "container:TezosSwift.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F85F0CC921B151D20074E391"
-               BuildableName = "IntegrationTests.xctest"
-               BlueprintName = "IntegrationTests"
-               ReferencedContainer = "container:TezosSwift.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
