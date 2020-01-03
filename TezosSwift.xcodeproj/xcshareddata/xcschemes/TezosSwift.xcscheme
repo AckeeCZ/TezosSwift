@@ -27,6 +27,15 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "F86826A621CD1450003C7D4D"
+            BuildableName = "TezosSwift.framework"
+            BlueprintName = "TezosSwift"
+            ReferencedContainer = "container:TezosSwift.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -38,30 +47,7 @@
                ReferencedContainer = "container:TezosSwift.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F85F0CC921B151D20074E391"
-               BuildableName = "IntegrationTests.xctest"
-               BlueprintName = "IntegrationTests"
-               ReferencedContainer = "container:TezosSwift.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F86826A621CD1450003C7D4D"
-            BuildableName = "TezosSwift.framework"
-            BlueprintName = "TezosSwift"
-            ReferencedContainer = "container:TezosSwift.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
-      <CodeCoverageTargets>
-      </CodeCoverageTargets>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -82,8 +68,6 @@
             ReferencedContainer = "container:TezosSwift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

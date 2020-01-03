@@ -30,7 +30,7 @@ public struct Mutez: TezToken, Codable {
      * A representation of the given balance for use in RPC requests.
      */
     public var rpcRepresentation: String {
-        return decimalAmount
+        integerAmount + decimalAmount
     }
 
     public init(_ amount: Int) {
